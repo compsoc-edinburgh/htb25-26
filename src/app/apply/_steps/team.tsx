@@ -74,6 +74,7 @@ export default function TeamStep({
         </TabsContent>
         <TabsContent value="join">
           <JoinTeam
+            team={team}
             setTeam={setTeam}
             setApplicationType={setApplicationType}
             setStep={setStep}

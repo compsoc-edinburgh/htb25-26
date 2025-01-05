@@ -11,16 +11,10 @@ export const applicationRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      if (input.type === "individual")
-        return ctx.db.application.create({
-          data: {
-            user_id: ctx.auth.userId,
-          },
-        });
-      
       return ctx.db.application.create({
         data: {
           user_id: ctx.auth.userId,
+          team_id: input.team_id,
         },
       });
     }),

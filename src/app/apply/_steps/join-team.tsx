@@ -16,6 +16,7 @@ import { Label } from "~/components/ui/label";
 import { cn } from "~/lib/utils";
 import { api } from "~/trpc/react";
 import { ApplicationStep } from "../application-form";
+import { useSearchParamsHelper } from "~/lib/helpers";
 
 export default function JoinTeam({
   team,
@@ -30,6 +31,8 @@ export default function JoinTeam({
   >;
   setStep: Dispatch<SetStateAction<ApplicationStep>>;
 }) {
+  const { updateSearchParam } = useSearchParamsHelper();
+
   const [loading, setLoading] = useState(false);
   const [code, setCode] = useState("");
   const [errors, setErrors] = useState<string[]>([]);
@@ -57,6 +60,37 @@ export default function JoinTeam({
 
     setLoading(false);
   };
+
+  const handleContinue = () => {
+    updateSearchParam([{ name: "step", value: "name" }]);
+
+    setApplicationType("team");
+    setStep("name");
+  };
+
+  if (team) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>Team {team.name}</CardTitle>
+          <CardDescription>
+            You have successfully joined team {team.name}. Continue to the next step.
+          </CardDescription>
+        </CardHeader>
+
+        <CardContent>
+          <div className="flex items-center space-x-2">
+            <Label>Team code:</Label>
+            <span className="font-bold">{team.code}</span>
+          </div>
+        </CardContent>
+
+        <CardFooter className="justify-end">
+          <Button onClick={() => handleContinue()}>Continue</Button>
+        </CardFooter>
+      </Card>
+    );
+  }
 
   return (
     <Card>
