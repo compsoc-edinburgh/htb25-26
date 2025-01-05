@@ -11,11 +11,14 @@ import {
 } from "~/components/ui/card";
 import { api } from "~/trpc/react";
 import { useRouter } from "next/navigation";
+import { Team } from "@prisma/client";
 
 export default function ReviewAndSubmitStep({
+  team,
   applicationType,
   setStep,
 }: {
+  team?: Team | null;
   applicationType: "individual" | "team";
   setStep: Dispatch<SetStateAction<ApplicationStep>>;
 }) {
@@ -43,6 +46,7 @@ export default function ReviewAndSubmitStep({
     try {
       await apply.mutateAsync({
         type: applicationType,
+        team_id: applicationType === "team" ? team?.id : undefined,
       });
 
       router.push("/dashboard/application");

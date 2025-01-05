@@ -152,6 +152,7 @@ export default function ApplicationForm({
           {step === "cv" && <CVStep cv={cv} setCv={setCv} setStep={setStep} />}
           {step === "review" && (
             <ReviewAndSubmitStep
+              team={team}
               setStep={setStep}
               applicationType={applicationType}
             />

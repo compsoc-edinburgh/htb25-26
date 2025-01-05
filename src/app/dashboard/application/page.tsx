@@ -6,6 +6,8 @@ export default async function ApplicationPage() {
   const application = await api.application.getUserApplication();
   const user = await api.user.get();
 
+  console.log(user)
+
   return (
     <div className="mx-auto w-full max-w-screen-md py-20">
       <h1 className="text-center text-2xl font-bold">Application</h1>
