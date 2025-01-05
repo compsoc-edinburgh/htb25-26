@@ -2,19 +2,67 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+model User {
+  id              String  @id @default(cuid())
+  email           String  @unique
+  
+  first_name      String?
+  last_name       String?
+  country         String?
+  university_name String?
+  university_year String?
+  university_email String?
+  cv_url          String?
+  team_id         String?
+  team            Team?   @relation(fields: [team_id], references: [id])
 
-    @@index([name])
+  applications Application[]
+
+  created_at DateTime @default(now())
+  created_by String?
+  updated_at DateTime @updatedAt
+  updated_by String?
+}
+
+model Team {
+  id           String        @id @default(cuid())
+  name         String
+  code         String        @unique
+  members      User[]
+  applications Application[]
+
+  created_at DateTime @default(now())
+  created_by String?
+  updated_at DateTime @updatedAt
+  updated_by String?
+}
+
+enum ApplicationStatus {
+  pending
+  accepted
+  rejected
+}
+
+model Application {
+  id      String  @id @default(cuid())
+  user_id String
+  user    User    @relation(fields: [user_id], references: [id])
+  team_id String?
+  team    Team?   @relation(fields: [team_id], references: [id])
+
+  status           ApplicationStatus @default(pending)
+  rejection_reason String?
+
+  created_at DateTime @default(now())
+  created_by String?
+  updated_at DateTime @updatedAt
+  updated_by String?
 }
