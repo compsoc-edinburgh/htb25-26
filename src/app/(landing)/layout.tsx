@@ -1,12 +1,15 @@
+import { auth } from "@clerk/nextjs/server";
 import { PropsWithChildren } from "react";
 import Navbar from "~/components/navbar";
 
-export default function LandingLayout({
+export default async function LandingLayout({
   children,
 }: Readonly<PropsWithChildren>) {
+  const user = await auth();
+
   return (
     <>
-      <Navbar />
+      <Navbar isAdmin={user.sessionClaims?.metadata.role === "admin"} />
       {children}
     </>
   );

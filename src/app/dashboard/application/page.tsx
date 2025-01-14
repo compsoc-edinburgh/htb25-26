@@ -11,7 +11,7 @@ export default async function ApplicationPage() {
   return (
     <div className="mx-auto w-full max-w-screen-md py-20">
       <h1 className="text-center text-2xl font-bold">Application</h1>
-      <div className="mx-auto max-w-lg py-10">
+      <div className="mx-auto py-10">
         {application && (
           <div className="flex flex-col gap-12">
             <div className="flex flex-wrap gap-12 ">
