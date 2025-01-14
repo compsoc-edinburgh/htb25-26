@@ -1,6 +1,9 @@
 import { z } from "zod";
 
-import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/api/trpc";
+import {
+  createTRPCRouter,
+  protectedProcedure,
+} from "~/server/api/trpc";
 
 export const applicationRouter = createTRPCRouter({
   create: protectedProcedure
@@ -11,20 +14,13 @@ export const applicationRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      if (input.type === "individual")
-        return ctx.db.application.create({
-          data: {
-            user_id: ctx.auth.userId,
-          },
-        });
-      
       return ctx.db.application.create({
         data: {
           user_id: ctx.auth.userId,
+          team_id: input.team_id,
         },
       });
     }),
-  
   getUserApplication: protectedProcedure.query(async ({ ctx }) => {
     return ctx.db.application.findFirst({
       where: {
@@ -32,7 +28,19 @@ export const applicationRouter = createTRPCRouter({
       },
       include: {
         team: true,
-      }
+      },
+    });
+  }),
+  getApplications: protectedProcedure.query(async ({ ctx }) => {
+    if (ctx.auth.sessionClaims.metadata.role !== "admin") {
+      throw new Error("Unauthorized");
+    }
+
+    return ctx.db.application.findMany({
+      include: {
+        user: true,
+        team: true,
+      },
     });
   }),
 });

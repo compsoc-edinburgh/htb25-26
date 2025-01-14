@@ -5,7 +5,11 @@ import Link from "next/link";
 import { Button } from "./ui/button";
 import { LogOut } from "lucide-react";
 
-export default function Navbar() {
+export default function Navbar({
+  isAdmin = false
+}: {
+  isAdmin?: boolean
+}) {
   const { isSignedIn, isLoaded, user } = useUser();
 
   return (
@@ -15,7 +19,7 @@ export default function Navbar() {
       {isLoaded && isSignedIn && (
         <>
           <Link href={"/dashboard/application"}>My application</Link>
-          {/* <Link href={"/dashboard/team"}>My team</Link> */}
+          {isAdmin && <Link href={"/dashboard/admin"}>Admin dashboard</Link>}
           <UserButton />
         </>
       )}

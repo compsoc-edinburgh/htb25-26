@@ -8,12 +8,12 @@ export default async function DashboardLayout({
   children,
 }: Readonly<PropsWithChildren>) {
   const user = await auth();
-  if (!user.userId)
-    redirect("/signin");
+
+  if (!user.userId) redirect("/signin");
 
   return (
     <main className="flex flex-col items-center">
-      <Navbar />
+      <Navbar isAdmin={user.sessionClaims.metadata.role === "admin"} />
       {children}
     </main>
   );
