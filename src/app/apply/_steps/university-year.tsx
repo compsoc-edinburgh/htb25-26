@@ -45,11 +45,11 @@ export default function UniversityYearStep({
       updateSearchParam([
         {
           name: "step",
-          value: "cv",
+          value: "email",
         },
       ]);
 
-      setStep("cv");
+      setStep("email");
     } catch (err: any) {
       toast.error("There was something wrong, please try again.");
       console.error(err);

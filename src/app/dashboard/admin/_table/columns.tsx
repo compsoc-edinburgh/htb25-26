@@ -100,6 +100,33 @@ export const columns: ColumnDef<Application>[] = [
     accessorKey: "team.code",
     header: "Team Code",
   },
+  {
+    accessorKey: "user.placements_count",
+    header: "Placements/internships",
+  },
+  {
+    accessorKey: "user.hackathons_count",
+    header: "Hackathons attended",
+  },
+  {
+    accessorKey: "user.project_description",
+    header: "Project",
+  },
+  {
+    accessorKey: "user.needs_reimbursement",
+    header: "Needs reimbursement",
+    accessorFn: (value) => (value.user.needs_reimbursement ? "Yes" : "No"),
+  },
+  {
+    accessorKey: "user.travelling_from",
+    header: "Travel details",
+    accessorFn: (value) => value.user.travelling_from,
+  },
+  {
+    accessorKey: "user.dietary_restrictions",
+    header: "Dietary Restrictions",
+    accessorFn: (value) => value.user.dietary_restrictions || "None",
+  },
   // {
   //   id: "actions",
   //   cell: ({ row }) => {
