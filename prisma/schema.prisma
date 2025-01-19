@@ -11,18 +11,28 @@ datasource db {
 }
 
 model User {
-  id              String  @id @default(cuid())
-  email           String  @unique
-  
-  first_name      String?
-  last_name       String?
-  country         String?
-  university_name String?
-  university_year String?
-  university_email String?
-  cv_url          String?
-  team_id         String?
-  team            Team?   @relation(fields: [team_id], references: [id])
+  id    String @id @default(cuid())
+  email String @unique
+
+  first_name           String?
+  last_name            String?
+  pronouns             String?
+  country              String?
+  university_name      String?
+  university_year      String?
+  university_email     String?
+  cv_url               String?
+  portfolio_url        String?
+  placements_count     String?
+  hackathons_count     String?
+  project_description  String?
+  needs_reimbursement  Boolean?
+  travelling_from      String?
+  dietary_restrictions String?
+  calendar_email       String?
+
+  team_id String?
+  team    Team?   @relation(fields: [team_id], references: [id])
 
   applications Application[]
 

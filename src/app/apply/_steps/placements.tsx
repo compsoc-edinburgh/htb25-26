@@ -1,20 +1,19 @@
+import { Dispatch, FormEvent, SetStateAction, useState } from "react";
+import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
-import { Country, CountryDropdown } from "~/components/ui/country-dropdown";
-import { Dispatch, FormEvent, SetStateAction, useEffect, useState } from "react";
-import { Button } from "~/components/ui/button";
-import { useSearchParamsHelper } from "~/lib/helpers";
 import { ApplicationStep } from "../application-form";
+import { useSearchParamsHelper } from "~/lib/helpers";
 import { api } from "~/trpc/react";
 import { toast } from "sonner";
-import { countries } from "country-data-list";
+import { Button } from "~/components/ui/button";
 
-export default function CountryStep({
-  country,
-  setCountry,
+export default function PlacementsStep({
+  placements,
+  setPlacements,
   setStep,
 }: {
-  country?: Country;
-  setCountry: Dispatch<SetStateAction<Country | undefined>>;
+  placements?: string;
+  setPlacements: Dispatch<SetStateAction<string | undefined>>;
   setStep: Dispatch<SetStateAction<ApplicationStep>>;
 }) {
   const [loading, setLoading] = useState(false);
@@ -22,21 +21,15 @@ export default function CountryStep({
   const { updateSearchParam } = useSearchParamsHelper();
   const updateUser = api.user.update.useMutation();
 
-  useEffect(() => {
-    if (!country) {
-      setCountry(countries.all.find((c) => c.alpha3 === "GBR"));
-    }
-  }, []);
-
   const handleBack = async () => {
     updateSearchParam([
       {
         name: "step",
-        value: "name",
+        value: "portfolio",
       },
     ]);
 
-    setStep("name");
+    setStep("portfolio");
   };
 
   const handleContinue = async (e: FormEvent) => {
@@ -46,17 +39,17 @@ export default function CountryStep({
       setLoading(true);
 
       await updateUser.mutateAsync({
-        country: country?.alpha2,
+        placementsCount: placements,
       });
 
       updateSearchParam([
         {
           name: "step",
-          value: "university",
+          value: "hackathons",
         },
       ]);
 
-      setStep("university");
+      setStep("hackathons");
     } catch (err: any) {
       toast.error("There was something wrong, please try again.");
       console.error(err);
@@ -68,10 +61,18 @@ export default function CountryStep({
   return (
     <form onSubmit={handleContinue} className="flex flex-col gap-3">
       <div className="flex flex-col gap-2">
-        <Label htmlFor="country">Country</Label>
-        <CountryDropdown
-          defaultValue={country?.alpha3 ?? "GBR"}
-          onChange={(c) => setCountry(c)}
+        <Label htmlFor="placements">
+          How many tech internships/placements have you
+          completed since beginning university?
+        </Label>
+        <Input
+          name="placements"
+          id="placements"
+          autoFocus
+          defaultValue={placements}
+          onChange={(e) => {
+            setPlacements(e.target.value);
+          }}
         />
       </div>
       <div className="flex w-full gap-3">

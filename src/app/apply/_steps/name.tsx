@@ -40,11 +40,11 @@ export default function NameStep({
       updateSearchParam([
         {
           name: "step",
-          value: "email",
+          value: "country",
         },
       ]);
 
-      setStep("email");
+      setStep("country");
     } catch (err: any) {
       toast.error("There was something wrong, please try again.");
       console.error(err);

@@ -6,15 +6,18 @@ export default async function ApplicationPage() {
   const application = await api.application.getUserApplication();
   const user = await api.user.get();
 
-  console.log(user)
-
   return (
     <div className="mx-auto w-full max-w-screen-md py-20">
       <h1 className="text-center text-2xl font-bold">Application</h1>
       <div className="mx-auto py-10">
         {application && (
           <div className="flex flex-col gap-12">
-            <div className="flex flex-wrap gap-12 ">
+            <div>
+              <Button asChild>
+                <Link href={"/dashboard/application/edit"}>Edit</Link>
+              </Button>
+            </div>
+            <div className="flex flex-wrap gap-12">
               <div>
                 <h2 className="text-lg font-semibold">Status</h2>
                 <p>{application.status}</p>
@@ -64,7 +67,11 @@ export default async function ApplicationPage() {
               </div>
               <div>
                 <h2 className="text-lg font-semibold">CV</h2>
-                <a href={user?.cv_url ?? "#"} target="_blank" className="text-blue-500 underline ">
+                <a
+                  href={user?.cv_url ?? "#"}
+                  target="_blank"
+                  className="text-blue-500 underline"
+                >
                   Download
                 </a>
               </div>

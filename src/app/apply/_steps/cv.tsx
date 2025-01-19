@@ -44,11 +44,11 @@ export default function CVStep({
     updateSearchParam([
       {
         name: "step",
-        value: "university-year",
+        value: "email",
       },
     ]);
 
-    setStep("university-year");
+    setStep("email");
   };
 
   const handleContinue = async (e: FormEvent) => {
@@ -60,11 +60,11 @@ export default function CVStep({
       updateSearchParam([
         {
           name: "step",
-          value: "review",
+          value: "portfolio",
         },
       ]);
 
-      setStep("review");
+      setStep("portfolio");
     } catch (err: any) {
       toast.error("There was something wrong, please try again.");
       console.error(err);

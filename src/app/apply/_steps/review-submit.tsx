@@ -33,11 +33,11 @@ export default function ReviewAndSubmitStep({
     updateSearchParam([
       {
         name: "step",
-        value: "cv",
+        value: "calendar",
       },
     ]);
 
-    setStep("cv");
+    setStep("calendar");
   };
 
   const handleSubmit = async () => {

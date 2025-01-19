@@ -30,9 +30,9 @@ export default async function ApplyPage() {
   return (
     <div className="mx-auto max-w-screen-md">
       <Navbar />
-      <h1 className="text-center text-3xl font-semibold mt-10">
+      {/* <h1 className="text-center text-3xl font-semibold mt-10">
         Apply to Hack The Burgh XI
-      </h1>
+      </h1> */}
       <ApplicationForm user={user} />
     </div>
   );

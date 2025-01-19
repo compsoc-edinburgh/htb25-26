@@ -57,6 +57,14 @@ export const userRouter = createTRPCRouter({
         country: z.string().optional(),
         university: z.string().optional(),
         universityYear: z.string().optional(),
+        placementsCount: z.string().optional(),
+        hackathonsCount: z.string().optional(),
+        projectDescription: z.string().optional(),
+        needsReimbursement: z.boolean().optional(),
+        travellingFrom: z.string().optional(),
+        dietaryRestrictions: z.string().optional(),
+        portfolioUrl: z.string().optional(),
+        calendarEmail: z.string().optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -70,14 +78,24 @@ export const userRouter = createTRPCRouter({
         });
       }
 
+      const metadata = {
+        country: input.country,
+        university_name: input.university,
+        university_year: input.universityYear,
+        cv_url: input.cv,
+        portfolio_url: input.portfolioUrl,
+        placements_count: input.placementsCount,
+        hackathons_count: input.hackathonsCount,
+        project_description: input.projectDescription,
+        needs_reimbursement: input.needsReimbursement,
+        travelling_from: input.travellingFrom,
+        dietary_restrictions: input.dietaryRestrictions,
+        calendar_email: input.calendarEmail
+      };
+
       // Save other information in clerk metadata
       await client.users.updateUserMetadata(ctx.auth.userId, {
-        publicMetadata: {
-          cvUrl: input.cv,
-          country: input.country,
-          universityName: input.university,
-          universityYear: input.universityYear,
-        },
+        publicMetadata: metadata,
       });
 
       return ctx.db.user.update({
@@ -86,10 +104,7 @@ export const userRouter = createTRPCRouter({
           university_email: input.universityEmail,
           first_name: input.firstName,
           last_name: input.lastName,
-          cv_url: input.cv,
-          country: input.country,
-          university_name: input.university,
-          university_year: input.universityYear,
+          ...metadata,
         },
       });
     }),

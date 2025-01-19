@@ -18,6 +18,13 @@ import TeamStep from "./_steps/team";
 import { countries } from "country-data-list";
 import universities from "~/lib/constants/world_universities_and_domains.json";
 import ReviewAndSubmitStep from "./_steps/review-submit";
+import PortfolioStep from "./_steps/portfolio";
+import PlacementsStep from "./_steps/placements";
+import HackathonsStep from "./_steps/hackathons";
+import ProjectStep from "./_steps/projects";
+import ReimbursementStep from "./_steps/reimbursement";
+import DietStep from "./_steps/diet";
+import CalendarStep from "./_steps/calendar";
 
 export type ApplicationStep =
   | "team"
@@ -27,6 +34,13 @@ export type ApplicationStep =
   | "university"
   | "university-year"
   | "cv"
+  | "portfolio"
+  | "placements"
+  | "hackathons"
+  | "project"
+  | "reimbursement"
+  | "diet"
+  | "calendar"
   | "review";
 
 export default function ApplicationForm({
@@ -48,7 +62,9 @@ export default function ApplicationForm({
 
   const [firstName, setFirstName] = useState(user.first_name ?? undefined);
   const [lastName, setLastName] = useState(user.last_name ?? undefined);
-  const [email, setEmail] = useState(user.university_email ?? undefined);
+  const [email, setEmail] = useState(
+    user.university_email ?? (user.email as string | undefined),
+  );
   const [country, setCountry] = useState<Country | undefined>(
     countries.all.find((c) => c.alpha2 === user.country),
   );
@@ -60,6 +76,22 @@ export default function ApplicationForm({
   );
   const [team, setTeam] = useState<Team | undefined>(user.team ?? undefined);
   const [cv, setCv] = useState(user.cv_url ?? undefined);
+  const [portfolio, setPortfolio] = useState(user.portfolio_url ?? undefined);
+  const [placements, setPlacements] = useState(
+    user.placements_count ?? undefined,
+  );
+  const [hackathons, setHackathons] = useState(
+    user.hackathons_count ?? undefined,
+  );
+  const [project, setProject] = useState(user.project_description ?? undefined);
+  const [needsReimbursement, setNeedsReimbursement] = useState(
+    user.needs_reimbursement ?? undefined,
+  );
+  const [travel, setTravel] = useState(user.travelling_from ?? undefined);
+  const [diet, setDiet] = useState(user.dietary_restrictions ?? undefined);
+  const [calendarEmail, setCalendarEmail] = useState(
+    user.calendar_email ?? undefined,
+  );
 
   useEffect(() => {
     if (searchParams.has("step")) {
@@ -124,9 +156,6 @@ export default function ApplicationForm({
               setStep={setStep}
             />
           )}
-          {step === "email" && (
-            <EmailStep email={email} setEmail={setEmail} setStep={setStep} />
-          )}
           {step === "country" && (
             <CountryStep
               country={country}
@@ -149,7 +178,63 @@ export default function ApplicationForm({
               setStep={setStep}
             />
           )}
+          {step === "email" && (
+            <EmailStep
+              university={university}
+              email={email}
+              setEmail={setEmail}
+              setStep={setStep}
+            />
+          )}
           {step === "cv" && <CVStep cv={cv} setCv={setCv} setStep={setStep} />}
+          {step === "portfolio" && (
+            <PortfolioStep
+              portfolio={portfolio}
+              setPortfolio={setPortfolio}
+              setStep={setStep}
+            />
+          )}
+          {step === "placements" && (
+            <PlacementsStep
+              placements={placements}
+              setPlacements={setPlacements}
+              setStep={setStep}
+            />
+          )}
+          {step === "hackathons" && (
+            <HackathonsStep
+              hackathons={hackathons}
+              setHackathons={setHackathons}
+              setStep={setStep}
+            />
+          )}
+          {step === "project" && (
+            <ProjectStep
+              project={project}
+              setProject={setProject}
+              setStep={setStep}
+            />
+          )}
+          {step === "reimbursement" && (
+            <ReimbursementStep
+              needsReimbursement={needsReimbursement}
+              setNeedsReimbursement={setNeedsReimbursement}
+              travel={travel}
+              setTravel={setTravel}
+              setStep={setStep}
+            />
+          )}
+          {step === "diet" && (
+            <DietStep diet={diet} setDiet={setDiet} setStep={setStep} />
+          )}
+          {step === "calendar" && (
+            <CalendarStep
+              universityEmail={email}
+              calendarEmail={calendarEmail}
+              setCalendarEmail={setCalendarEmail}
+              setStep={setStep}
+            />
+          )}
           {step === "review" && (
             <ReviewAndSubmitStep
               team={team}
