@@ -209,7 +209,7 @@ export function SignupForm({
       >
         <Card className="w-full px-6">
           <CardHeader className="text-center">
-            <CardTitle className="text-xl">Sign up to Hack the Burgh</CardTitle>
+            <CardTitle className="text-xl font-tektur">Sign up to Hack the Burgh</CardTitle>
           </CardHeader>
           <CardContent>
             {step === "account" && (

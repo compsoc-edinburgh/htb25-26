@@ -69,11 +69,14 @@ export default function CalendarStep({
   };
 
   return (
-    <form onSubmit={handleContinue} className="flex flex-col gap-3">
-      <div className="flex flex-col gap-2">
-        <Label htmlFor="reimbursement">
+    <form onSubmit={handleContinue} className="flex flex-col gap-3 justify-between h-full">
+      <div className="rounded-xl bg-muted p-4">
+        <h2 className="text-xl font-medium">Update your calendar</h2>
+        <p className="text-sm text-muted-foreground">
           Would you like to be added to our joint calendar?
-        </Label>
+        </p>
+      </div>
+      <div className="flex-1 flex flex-col gap-2">
         <Tabs className="w-full" defaultValue={tab}>
           <TabsList className="w-full">
             <TabsTrigger
@@ -86,7 +89,10 @@ export default function CalendarStep({
             <TabsTrigger
               className="flex-1"
               value="no"
-              onClick={() => setTab("no")}
+              onClick={() => {
+                setTab("no");
+                setCalendarEmail(undefined);
+              }}
             >
               No
             </TabsTrigger>
@@ -95,7 +101,7 @@ export default function CalendarStep({
           <TabsContent value="yes">
             <div className="mt-6 flex flex-col gap-2">
               <Label htmlFor="travel">Which email should we use?</Label>
-              <div className="flex gap-2">
+              <div className="flex gap-2 flex-wrap">
                 <Button
                   size={"sm"}
                   type="button"
@@ -129,7 +135,7 @@ export default function CalendarStep({
         </Tabs>
       </div>
       <div className="flex w-full gap-3">
-        <Button onClick={handleBack} variant={"outline"} type="button">
+        <Button onClick={handleBack} variant={"secondary"} type="button">
           Back
         </Button>
         <Button

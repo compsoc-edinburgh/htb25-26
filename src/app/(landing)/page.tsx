@@ -8,19 +8,19 @@ import { HydrateClient } from "~/trpc/server";
 const FAQ_ITEMS = [
   {
     question: "What is Hack the Burgh XI?",
-    answer: "Cool hackathon in edinburgh"
+    answer: "Cool hackathon in edinburgh",
   },
   {
     question: "How do I get accepted?",
-    answer: "solve the N Queens problem real quick"
+    answer: "solve the N Queens problem real quick",
   },
   {
     question: "Why did the chicken cross the road?",
-    answer: "idk leave me alone"
+    answer: "idk leave me alone",
   },
   {
     question: "ligma?",
-    answer: "ligma."
+    answer: "ligma.",
   },
 ];
 
@@ -30,10 +30,10 @@ export default async function Home() {
   return (
     <HydrateClient>
       <main className="flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center">
-        <div className="container flex flex-col items-center justify-center gap-12 px-4">
-          <h1 className="text-5xl font-extrabold tracking-tight sm:text-[5rem] text-center">
-            Hack The Burgh XI
-          </h1>
+        <div className="container flex h-[calc(100vh-4rem)] flex-col items-center justify-center gap-12 px-4">
+          <div className="w-full max-w-screen-md px-10">
+            <img src="/HTB-logo.png" className="w-full" />
+          </div>
           {user.userId && (
             <Button className="text-xl font-medium">
               <Link href={"/dashboard/application"}>Apply now</Link>
@@ -49,18 +49,18 @@ export default async function Home() {
               </Button>
             </div>
           )}
-
-          {/* FAQ Section */}
-          <section className="mt-16 w-full max-w-4xl text-left">
-            <h2 className="text-3xl font-bold mb-8 text-center">FAQs</h2>
-            {FAQ_ITEMS.map((faq, index) => (
-              <details key={index} className="mb-4 bg-gray-50 p-4 rounded-lg">
-                <summary className="text-xl font-medium">{faq.question}</summary>
-                <p className="mt-2 text-gray-600">{faq.answer}</p>
-              </details>
-            ))}
-          </section>
         </div>
+
+        {/* FAQ Section */}
+        <section className="mt-16 w-full max-w-4xl text-left">
+          <h2 className="mb-8 text-center text-3xl font-bold">FAQs</h2>
+          {FAQ_ITEMS.map((faq, index) => (
+            <details key={index} className="mb-4 rounded-lg bg-muted p-4">
+              <summary className="text-xl font-medium">{faq.question}</summary>
+              <p className="mt-2 text-muted-foreground">{faq.answer}</p>
+            </details>
+          ))}
+        </section>
       </main>
     </HydrateClient>
   );

@@ -6,6 +6,50 @@ import { useSearchParamsHelper } from "~/lib/helpers";
 import { api } from "~/trpc/react";
 import { toast } from "sonner";
 import { Button } from "~/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "~/components/ui/select";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "~/components/ui/command";
+import { cn } from "~/lib/utils";
+
+const options = [
+  {
+    value: "1",
+    label: "1st Year",
+  },
+  {
+    value: "2",
+    label: "2nd Year",
+  },
+  {
+    value: "3",
+    label: "3rd Year",
+  },
+  {
+    value: "4",
+    label: "4th Year",
+  },
+  {
+    value: "msc",
+    label: "Master's Degree",
+  },
+  {
+    value: "phd",
+    label: "PhD",
+  },
+];
 
 export default function UniversityYearStep({
   universityYear,
@@ -34,7 +78,7 @@ export default function UniversityYearStep({
 
   const handleContinue = async (e: FormEvent) => {
     e.preventDefault();
-    
+
     try {
       setLoading(true);
 
@@ -59,20 +103,41 @@ export default function UniversityYearStep({
   };
 
   return (
-    <form onSubmit={handleContinue} className="flex flex-col gap-3">
-      <div className="flex flex-col gap-2">
-        <Label htmlFor="universityYear">University Year</Label>
-        <Input
-          name="universityYear"
-          id="universityYear"
-          defaultValue={universityYear}
-          onChange={(e) => {
-            setUniversityYear(e.target.value);
-          }}
-        />
+    <form
+      onSubmit={handleContinue}
+      className="flex h-full flex-col justify-between gap-3"
+    >
+      <div className="flex flex-col gap-3">
+        <div className="rounded-xl bg-muted p-4">
+          <h2 className="text-xl font-medium">Which year are you in?</h2>
+        </div>
+      </div>
+      <div className="flex-1 flex flex-col gap-2">
+        <Command className="w-full p-0 bg-transparent" defaultValue={universityYear}>
+          <CommandList>
+            {options.map((option, key) => (
+              <CommandItem
+                className={cn(
+                  "my-1 p-3 flex w-full items-center gap-2 rounded-xl transition-colors",
+                  option.value === universityYear
+                    ? "bg-accent-yellow data-[selected=true]:bg-accent-yellow text-black data-[selected=true]:text-black"
+                    : "hover:bg-primary-50",
+                )}
+                key={key}
+                onSelect={() => setUniversityYear(option.value)}
+              >
+                <div className="flex w-0 flex-grow space-x-2 overflow-hidden">
+                  <span className="overflow-hidden text-ellipsis whitespace-nowrap">
+                    {option.label}
+                  </span>
+                </div>
+              </CommandItem>
+            ))}
+          </CommandList>
+        </Command>
       </div>
       <div className="flex w-full gap-3">
-        <Button onClick={handleBack} variant={"outline"} type="button">
+        <Button onClick={handleBack} variant={"secondary"} type="button">
           Back
         </Button>
         <Button loading={loading} type="submit" className="flex-1">

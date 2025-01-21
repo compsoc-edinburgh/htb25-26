@@ -2,6 +2,7 @@ import "~/styles/globals.css";
 
 import { ClerkProvider } from "@clerk/nextjs";
 import { GeistSans } from "geist/font/sans";
+import { Tektur } from "next/font/google";
 import { type Metadata } from "next";
 
 import { TRPCReactProvider } from "~/trpc/react";
@@ -13,12 +14,18 @@ export const metadata: Metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
+export const tektur = Tektur({
+  subsets: ["latin"],
+  display: "swap",
+  variable: '--font-tektur',
+})
+
 export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <ClerkProvider>
-      <html lang="en" className={`${GeistSans.variable}`}>
+      <html lang="en" className={`${GeistSans.className} ${tektur.variable} dark`}>
         <body className="px-4 md:px-0">
           <Toaster />
           <TRPCReactProvider>{children}</TRPCReactProvider>
