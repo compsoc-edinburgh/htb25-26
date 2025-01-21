@@ -34,7 +34,7 @@ export default function PortfolioStep({
 
   const handleContinue = async (e: FormEvent) => {
     e.preventDefault();
-    
+
     try {
       setLoading(true);
 
@@ -59,12 +59,21 @@ export default function PortfolioStep({
   };
 
   return (
-    <form onSubmit={handleContinue} className="flex flex-col gap-3">
-      <div className="flex flex-col gap-2">
-        <Label htmlFor="portfolio">Portfolio/LinkedIn</Label>
+    <form
+      onSubmit={handleContinue}
+      className="flex h-full flex-col justify-between gap-3"
+    >
+      <div className="rounded-xl bg-muted p-4">
+        <h2 className="text-xl font-medium">Your portfolio or LinkedIn profile</h2>
+        <p className="text-sm text-muted-foreground">
+          Share your portfolio or LinkedIn profile with us.
+        </p>
+      </div>
+      <div className="flex-1 flex flex-col gap-2">
         <Input
           name="portfolio"
           id="portfolio"
+          
           autoFocus
           defaultValue={portfolio}
           onChange={(e) => {
@@ -73,7 +82,7 @@ export default function PortfolioStep({
         />
       </div>
       <div className="flex w-full gap-3">
-        <Button onClick={handleBack} variant={"outline"} type="button">
+        <Button onClick={handleBack} variant={"secondary"} type="button">
           Back
         </Button>
         <Button loading={loading} type="submit" className="flex-1">

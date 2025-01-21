@@ -91,15 +91,24 @@ export default function DietStep({
   };
 
   return (
-    <form onSubmit={handleContinue} className="flex flex-col gap-3">
-      <div className="flex flex-col gap-2">
-        <Label htmlFor="portfolio">Dietary Restrictions</Label>
-        <div className="flex flex-col gap-3">
+    <form
+      onSubmit={handleContinue}
+      className="flex h-full flex-col justify-between gap-3"
+    >
+      <div className="rounded-xl bg-muted p-4">
+        <h2 className="text-xl font-medium">Dietary Restrictions</h2>
+        <p className="text-sm text-muted-foreground">
+          Please let us know if you have any dietary restrictions so we can
+          accommodate you during the event.
+        </p>
+      </div>
+      <div className="flex flex-1 flex-col">
+        <div className="flex flex-col gap-1 max-h-[100%] overflow-y-auto">
           {items.map((item) => (
             <Label
               key={item.id}
               htmlFor={item.id}
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 rounded-xl p-3 transition-colors hover:bg-muted [&:has(:checked)]:bg-muted"
             >
               <Checkbox
                 id={item.id}
@@ -117,7 +126,10 @@ export default function DietStep({
               {item.label}
             </Label>
           ))}
-          <Label htmlFor="none" className="flex items-center gap-2">
+          <Label
+            htmlFor="none"
+            className="flex items-center gap-2 rounded-xl p-3 transition-colors hover:bg-muted [&:has(:checked)]:bg-muted"
+          >
             <Checkbox
               id="none"
               checked={dietaryRestrictions?.includes("none")}
@@ -136,10 +148,15 @@ export default function DietStep({
         </div>
       </div>
       <div className="flex w-full gap-3">
-        <Button onClick={handleBack} variant={"outline"} type="button">
+        <Button onClick={handleBack} variant={"secondary"} type="button">
           Back
         </Button>
-        <Button loading={loading} type="submit" className="flex-1" disabled={dietaryRestrictions.length === 0 || loading}>
+        <Button
+          loading={loading}
+          type="submit"
+          className="flex-1"
+          disabled={dietaryRestrictions.length === 0 || loading}
+        >
           Next
         </Button>
       </div>

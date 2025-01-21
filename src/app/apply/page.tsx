@@ -3,6 +3,8 @@ import ApplicationForm from "./application-form";
 import { redirect } from "next/navigation";
 import { auth, currentUser } from "@clerk/nextjs/server";
 import Navbar from "~/components/navbar";
+import WebGLBackground from "~/components/gradient-background";
+import Link from "next/link";
 
 export default async function ApplyPage() {
   const application = await api.application.getUserApplication();
@@ -28,11 +30,17 @@ export default async function ApplyPage() {
   }
 
   return (
-    <div className="mx-auto max-w-screen-md">
-      <Navbar />
-      {/* <h1 className="text-center text-3xl font-semibold mt-10">
-        Apply to Hack The Burgh XI
-      </h1> */}
+    <div className="mx-auto flex h-screen max-w-screen-md flex-col justify-center">
+      <WebGLBackground />
+      <Link href={"/"}>
+        <img
+          src="/HB-icon-neon-small.png"
+          className="absolute left-0 top-0 z-50 m-6 h-12 hidden md:block"
+        />
+      </Link>
+      {/* <div className="left-0 top-0 mx-auto w-full">
+        <Navbar />
+      </div> */}
       <ApplicationForm user={user} />
     </div>
   );

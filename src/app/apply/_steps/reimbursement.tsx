@@ -66,12 +66,21 @@ export default function ReimbursementStep({
   };
 
   return (
-    <form onSubmit={handleContinue} className="flex flex-col gap-3">
-      <div className="flex flex-col gap-2">
-        <Label htmlFor="reimbursement">
-          Will you need your travel reimbursed?
-        </Label>
-        <Tabs className="w-full" defaultValue={needsReimbursement ? "yes" : "no"}>
+    <form
+      onSubmit={handleContinue}
+      className="flex h-full flex-col justify-between gap-3"
+    >
+      <div className="rounded-xl bg-muted p-4">
+        <h2 className="text-xl font-medium">Reimbursement</h2>
+        <p className="text-sm text-muted-foreground">
+          Will you need your travel expenses reimbursed?
+        </p>
+      </div>
+      <div className="flex flex-1 flex-col gap-2">
+        <Tabs
+          className="flex h-full w-full flex-col"
+          defaultValue={needsReimbursement ? "yes" : "no"}
+        >
           <TabsList className="w-full">
             <TabsTrigger
               className="flex-1"
@@ -89,14 +98,15 @@ export default function ReimbursementStep({
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="yes">
-            <div className="flex flex-col gap-2 mt-6">
+          <TabsContent value="yes" asChild>
+            <div className="mt-6 flex flex-1 flex-col gap-2">
               <Label htmlFor="travel">
-                Please provide details for your travel
+                Please provide the details of your travel
               </Label>
               <Textarea
                 name="travel"
                 id="travel"
+                className="flex-1 resize-none"
                 defaultValue={travel}
                 onChange={(e) => {
                   setTravel(e.target.value);
@@ -108,7 +118,7 @@ export default function ReimbursementStep({
         </Tabs>
       </div>
       <div className="flex w-full gap-3">
-        <Button onClick={handleBack} variant={"outline"} type="button">
+        <Button onClick={handleBack} variant={"secondary"} type="button">
           Back
         </Button>
         <Button loading={loading} type="submit" className="flex-1">

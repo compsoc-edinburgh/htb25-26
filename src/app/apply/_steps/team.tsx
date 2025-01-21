@@ -10,6 +10,7 @@ import { Team } from "@prisma/client";
 import { Dispatch, SetStateAction, useState } from "react";
 import { ApplicationStep } from "../application-form";
 import { useSearchParamsHelper } from "~/lib/helpers";
+import { useUser } from "@clerk/nextjs";
 
 export default function TeamStep({
   team,
@@ -24,10 +25,11 @@ export default function TeamStep({
   setTeam: Dispatch<SetStateAction<Team | undefined>>;
   setStep: Dispatch<SetStateAction<ApplicationStep>>;
 }) {
+  const { user } = useUser();
   const { updateSearchParam } = useSearchParamsHelper();
 
   const [tab, setTab] = useState<"individual" | "create" | "join">(
-    "individual",
+    team ? (team.created_by === user?.id ? "create" : "join") : "individual",
   );
 
   return (

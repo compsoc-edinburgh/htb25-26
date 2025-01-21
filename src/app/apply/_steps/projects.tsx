@@ -6,6 +6,7 @@ import { useSearchParamsHelper } from "~/lib/helpers";
 import { api } from "~/trpc/react";
 import { toast } from "sonner";
 import { Button } from "~/components/ui/button";
+import { Textarea } from "~/components/ui/textarea";
 
 export default function ProjectStep({
   project,
@@ -59,15 +60,21 @@ export default function ProjectStep({
   };
 
   return (
-    <form onSubmit={handleContinue} className="flex flex-col gap-3">
-      <div className="flex flex-col gap-2">
-        <Label htmlFor="project">
-          Please briefly describe a project you&apos;ve completed in the following
-          format: Project aim, project tech stack, GitHub link.
-        </Label>
-        <Input
+    <form
+      onSubmit={handleContinue}
+      className="flex h-full flex-col justify-between gap-3"
+    >
+      <div className="rounded-xl bg-muted p-4">
+        <h2 className="text-xl font-medium">Project</h2>
+        <p className="text-sm text-muted-foreground">
+          Tell us about a completed project, the technologies you used, and any links you can send us. 
+        </p>
+      </div>
+      <div className="flex-1 flex flex-col gap-2">
+        <Textarea
           name="project"
           id="project"
+          className="h-full resize-none"
           autoFocus
           defaultValue={project}
           onChange={(e) => {
@@ -76,7 +83,7 @@ export default function ProjectStep({
         />
       </div>
       <div className="flex w-full gap-3">
-        <Button onClick={handleBack} variant={"outline"} type="button">
+        <Button onClick={handleBack} variant={"secondary"} type="button">
           Back
         </Button>
         <Button loading={loading} type="submit" className="flex-1">

@@ -2,16 +2,14 @@ import { Dispatch, FormEvent, SetStateAction, useState } from "react";
 import { toast } from "sonner";
 import { Country } from "~/components/ui/country-dropdown";
 import { Label } from "~/components/ui/label";
-import {
-  University,
-  UniversityDropdown,
-} from "~/components/ui/university-dropdown";
+import { University } from "~/components/ui/university-dropdown";
 
 import universities from "~/lib/constants/world_universities_and_domains.json";
 import { useSearchParamsHelper } from "~/lib/helpers";
 import { api } from "~/trpc/react";
 import { ApplicationStep } from "../application-form";
 import { Button } from "~/components/ui/button";
+import { UniversitySelectlist } from "~/components/ui/university-selectlist";
 
 export default function UniversityStep({
   country,
@@ -25,7 +23,7 @@ export default function UniversityStep({
   setStep: Dispatch<SetStateAction<ApplicationStep>>;
 }) {
   const [loading, setLoading] = useState(false);
-  console.log(university)
+  console.log(university);
 
   const { updateSearchParam } = useSearchParamsHelper();
   const updateUser = api.user.update.useMutation();
@@ -68,10 +66,17 @@ export default function UniversityStep({
   };
 
   return (
-    <form onSubmit={handleContinue} className="flex flex-col gap-3">
-      <div className="flex flex-col gap-2">
-        <Label htmlFor="university">University</Label>
-        <UniversityDropdown
+    <form
+      onSubmit={handleContinue}
+      className="flex h-full flex-col justify-between gap-3"
+    >
+      <div className="flex flex-col gap-3">
+        <div className="rounded-xl bg-muted p-4">
+          <h2 className="text-xl font-medium">Your university</h2>
+        </div>
+      </div>
+      <div className="flex flex-1 flex-col gap-2">
+        <UniversitySelectlist
           options={universities.filter(
             (u) => u.alpha_two_code == country.alpha2,
           )}
@@ -80,7 +85,7 @@ export default function UniversityStep({
         />
       </div>
       <div className="flex w-full gap-3">
-        <Button onClick={handleBack} variant={"outline"} type="button">
+        <Button onClick={handleBack} variant={"secondary"} type="button">
           Back
         </Button>
         <Button loading={loading} type="submit" className="flex-1">

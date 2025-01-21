@@ -25,31 +25,40 @@ import ProjectStep from "./_steps/projects";
 import ReimbursementStep from "./_steps/reimbursement";
 import DietStep from "./_steps/diet";
 import CalendarStep from "./_steps/calendar";
+import ApplicationHeader from "./application-header";
 
-export type ApplicationStep =
-  | "team"
-  | "name"
-  | "email"
-  | "country"
-  | "university"
-  | "university-year"
-  | "cv"
-  | "portfolio"
-  | "placements"
-  | "hackathons"
-  | "project"
-  | "reimbursement"
-  | "diet"
-  | "calendar"
-  | "review";
+export const GROUPED_STEPS = [
+  {
+    group: "About yourself",
+    steps: ["team", "name", "country"],
+  },
+  {
+    group: "Your university",
+    steps: ["university", "university-year", "email"],
+  },
+  {
+    group: "Your experience",
+    steps: ["cv", "portfolio", "placements", "hackathons", "project"],
+  },
+  {
+    group: "Let us make your experience better",
+    steps: ["reimbursement", "diet", "calendar"],
+  },
+  {
+    group: "Review and submit",
+    steps: ["review", "done"],
+  },
+];
+
+export const APPLICATION_STEPS = GROUPED_STEPS.flatMap((step) => step.steps);
+
+export type ApplicationStep = (typeof APPLICATION_STEPS)[number];
 
 export default function ApplicationForm({
   user,
 }: {
   user: User & { team: Team | null };
 }) {
-  const router = useRouter();
-  const pathname = usePathname();
   const searchParams = useSearchParams();
 
   const [step, setStep] = useState<ApplicationStep>(
@@ -103,147 +112,137 @@ export default function ApplicationForm({
   }, []);
 
   return (
-    <div className="mx-auto flex w-full max-w-lg flex-col gap-3 py-10">
-      {(step === "team" || !applicationType) && (
-        <TeamStep
-          team={team}
-          setApplicationType={setApplicationType}
-          setTeam={setTeam}
-          setStep={setStep}
-        />
-      )}
+    // height calculated: screen-(height of navbar)
+    <div className="relative m-auto flex w-full max-w-sm flex-col justify-end gap-3 p-6 aspect-[9/16]">
+      <div className="absolute left-0 top-0 -z-10 h-full w-full rounded-xl bg-background/80  backdrop-blur-xl"></div>
+      <ApplicationHeader
+        applicationType={applicationType}
+        team={team}
+        currentStep={step}
+      />
 
-      {!!applicationType && (
-        <>
-          {step !== "team" && (
-            <div className="pb-10">
-              {applicationType === "individual" ? (
-                <div className="flex flex-col gap-1">
-                  <div className="flex items-center gap-2 text-2xl font-medium">
-                    <User2 /> Applying as an individual
-                  </div>
-                  <Button
-                    variant={"outline"}
-                    className="my-2 w-max rounded-2xl px-3 py-2"
-                    onClick={() => {
-                      setStep("team");
-                      setApplicationType(undefined);
-                      router.push(pathname);
-                    }}
-                    size={"sm"}
-                  >
-                    <Users2 /> Apply with a team instead
-                  </Button>
-                </div>
-              ) : (
-                <div>
-                  <div className="flex items-center gap-2 text-2xl font-medium">
-                    <Users2 /> Applying with team{" "}
-                    <span className="rounded-full border px-4 py-2 shadow-md">
-                      {team?.name}
-                    </span>
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-          {step === "name" && (
-            <NameStep
-              firstName={firstName}
-              lastName={lastName}
-              setFirstName={setFirstName}
-              setLastName={setLastName}
-              setStep={setStep}
-            />
-          )}
-          {step === "country" && (
-            <CountryStep
-              country={country}
-              setCountry={setCountry}
-              setStep={setStep}
-            />
-          )}
-          {step === "university" && (
-            <UniversityStep
-              country={country!}
-              university={university}
-              setUniversity={setUniversity}
-              setStep={setStep}
-            />
-          )}
-          {step === "university-year" && (
-            <UniversityYearStep
-              universityYear={universityYear}
-              setUniversityYear={setUniversityYear}
-              setStep={setStep}
-            />
-          )}
-          {step === "email" && (
-            <EmailStep
-              university={university}
-              email={email}
-              setEmail={setEmail}
-              setStep={setStep}
-            />
-          )}
-          {step === "cv" && <CVStep cv={cv} setCv={setCv} setStep={setStep} />}
-          {step === "portfolio" && (
-            <PortfolioStep
-              portfolio={portfolio}
-              setPortfolio={setPortfolio}
-              setStep={setStep}
-            />
-          )}
-          {step === "placements" && (
-            <PlacementsStep
-              placements={placements}
-              setPlacements={setPlacements}
-              setStep={setStep}
-            />
-          )}
-          {step === "hackathons" && (
-            <HackathonsStep
-              hackathons={hackathons}
-              setHackathons={setHackathons}
-              setStep={setStep}
-            />
-          )}
-          {step === "project" && (
-            <ProjectStep
-              project={project}
-              setProject={setProject}
-              setStep={setStep}
-            />
-          )}
-          {step === "reimbursement" && (
-            <ReimbursementStep
-              needsReimbursement={needsReimbursement}
-              setNeedsReimbursement={setNeedsReimbursement}
-              travel={travel}
-              setTravel={setTravel}
-              setStep={setStep}
-            />
-          )}
-          {step === "diet" && (
-            <DietStep diet={diet} setDiet={setDiet} setStep={setStep} />
-          )}
-          {step === "calendar" && (
-            <CalendarStep
-              universityEmail={email}
-              calendarEmail={calendarEmail}
-              setCalendarEmail={setCalendarEmail}
-              setStep={setStep}
-            />
-          )}
-          {step === "review" && (
-            <ReviewAndSubmitStep
-              team={team}
-              setStep={setStep}
-              applicationType={applicationType}
-            />
-          )}
-        </>
-      )}
+      <section className="flex-1">
+        {(step === "team" || !applicationType) && (
+          <TeamStep
+            team={team}
+            setApplicationType={setApplicationType}
+            setTeam={setTeam}
+            setStep={setStep}
+          />
+        )}
+        {step === "name" && (
+          <NameStep
+            firstName={firstName}
+            lastName={lastName}
+            setFirstName={setFirstName}
+            setLastName={setLastName}
+            setStep={setStep}
+          />
+        )}
+        {step === "country" && (
+          <CountryStep
+            country={country}
+            setCountry={setCountry}
+            setStep={setStep}
+          />
+        )}
+        {step === "university" && (
+          <UniversityStep
+            country={country!}
+            university={university}
+            setUniversity={setUniversity}
+            setStep={setStep}
+          />
+        )}
+        {step === "university-year" && (
+          <UniversityYearStep
+            universityYear={universityYear}
+            setUniversityYear={setUniversityYear}
+            setStep={setStep}
+          />
+        )}
+        {step === "email" && (
+          <EmailStep
+            university={university}
+            email={email}
+            setEmail={setEmail}
+            setStep={setStep}
+          />
+        )}
+        {step === "cv" && <CVStep cv={cv} setCv={setCv} setStep={setStep} />}
+        {step === "portfolio" && (
+          <PortfolioStep
+            portfolio={portfolio}
+            setPortfolio={setPortfolio}
+            setStep={setStep}
+          />
+        )}
+        {step === "placements" && (
+          <PlacementsStep
+            placements={placements}
+            setPlacements={setPlacements}
+            setStep={setStep}
+          />
+        )}
+        {step === "hackathons" && (
+          <HackathonsStep
+            hackathons={hackathons}
+            setHackathons={setHackathons}
+            setStep={setStep}
+          />
+        )}
+        {step === "project" && (
+          <ProjectStep
+            project={project}
+            setProject={setProject}
+            setStep={setStep}
+          />
+        )}
+        {step === "reimbursement" && (
+          <ReimbursementStep
+            needsReimbursement={needsReimbursement}
+            setNeedsReimbursement={setNeedsReimbursement}
+            travel={travel}
+            setTravel={setTravel}
+            setStep={setStep}
+          />
+        )}
+        {step === "diet" && (
+          <DietStep diet={diet} setDiet={setDiet} setStep={setStep} />
+        )}
+        {step === "calendar" && (
+          <CalendarStep
+            universityEmail={email}
+            calendarEmail={calendarEmail}
+            setCalendarEmail={setCalendarEmail}
+            setStep={setStep}
+          />
+        )}
+        {step === "review" && (
+          <ReviewAndSubmitStep
+            user={{
+              first_name: firstName,
+              last_name: lastName,
+              email: email,
+              country: country?.name,
+              university_name: university?.name,
+              university_year: universityYear,
+              team_id: team?.id,
+              cv_url: cv,
+              portfolio_url: portfolio,
+              placements_count: placements,
+              hackathons_count: hackathons,
+              project_description: project,
+              needs_reimbursement: needsReimbursement,
+              travelling_from: travel,
+              dietary_restrictions: diet,
+              calendar_email: calendarEmail,
+            }}
+            setStep={setStep}
+            applicationType={applicationType}
+          />
+        )}
+      </section>
     </div>
   );
 }
