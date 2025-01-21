@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
-export const tektur = Tektur({
+const tektur = Tektur({
   subsets: ["latin"],
   display: "swap",
   variable: '--font-tektur',
@@ -25,7 +25,7 @@ export default async function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <ClerkProvider>
-      <html lang="en" className={`${GeistSans.className} ${tektur.variable} dark`}>
+      <html lang="en" className={`${GeistSans.className} ${tektur.className} dark`}>
         <body className="px-4 md:px-0">
           <Toaster />
           <TRPCReactProvider>{children}</TRPCReactProvider>
