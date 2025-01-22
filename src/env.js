@@ -20,6 +20,9 @@ export const env = createEnv({
    */
   client: {
     // NEXT_PUBLIC_CLIENTVAR: z.string(),
+    NEXT_PUBLIC_CODE_CHALLENGE_ONE: z.string(),
+    NEXT_PUBLIC_CODE_CHALLENGE_ONE_FRAGMENTS: z.string(),
+    NEXT_PUBLIC_CODE_CHALLENGE_ONE_MODULUS: z.string(),
   },
 
   /**
@@ -29,6 +32,11 @@ export const env = createEnv({
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,
     NODE_ENV: process.env.NODE_ENV,
+    NEXT_PUBLIC_CODE_CHALLENGE_ONE: process.env.NEXT_PUBLIC_CODE_CHALLENGE_ONE,
+    NEXT_PUBLIC_CODE_CHALLENGE_ONE_FRAGMENTS:
+      process.env.NEXT_PUBLIC_CODE_CHALLENGE_ONE_FRAGMENTS,
+    NEXT_PUBLIC_CODE_CHALLENGE_ONE_MODULUS:
+      process.env.NEXT_PUBLIC_CODE_CHALLENGE_ONE_MODULUS,
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },
   /**
