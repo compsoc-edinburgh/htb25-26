@@ -11,9 +11,9 @@ const RegisterCard = () => (
   <Card className="relative h-full cursor-pointer border-0 bg-accent-orange text-white transition-transform duration-300 group">
     <CardContent className="relative h-full overflow-hidden border-0 p-6">
       <CodeBlockBackground />
-      <div className="relative z-10 flex h-full lg:flex-col justify-between items-center lg:items-start">
-        <ArrowRight className="h-8 w-8 order-2 lg:order-none" />
-        <div className="order-1 lg:order-none">
+      <div className="relative z-10 flex h-full md:flex-col justify-between items-center md:items-start">
+        <ArrowRight className="h-8 w-8 order-2 md:order-none" />
+        <div className="order-1 md:order-none">
           <p className="font-tektur text-xl font-bold md:text-2xl lg:text-3xl">Register</p>
           <p className="font-tektur text-2xs md:text-xs lg:text-sm">NOT OPEN YET</p>
         </div>
@@ -32,11 +32,11 @@ const CodeCard = () => (
 
 const CountdownCard = () => (
   <Card className="border-0 bg-gradient-to-r from-accent-lilac to-accent-yellow text-black">
-    <CardContent className="flex flex-col lg:flex-row p-6">
+    <CardContent className="h-full flex flex-col lg:flex-row p-6">
       <div className="flex flex-grow lg:self-end">
         <p className="font-tektur text-lg font-bold md:text-xl lg:text-2xl">Starting in:</p>
       </div>
-      <div className="flex justify-center lg:justify-end">
+      <div className="flex justify-center items-center">
         <CountdownTimer />
       </div>
     </CardContent>

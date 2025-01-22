@@ -26,7 +26,7 @@ export default async function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en" className={`${GeistSans.className} ${tektur.className} dark`}>
-        <body>
+        <body className="max-w-7xl mx-auto">
           <Toaster />
           <TRPCReactProvider>{children}</TRPCReactProvider>
         </body>

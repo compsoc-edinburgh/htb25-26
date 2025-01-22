@@ -5,7 +5,8 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const INITIAL_VISIBILITY_THRESHOLD = 0.1;
 const REGENERATE_VISIBILITY_THRESHOLD = 0.2;
-const BLOCK_COUNT = 24;
+const DESKTOP_BLOCK_COUNT = 24;
+const MOBILE_BLOCK_COUNT = 8;
 
 interface BlockProps {
   isVisible: boolean;
@@ -33,8 +34,9 @@ const Block = ({ isVisible, index }: BlockProps) => (
 );
 
 const CodeBlockBackground = () => {
+    const isMobile = window.matchMedia("(max-width: 765px)").matches;
   const [blocks, setBlocks] = useState<boolean[]>(() => 
-    Array.from({ length: BLOCK_COUNT }, () => Math.random() > INITIAL_VISIBILITY_THRESHOLD)
+    Array.from({ length: isMobile ? MOBILE_BLOCK_COUNT : DESKTOP_BLOCK_COUNT }, () => Math.random() > INITIAL_VISIBILITY_THRESHOLD)
   );
   
   const regenerateBlocks = useCallback(() => {
