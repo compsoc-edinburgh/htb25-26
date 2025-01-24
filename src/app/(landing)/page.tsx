@@ -1,8 +1,4 @@
-import { auth } from "@clerk/nextjs/server";
-import Link from "next/link";
-import { Button } from "~/components/ui/button";
-
-import { HydrateClient } from "~/trpc/server";
+import { LandingCard } from "~/components/modules/landing";
 
 // placeholder FAQs (Could be a seperate file, not very clean)
 const FAQ_ITEMS = [
@@ -24,35 +20,31 @@ const FAQ_ITEMS = [
   },
 ];
 
-export default async function Home() {
-  const user = await auth();
-
+export default function Page() {
   return (
-    <HydrateClient>
-      <main className="flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center">
-        <div className="container flex h-[calc(100vh-4rem)] flex-col items-center justify-center gap-12 px-4">
-          <div className="w-full max-w-screen-md px-10">
-            <img src="/HTB-logo.png" className="w-full" />
-          </div>
-          {user.userId && (
-            <Button className="text-xl font-medium">
-              <Link href={"/dashboard/application"}>Apply now</Link>
-            </Button>
-          )}
-          {!user.userId && (
-            <div className="flex items-center gap-4">
-              <Button asChild>
-                <Link href={"/signup"}>Sign up</Link>
-              </Button>
-              <Button asChild>
-                <Link href={"/signin"}>Sign in</Link>
-              </Button>
-            </div>
-          )}
+    <main className="mx-4 w-fit space-y-8 pb-8 md:mx-10">
+      <div className="mx-4 my-12 flex flex-col items-center text-center lg:mx-32 lg:my-26">
+        <img src="/htb-logo.png" alt="HTB Logo" className="h-full w-full" />
+      </div>
+      
+      <div className="grid gap-4 grid-cols-1 md:grid-cols-3 lg:grid-cols-6">
+        <div className="col-span-1 order-2 md:col-span-3 lg:order-none lg:col-span-2">
+          <LandingCard.CodeCard />
         </div>
+        <div className="col-span-1 order-0 md:col-span-2 lg:order-none lg:col-span-3">
+          <LandingCard.WelcomeCard />
+        </div>
+        <div className="order-1 lg:order-none">
+          <LandingCard.RegisterCard />
+        </div>
+      </div>
 
-        {/* FAQ Section */}
-        <section className="mt-16 w-full max-w-4xl text-left">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <LandingCard.CountdownCard />
+        <LandingCard.VolunteerCard />
+      </div>
+
+      <section className="mt-16 w-full text-left">
           <h2 className="mb-8 text-center text-3xl font-bold">FAQs</h2>
           {FAQ_ITEMS.map((faq, index) => (
             <details key={index} className="mb-4 rounded-lg bg-muted p-4">
@@ -60,8 +52,7 @@ export default async function Home() {
               <p className="mt-2 text-muted-foreground">{faq.answer}</p>
             </details>
           ))}
-        </section>
-      </main>
-    </HydrateClient>
+      </section>
+    </main>
   );
 }
