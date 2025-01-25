@@ -1,7 +1,14 @@
 "use client";
 
 import { Button } from "~/components/ui/button";
-import { Card } from "~/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "~/components/ui/card";
 import { Label } from "~/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import CreateTeam from "./create-team";
@@ -28,9 +35,53 @@ export default function TeamStep({
   const { user } = useUser();
   const { updateSearchParam } = useSearchParamsHelper();
 
+  const [joined, setJoined] = useState(false);
   const [tab, setTab] = useState<"individual" | "create" | "join">(
     team ? (team.created_by === user?.id ? "create" : "join") : "individual",
   );
+
+  if (!joined && team) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>Team {team?.name}</CardTitle>
+        </CardHeader>
+        <CardContent className="flex flex-col justify-between gap-8">
+          <CardDescription>
+            You have already{" "}
+            {team.created_by === user?.id ? "created" : "joined"} the team{" "}
+            {team?.name}. You can continue with your application.
+          </CardDescription>
+          <div>
+            <Button
+              variant={"secondary"}
+              onClick={() => {
+                updateSearchParam([{ name: "step", value: "name" }]);
+
+                setApplicationType("individual");
+                setStep("name");
+              }}
+            >
+              Don't want to join as a team?
+            </Button>
+          </div>
+        </CardContent>
+        <CardFooter>
+          <Button
+            className="w-full"
+            onClick={() => {
+              updateSearchParam([{ name: "step", value: "name" }]);
+
+              setApplicationType("team");
+              setStep("name");
+            }}
+          >
+            Continue
+          </Button>
+        </CardFooter>
+      </Card>
+    );
+  }
 
   return (
     <div>
@@ -44,19 +95,22 @@ export default function TeamStep({
         onValueChange={(t) => setTab(t as typeof tab)}
       >
         <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="individual">Individual</TabsTrigger>
-          <TabsTrigger value="create">Create a team</TabsTrigger>
-          <TabsTrigger value="join">Join a team</TabsTrigger>
+          <TabsTrigger disabled={joined} value="individual">
+            Individual
+          </TabsTrigger>
+          <TabsTrigger disabled={joined} value="create">
+            Create a team
+          </TabsTrigger>
+          <TabsTrigger disabled={joined} value="join">
+            Join a team
+          </TabsTrigger>
         </TabsList>
         <TabsContent value="individual">
           <Card>
             <Button
               className="w-full"
               onClick={() => {
-                updateSearchParam([
-                  { name: "type", value: "individual" },
-                  { name: "step", value: "name" },
-                ]);
+                updateSearchParam([{ name: "step", value: "name" }]);
 
                 setApplicationType("individual");
                 setStep("name");
@@ -72,6 +126,7 @@ export default function TeamStep({
             setTeam={setTeam}
             setApplicationType={setApplicationType}
             setStep={setStep}
+            setJoined={setJoined}
           />
         </TabsContent>
         <TabsContent value="join">
@@ -80,6 +135,7 @@ export default function TeamStep({
             setTeam={setTeam}
             setApplicationType={setApplicationType}
             setStep={setStep}
+            setJoined={setJoined}
           />
         </TabsContent>
       </Tabs>

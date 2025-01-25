@@ -9,9 +9,8 @@ export default async function LandingLayout({
   const user = await auth();
 
   return (
-    <section>
+    <section className="pt-16">
       <WebGLBackground />
-
       <Navbar isAdmin={user.sessionClaims?.metadata.role === "admin"} />
       {children}
     </section>

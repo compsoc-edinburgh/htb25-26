@@ -22,8 +22,8 @@ const FAQ_ITEMS = [
 
 export default function Page() {
   return (
-    <main className="mx-4 w-fit space-y-8 pb-8 md:mx-10">
-      <div className="mx-4 my-12 flex flex-col items-center text-center lg:mx-32 lg:my-26">
+    <main className="w-full max-w-screen-xl px-4 md:mx-auto space-y-8">
+      <div className="my-12 flex flex-col items-center text-center max-w-screen-lg mx-auto lg:my-26">
         <img src="/htb-logo.png" alt="HTB Logo" className="h-full w-full" />
       </div>
       

@@ -69,14 +69,17 @@ export default function CalendarStep({
   };
 
   return (
-    <form onSubmit={handleContinue} className="flex flex-col gap-3 justify-between h-full">
+    <form
+      onSubmit={handleContinue}
+      className="flex h-full flex-1 flex-col justify-between gap-3"
+    >
       <div className="rounded-xl bg-muted p-4">
         <h2 className="text-xl font-medium">Update your calendar</h2>
         <p className="text-sm text-muted-foreground">
           Would you like to be added to our joint calendar?
         </p>
       </div>
-      <div className="flex-1 flex flex-col gap-2">
+      <div className="flex flex-1 flex-col gap-2">
         <Tabs className="w-full" defaultValue={tab}>
           <TabsList className="w-full">
             <TabsTrigger
@@ -101,7 +104,7 @@ export default function CalendarStep({
           <TabsContent value="yes">
             <div className="mt-6 flex flex-col gap-2">
               <Label htmlFor="travel">Which email should we use?</Label>
-              <div className="flex gap-2 flex-wrap">
+              <div className="flex flex-wrap gap-2">
                 <Button
                   size={"sm"}
                   type="button"
