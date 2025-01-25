@@ -23,6 +23,7 @@ export default function JoinTeam({
   setTeam,
   setApplicationType,
   setStep,
+  setJoined,
 }: {
   team?: Team;
   setTeam: Dispatch<SetStateAction<Team | undefined>>;
@@ -30,6 +31,7 @@ export default function JoinTeam({
     SetStateAction<"individual" | "team" | undefined>
   >;
   setStep: Dispatch<SetStateAction<ApplicationStep>>;
+  setJoined: Dispatch<SetStateAction<boolean>>;
 }) {
   const { updateSearchParam } = useSearchParamsHelper();
 
@@ -50,6 +52,7 @@ export default function JoinTeam({
       });
 
       setTeam(res);
+      setJoined(true);
     } catch (e) {
       if (e instanceof Error && e.message === "NOTFOUND") {
         setErrors(["No team was found. Make sure you have the right code."]);
@@ -73,13 +76,17 @@ export default function JoinTeam({
       <Card>
         <CardHeader>
           <CardTitle>Team {team.name}</CardTitle>
-          <CardDescription>
-            You have successfully joined team {team.name}. Continue to the next step.
-          </CardDescription>
         </CardHeader>
 
-        <CardContent>
-          <div className="flex items-center space-x-2">
+        <CardContent className="space-y-2">
+          <p className=" text-green-400">
+            Successfully joined team {team.name}.{" "}
+          </p>
+          <p className="font-sans text-sm text-muted-foreground">
+            You can invite up to 3 more friends to join your team by sharing the
+            code below with them.
+          </p>
+          <div className="my-3 flex items-center space-x-2">
             <Label>Team code:</Label>
             <span className="font-bold">{team.code}</span>
           </div>

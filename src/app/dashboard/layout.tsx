@@ -12,7 +12,7 @@ export default async function DashboardLayout({
   if (!user.userId) redirect("/signin");
 
   return (
-    <main className="flex flex-col items-center">
+    <main className="flex flex-col items-center w-full">
       <Navbar isAdmin={user.sessionClaims.metadata.role === "admin"} />
       {children}
     </main>

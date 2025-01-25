@@ -69,10 +69,10 @@ export function LoginForm({
 
   return (
     <div
-      className={cn("flex w-full max-w-md flex-col gap-6", className)}
+      className={cn("flex w-full max-w-sm flex-col gap-6", className)}
       {...props}
     >
-      <Card className="w-full px-6">
+      <Card className="w-full">
         <CardHeader className="text-center">
           <CardTitle className="text-xl">Welcome back</CardTitle>
         </CardHeader>
@@ -86,7 +86,7 @@ export function LoginForm({
                 Or
               </span>
             </div>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="w-full">
               <div className="grid gap-6">
                 <div className="grid gap-2">
                   <Label htmlFor="email">Email</Label>
