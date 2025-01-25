@@ -26,6 +26,7 @@ import ReimbursementStep from "./_steps/reimbursement";
 import DietStep from "./_steps/diet";
 import CalendarStep from "./_steps/calendar";
 import ApplicationHeader from "./application-header";
+import DoneStep from "./_steps/done";
 
 export const GROUPED_STEPS = [
   {
@@ -61,9 +62,7 @@ export default function ApplicationForm({
 }) {
   const searchParams = useSearchParams();
 
-  const [step, setStep] = useState<ApplicationStep>(
-    user.team_id ? "name" : "name",
-  );
+  const [step, setStep] = useState<ApplicationStep>("team");
 
   const [applicationType, setApplicationType] = useState<
     "individual" | "team" | undefined
@@ -104,24 +103,19 @@ export default function ApplicationForm({
 
   useEffect(() => {
     if (searchParams.has("step")) {
-      setStep(
-        (searchParams.get("step") as typeof step) ??
-          (user.team_id ? "name" : "team"),
-      );
+      setStep((searchParams.get("step") as typeof step) ?? "team");
     }
   }, []);
 
   return (
-    // height calculated: screen-(height of navbar)
-    <div className="relative m-auto flex w-full max-w-sm flex-col justify-end gap-3 p-6 aspect-[9/16]">
-      <div className="absolute left-0 top-0 -z-10 h-full w-full rounded-xl bg-background/80  backdrop-blur-xl"></div>
+    <div className="relative m-auto flex h-screen max-h-full w-full max-w-md flex-1 flex-col gap-3 rounded-xl bg-black/70 p-6 md:aspect-[9/16]">
       <ApplicationHeader
         applicationType={applicationType}
         team={team}
         currentStep={step}
       />
 
-      <section className="flex-1">
+      <section className="flex flex-1 flex-col">
         {(step === "team" || !applicationType) && (
           <TeamStep
             team={team}
@@ -242,6 +236,7 @@ export default function ApplicationForm({
             applicationType={applicationType}
           />
         )}
+        {step === "done" && <DoneStep />}
       </section>
     </div>
   );

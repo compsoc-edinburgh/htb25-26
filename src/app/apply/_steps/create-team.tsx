@@ -23,6 +23,7 @@ export default function CreateTeam({
   setTeam,
   setApplicationType,
   setStep,
+  setJoined
 }: {
   team?: Team;
   setTeam: Dispatch<SetStateAction<Team | undefined>>;
@@ -30,6 +31,7 @@ export default function CreateTeam({
     SetStateAction<"individual" | "team" | undefined>
   >;
   setStep: Dispatch<SetStateAction<ApplicationStep>>;
+  setJoined: Dispatch<SetStateAction<boolean>>;
 }) {
   const { updateSearchParam } = useSearchParamsHelper();
 
@@ -50,8 +52,9 @@ export default function CreateTeam({
       const newTeam = await createTeam.mutateAsync({
         teamName,
       });
-      console.log(newTeam);
+      
       setTeam(newTeam);
+      setJoined(true);
     } catch (err: any) {
       toast.error("There was something wrong, please try again.");
       console.error(err);
@@ -72,10 +75,10 @@ export default function CreateTeam({
       <Card>
         <CardHeader>
           <CardTitle>Team {team.name}</CardTitle>
-          <CardDescription>
+          <p>
             Your team has been created. Share the code with your friends to
             invite them to join.
-          </CardDescription>
+          </p>
         </CardHeader>
 
         <CardContent>

@@ -61,7 +61,7 @@ export default function PortfolioStep({
   return (
     <form
       onSubmit={handleContinue}
-      className="flex h-full flex-col justify-between gap-3"
+      className="flex-1 flex h-full flex-col justify-between gap-3"
     >
       <div className="rounded-xl bg-muted p-4">
         <h2 className="text-xl font-medium">Your portfolio or LinkedIn profile</h2>

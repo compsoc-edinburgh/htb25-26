@@ -62,7 +62,7 @@ export default function ProjectStep({
   return (
     <form
       onSubmit={handleContinue}
-      className="flex h-full flex-col justify-between gap-3"
+      className="flex-1 flex h-full flex-col justify-between gap-3"
     >
       <div className="rounded-xl bg-muted p-4">
         <h2 className="text-xl font-medium">Project</h2>
@@ -74,7 +74,7 @@ export default function ProjectStep({
         <Textarea
           name="project"
           id="project"
-          className="h-full resize-none"
+          className="flex-1 resize-none"
           autoFocus
           defaultValue={project}
           onChange={(e) => {

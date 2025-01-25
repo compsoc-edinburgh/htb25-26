@@ -1,5 +1,3 @@
-import { SignIn } from "@clerk/nextjs";
-import { GalleryVerticalEnd } from "lucide-react";
 import { SignupForm } from "./signup-form";
 
 

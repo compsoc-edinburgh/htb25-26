@@ -67,7 +67,7 @@ export default function NameStep({
   return (
     <form
       onSubmit={handleContinue}
-      className="flex h-full flex-col justify-between gap-6"
+      className="flex-1 flex h-full flex-col justify-between gap-6"
     >
       <div className="flex flex-1 flex-col gap-3">
         <div className="rounded-xl bg-muted p-4">
