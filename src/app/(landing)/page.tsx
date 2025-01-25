@@ -1,4 +1,6 @@
 import { LandingCard } from "~/components/modules/landing";
+import { MailingListCards } from "~/components/modules/mailinglist";
+// placeholder FAQs (Could be a seperate file, not very clean)
 
 const FAQ_ITEMS = [
   {
@@ -57,7 +59,7 @@ export default function Page() {
       <div className="my-12 flex flex-col items-center text-center max-w-screen-lg mx-auto lg:my-26">
         <img src="/HTB-logo.png" alt="HTB Logo" className="h-full w-full" />
       </div>
-
+  
       <div className="grid gap-4 grid-cols-1 md:grid-cols-3 lg:grid-cols-6">
         <div className="col-span-1 order-2 md:col-span-3 lg:order-none lg:col-span-2">
           <LandingCard.CodeCard />
@@ -75,6 +77,21 @@ export default function Page() {
         <LandingCard.VolunteerCard />
       </div>
 
+      <div className = "grid gap-4 grid-cols-1 md:grid-cols-3 lg:grid-cols-6">
+        <div className = "col-span-1 md:col-span-3 lg:col-span-2">
+          <MailingListCards.MailingListInfoCard></MailingListCards.MailingListInfoCard>
+        </div>
+        <div className = "col-span-1 md:col-span-3 lg:col-span-2 flex flex-col h-full space-y-2">
+          <MailingListCards.ArrowsCard arrowColor="white" cardColor="#2A4FEE"></MailingListCards.ArrowsCard>
+          <MailingListCards.ArrowsCard arrowColor="#2A4FEE" cardColor="#DFA8F6"></MailingListCards.ArrowsCard>
+        </div>
+        <div className = "col-span-1 md:col-span-3 lg:col-span-2">
+          <MailingListCards.MailingListInputCard></MailingListCards.MailingListInputCard>
+        </div>
+      </div>
+
+      <section className="mt-16 w-full text-left">
+          <h2 className="mb-8 text-center text-3xl font-bold">FAQs</h2>
       {/* Updated FAQ Section */}
       <section className="mt-16 w-full max-w-3xl mx-auto text-left p-6 rounded-lg bg-[#DAFE51] border-2 border-yellow-500 shadow-lg">
         <h2 className="mb-8 text-center text-3xl font-bold text-black">
@@ -98,6 +115,7 @@ export default function Page() {
             </details>
           ))}
         </div>
+      </section>
       </section>
     </main>
   );

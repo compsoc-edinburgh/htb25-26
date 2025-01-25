@@ -76,3 +76,9 @@ model Application {
   updated_at DateTime @updatedAt
   updated_by String?
 }
+
+model MailingList {
+  id         String   @id @default(cuid())
+  email      String   @unique
+  created_at DateTime @default(now())
+}
