@@ -25,4 +25,11 @@ export const mailingListRouter = createTRPCRouter({
         });
         return !!mailinglistuser;
       }),
+    unsubscribe: publicProcedure
+    .input(z.string().email())
+    .mutation(async ({ ctx, input }) => {
+    return ctx.db.mailingList.delete({
+        where: { email: input },
+    });
+    })
 })
