@@ -29,7 +29,7 @@ export default function ApplicationHeader({
 
           const progress =
             Math.min(
-              Math.max(currentStepIndex - start, 0),
+              Math.max(currentStepIndex + 1 - start, 0),
               group.steps.length,
             ) / group.steps.length;
 
@@ -47,23 +47,28 @@ export default function ApplicationHeader({
           );
         })}
       </div>
-      {currentStep !== "team" && applicationType === "team" && team && (
-        <span className="flex items-center gap-2 text-xs ">
-          <Users2 size={12} />
-          Applying with team {team.name}
-        </span>
-      )}
 
-      <div className="bg-accent-yellow text-black flex w-full flex-col gap-2 rounded-xl px-4 py-3">
-        <span className="flex items-center gap-3">
-          <span className="text-xs">
-            {currentGroupIndex + 1} / {GROUPED_STEPS.length}
-          </span>
-          <span className="text-sm">
-            {GROUPED_STEPS[currentGroupIndex]?.group}
-          </span>
-        </span>
-      </div>
+      {currentStep !== "done" && (
+        <>
+          {currentStep !== "team" && applicationType === "team" && team && (
+            <span className="flex items-center gap-2 text-xs">
+              <Users2 size={12} />
+              Applying with team {team.name}
+            </span>
+          )}
+
+          <div className="flex w-full flex-col gap-2 rounded-xl bg-accent-yellow px-4 py-3 text-black">
+            <span className="flex items-center gap-3">
+              <span className="text-xs">
+                {currentGroupIndex + 1} / {GROUPED_STEPS.length}
+              </span>
+              <span className="text-sm">
+                {GROUPED_STEPS[currentGroupIndex]?.group}
+              </span>
+            </span>
+          </div>
+        </>
+      )}
     </div>
   );
 }

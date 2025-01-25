@@ -38,7 +38,7 @@ export const useSearchParamsHelper = () => {
       ? `${pathname}?${params.toString()}` 
       : pathname;
     
-    router.push(newUrl);
+    window.history.pushState({}, '', newUrl);
   };
 
   return { updateSearchParam };
