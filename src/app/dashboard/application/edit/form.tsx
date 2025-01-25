@@ -166,7 +166,7 @@ export default function EditApplicationForm({
         ) : (
           <UploadButton
             className="ut-button:rounded-xl ut-button:bg-primary ut-button:text-white ut-button:transition-colors ut-button:after:bg-primary ut-button:focus-within:ring-2 ut-button:focus-within:ring-ring hover:ut-button:bg-primary/90 ut-button:focus-visible:outline-none ut-button:focus-visible:ring-2 focus-visible:ut-button:ring-ring ut-button:focus-visible:ring-offset-2 ut-button:ut-uploading:bg-accent-foreground/30"
-            endpoint="imageUploader"
+            endpoint="pdfUploader"
             onClientUploadComplete={handleUploadComplete}
             onUploadError={handleUploadError}
           />
