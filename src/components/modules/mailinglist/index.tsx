@@ -1,12 +1,9 @@
 import { Card, CardContent } from "../../ui/card";
-import { Button } from "../../ui/button";
-import { Input } from "../../ui/input";
 import ArrowSVG from "./arrows-animated";
-import MailingListInputButton from "./mailing-list-button";
-import { toast } from "sonner";
+import MailingListForm from "./mailing-list-form";
 
 
-const GetNotificationsCard = () => {
+const MailingListInfoCard = () => {
     return (
         <Card className="border-0 bg-[#FAD2A0]">
             <CardContent className="font-tekstur text-[#F0563C] text-3xl font-semibold text-left p-8">
@@ -26,19 +23,19 @@ const ArrowsCard = ({ arrowColor = 'white', cardColor = '#2A4FEE' }) => {
     )
 }
 
-const NotifyMeCard = () => {
+const MailingListInputCard = () => {
 
     return (
         <Card className="border-0 bg-white w-full h-full items-center">
             <CardContent className="flex items-center gap-2 p-5 w-full h-full">
-                <MailingListInputButton></MailingListInputButton>
+                <MailingListForm></MailingListForm>
             </CardContent>
         </Card>
     )
 }
 
-export const NotificationsCard = {
-    GetNotificationsCard,
+export const MailingListCards = {
+    MailingListInfoCard,
     ArrowsCard,
-    NotifyMeCard
+    MailingListInputCard
   } as const;

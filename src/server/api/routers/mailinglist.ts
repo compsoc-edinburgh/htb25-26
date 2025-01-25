@@ -6,21 +6,23 @@ import {
 } from "~/server/api/trpc";
 
 export const mailingListRouter = createTRPCRouter({
-    addEmailToMailingList: publicProcedure.input(
-        z.object({
-            email: z.string().email(),
-            subscribed: z.boolean(),
-        })
-        )
+    addEmailToMailingList: publicProcedure
+    .input(z.string().email())
     .mutation(
         async ({ ctx, input }) => {
             return ctx.db.mailingList.create({
                 data: {
-                    email: input.email,
-                    subscribed: input.subscribed
+                    email: input
                 }
-            }
-            )
+            })
         }
-    )
+    ),
+    checkExisting: publicProcedure
+    .input(z.string().email())
+    .mutation(async ({ ctx, input }) => {
+        const mailinglistuser = await ctx.db.mailingList.findUnique({
+          where: { email: input },
+        });
+        return !!mailinglistuser;
+      }),
 })

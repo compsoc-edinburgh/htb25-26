@@ -1,5 +1,5 @@
 import { LandingCard } from "~/components/modules/landing";
-import { NotificationsCard } from "~/components/modules/notifications";
+import { MailingListCards } from "~/components/modules/mailinglist";
 // placeholder FAQs (Could be a seperate file, not very clean)
 const FAQ_ITEMS = [
   {
@@ -46,14 +46,14 @@ export default function Page() {
 
       <div className = "grid gap-4 grid-cols-1 md:grid-cols-3 lg:grid-cols-6">
         <div className = "col-span-1 md:col-span-3 lg:col-span-2">
-          <NotificationsCard.GetNotificationsCard></NotificationsCard.GetNotificationsCard>
+          <MailingListCards.MailingListInfoCard></MailingListCards.MailingListInfoCard>
         </div>
         <div className = "col-span-1 md:col-span-3 lg:col-span-2 flex flex-col h-full space-y-2">
-          <NotificationsCard.ArrowsCard arrowColor="white" cardColor="#2A4FEE"></NotificationsCard.ArrowsCard>
-          <NotificationsCard.ArrowsCard arrowColor="#2A4FEE" cardColor="#DFA8F6"></NotificationsCard.ArrowsCard>
+          <MailingListCards.ArrowsCard arrowColor="white" cardColor="#2A4FEE"></MailingListCards.ArrowsCard>
+          <MailingListCards.ArrowsCard arrowColor="#2A4FEE" cardColor="#DFA8F6"></MailingListCards.ArrowsCard>
         </div>
         <div className = "col-span-1 md:col-span-3 lg:col-span-2">
-          <NotificationsCard.NotifyMeCard></NotificationsCard.NotifyMeCard>
+          <MailingListCards.MailingListInputCard></MailingListCards.MailingListInputCard>
         </div>
       </div>
 
