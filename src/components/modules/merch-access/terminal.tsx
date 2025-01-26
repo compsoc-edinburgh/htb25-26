@@ -39,6 +39,7 @@ export function Terminal({ onSubmit }: { onSubmit: (input: string) => void}) {
     }
   };
 
+
   useEffect(() => {
     setIsMobile(window.matchMedia("(max-width: 640px)").matches);
   }, [])
