@@ -68,7 +68,7 @@ export default function UniversityStep({
   return (
     <form
       onSubmit={handleContinue}
-      className="flex-1 flex h-full flex-col justify-between gap-3"
+      className="flex h-full flex-1 flex-col justify-between gap-3"
     >
       <div className="flex flex-col gap-3">
         <div className="rounded-xl bg-muted p-4">
@@ -88,7 +88,12 @@ export default function UniversityStep({
         <Button onClick={handleBack} variant={"secondary"} type="button">
           Back
         </Button>
-        <Button loading={loading} type="submit" className="flex-1">
+        <Button
+          loading={loading}
+          type="submit"
+          className="flex-1"
+          disabled={!university?.name || loading}
+        >
           Next
         </Button>
       </div>

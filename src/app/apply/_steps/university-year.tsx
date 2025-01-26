@@ -105,22 +105,25 @@ export default function UniversityYearStep({
   return (
     <form
       onSubmit={handleContinue}
-      className="flex-1 flex h-full flex-col justify-between gap-3"
+      className="flex h-full flex-1 flex-col justify-between gap-3"
     >
       <div className="flex flex-col gap-3">
         <div className="rounded-xl bg-muted p-4">
           <h2 className="text-xl font-medium">Which year are you in?</h2>
         </div>
       </div>
-      <div className="flex-1 flex flex-col gap-2">
-        <Command className="w-full p-0 bg-transparent" defaultValue={universityYear}>
+      <div className="flex flex-1 flex-col gap-2">
+        <Command
+          className="w-full bg-transparent p-0"
+          defaultValue={universityYear}
+        >
           <CommandList>
             {options.map((option, key) => (
               <CommandItem
                 className={cn(
-                  "my-1 p-3 flex w-full items-center gap-2 rounded-xl transition-colors",
+                  "my-1 flex w-full items-center gap-2 rounded-xl p-3 transition-colors",
                   option.value === universityYear
-                    ? "bg-accent-yellow data-[selected=true]:bg-accent-yellow text-black data-[selected=true]:text-black"
+                    ? "bg-accent-yellow text-black data-[selected=true]:bg-accent-yellow data-[selected=true]:text-black"
                     : "hover:bg-primary-50",
                 )}
                 key={key}
@@ -140,7 +143,12 @@ export default function UniversityYearStep({
         <Button onClick={handleBack} variant={"secondary"} type="button">
           Back
         </Button>
-        <Button loading={loading} type="submit" className="flex-1">
+        <Button
+          loading={loading}
+          type="submit"
+          className="flex-1"
+          disabled={!universityYear || loading}
+        >
           Next
         </Button>
       </div>

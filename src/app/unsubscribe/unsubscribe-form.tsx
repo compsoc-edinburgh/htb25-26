@@ -1,12 +1,12 @@
 "use client"
 import { useState } from "react";
-import { Button } from "../../ui/button";
-import { Input } from "../../ui/input";
+import { Button } from "~/components/ui/button";
+import { Input } from "~/components/ui/input";
 import { api } from "~/trpc/react";
 import { toast } from "sonner";
 import { z } from 'zod';
 
-const MailingListForm = () => {
+const UnsubscribeForm = () => {
     const [email, setEmail] = useState('');
     const [loading, setLoading] = useState(false);
 
@@ -15,7 +15,7 @@ const MailingListForm = () => {
         console.log(event.target.value)
       };
     
-    const addEmail = api.mailingList.addEmailToMailingList.useMutation();
+    const unsubscribeEmail = api.mailingList.unsubscribe.useMutation();
     const checkExisting = api.mailingList.checkExisting.useMutation();
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -25,15 +25,15 @@ const MailingListForm = () => {
         try {
             emailSchema.parse(email);
             const exists = await checkExisting.mutateAsync(email)
-            if (exists){
-                toast.error(`Email address already exists in the mailing list.`);
+            if (!exists){
+                toast.error(`Email address is already unsubscribed.`);
                 setLoading(false);
             } else {
-                    await addEmail.mutateAsync(email)
+                    await unsubscribeEmail.mutateAsync(email)
                     .then( () => {
                         setEmail('')
                         setLoading(false);
-                        toast.success("Email has been added to the mailing list successfully!")
+                        toast.success("Email has been unsubscribed successfully!")
                     }
                     )  
             }
@@ -44,19 +44,19 @@ const MailingListForm = () => {
                 toast.error(error.errors[0]?.message || "Invalid email.");
             } else {
                 setLoading(false);
-                toast.error(`Couldn't add your email due to: ${error}`);
+                toast.error(`Couldn't unsubscribe your email due to: ${error}`);
             }
         }
     }
     
      return (
-        <form onSubmit={handleSubmit} className="flex items-center gap-2">
+        <form onSubmit={handleSubmit} className="flex items-center gap-2 margin-auto p-10">
             <Input type="email" placeholder="Email address.." className="basis-2/3 bg-[#EEEEEE] font-tektur md:text-xs lg:text-sm border-transparent text-gray-700" value = {email} onChange={handleEmailChange}></Input>
             <Button type="submit" className="basis-1/3 bg-[#2A4FEE] font-tektur text-sm text-white hover:bg-blue-700 md:text-sm lg:text-xl" loading={loading}>
-                Subscribe
+                Unsubscribe
             </Button>
         </form>
     )
 }
 
-export default MailingListForm;
+export default UnsubscribeForm;

@@ -59,34 +59,79 @@ export default function ProjectStep({
     setLoading(false);
   };
 
+  const { aim, stack, link } = {
+    aim: project?.split("\n")[0],
+    stack: project?.split("\n")[1],
+    link: project?.split("\n")[2],
+  };
+
   return (
     <form
       onSubmit={handleContinue}
-      className="flex-1 flex h-full flex-col justify-between gap-3"
+      className="flex h-full flex-1 flex-col justify-between gap-3"
     >
       <div className="rounded-xl bg-muted p-4">
         <h2 className="text-xl font-medium">Project</h2>
-        <p className="text-sm text-muted-foreground">
-          Tell us about a completed project, the technologies you used, and any links you can send us. 
+        <p className="font-sans text-sm text-muted-foreground">
+          Tell us about a completed project, the technologies you used, and any
+          links you can send us.
         </p>
       </div>
-      <div className="flex-1 flex flex-col gap-2">
-        <Textarea
-          name="project"
-          id="project"
-          className="flex-1 resize-none"
-          autoFocus
-          defaultValue={project}
-          onChange={(e) => {
-            setProject(e.target.value);
-          }}
-        />
+      <div className="flex flex-1 flex-col gap-2">
+        <div className="flex flex-1 flex-col gap-6 py-3">
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="aim">Project aim</Label>
+            <Textarea
+              autoFocus
+              name="aim"
+              id="aim"
+              className="flex-1 resize-none min-h-0"
+              rows={2}
+              defaultValue={aim}
+              onChange={(e) =>
+                setProject(`${e.target.value}\n${stack}\n${link}`)
+              }
+              required
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="stack">Tech stack</Label>
+            <Textarea
+              name="stack"
+              id="stack"
+              rows={2}
+              className="flex-1 resize-none min-h-0"
+              defaultValue={stack}
+              onChange={(e) => setProject(`${aim}\n${e.target.value}\n${link}`)}
+              required
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="link">Link to project</Label>
+            <Textarea
+              rows={2}
+              name="link"
+              id="link"
+              defaultValue={link}
+              className="flex-1 resize-none min-h-0"
+              onChange={(e) =>
+                setProject(`${aim}\n${stack}\n${e.target.value}`)
+              }
+              required
+            />
+          </div>
+        </div>
       </div>
       <div className="flex w-full gap-3">
         <Button onClick={handleBack} variant={"secondary"} type="button">
           Back
         </Button>
-        <Button loading={loading} type="submit" className="flex-1">
+        <Button
+          loading={loading}
+          type="submit"
+          className="flex-1"
+          disabled={loading || !aim?.length || !stack?.length || !link?.length}
+        >
           Next
         </Button>
       </div>

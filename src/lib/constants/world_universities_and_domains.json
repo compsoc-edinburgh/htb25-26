@@ -1,5 +1,69 @@
 [
   {
+    "web_pages": ["http://www.ed.ac.uk/"],
+    "name": "University of Edinburgh",
+    "alpha_two_code": "GB",
+    "state-province": null,
+    "domains": ["ed.ac.uk"],
+    "country": "United Kingdom"
+  },
+  {
+    "web_pages": ["http://www.hw.ac.uk/"],
+    "name": "Heriot-Watt University",
+    "alpha_two_code": "GB",
+    "state-province": null,
+    "domains": ["hw.ac.uk"],
+    "country": "United Kingdom"
+  },
+  {
+    "web_pages": ["https://www.napier.ac.uk/"],
+    "name": "Edinburgh Napier University",
+    "alpha_two_code": "GB",
+    "state-province": null,
+    "domains": ["napier.ac.uk"],
+    "country": "United Kingdom"
+  },
+  {
+    "web_pages": ["http://www.qmu.ac.uk/"],
+    "name": "Queen Margaret University",
+    "alpha_two_code": "GB",
+    "state-province": null,
+    "domains": ["qmu.ac.uk"],
+    "country": "United Kingdom"
+  },
+  {
+    "web_pages": ["http://www.gla.ac.uk/"],
+    "name": "University of Glasgow",
+    "alpha_two_code": "GB",
+    "state-province": null,
+    "domains": ["gla.ac.uk"],
+    "country": "United Kingdom"
+  },
+  {
+    "web_pages": ["http://www.strath.ac.uk/"],
+    "name": "University of Strathclyde",
+    "alpha_two_code": "GB",
+    "state-province": null,
+    "domains": ["strath.ac.uk"],
+    "country": "United Kingdom"
+  },
+  {
+    "web_pages": ["http://www.gcal.ac.uk/"],
+    "name": "Glasgow Caledonian University",
+    "alpha_two_code": "GB",
+    "state-province": null,
+    "domains": ["gcal.ac.uk", "gcu.ac.uk"],
+    "country": "United Kingdom"
+  },
+  {
+    "web_pages": ["http://www.uws.ac.uk/"],
+    "name": "University of the West of Scotland",
+    "alpha_two_code": "GB",
+    "state-province": null,
+    "domains": ["paisley.ac.uk", "uws.ac.uk"],
+    "country": "United Kingdom"
+  },
+  {
     "name": "Engineering Institute of Technology",
     "domains": ["student.eit.edu.au"],
     "web_pages": ["https://www.eit.edu.au/"],
@@ -67003,14 +67067,7 @@
     "domains": ["edgehill.ac.uk"],
     "country": "United Kingdom"
   },
-  {
-    "web_pages": ["http://www.ed.ac.uk/"],
-    "name": "University of Edinburgh",
-    "alpha_two_code": "GB",
-    "state-province": null,
-    "domains": ["ed.ac.uk"],
-    "country": "United Kingdom"
-  },
+  
   {
     "web_pages": ["http://www.eselondon.ac.uk/"],
     "name": "European School of Economics",
@@ -67041,22 +67098,6 @@
     "alpha_two_code": "GB",
     "state-province": null,
     "domains": ["falmouth.ac.uk"],
-    "country": "United Kingdom"
-  },
-  {
-    "web_pages": ["http://www.gcal.ac.uk/"],
-    "name": "Glasgow Caledonian University",
-    "alpha_two_code": "GB",
-    "state-province": null,
-    "domains": ["gcal.ac.uk", "gcu.ac.uk"],
-    "country": "United Kingdom"
-  },
-  {
-    "web_pages": ["http://www.gla.ac.uk/"],
-    "name": "University of Glasgow",
-    "alpha_two_code": "GB",
-    "state-province": null,
-    "domains": ["gla.ac.uk"],
     "country": "United Kingdom"
   },
   {
@@ -67153,14 +67194,6 @@
     "alpha_two_code": "GB",
     "state-province": null,
     "domains": ["huron.ac.uk"],
-    "country": "United Kingdom"
-  },
-  {
-    "web_pages": ["http://www.hw.ac.uk/"],
-    "name": "Heriot-Watt University",
-    "alpha_two_code": "GB",
-    "state-province": null,
-    "domains": ["hw.ac.uk"],
     "country": "United Kingdom"
   },
   {
@@ -67412,14 +67445,6 @@
     "country": "United Kingdom"
   },
   {
-    "web_pages": ["https://www.napier.ac.uk/"],
-    "name": "Edinburgh Napier University",
-    "alpha_two_code": "GB",
-    "state-province": null,
-    "domains": ["napier.ac.uk"],
-    "country": "United Kingdom"
-  },
-  {
     "web_pages": ["https://www.ncl.ac.uk/"],
     "name": "Newcastle University",
     "alpha_two_code": "GB",
@@ -67481,14 +67506,6 @@
     "alpha_two_code": "GB",
     "state-province": null,
     "domains": ["oxford.ac.uk", "ox.ac.uk"],
-    "country": "United Kingdom"
-  },
-  {
-    "web_pages": ["http://www.paisley.ac.uk/"],
-    "name": "University of Paisley",
-    "alpha_two_code": "GB",
-    "state-province": null,
-    "domains": ["paisley.ac.uk"],
     "country": "United Kingdom"
   },
   {
@@ -67729,14 +67746,6 @@
     "alpha_two_code": "GB",
     "state-province": null,
     "domains": ["st-patricks.ac.uk"],
-    "country": "United Kingdom"
-  },
-  {
-    "web_pages": ["http://www.strath.ac.uk/"],
-    "name": "University of Strathclyde",
-    "alpha_two_code": "GB",
-    "state-province": null,
-    "domains": ["strath.ac.uk"],
     "country": "United Kingdom"
   },
   {
