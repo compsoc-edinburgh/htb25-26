@@ -73,11 +73,6 @@ const TIER_STYLES = {
   },
 } as const;
 
-const UNRELEASED_COLORS = [
-  "#FAD2A0",
-  "#A0D2FA",
-  "#D2FAA0",
-] as const;
 
 const SponsorBox = ({
   sponsor,
@@ -90,19 +85,11 @@ const SponsorBox = ({
     <div
       className={cn(
         "group relative flex flex-col items-center justify-center rounded-2xl",
-        "aspect-video border border-border/10 p-6 transition-all duration-300",
+        "aspect-video border border-border/10 p-6 transition-all duration-300 backdrop-blur-xl bg-white/5 shadow-[inset_0_0_20px_rgba(255,255,255,0.05)]",
         !sponsor.isReleased && "cursor-default",
-        sponsor.isReleased && "hover:border-accent/50 hover:scale-[1.02]",
+        sponsor.isReleased && "hover:border-accent/50 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] hover:bg-white/10",
         sponsor.isReleased ? TIER_STYLES[sponsor.tier].card : "",
       )}
-      style={
-        !sponsor.isReleased
-          ? {
-              backgroundColor:
-                UNRELEASED_COLORS[index % UNRELEASED_COLORS.length],
-            }
-          : undefined
-      }
     >
       {sponsor.tier === "platinum" && sponsor.isReleased && (
         <div className="absolute inset-0 -translate-x-full animate-[shine_3s_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
@@ -138,10 +125,10 @@ const SponsorBox = ({
         </>
       ) : (
         <div className="flex flex-col items-center justify-center gap-2 text-center">
-          <div className="text-lg font-semibold text-[#F0563C]">
+          <div className="text-lg font-semibold text-accent-yellow/60">
             Coming Soon
           </div>
-          <div className="text-sm text-[#F0563C]/80">
+          <div className="text-sm text-white/40">
             New sponsor announcement
           </div>
         </div>
@@ -152,7 +139,7 @@ const SponsorBox = ({
 
 const SponsorsSection = () => {
   return (
-    <section className="mx-auto mb-16 w-full max-w-7xl">
+    <section className="mx-auto mb-28 w-full max-w-7xl">
       <h2 className="mb-4 text-center font-bold sm:text-xl md:text-2xl lg:text-3xl">
         Our Sponsors
       </h2>
