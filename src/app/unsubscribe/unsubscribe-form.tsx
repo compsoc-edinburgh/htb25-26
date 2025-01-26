@@ -1,5 +1,6 @@
 "use client"
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { api } from "~/trpc/react";
@@ -7,8 +8,10 @@ import { toast } from "sonner";
 import { z } from 'zod';
 
 const UnsubscribeForm = () => {
-    const [email, setEmail] = useState('');
+    const searchParams = useSearchParams();
+    const [email, setEmail] = useState(`${searchParams.get("email")}`);
     const [loading, setLoading] = useState(false);
+    const token_from_link = searchParams.get("token");
 
     const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(event.target.value)
@@ -17,6 +20,7 @@ const UnsubscribeForm = () => {
     
     const unsubscribeEmail = api.mailingList.unsubscribe.useMutation();
     const checkExisting = api.mailingList.checkExisting.useMutation();
+    const checkToken = api.mailingList.checkToken.useMutation();
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         setLoading(true);
@@ -25,17 +29,24 @@ const UnsubscribeForm = () => {
         try {
             emailSchema.parse(email);
             const exists = await checkExisting.mutateAsync(email)
+
+            const token = await checkToken.mutateAsync(email)
             if (!exists){
                 toast.error(`Email address is already unsubscribed.`);
                 setLoading(false);
             } else {
+                if (token == token_from_link){
                     await unsubscribeEmail.mutateAsync(email)
                     .then( () => {
                         setEmail('')
                         setLoading(false);
                         toast.success("Email has been unsubscribed successfully!")
                     }
-                    )  
+                    )
+                }
+                else{
+                    toast.error(`Please enter your correct email. You can only unsubscribe from your email.`)
+                }
             }
         }
         catch (error){
