@@ -1,12 +1,14 @@
 "use client"
-import { motion } from 'framer-motion' 
+import { motion, useReducedMotion } from 'framer-motion'
 
 const ArrowSVG = ({arrowColor = 'white'}) => {
+    const shouldReduceMotion = useReducedMotion()
+
     return (
         <motion.div
             className="flex gap-5"
             initial={{ x: "-30%" }}
-            animate={{ x: "0%" }}
+            animate={{ x: shouldReduceMotion ? "-30%" : "0%" }}
             transition={{
                 duration: 4,
                 ease: "linear",
