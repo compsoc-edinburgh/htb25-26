@@ -99,7 +99,7 @@ export default function PlacementsStep({
       <div className="flex flex-col gap-3">
         <div className="rounded-xl bg-muted p-4">
           <h2 className="text-xl font-medium">Work experience</h2>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-muted-foreground font-sans">
             How many tech internships/placements have you completed since
             beginning university?
           </p>

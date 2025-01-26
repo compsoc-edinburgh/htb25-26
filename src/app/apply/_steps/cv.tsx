@@ -3,7 +3,6 @@
 import { Dispatch, FormEvent, SetStateAction, useState } from "react";
 import { toast } from "sonner";
 
-import { Label } from "~/components/ui/label";
 import { UploadButton, UploadDropzone } from "~/components/uploadthing";
 import { useSearchParamsHelper } from "~/lib/helpers";
 import { api } from "~/trpc/react";
@@ -78,12 +77,12 @@ export default function CVStep({
   return (
     <form
       onSubmit={handleContinue}
-      className="flex-1 flex h-full flex-col justify-between gap-3"
+      className="flex h-full flex-1 flex-col justify-between gap-3"
     >
       <div className="rounded-xl bg-muted p-4">
         <h2 className="text-xl font-medium">Your CV</h2>
-        <p className="text-sm text-muted-foreground">
-          We recommend you upload your most recent CV.
+        <p className="font-sans text-sm text-muted-foreground">
+          Upload your most recent CV as a PDF or image file up to 2MB.
         </p>
       </div>
       <div className="flex flex-1 flex-col gap-2">
@@ -98,7 +97,11 @@ export default function CVStep({
                   View uploaded CV <ExternalLink />
                 </a>
               </Button>
-              <Button type="button" variant={"outline"} onClick={() => setUploaded(false)}>
+              <Button
+                type="button"
+                variant={"outline"}
+                onClick={() => setUploaded(false)}
+              >
                 Change
               </Button>
             </div>
@@ -106,31 +109,53 @@ export default function CVStep({
         )}
         {!uploaded && (
           <div>
-            <UploadDropzone
-              className="ut-button:rounded-xl ut-button:bg-primary ut-button:text-primary-foreground ut-button:transition-colors ut-button:after:bg-primary ut-button:focus-within:ring-2 ut-button:focus-within:ring-ring hover:ut-button:bg-primary/90 ut-button:focus-visible:outline-none ut-button:focus-visible:ring-2 focus-visible:ut-button:ring-ring ut-button:focus-visible:ring-offset-2 ut-label:hover:text-primary ut-button:ut-uploading:bg-accent-foreground/30"
-              endpoint="pdfUploader"
-              onClientUploadComplete={handleUploadComplete}
-              onUploadError={handleUploadError}
-            />
-            {cv && (
-              <div className="my-3 flex justify-end">
-                <Button
-                  onClick={() => {
-                    setUploaded(true);
-                  }}
-                >
-                  Cancel
-                </Button>
-              </div>
+            {cv ? (
+              <>
+                <p className="my-6 text-center">Upload another CV to replace</p>
+                <div className="flex flex-col items-center justify-center gap-3">
+                  <UploadButton
+                    className="ut-button:rounded-xl ut-button:bg-primary ut-button:text-primary-foreground ut-button:transition-colors ut-button:after:bg-primary ut-button:focus-within:ring-2 ut-button:focus-within:ring-ring hover:ut-button:bg-primary/90 ut-button:focus-visible:outline-none ut-button:focus-visible:ring-2 focus-visible:ut-button:ring-ring ut-button:focus-visible:ring-offset-2 ut-label:hover:text-primary ut-button:ut-uploading:bg-accent-foreground/30"
+                    endpoint="pdfUploader"
+                    onClientUploadComplete={handleUploadComplete}
+                    onUploadError={handleUploadError}
+                  />
+                  <div className="flex h-full justify-end">
+                    <Button
+                      variant={"ghost"}
+                      onClick={() => {
+                        setUploaded(true);
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <UploadDropzone
+                className="ut-button:rounded-xl ut-button:bg-primary ut-button:text-primary-foreground ut-button:transition-colors ut-button:after:bg-primary ut-button:focus-within:ring-2 ut-button:focus-within:ring-ring hover:ut-button:bg-primary/90 ut-button:focus-visible:outline-none ut-button:focus-visible:ring-2 focus-visible:ut-button:ring-ring ut-button:focus-visible:ring-offset-2 ut-label:hover:text-primary ut-button:ut-uploading:bg-accent-foreground/30"
+                endpoint="pdfUploader"
+                onClientUploadComplete={handleUploadComplete}
+                onUploadError={handleUploadError}
+              />
             )}
           </div>
         )}
       </div>
+      <p className="text-center font-sans text-xs my-3">
+        By continuing, you consent to us sharing your CV 
+         and all other information with event sponsors.
+      </p>
       <div className="flex w-full gap-3">
         <Button onClick={handleBack} variant={"secondary"} type="button">
           Back
         </Button>
-        <Button loading={loading} type="submit" className="flex-1">
+        <Button
+          loading={loading}
+          type="submit"
+          className="flex-1"
+          disabled={loading || !cv}
+        >
           Next
         </Button>
       </div>

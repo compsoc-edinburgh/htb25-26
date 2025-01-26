@@ -57,7 +57,6 @@ export default function TeamStep({
               variant={"secondary"}
               onClick={() => {
                 updateSearchParam([{ name: "step", value: "name" }]);
-
                 setApplicationType("individual");
                 setStep("name");
               }}

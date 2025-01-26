@@ -35,11 +35,11 @@ export default function CalendarStep({
     updateSearchParam([
       {
         name: "step",
-        value: "diet",
+        value: "reimbursement",
       },
     ]);
 
-    setStep("diet");
+    setStep("reimbursement");
   };
 
   const handleContinue = async (e: FormEvent) => {
@@ -75,7 +75,7 @@ export default function CalendarStep({
     >
       <div className="rounded-xl bg-muted p-4">
         <h2 className="text-xl font-medium">Update your calendar</h2>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-sm text-muted-foreground font-sans">
           Would you like to be added to our joint calendar?
         </p>
       </div>

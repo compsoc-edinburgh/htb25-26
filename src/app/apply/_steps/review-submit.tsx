@@ -90,24 +90,24 @@ export default function ReviewAndSubmitStep({
           submit it.
         </p>
       </div>
-      <div className="max-h-[300px] flex-1 overflow-y-scroll">
-        <div className="flex flex-col gap-y-3">
+      <div className="flex-1 ">
+        <div className="grid gap-3 md:flex-wrap max-h-[300px] overflow-y-scroll">
           <div className="flex flex-col">
-            <Label className="text-xs">Name</Label>
+            <Label className="text-xs font-sans">Name</Label>
             <span>
               {user.first_name} {user.last_name}
             </span>
           </div>
           <div className="flex flex-col">
-            <Label className="text-xs">Country</Label>
+            <Label className="text-xs font-sans">Country</Label>
             <span>{user.country}</span>
           </div>
           <div className="flex flex-col">
-            <Label className="text-xs">University</Label>
+            <Label className="text-xs font-sans">University</Label>
             <span>{user.university_name}</span>
           </div>
           <div className="flex flex-col">
-            <Label className="text-xs">University level</Label>
+            <Label className="text-xs font-sans">University level</Label>
             <span>
               {user.university_year === "phd"
                 ? "PhD"
@@ -117,7 +117,7 @@ export default function ReviewAndSubmitStep({
             </span>
           </div>
           <div className="flex flex-col">
-            <Label className="text-xs">CV</Label>
+            <Label className="text-xs font-sans">CV</Label>
             <Button
               asChild
               className="w-max px-0 text-blue-600"
@@ -129,46 +129,46 @@ export default function ReviewAndSubmitStep({
             </Button>
           </div>
           <div className="flex flex-col">
-            <Label className="text-xs">Portfolio/LinkedIn</Label>
+            <Label className="text-xs font-sans">Portfolio/LinkedIn</Label>
             <span>{user.portfolio_url}</span>
           </div>
           <div className="flex flex-col">
-            <Label className="text-xs">Placements/internships</Label>
+            <Label className="text-xs font-sans">Placements/internships</Label>
             <span>{user.placements_count}</span>
           </div>
           <div className="flex flex-col">
-            <Label className="text-xs">Hackathons attended</Label>
+            <Label className="text-xs font-sans">Hackathons attended</Label>
             <span>{user.hackathons_count}</span>
           </div>
           <div className="flex flex-col">
-            <Label className="text-xs">Project</Label>
+            <Label className="text-xs font-sans">Project</Label>
             <span>{user.project_description}</span>
           </div>
           <div className="flex flex-col">
-            <Label className="text-xs">Reimbursement</Label>
+            <Label className="text-xs font-sans">Reimbursement</Label>
             <span>{user.needs_reimbursement ? "Yes" : "No"}</span>
           </div>
           {user.needs_reimbursement && (
             <div className="flex flex-col">
-              <Label className="text-xs">Travel details</Label>
+              <Label className="text-xs font-sans">Travel details</Label>
               <span>{user.travelling_from}</span>
             </div>
           )}
           <div className="flex flex-col">
-            <Label className="text-xs">Joint calendar</Label>
+            <Label className="text-xs font-sans">Joint calendar</Label>
             <span>{!!user.calendar_email ? "Yes" : "No"}</span>
           </div>
           {user.calendar_email && (
             <div className="flex flex-col">
-              <Label className="text-xs">Calendar email</Label>
+              <Label className="text-xs font-sans">Calendar email</Label>
               <span>{user.calendar_email}</span>
             </div>
           )}
         </div>
       </div>
-      <div className="font-sans text-sm font-medium">
-        By submitting an application, you consent to us sharing your application
-        information with event sponsors.
+      <div className="text-center font-sans text-xs">
+        By submitting an application, you consent to us sharing
+        <br /> your application information with event sponsors.
       </div>
       <div className="flex w-full justify-center gap-3">
         <Button variant={"secondary"} onClick={handleBack} type="button">

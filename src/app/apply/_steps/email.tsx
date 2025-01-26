@@ -94,30 +94,29 @@ export default function EmailStep({
   return (
     <form
       onSubmit={handleContinue}
-      className="flex-1 flex h-full flex-col justify-between gap-3"
+      className="flex h-full flex-1 flex-col justify-between gap-3"
     >
       <div className="rounded-xl bg-muted p-4">
         <h2 className="text-xl font-medium">Your university email</h2>
-        <p className="text-sm text-muted-foreground">
-          We only accept current students. Please enter your university email and verify.
+        <p className="font-sans text-sm text-muted-foreground">
+          We only accept current students. Please enter your university email
+          and verify.
         </p>
       </div>
 
-      <div className="flex-1 flex flex-col gap-2">
+      <div className="flex flex-1 flex-col gap-2">
         <div className="flex flex-col gap-2">
           {!isUniEmail() && (
-            <p className="text-sm">
-              Your email <b>({user?.primaryEmailAddress?.toString()})</b> does
+            <p className="font-sans text-sm">
+              Your email <b className="font-sans">({user?.primaryEmailAddress?.toString()})</b> does
               not seem to be from the university you selected. Please enter an
               email ending with{" "}
-              <span className="font-bold">
-                {university?.domains?.map((d, i, a) => (
-                  <span key={d}>
-                    {d}{" "}
-                    {i === a.length - 2 ? " or " : i < a.length - 1 ? ", " : ""}
-                  </span>
-                ))}
-              </span>
+              {university?.domains?.map((d, i, a) => (
+                <span key={d} className="font-sans font-bold">
+                  {d}{" "}
+                  {i === a.length - 2 ? " or " : i < a.length - 1 ? ", " : ""}
+                </span>
+              ))}
             </p>
           )}
           <div className="relative">

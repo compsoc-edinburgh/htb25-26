@@ -43,7 +43,7 @@ export const GROUPED_STEPS = [
   },
   {
     group: "Let us make your experience better",
-    steps: ["reimbursement", "diet", "calendar"],
+    steps: ["reimbursement", "calendar"],
   },
   {
     group: "Review and submit",
@@ -68,6 +68,7 @@ export default function ApplicationForm({
     "individual" | "team" | undefined
   >(user.team_id ? "team" : undefined);
 
+  const [pronouns, setPronouns] = useState(user.pronouns ?? undefined);
   const [firstName, setFirstName] = useState(user.first_name ?? undefined);
   const [lastName, setLastName] = useState(user.last_name ?? undefined);
   const [email, setEmail] = useState(
@@ -77,7 +78,7 @@ export default function ApplicationForm({
     countries.all.find((c) => c.alpha2 === user.country),
   );
   const [university, setUniversity] = useState<University | undefined>(
-    universities.find((u) => u.name === user.university_name),
+    universities.find((u) => u.name === user.university_name || u.name === "University of Edinburgh"),
   );
   const [universityYear, setUniversityYear] = useState(
     user.university_year ?? undefined,
@@ -126,8 +127,10 @@ export default function ApplicationForm({
         )}
         {step === "name" && (
           <NameStep
+            pronouns={pronouns}
             firstName={firstName}
             lastName={lastName}
+            setPronouns={setPronouns}
             setFirstName={setFirstName}
             setLastName={setLastName}
             setStep={setStep}
@@ -201,9 +204,9 @@ export default function ApplicationForm({
             setStep={setStep}
           />
         )}
-        {step === "diet" && (
+        {/* {step === "diet" && (
           <DietStep diet={diet} setDiet={setDiet} setStep={setStep} />
-        )}
+        )} */}
         {step === "calendar" && (
           <CalendarStep
             universityEmail={email}
