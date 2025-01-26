@@ -77,7 +77,7 @@ const SponsorBox = ({ sponsor }: { sponsor: Sponsor }) => {
   return (
     <div
       className={cn(
-        "group relative flex flex-col items-center justify-center rounded-lg",
+        "group relative flex flex-col items-center justify-center rounded-2xl",
         "aspect-video border border-border/10 p-6 transition-all duration-300",
         !sponsor.isReleased && "cursor-default",
         sponsor.isReleased && "hover:border-accent/50",
