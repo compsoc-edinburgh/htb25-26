@@ -8,14 +8,18 @@ import { toast } from "sonner";
 import { useSearchParamsHelper } from "~/lib/helpers";
 
 export default function NameStep({
-  setStep,
+  pronouns,
   firstName,
   lastName,
+  setPronouns,
   setFirstName,
   setLastName,
+  setStep,
 }: {
+  pronouns?: string;
   firstName?: string;
   lastName?: string;
+  setPronouns: Dispatch<SetStateAction<string | undefined>>;
   setFirstName: Dispatch<SetStateAction<string | undefined>>;
   setLastName: Dispatch<SetStateAction<string | undefined>>;
   setStep: Dispatch<SetStateAction<ApplicationStep>>;
@@ -44,6 +48,7 @@ export default function NameStep({
       setLoading(true);
 
       await updateUser.mutateAsync({
+        pronouns: pronouns,
         firstName,
         lastName,
       });
@@ -67,35 +72,45 @@ export default function NameStep({
   return (
     <form
       onSubmit={handleContinue}
-      className="flex-1 flex h-full flex-col justify-between gap-6"
+      className="flex h-full flex-1 flex-col justify-between gap-6"
     >
       <div className="flex flex-1 flex-col gap-3">
         <div className="rounded-xl bg-muted p-4">
           <h2 className="text-xl font-medium">What is your name?</h2>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-muted-foreground font-sans">
             This will appear on your entry pass later.
           </p>
         </div>
         <div className="flex flex-1 flex-col gap-6 py-3">
           <div className="flex flex-col gap-2">
-            <Label htmlFor="firstName">First Name</Label>
+            <Label htmlFor="pronouns">Pronouns</Label>
             <Input
               autoFocus
-              invisible
+              name="pronouns"
+              id="pronouns"
+              defaultValue={pronouns}
+              onChange={(e) => setPronouns(e.target.value)}
+              required
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="firstName">First Name</Label>
+            <Input
               name="firstName"
               id="firstName"
               defaultValue={firstName}
               onChange={(e) => setFirstName(e.target.value)}
+              required
             />
           </div>
           <div className="flex flex-col gap-2">
             <Label htmlFor="lastName">Last Name</Label>
             <Input
-              invisible
               name="lastName"
               id="lastName"
               defaultValue={lastName}
               onChange={(e) => setLastName(e.target.value)}
+              required
             />
           </div>
         </div>
@@ -104,7 +119,17 @@ export default function NameStep({
         <Button onClick={handleBack} variant={"secondary"} type="button">
           Back
         </Button>
-        <Button loading={loading} type="submit" className="flex-1">
+        <Button
+          loading={loading}
+          type="submit"
+          className="flex-1"
+          disabled={
+            !pronouns?.length ||
+            !firstName?.length ||
+            !lastName?.length ||
+            loading
+          }
+        >
           Next
         </Button>
       </div>

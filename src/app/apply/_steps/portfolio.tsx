@@ -65,7 +65,7 @@ export default function PortfolioStep({
     >
       <div className="rounded-xl bg-muted p-4">
         <h2 className="text-xl font-medium">Your portfolio or LinkedIn profile</h2>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-sm text-muted-foreground font-sans">
           Share your portfolio or LinkedIn profile with us.
         </p>
       </div>

@@ -50,6 +50,7 @@ export const userRouter = createTRPCRouter({
   update: protectedProcedure
     .input(
       z.object({
+        pronouns: z.string().optional(),
         firstName: z.string().optional(),
         lastName: z.string().optional(),
         universityEmail: z.string().email().optional(),
@@ -78,10 +79,14 @@ export const userRouter = createTRPCRouter({
         });
       }
 
+      console.log(input.pronouns)
+
       const metadata = {
+        pronouns: input.pronouns,
         country: input.country,
         university_name: input.university,
         university_year: input.universityYear,
+        university_email: input.universityEmail,
         cv_url: input.cv,
         portfolio_url: input.portfolioUrl,
         placements_count: input.placementsCount,
@@ -101,7 +106,6 @@ export const userRouter = createTRPCRouter({
       return ctx.db.user.update({
         where: { id: ctx.auth.userId },
         data: {
-          university_email: input.universityEmail,
           first_name: input.firstName,
           last_name: input.lastName,
           ...metadata,
