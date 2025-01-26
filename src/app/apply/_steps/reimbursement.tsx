@@ -52,11 +52,11 @@ export default function ReimbursementStep({
       updateSearchParam([
         {
           name: "step",
-          value: "diet",
+          value: "calendar",
         },
       ]);
 
-      setStep("diet");
+      setStep("calendar");
     } catch (err: any) {
       toast.error("There was something wrong, please try again.");
       console.error(err);
@@ -72,7 +72,7 @@ export default function ReimbursementStep({
     >
       <div className="rounded-xl bg-muted p-4">
         <h2 className="text-xl font-medium">Reimbursement</h2>
-        <p className="text-sm text-muted-foreground">
+        <p className="font-sans text-sm text-muted-foreground">
           Will you need your travel expenses reimbursed?
         </p>
       </div>

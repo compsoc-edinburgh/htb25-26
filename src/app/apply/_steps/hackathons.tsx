@@ -89,7 +89,7 @@ export default function HackathonsStep({
       <div className="flex flex-col gap-3">
         <div className="rounded-xl bg-muted p-4">
           <h2 className="text-xl font-medium">Hackathons</h2>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-muted-foreground font-sans">
             How many hackathons have you previously attended?
           </p>
         </div>
