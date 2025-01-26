@@ -68,7 +68,7 @@ export default function ReimbursementStep({
   return (
     <form
       onSubmit={handleContinue}
-      className="flex h-full flex-col justify-between gap-3"
+      className="flex h-full flex-1 flex-col justify-between gap-3"
     >
       <div className="rounded-xl bg-muted p-4">
         <h2 className="text-xl font-medium">Reimbursement</h2>
@@ -78,7 +78,7 @@ export default function ReimbursementStep({
       </div>
       <div className="flex flex-1 flex-col gap-2">
         <Tabs
-          className="flex h-full w-full flex-col"
+          className="flex w-full flex-1 flex-col"
           defaultValue={needsReimbursement ? "yes" : "no"}
         >
           <TabsList className="w-full">
@@ -106,7 +106,7 @@ export default function ReimbursementStep({
               <Textarea
                 name="travel"
                 id="travel"
-                className="flex-1 resize-none"
+                className="h-full flex-1"
                 defaultValue={travel}
                 onChange={(e) => {
                   setTravel(e.target.value);

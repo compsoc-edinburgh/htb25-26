@@ -204,10 +204,10 @@ export function SignupForm({
   } else
     return (
       <div
-        className={cn("flex w-full max-w-md flex-col gap-6", className)}
+        className={cn("flex w-full max-w-sm flex-col gap-6", className)}
         {...props}
       >
-        <Card className="w-full px-6">
+        <Card className="w-full">
           <CardHeader className="text-center">
             <CardTitle className="text-xl font-tektur">Sign up to Hack the Burgh</CardTitle>
           </CardHeader>

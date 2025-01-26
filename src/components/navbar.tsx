@@ -11,40 +11,52 @@ export default function Navbar({ isAdmin = false }: { isAdmin?: boolean }) {
   const { isSignedIn, isLoaded } = useUser();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const toggleMenu = () => {
+    if (isMenuOpen) document.body.style.overflow = "auto";
+    else document.body.style.overflow = "hidden";
+
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   const navLinks = [
     { href: "/#faq", label: "FAQs" },
     { href: "/team", label: "Team" },
     { href: "/sponsors", label: "Sponsors" },
-    { 
+    {
       href: "https://2024.hacktheburgh.com",
       label: "HTB 2024",
-      external: true 
+      external: true,
     },
-    { href: "/contact", label: "Contact" }
+    { href: "/contact", label: "Contact" },
   ];
 
   const renderNavLinks = (mobile = false) => (
-    navLinks.map(({ href, label, external }, index) => (
-      <motion.div
-        key={href}
-        initial={mobile ? { opacity: 0, x: -20 } : {}}
-        animate={mobile ? { opacity: 1, x: 0 } : {}}
-        transition={{ delay: mobile ? index * 0.1 : 0 }}
-      >
-        <Link
-          href={href}
-          className={mobile ? "text-white" : ""}
-          {...(external && {
-            target: "_blank",
-            rel: "noopener noreferrer"
-          })}
+    <div className={mobile ? "flex flex-col gap-2" : "flex items-center gap-1"}>
+      {" "}
+      {navLinks.map(({ href, label, external }, index) => (
+        <motion.div
+          key={href}
+          initial={mobile ? { opacity: 0, x: -20 } : {}}
+          animate={mobile ? { opacity: 1, x: 0 } : {}}
+          transition={{ delay: mobile ? index * 0.1 : 0, bounce: 0 }}
         >
-          {label}
-        </Link>
-      </motion.div>
-    ))
+          <Button
+            asChild
+            className="h-full w-full rounded-md bg-transparent px-8 py-2 font-semibold text-foreground hover:bg-black/90"
+          >
+            <Link
+              href={href}
+              {...(external && {
+                target: "_blank",
+                rel: "noopener noreferrer",
+              })}
+            >
+              {label}
+            </Link>
+          </Button>
+        </motion.div>
+      ))}
+    </div>
   );
 
   const renderAuthSection = (mobile = false) => {
@@ -54,18 +66,25 @@ export default function Navbar({ isAdmin = false }: { isAdmin?: boolean }) {
       return (
         <motion.div
           initial={mobile ? { opacity: 0, x: -20 } : {}}
-          animate={mobile ? { opacity: 1, x: 0 } : {}}
-          transition={{ delay: mobile ? navLinks.length * 0.1 : 0 }}
+          animate={
+            mobile
+              ? {
+                  opacity: 1,
+                  x: 0,
+                }
+              : {}
+          }
+          transition={{ delay: mobile ? navLinks.length * 0.1 : 0, bounce: 0 }}
         >
-          <div className="flex justify-center items-center gap-4">
-            <Link 
+          <div className="flex items-center justify-center gap-4">
+            <Link
               href="/dashboard/application"
               className={mobile ? "text-white" : ""}
             >
               My Application
             </Link>
             {isAdmin && (
-              <Link 
+              <Link
                 href="/dashboard/admin"
                 className={mobile ? "text-white" : ""}
               >
@@ -73,7 +92,7 @@ export default function Navbar({ isAdmin = false }: { isAdmin?: boolean }) {
               </Link>
             )}
             <div className={mobile ? "pt-2" : ""}>
-              <UserButton afterSignOutUrl="/" />
+              <UserButton />
             </div>
           </div>
         </motion.div>
@@ -81,69 +100,67 @@ export default function Navbar({ isAdmin = false }: { isAdmin?: boolean }) {
     }
 
     return (
-      <motion.div
-        initial={mobile ? { opacity: 0, x: -20 } : {}}
-        animate={mobile ? { opacity: 1, x: 0 } : {}}
-        transition={{ delay: mobile ? navLinks.length * 0.1 : 0 }}
-        className={mobile ? "flex flex-col gap-4" : "flex items-center gap-8"}
+      <div
+        className={mobile ? "flex flex-col gap-2" : "flex items-center gap-1"}
       >
-        <Button 
-          asChild 
-          className={`bg-accent-yellow hover:bg-accent-yellow/90 hover:bg-black hover:text-accent-yellow text-black ${
-            mobile ? "w-full" : ""
-          }`}
+        <motion.div
+          initial={mobile ? { opacity: 0, x: -20 } : {}}
+          animate={mobile ? { opacity: 1, x: 0 } : {}}
+          transition={{ delay: mobile ? navLinks.length * 0.1 : 0, bounce: 0 }}
         >
-          <Link href="/signup">Register</Link>
-        </Button>
-        {mobile ? (
-          <Button 
-            asChild 
-            className="w-full bg-black hover:bg-black/90 text-white"
+          <Button
+            asChild
+            className={`h-full rounded-md bg-accent-yellow px-8 py-2 text-black hover:bg-accent-yellow/90 ${
+              mobile ? "w-full" : ""
+            }`}
           >
-            <Link 
-              href="/signin"
-              className="text-center text-white"
-            >
-              Sign In
-            </Link>
+            <Link href="/signup">Register</Link>
           </Button>
-        ) : (
-          <Link 
-            href="/signin"
-            className="hover:text-gray-300 transition-colors"
+        </motion.div>
+        <motion.div
+          initial={mobile ? { opacity: 0, x: -20 } : {}}
+          animate={mobile ? { opacity: 1, x: 0 } : {}}
+          transition={{
+            delay: mobile ? navLinks.length * 0.1 + 0.1 : 0,
+            bounce: 0,
+          }}
+        >
+          <Button
+            asChild
+            className="h-full w-full rounded-md bg-transparent px-8 py-2 font-semibold text-foreground hover:bg-black/90"
           >
-            Sign In
-          </Link>
-        )}
-      </motion.div>
+            <Link href="/signin">Sign In</Link>
+          </Button>
+        </motion.div>
+      </div>
     );
   };
 
   return (
-    <nav className="mx-4 md:mx-10 py-3">
-      <div className="flex items-center justify-between rounded-2xl bg-white/10 px-4 md:px-6 py-3 font-medium text-white shadow backdrop-blur-2xl font-tektur">
-        <div className="flex items-center gap-4 md:gap-8">
+    <>
+      <nav className="fixed left-0 top-3 z-50 mx-4 md:mx-2 flex h-14 w-[calc(100vw-2rem)] items-center justify-between rounded-2xl border border-border/10 bg-black/30 p-2 font-tektur font-medium text-white shadow backdrop-blur-xl">
+        <div className="flex items-center gap-4 pl-4 md:gap-8">
           <Link href="/" aria-label="Home">
-            <img 
-              src="/HB-icon-neon-small.png" 
-              alt="HackBurgh Logo" 
-              className="h-8 md:h-9 w-auto" 
+            <img
+              src="/HB-icon-neon-small.png"
+              alt="HackBurgh Logo"
+              className="h-8 w-auto md:h-9"
             />
           </Link>
-          
-          <div className="hidden md:flex items-center gap-8">
+
+          <div className="hidden items-center gap-1 md:flex">
             {renderNavLinks()}
           </div>
         </div>
 
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden items-center gap-8 md:flex">
           {renderAuthSection()}
         </div>
 
-        <Button 
+        <Button
           variant="ghost"
           size="icon"
-          className="md:hidden p-2"
+          className="p-2 hover:bg-black md:hidden"
           onClick={toggleMenu}
           aria-label="Toggle menu"
         >
@@ -158,27 +175,35 @@ export default function Navbar({ isAdmin = false }: { isAdmin?: boolean }) {
             )}
           </motion.div>
         </Button>
-      </div>
-
+      </nav>
       <AnimatePresence>
         {isMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ 
-              duration: 0.3,
-              ease: "easeInOut"
-            }}
-            className="md:hidden fixed top-[4.5rem] left-4 right-4 rounded-xl bg-white/10 backdrop-blur-2xl p-4 font-tektur z-50"
-          >
-            <div className="flex flex-col gap-4">
-              {renderNavLinks(true)}
-              {renderAuthSection(true)}
-            </div>
-          </motion.div>
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="pointer-events-none fixed inset-0 left-0 top-0 h-full w-full bg-black/50"
+            ></motion.div>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{
+                duration: 0.3,
+                ease: "easeInOut",
+                bounce: 0,
+              }}
+              className="fixed left-4 right-4 top-[5rem] z-50 h-[calc(100vh-5.75rem)] rounded-2xl border border-border/10 bg-black/20 p-4 font-tektur shadow-2xl backdrop-blur-xl md:hidden"
+            >
+              <div className="flex h-full flex-col justify-between gap-2">
+                {renderNavLinks(true)}
+                {renderAuthSection(true)}
+              </div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
-    </nav>
+    </>
   );
 }

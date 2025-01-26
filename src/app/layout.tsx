@@ -25,8 +25,8 @@ export default async function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <ClerkProvider>
-      <html lang="en" className={`${GeistSans.className} ${tektur.className} dark`}>
-        <body className="max-w-7xl mx-auto">
+      <html lang="en" className={`${tektur.variable} ${GeistSans.variable} dark`}>
+        <body className="bg-black font-tektur">
           <Toaster />
           <TRPCReactProvider>{children}</TRPCReactProvider>
         </body>
