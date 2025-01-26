@@ -47,10 +47,10 @@ export function CountdownTimer() {
     <div className="grid grid-cols-4 gap-12">
       {calculateTimeUnits().map(({ value, label }) => (
         <div key={label} className="flex flex-col">
-          <span className="text-4xl md:text-5xl font-tektur font-bold">
+          <span className="text-4xl md:text-5xl font-tektur font-bold tabular-nums">
             {formatTime(value)}
           </span>
-          <p className="text-lg md:text-xl font-tektur text-left">
+          <p className="text-lg md:text-xl font-tektur text-right">
             {label}
           </p>
         </div>
