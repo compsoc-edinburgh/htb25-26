@@ -5,7 +5,7 @@ interface FAQItem {
   answer: ReactNode;
 }
 
-const FAQ_ITEMS = [
+const FAQ_ITEMS: FAQItem[] = [
   {
     question: "When do applications close?",
     answer: (
