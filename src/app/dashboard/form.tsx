@@ -69,10 +69,7 @@ export default function EditApplicationForm({
     countries.all.find((c) => c.alpha2 === user.country),
   );
   const [university, setUniversity] = useState<University | undefined>(
-    universities.find(
-      (u) =>
-        u.name === user.university_name || u.name === "University of Edinburgh",
-    ),
+    universities.find((u) => u.name === user.university_name),
   );
   const [universityYear, setUniversityYear] = useState(
     user.university_year ?? undefined,
@@ -119,7 +116,7 @@ export default function EditApplicationForm({
           portfolio !== user.portfolio_url ||
           placements !== user.placements_count ||
           hackathons !== user.hackathons_count ||
-          project !== user.project_description ||
+          project !== (user.project_description ?? undefined) ||
           needsReimbursement !== (user.needs_reimbursement ?? undefined) ||
           travel !== (user.travelling_from ?? undefined) ||
           calendarEmail !== (user.calendar_email ?? undefined),

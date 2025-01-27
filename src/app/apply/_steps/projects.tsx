@@ -71,10 +71,11 @@ export default function ProjectStep({
       className="flex h-full flex-1 flex-col justify-between gap-3"
     >
       <div className="rounded-xl bg-muted p-4">
-        <h2 className="text-xl font-medium">Project</h2>
+        <h2 className="text-xl font-medium">Project (optional)</h2>
         <p className="font-sans text-sm text-muted-foreground">
           Tell us about a completed project, the technologies you used, and any
-          links you can send us.
+          links you can send us. This field is optional but highly recommended
+          and will affect application.
         </p>
       </div>
       <div className="flex flex-1 flex-col gap-2">
