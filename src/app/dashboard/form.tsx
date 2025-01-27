@@ -452,7 +452,6 @@ export default function EditApplicationForm({
             )}
             <div className="relative">
               <Input
-                autoFocus
                 name="email"
                 id="email"
                 className={isUniEmail() ? "pl-9" : ""}
