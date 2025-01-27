@@ -92,7 +92,6 @@ export default function ProjectStep({
               onChange={(e) =>
                 setProject(`${e.target.value}\n${stack ?? ""}\n${link ?? ""}`)
               }
-              required
             />
           </div>
           <div className="flex flex-col gap-2">
@@ -106,7 +105,6 @@ export default function ProjectStep({
               onChange={(e) =>
                 setProject(`${aim ?? ""}\n${e.target.value}\n${link ?? ""}`)
               }
-              required
             />
           </div>
           <div className="flex flex-col gap-2">
@@ -120,7 +118,6 @@ export default function ProjectStep({
               onChange={(e) =>
                 setProject(`${aim ?? ""}\n${stack ?? ""}\n${e.target.value}`)
               }
-              required
             />
           </div>
         </div>
