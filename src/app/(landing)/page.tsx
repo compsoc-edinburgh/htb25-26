@@ -46,20 +46,20 @@ export default function Page() {
       <section id="sponsors">
         <SponsorsComponents.SponsorsSection />
       </section>
-      <section
-        id="faq"
-        className="mx-auto mt-16 w-full rounded-2xl bg-accent-yellow p-6 text-left"
-      >
-        <h2 className="mb-8 text-center font-bold text-black sm:text-xl md:text-2xl lg:text-3xl">
-          You have questions <br />
-          We have answers!
+      
+       <section className="mx-auto mb-28 w-full max-w-7xl" id="faq">
+        <h2 className="mb-4 text-center font-bold sm:text-xl md:text-2xl lg:text-3xl">
+          Frequently Asked Questions
         </h2>
+        <p className="mb-12 text-center text-muted-foreground">
+          You have questions. We have answers!
+        </p>
         <div className="flex flex-col items-center gap-6">
           {FAQComponents.FAQ_ITEMS.map((faq, index) => (
             <FAQComponents.FAQAccordionItem key={index} faq={faq} />
           ))}
         </div>
-      </section>
+    </section>
     </main>
   );
 }
