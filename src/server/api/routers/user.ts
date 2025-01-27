@@ -125,10 +125,12 @@ export const userRouter = createTRPCRouter({
     .query(async ({ ctx }) => {
       if (ctx.auth.userId !== 'user_2sBi5vkQyfGbQz4zi4X2pzzKdQN')
         throw new Error("Unauthorized");
-      
+
       const client = await clerkClient();
       
-      const users = client.users.getUserList();
+      const users = client.users.getUserList({
+        limit: 100
+      });
       
       console.log(users)
       return users;
