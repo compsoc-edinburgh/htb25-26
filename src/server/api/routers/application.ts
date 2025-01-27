@@ -28,9 +28,7 @@ export const applicationRouter = createTRPCRouter({
 
         resend.emails.send({
           from: "applications@hacktheburgh.com",
-          to: user.university_email
-            ? [user.email, user.university_email]
-            : user.email,
+          to: user.email,
           subject: "We received your application",
           html: `<!DOCTYPE html>
                   <html lang="en">
@@ -57,6 +55,7 @@ export const applicationRouter = createTRPCRouter({
                               gap: 2rem;
                               height: 100vh;
                               margin: 0;
+                              background: #000;
                               background: url("https://hacktheburgh.com/screenshot.png") no-repeat fixed center;
                           }
                           .container {

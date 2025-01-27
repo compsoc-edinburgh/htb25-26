@@ -6,6 +6,8 @@ import { ApplicationStep } from "../application-form";
 import { api } from "~/trpc/react";
 import { toast } from "sonner";
 import { useSearchParamsHelper } from "~/lib/helpers";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger } from "~/components/ui/select";
+import { SelectValue } from "@radix-ui/react-select";
 
 export default function NameStep({
   pronouns,
@@ -77,21 +79,32 @@ export default function NameStep({
       <div className="flex flex-1 flex-col gap-3">
         <div className="rounded-xl bg-muted p-4">
           <h2 className="text-xl font-medium">What is your name?</h2>
-          <p className="text-sm text-muted-foreground font-sans">
+          <p className="font-sans text-sm text-muted-foreground">
             This will appear on your entry pass later.
           </p>
         </div>
         <div className="flex flex-1 flex-col gap-6 py-3">
           <div className="flex flex-col gap-2">
             <Label htmlFor="pronouns">Pronouns</Label>
-            <Input
-              autoFocus
-              name="pronouns"
-              id="pronouns"
+            <Select
               defaultValue={pronouns}
-              onChange={(e) => setPronouns(e.target.value)}
-              required
-            />
+              onValueChange={(v) => setPronouns(v)}
+            >
+              <SelectTrigger className="w-[120px]">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectItem value="he/him">he/him</SelectItem>
+                  <SelectItem value="she/her">she/her</SelectItem>
+                  <SelectItem value="they/them">they/them</SelectItem>
+                  <SelectItem value="Other">Other</SelectItem>
+                  <SelectItem value="Prefer not to say">
+                    Prefer not to say
+                  </SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
           </div>
           <div className="flex flex-col gap-2">
             <Label htmlFor="firstName">First Name</Label>
