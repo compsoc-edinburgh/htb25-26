@@ -1,6 +1,6 @@
 'use client'
 
-import { Fragment } from "react";
+import { Fragment, useState, useEffect } from "react";
 import { useTypewriterEffect } from "~/hooks/use-typewriter-effect";
 
 const CODE_SNIPPET = `async publicProcedure.query(() => {
@@ -29,8 +29,20 @@ const SYNTAX_PATTERNS = [
 ];
 
 export function CodeSnippet() {
-  const isMobile = window.matchMedia("(max-width: 600px)").matches;
+  const [isMobile, setIsMobile] = useState(false);
   const { displayedCode, highlightCode } = useTypewriterEffect(CODE_SNIPPET, SYNTAX_PATTERNS);
+
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 600px)");
+    const handleResize = (e: MediaQueryListEvent | MediaQueryList) => {
+      setIsMobile(e.matches);
+    };
+
+    handleResize(media);
+    media.addEventListener('change', handleResize);
+
+    return () => media.removeEventListener('change', handleResize);
+  }, []);
 
   const lines = CODE_SNIPPET.split('\n').length;
   const lineHeight = isMobile ? 1.1 : 1.3;

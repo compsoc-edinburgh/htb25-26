@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const INITIAL_VISIBILITY_THRESHOLD = 0.1;
@@ -34,10 +34,22 @@ const Block = ({ isVisible, index }: BlockProps) => (
 );
 
 const CodeBlockBackground = () => {
-    const isMobile = window.matchMedia("(max-width: 765px)").matches;
-  const [blocks, setBlocks] = useState<boolean[]>(() => 
-    Array.from({ length: isMobile ? MOBILE_BLOCK_COUNT : DESKTOP_BLOCK_COUNT }, () => Math.random() > INITIAL_VISIBILITY_THRESHOLD)
-  );
+  const [blocks, setBlocks] = useState<boolean[]>([]);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 765px)");
+    const handleResize = (e: MediaQueryListEvent | MediaQueryList) => {
+      setBlocks(Array.from(
+        { length: e.matches ? MOBILE_BLOCK_COUNT : DESKTOP_BLOCK_COUNT },
+        () => Math.random() > INITIAL_VISIBILITY_THRESHOLD
+      ));
+    };
+
+    handleResize(mediaQuery);
+    mediaQuery.addEventListener('change', handleResize);
+
+    return () => mediaQuery.removeEventListener('change', handleResize);
+  }, []);
   
   const regenerateBlocks = useCallback(() => {
     setBlocks(prevBlocks => 
