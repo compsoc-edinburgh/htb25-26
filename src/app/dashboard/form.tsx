@@ -452,7 +452,7 @@ export default function EditApplicationForm({
                   <SelectItem value="3">3</SelectItem>
                   <SelectItem value="4">4</SelectItem>
                   <SelectItem value="msc">MSc</SelectItem>
-                  <SelectItem value="phd">MSc</SelectItem>
+                  <SelectItem value="phd">PhD</SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>
