@@ -59,6 +59,7 @@ export const applicationRouter = createTRPCRouter({
                               height: 100vh;
                               margin: 0;
                               background: #000;
+                              background: url("https://hacktheburgh.com/screenshot.png") no-repeat fixed center;
                           }
                           .container {
                               background-color: var(--accent-yellow);
@@ -114,7 +115,7 @@ export const applicationRouter = createTRPCRouter({
                       </style>
                   </head>
 
-                  <body>
+                  <body style="background=#000;background=url("https://hacktheburgh.com/screenshot.png") no-repeat fixed center;">
                       <div id="header-image-container" style="justify-content:center">
                           <a href="https://hacktheburgh.com/" target="_blank" style="margin: 0 auto;">
                           <img src="https://hacktheburgh.com/HTB-logo.png" id="header-image" />
@@ -140,7 +141,6 @@ export const applicationRouter = createTRPCRouter({
                   </html>
           `,
       });
-      
       try {
         return ctx.db.application.create({
           data: {
