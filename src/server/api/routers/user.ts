@@ -9,6 +9,7 @@ import {
 
 export const userRouter = createTRPCRouter({
   get: protectedProcedure.query(async ({ ctx }) => {
+    console.log("in trpc", ctx.auth.userId); 
     return ctx.db.user.findUnique({
       where: { id: ctx.auth.userId },
       include: {
@@ -119,20 +120,5 @@ export const userRouter = createTRPCRouter({
           ...metadata,
         },
       });
-    }),
-
-  export: protectedProcedure
-    .query(async ({ ctx }) => {
-      if (ctx.auth.userId !== 'user_2sBi5vkQyfGbQz4zi4X2pzzKdQN')
-        throw new Error("Unauthorized");
-
-      const client = await clerkClient();
-      
-      const users = client.users.getUserList({
-        limit: 100
-      });
-      
-      console.log(users)
-      return users;
     }),
 });

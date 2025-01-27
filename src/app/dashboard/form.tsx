@@ -7,13 +7,16 @@ import {
   Edit3,
   ExternalLink,
   Info,
+  Loader2,
   LogOut,
+  MoreHorizontal,
+  MoreVertical,
   TriangleAlert,
   User2,
   UserIcon,
 } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "~/components/ui/button";
 import { Country, CountryDropdown } from "~/components/ui/country-dropdown";
@@ -40,6 +43,22 @@ import { api } from "~/trpc/react";
 import CreateTeam from "./_components/create-team";
 import JoinTeam from "./_components/join-team";
 import { OrganizationMembership } from "@clerk/nextjs/server";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "~/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "~/components/ui/dropdown-menu";
 
 export default function EditApplicationForm({
   user,
@@ -54,7 +73,12 @@ export default function EditApplicationForm({
 }) {
   const { user: clerkUser } = useUser();
   const updateUser = api.user.update.useMutation();
+  const renameTeam = api.team.rename.useMutation();
+  const leaveTeam = api.team.leave.useMutation();
+
   const { signOut } = useClerk();
+
+  const dialogRef = useRef<HTMLButtonElement>(null);
 
   const [loading, setLoading] = useState(false);
   const [isDirty, setIsDirty] = useState(false);
@@ -225,7 +249,7 @@ export default function EditApplicationForm({
       setLoading(true);
 
       await updateUser.mutateAsync({
-        pronouns,
+        // pronouns,
         firstName,
         lastName,
         universityEmail: email,
@@ -274,17 +298,6 @@ export default function EditApplicationForm({
                 {user.first_name} {user.last_name}
               </span>
               <span className="text-sm">{user.email}</span>
-              {/* <Button
-                size={"sm"}
-                variant={"secondary"}
-                className="mt-2 w-max bg-accent-blue text-white hover:bg-accent-blue/80 lg:hidden"
-                asChild
-              >
-                <Link href="#form">
-                  <Edit3 />
-                  Edit profile
-                </Link>
-              </Button> */}
             </span>
 
             <Button
@@ -294,9 +307,116 @@ export default function EditApplicationForm({
               Sign out <LogOut />
             </Button>
           </div>
+
+          <div className="pt-3">
+            Application status: <span className="font-bold">Pending</span>
+          </div>
         </div>
         <div className="relative h-max w-full overflow-hidden rounded-2xl bg-accent-lilac p-6 text-black">
-          <h2 className="text-2xl font-medium">Team {team?.name}</h2>
+          <div className="flex items-center justify-between">
+            <h2 className="text-2xl font-medium">Team {team?.name}</h2>
+            {team && (
+              <DropdownMenu>
+                <DropdownMenuTrigger>
+                  <MoreHorizontal size={20} />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56">
+                  <Dialog>
+                    <DropdownMenuItem
+                      onClick={(e) => {
+                        // prevent closing the dialog when clicking the button
+                        e.preventDefault();
+                        dialogRef?.current?.click();
+                      }}
+                    >
+                      <DialogTrigger ref={dialogRef} asChild>
+                        <div className="hidden"></div>
+                      </DialogTrigger>
+                      <Edit3 />
+                      <span>Rename team</span>
+                    </DropdownMenuItem>
+                    <DialogContent className="sm:max-w-[425px]">
+                      <form
+                        action={(e) => {
+                          try {
+                            const name = e.get("name");
+
+                            if (!name?.toString().length) {
+                              toast.error("Name is required");
+                              return;
+                            }
+
+                            renameTeam.mutate({
+                              team_id: team.id,
+                              name: name.toString(),
+                            });
+
+                            setTeam({ ...team, name: name.toString() });
+                            toast.success("Team renamed to " + name);
+                          } catch (err) {
+                            console.error(err);
+                            toast.error(
+                              "There was something wrong, please try again.",
+                            );
+                          }
+                        }}
+                      >
+                        <DialogHeader>
+                          <DialogTitle>Rename your team</DialogTitle>
+                        </DialogHeader>
+                        <div className="grid gap-4 py-4">
+                          <div className="flex flex-col gap-2">
+                            <Label htmlFor="name" className="">
+                              Name
+                            </Label>
+                            <Input
+                              id="name"
+                              name="name"
+                              defaultValue={team.name}
+                            />
+                          </div>
+                        </div>
+                        <DialogFooter>
+                          <DialogClose asChild>
+                            <Button type="submit">Save</Button>
+                          </DialogClose>
+                        </DialogFooter>
+                      </form>
+                    </DialogContent>
+                  </Dialog>
+                  <DropdownMenuItem
+                    onSelect={async (e) => {
+                      e.preventDefault();
+                      try {
+                        setLoading(true);
+                        await leaveTeam.mutateAsync({
+                          team_id: team.id,
+                        });
+                        toast.success("You have left team " + team.name);
+                        setTeam(undefined);
+                      } catch (err) {
+                        console.error(err);
+                        toast.error(
+                          "There was something wrong, please try again.",
+                        );
+                      }
+                      setLoading(false);
+                    }}
+                    disabled={loading}
+                  >
+                    {loading ? (
+                      <div className="animate-spin">
+                        <Loader2 />
+                      </div>
+                    ) : (
+                      <LogOut />
+                    )}
+                    <span>Leave team</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
+          </div>
           {!!team && (
             <div>
               <div className="py-3">
@@ -375,7 +495,7 @@ export default function EditApplicationForm({
       <div className="flex w-full flex-1 flex-col gap-6 rounded-2xl bg-black/70 p-6 lg:w-auto">
         <h1 className="text-2xl font-medium">Update your profile</h1>
         <div className="flex flex-col gap-6">
-          <div className="flex flex-col gap-2">
+          {/* <div className="flex flex-col gap-2">
             <Label htmlFor="pronouns">Pronouns</Label>
             <Select
               defaultValue={pronouns}
@@ -396,7 +516,7 @@ export default function EditApplicationForm({
                 </SelectGroup>
               </SelectContent>
             </Select>
-          </div>
+          </div> */}
           <div className="flex max-w-md flex-1 flex-col gap-2">
             <Label htmlFor="firstName">First Name</Label>
             <Input
@@ -426,7 +546,7 @@ export default function EditApplicationForm({
         </div>
         <div className="flex flex-col gap-6">
           <div className="flex max-w-md flex-1 flex-col gap-2">
-            <Label htmlFor="country">Country</Label>
+            <Label htmlFor="country">University Country</Label>
             <CountryDropdown
               defaultValue={country?.alpha3 ?? "GBR"}
               onChange={(c) => setCountry(c)}
@@ -752,7 +872,7 @@ export default function EditApplicationForm({
         {isDirty && !isValid && (
           <div className="rounded-xl">
             <div className="flex items-center gap-3">
-              <TriangleAlert size={17} className="text-accent-red"/>
+              <TriangleAlert size={17} className="text-accent-red" />
               <span className="flex-1 text-sm font-medium text-accent-red">
                 Please check your answers
               </span>

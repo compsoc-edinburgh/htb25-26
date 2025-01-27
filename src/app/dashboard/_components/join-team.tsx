@@ -1,6 +1,6 @@
 "use client";
 
-import { Team } from "@prisma/client";
+import { Team, User } from "@prisma/client";
 import { Dispatch, SetStateAction, useState } from "react";
 import { Button } from "~/components/ui/button";
 import {
@@ -17,16 +17,25 @@ import { cn } from "~/lib/utils";
 import { api } from "~/trpc/react";
 import { useSearchParamsHelper } from "~/lib/helpers";
 import { toast } from "sonner";
+import { useUser } from "@clerk/nextjs";
 
 export default function JoinTeam({
   team,
   setTeam,
   setJoined,
 }: {
-  team?: Team;
-  setTeam: Dispatch<SetStateAction<Team | undefined>>;
+  team?: Team & { members?: User[] };
+  setTeam: Dispatch<
+    SetStateAction<
+      | (Team & {
+          members?: User[];
+        })
+      | undefined
+    >
+  >;
   setJoined: Dispatch<SetStateAction<boolean>>;
 }) {
+  const { user } = useUser();
 
   const [loading, setLoading] = useState(false);
   const [code, setCode] = useState("");
@@ -44,7 +53,37 @@ export default function JoinTeam({
         team_code: code,
       });
 
-      setTeam(res);
+      setTeam({
+        ...res,
+        members: [
+          {
+            id: user?.id ?? "",
+            email: user?.primaryEmailAddress?.toString() ?? "",
+            first_name: user?.firstName ?? "",
+            last_name: user?.lastName ?? "",
+            created_by: res.id,
+            created_at: new Date(),
+            placements_count: "",
+            hackathons_count: "",
+            dietary_restrictions: "",
+            project_description: "",
+            pronouns: "",
+            country: "",
+            university_name: "",
+            university_year: "",
+            university_email: "",
+            cv_url: "",
+            updated_at: new Date(),
+            updated_by: res.id,
+            team_id: res.id,
+            calendar_email: "",
+            portfolio_url: "",
+            needs_reimbursement: false,
+            travelling_from: "",
+          },
+        ],
+      });
+
       toast.success("Successfully joined team " + res.name);
     } catch (e) {
       if (e instanceof Error && e.message === "NOTFOUND") {

@@ -86,7 +86,8 @@ export default function TeamStep({
     <div>
       <Label>Team</Label>
       <p className="text-sm text-muted-foreground">
-        You can apply as an individual or as part of a team.
+        Apply as an individual or as part of a team.
+      <br />You can change this later after applying.
       </p>
       <Tabs
         defaultValue={tab}
