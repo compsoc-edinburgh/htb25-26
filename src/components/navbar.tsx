@@ -196,13 +196,13 @@ export default function Navbar({ isAdmin = false }: { isAdmin?: boolean }) {
   return (
     <>
       <div className="flex justify-center">
-        <nav className="fixed top-3 z-50 flex w-[calc(100vw-2rem)] items-center justify-between rounded-2xl border border-border/10 bg-black/40 p-2 font-tektur font-medium text-white shadow backdrop-blur-xl lg:w-full lg:max-w-screen-xl">
-          <div className="flex items-center gap-4 pl-4 lg:gap-8">
-            <Link href="/">
+        <nav className="fixed top-3 z-50 flex h-14 w-[calc(100vw-2rem)] items-center justify-between rounded-2xl border border-border/10 bg-black/30 p-2 font-tektur font-medium text-white shadow backdrop-blur-xl md:w-[calc(100vw-16rem)]">
+          <div className="flex items-center gap-4 pl-4 md:gap-8">
+            <Link href="/" aria-label="Home" onClick={scrollToTop}>
               <img
                 src="/HB-icon-neon-small.png"
                 alt="HackBurgh Logo"
-                className="h-8 w-auto lg:h-9"
+                className="h-8 w-auto md:h-9"
               />
             </Link>
 
@@ -242,7 +242,7 @@ export default function Navbar({ isAdmin = false }: { isAdmin?: boolean }) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="pointer-events-none fixed inset-0 left-0 top-0 h-full w-full bg-black/50 z-30"
+              className="pointer-events-none fixed inset-0 left-0 top-0 z-30 h-full w-full bg-black/50"
             />
             <motion.div
               initial={{ opacity: 0 }}

@@ -47,6 +47,8 @@ export const applicationRouter = createTRPCRouter({
                               --accent-orange: hsl(16, 82%, 61%);
                           }
                           body {
+                              width: 100%;
+                              max-width: 768px;
                               font-family: Arial, sans-serif;
                               display: flex;
                               flex-direction: column;
@@ -63,6 +65,7 @@ export const applicationRouter = createTRPCRouter({
                               border-radius: 1rem;
                               text-align: center;
                               max-width: 400px;
+                              margin: 0 auto;
                           }
                           h1 {
                               color: hsl(var(--accent-blue));
@@ -76,10 +79,17 @@ export const applicationRouter = createTRPCRouter({
                               color: hsl(var(--accent-red));
                               font-weight: bold;
                           }
-                          
+
+                          #header-image-container {
+                              width: 100%;
+                              display: flex;
+                              justify-content: center;
+                          }
+
                           #header-image {
                               width: 100%;
                               max-width: 400px;   
+                              margin: 0 auto;
                           }
                           
                           footer {
@@ -104,8 +114,8 @@ export const applicationRouter = createTRPCRouter({
                   </head>
 
                   <body>
-                      <div id="header-image-container">
-                          <a href="https://hacktheburgh.com/" target="_blank">
+                      <div id="header-image-container" style="justify-content:center">
+                          <a href="https://hacktheburgh.com/" target="_blank" style="margin: 0 auto;">
                           <img src="https://hacktheburgh.com/HTB-logo.png" id="header-image" />
                           </a>
                       </div>

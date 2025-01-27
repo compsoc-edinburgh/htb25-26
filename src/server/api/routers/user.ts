@@ -47,7 +47,11 @@ export const userRouter = createTRPCRouter({
           last_name: input.lastName,
         },
         include: {
-          team: true,
+          team: {
+            include: {
+              members: true
+            }
+          },
         },
       });
     }),
