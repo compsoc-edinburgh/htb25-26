@@ -120,4 +120,17 @@ export const userRouter = createTRPCRouter({
         },
       });
     }),
+
+  export: protectedProcedure
+    .query(async ({ ctx }) => {
+      if (ctx.auth.userId !== 'user_2sBi5vkQyfGbQz4zi4X2pzzKdQN')
+        throw new Error("Unauthorized");
+      
+      const client = await clerkClient();
+      
+      const users = client.users.getUserList();
+      
+      console.log(users)
+      return users;
+    }),
 });
