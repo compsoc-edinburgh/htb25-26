@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { ExternalLink } from "lucide-react";
 import { Label } from "~/components/ui/label";
 import { Checkbox } from "~/components/ui/checkbox";
+import { toast } from "sonner";
 
 export default function ReviewAndSubmitStep({
   user,
@@ -78,6 +79,7 @@ export default function ReviewAndSubmitStep({
       setStep("done");
     } catch (err: any) {
       console.error(err);
+      toast.error("There was something wrong, please try again.");
     }
 
     setLoading(false);

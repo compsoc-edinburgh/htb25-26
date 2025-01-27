@@ -1,6 +1,10 @@
 import { z } from "zod";
 
-import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/api/trpc";
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from "~/server/api/trpc";
 
 import { Resend } from "resend";
 
@@ -13,24 +17,23 @@ export const applicationRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      try {
-        const user = await ctx.db.user.findUnique({
-          where: {
-            id: ctx.auth.userId,
-          },
-        });
+      const user = await ctx.db.user.findUnique({
+        where: {
+          id: ctx.auth.userId,
+        },
+      });
 
-        if (!user) {
-          throw new Error("User not found");
-        }
+      if (!user) {
+        throw new Error("User not found");
+      }
 
-        const resend = new Resend(process.env.RESEND_API_KEY);
+      const resend = new Resend(process.env.RESEND_API_KEY);
 
-        resend.emails.send({
-          from: "applications@hacktheburgh.com",
-          to: user.email,
-          subject: "We received your application",
-          html: `<!DOCTYPE html>
+      resend.emails.send({
+        from: "applications@hacktheburgh.com",
+        to: user.email,
+        subject: "We received your application",
+        html: `<!DOCTYPE html>
                   <html lang="en">
                   <head>
                       <meta charset="UTF-8">
@@ -137,8 +140,9 @@ export const applicationRouter = createTRPCRouter({
 
                   </html>
           `,
-        });
-
+      });
+      
+      try {
         return ctx.db.application.create({
           data: {
             user_id: ctx.auth.userId,
@@ -154,7 +158,7 @@ export const applicationRouter = createTRPCRouter({
     if (!ctx.auth.userId) {
       return null;
     }
-    
+
     return ctx.db.application.findFirst({
       where: {
         user_id: ctx.auth.userId,
