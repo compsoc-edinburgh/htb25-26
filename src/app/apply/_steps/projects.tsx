@@ -60,9 +60,9 @@ export default function ProjectStep({
   };
 
   const { aim, stack, link } = {
-    aim: project?.split("\n")[0],
-    stack: project?.split("\n")[1],
-    link: project?.split("\n")[2],
+    aim: project?.split("\n")[0] ?? "",
+    stack: project?.split("\n")[1] ?? "",
+    link: project?.split("\n")[2] ?? "",
   };
 
   return (
@@ -85,11 +85,11 @@ export default function ProjectStep({
               autoFocus
               name="aim"
               id="aim"
-              className="flex-1 resize-none min-h-0"
+              className="min-h-0 flex-1 resize-none"
               rows={2}
               defaultValue={aim}
               onChange={(e) =>
-                setProject(`${e.target.value}\n${stack}\n${link}`)
+                setProject(`${e.target.value}\n${stack ?? ""}\n${link ?? ""}`)
               }
               required
             />
@@ -100,9 +100,11 @@ export default function ProjectStep({
               name="stack"
               id="stack"
               rows={2}
-              className="flex-1 resize-none min-h-0"
+              className="min-h-0 flex-1 resize-none"
               defaultValue={stack}
-              onChange={(e) => setProject(`${aim}\n${e.target.value}\n${link}`)}
+              onChange={(e) =>
+                setProject(`${aim ?? ""}\n${e.target.value}\n${link ?? ""}`)
+              }
               required
             />
           </div>
@@ -113,9 +115,9 @@ export default function ProjectStep({
               name="link"
               id="link"
               defaultValue={link}
-              className="flex-1 resize-none min-h-0"
+              className="min-h-0 flex-1 resize-none"
               onChange={(e) =>
-                setProject(`${aim}\n${stack}\n${e.target.value}`)
+                setProject(`${aim ?? ""}\n${stack ?? ""}\n${e.target.value}`)
               }
               required
             />

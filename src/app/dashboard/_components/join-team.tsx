@@ -15,25 +15,18 @@ import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { cn } from "~/lib/utils";
 import { api } from "~/trpc/react";
-import { ApplicationStep } from "../application-form";
 import { useSearchParamsHelper } from "~/lib/helpers";
+import { toast } from "sonner";
 
 export default function JoinTeam({
   team,
   setTeam,
-  setApplicationType,
-  setStep,
   setJoined,
 }: {
   team?: Team;
   setTeam: Dispatch<SetStateAction<Team | undefined>>;
-  setApplicationType: Dispatch<
-    SetStateAction<"individual" | "team" | undefined>
-  >;
-  setStep: Dispatch<SetStateAction<ApplicationStep>>;
   setJoined: Dispatch<SetStateAction<boolean>>;
 }) {
-  const { updateSearchParam } = useSearchParamsHelper();
 
   const [loading, setLoading] = useState(false);
   const [code, setCode] = useState("");
@@ -52,7 +45,7 @@ export default function JoinTeam({
       });
 
       setTeam(res);
-      setJoined(true);
+      toast.success("Successfully joined team " + res.name);
     } catch (e) {
       if (e instanceof Error && e.message === "NOTFOUND") {
         setErrors(["No team was found. Make sure you have the right code."]);
@@ -64,13 +57,6 @@ export default function JoinTeam({
     setLoading(false);
   };
 
-  const handleContinue = () => {
-    updateSearchParam([{ name: "step", value: "name" }]);
-
-    setApplicationType("team");
-    setStep("name");
-  };
-
   if (team) {
     return (
       <Card>
@@ -79,11 +65,11 @@ export default function JoinTeam({
         </CardHeader>
 
         <CardContent className="space-y-2">
-          <p className=" text-green-400">
+          <p className="text-green-400">
             Successfully joined team {team.name}.{" "}
           </p>
           <p className="font-sans text-sm text-muted-foreground">
-            You can have a maximum of 6 friends joining your team by sharing the
+            You can invite up to 3 more friends to join your team by sharing the
             code below with them.
           </p>
           <div className="my-3 flex items-center space-x-2">
@@ -91,10 +77,6 @@ export default function JoinTeam({
             <span className="font-bold">{team.code}</span>
           </div>
         </CardContent>
-
-        <CardFooter className="justify-end">
-          <Button onClick={() => handleContinue()}>Continue</Button>
-        </CardFooter>
       </Card>
     );
   }
