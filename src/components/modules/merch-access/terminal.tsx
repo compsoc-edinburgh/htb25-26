@@ -39,10 +39,17 @@ export function Terminal({ onSubmit }: { onSubmit: (input: string) => void}) {
     }
   };
 
-
   useEffect(() => {
-    setIsMobile(window.matchMedia("(max-width: 640px)").matches);
-  }, [])
+    const media = window.matchMedia("(max-width: 640px)");
+    const handleResize = (e: MediaQueryListEvent | MediaQueryList) => {
+      setIsMobile(e.matches);
+    };
+
+    handleResize(media);
+    media.addEventListener('change', handleResize);
+
+    return () => media.removeEventListener('change', handleResize);
+  }, []);
 
   return (
     <div>
