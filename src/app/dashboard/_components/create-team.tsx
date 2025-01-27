@@ -1,5 +1,6 @@
 "use client";
 
+import { useUser } from "@clerk/nextjs";
 import { Team, User } from "@prisma/client";
 import { Dispatch, FormEvent, SetStateAction, useState } from "react";
 import { toast } from "sonner";
@@ -21,11 +22,19 @@ export default function CreateTeam({
   setTeam,
   setJoined,
 }: {
-  team?: Team;
-  setTeam: Dispatch<SetStateAction<Team | undefined>>;
+  team?: Team & { members?: User[] };
+  setTeam: Dispatch<
+    SetStateAction<
+      | (Team & {
+          members?: User[];
+        })
+      | undefined
+    >
+  >;
   setJoined: Dispatch<SetStateAction<boolean>>;
 }) {
   const createTeam = api.team.create.useMutation();
+  const { user } = useUser();
 
   const [loading, setLoading] = useState(false);
 
@@ -42,7 +51,36 @@ export default function CreateTeam({
         teamName,
       });
 
-      setTeam(newTeam);
+      setTeam({
+        ...newTeam,
+        members: [
+          {
+            id: user?.id ?? "",
+            email: user?.primaryEmailAddress?.toString() ?? "",
+            first_name: user?.firstName ?? "",
+            last_name: user?.lastName ?? "",
+            created_by: newTeam.id,
+            created_at: new Date(),
+            placements_count: "",
+            hackathons_count: "",
+            dietary_restrictions: "",
+            project_description: "",
+            pronouns: "",
+            country: "",
+            university_name: "",
+            university_year: "",
+            university_email: "",
+            cv_url: "",
+            updated_at: new Date(),
+            updated_by: newTeam.id,
+            team_id: newTeam.id,
+            calendar_email: "",
+            portfolio_url: "",
+            needs_reimbursement: false,
+            travelling_from: "",
+          },
+        ],
+      });
       toast.success("Team created successfully.");
     } catch (err: any) {
       toast.error("There was something wrong, please try again.");
