@@ -59,7 +59,6 @@ export const applicationRouter = createTRPCRouter({
                               height: 100vh;
                               margin: 0;
                               background: #000;
-                              background: url("https://hacktheburgh.com/screenshot.png") no-repeat fixed center;
                           }
                           .container {
                               background-color: var(--accent-yellow);

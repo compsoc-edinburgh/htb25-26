@@ -129,12 +129,7 @@ export default function ProjectStep({
         <Button onClick={handleBack} variant={"secondary"} type="button">
           Back
         </Button>
-        <Button
-          loading={loading}
-          type="submit"
-          className="flex-1"
-          disabled={loading || !aim?.length || !stack?.length || !link?.length}
-        >
+        <Button loading={loading} type="submit" className="flex-1">
           Next
         </Button>
       </div>
