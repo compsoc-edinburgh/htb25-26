@@ -7,8 +7,15 @@ import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { toast } from "sonner";
+import { Application } from "@prisma/client";
 
-export default function Navbar({ isAdmin = false }: { isAdmin?: boolean }) {
+export default function Navbar({
+  isAdmin = false,
+  application,
+}: {
+  isAdmin?: boolean;
+  application?: Application | null;
+}) {
   const { isSignedIn, isLoaded } = useUser();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -60,12 +67,15 @@ export default function Navbar({ isAdmin = false }: { isAdmin?: boolean }) {
     {
       href: "/#sponsors",
       label: "Sponsors",
-      onClick: (e: React.MouseEvent) => scrollToSection(e, "#sponsors"),
+      //onClick: (e: React.MouseEvent) => window.history.pushState({}, "", "/#sponsors"),
     },
     {
       href: "/#faq",
       label: "FAQs",
-      onClick: (e: React.MouseEvent) => scrollToSection(e, "#faq"),
+      // onClick: (e: React.MouseEvent) => {
+      //   e.preventDefault();
+      //   window.history.pushState({}, "", "/#faq")
+      // },
     },
     {
       href: "https://2024.hacktheburgh.com",
@@ -127,14 +137,29 @@ export default function Navbar({ isAdmin = false }: { isAdmin?: boolean }) {
           transition={{ delay: mobile ? navLinks.length * 0.1 : 0, bounce: 0 }}
         >
           <div className="flex flex-col items-center justify-center gap-4 lg:flex-row">
-            <Button
-              asChild
-              className="h-full w-full rounded-md bg-transparent px-5 py-2 font-semibold text-foreground hover:bg-black/90"
-            >
-              <Link href="/dashboard" className={mobile ? "text-white" : ""}>
-                Dashboard
-              </Link>
-            </Button>
+            {application ? (
+              <Button
+                asChild
+                className={`h-full rounded-md bg-accent-yellow px-5 py-2 text-black hover:bg-accent-yellow/90 ${
+                  mobile ? "w-full" : ""
+                }`}
+              >
+                <Link href="/dashboard" className={mobile ? "text-white" : ""}>
+                  Dashboard
+                </Link>
+              </Button>
+            ) : (
+              <Button
+                asChild
+                className={`h-full rounded-md bg-accent-yellow px-5 py-2 text-black hover:bg-accent-yellow/90 ${
+                  mobile ? "w-full" : ""
+                }`}
+              >
+                <Link href="/apply" className={mobile ? "text-white" : ""}>
+                  Apply
+                </Link>
+              </Button>
+            )}
             {isAdmin && (
               <Button
                 asChild
@@ -198,7 +223,7 @@ export default function Navbar({ isAdmin = false }: { isAdmin?: boolean }) {
       <div className="flex justify-center">
         <nav className="fixed top-3 z-50 flex h-14 w-[calc(100vw-2rem)] items-center justify-between rounded-2xl border border-border/10 bg-black/30 p-2 font-tektur font-medium text-white shadow backdrop-blur-xl md:w-[calc(100vw-16rem)]">
           <div className="flex items-center gap-4 pl-4 md:gap-8">
-            <Link href="/" aria-label="Home" onClick={scrollToTop}>
+            <Link href="/" aria-label="Home">
               <img
                 src="/HB-icon-neon-small.png"
                 alt="HackBurgh Logo"
@@ -255,7 +280,7 @@ export default function Navbar({ isAdmin = false }: { isAdmin?: boolean }) {
               }}
               className="fixed left-4 right-4 top-[5rem] z-50 h-[calc(100dvh-5.75rem)] rounded-2xl border border-border/10 bg-black/20 p-4 font-tektur shadow-2xl backdrop-blur-xl lg:hidden"
             >
-              <div className="flex h-full flex-col justify-between gap-2">
+              <div className="flex h-full flex-col justify-between gap-2 pr-4">
                 {renderNavLinks(true)}
                 {renderAuthSection(true)}
               </div>

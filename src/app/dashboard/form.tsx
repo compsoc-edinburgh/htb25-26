@@ -3,6 +3,7 @@ import { useClerk, useUser } from "@clerk/nextjs";
 import { Team, User } from "@prisma/client";
 import { countries } from "country-data-list";
 import {
+  Check,
   Edit3,
   ExternalLink,
   LogOut,
@@ -167,8 +168,7 @@ export default function EditApplicationForm({
               <Button
                 className="w-max"
                 loading={loading}
-                disabled={isValid}
-                onClick={() => handleUpdate()}
+                onClick={(e) => scrollToSection(e, "#save")}
               >
                 Save
               </Button>
@@ -183,6 +183,26 @@ export default function EditApplicationForm({
         ),
       );
   }, [isDirty]);
+  
+  const scrollToSection = (e: React.MouseEvent, sectionId: string) => {
+    e.preventDefault();
+    const element = document.querySelector(sectionId);
+    if (element) {
+      const navHeight = 80; //estimate
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - navHeight;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const isUniEmail = (e = email) => {
+    const domain = e?.split("@")[1] as string;
+    return university?.domains.includes(domain);
+  };
 
   const handleUploadComplete = async (res: any) => {
     toast.success("Your file has been uploaded successfully.");
@@ -252,7 +272,7 @@ export default function EditApplicationForm({
                 {user.first_name} {user.last_name}
               </span>
               <span className="text-sm">{user.email}</span>
-              <Button
+              {/* <Button
                 size={"sm"}
                 variant={"secondary"}
                 className="mt-2 w-max bg-accent-blue text-white hover:bg-accent-blue/80 lg:hidden"
@@ -262,7 +282,7 @@ export default function EditApplicationForm({
                   <Edit3 />
                   Edit profile
                 </Link>
-              </Button>
+              </Button> */}
             </span>
 
             <Button
@@ -413,14 +433,55 @@ export default function EditApplicationForm({
               </SelectContent>
             </Select>
           </div>
-          <div className="flex max-w-md flex-1 flex-col gap-2">
-            <Label htmlFor="email">University email</Label>
-            <Input
-              name="email"
-              id="email"
-              defaultValue={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
+          <div className="flex flex-col max-w-md gap-2">
+            {!isUniEmail() && (
+              <p className="font-sans text-sm">
+                Your email{" "}
+                <b className="font-sans">
+                  ({user?.email})
+                </b>{" "}
+                does not seem to be from the university you selected. Please
+                enter an email ending with{" "}
+                {university?.domains?.map((d, i, a) => (
+                  <span key={d} className="font-sans font-bold">
+                    {d}{" "}
+                    {i === a.length - 2 ? " or " : i < a.length - 1 ? ", " : ""}
+                  </span>
+                ))}
+              </p>
+            )}
+            <div className="relative">
+              <Input
+                autoFocus
+                name="email"
+                id="email"
+                className={isUniEmail() ? "pl-9" : ""}
+                data-error={isUniEmail() ? undefined : "true"}
+                defaultValue={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              {isUniEmail() && (
+                <Check
+                  size={18}
+                  className="absolute left-3 top-1/2 -translate-y-1/2 transform text-green-600"
+                />
+              )}
+            </div>
+            {isUniEmail(user?.email) && (
+              <div>
+                <Button
+                  size={"sm"}
+                  className="p-1 px-2 text-sm font-normal"
+                  type="button"
+                  variant={"outline"}
+                  onClick={() =>
+                    setEmail(user?.email)
+                  }
+                >
+                  Use {user?.email}
+                </Button>
+              </div>
+            )}
           </div>
         </div>
         <div className="flex flex-col gap-6">
@@ -508,10 +569,12 @@ export default function EditApplicationForm({
             </Select>
           </div>
         </div>
-        <div className="flex flex-1 flex-col gap-2">
+        <div className="flex flex-1 flex-col gap-2 max-w-md">
           <div className="flex flex-1 flex-col gap-6 py-3">
             <Label htmlFor="aim">Tell us about a project you completed</Label>
-
+            <span className="text-sm">
+              (Optional but highly recommended)
+            </span>
             <div className="flex flex-col gap-2">
               <Label htmlFor="aim">Project aim</Label>
               <Textarea
@@ -658,12 +721,12 @@ export default function EditApplicationForm({
             </Tabs>
           </div>
         </div>
-        <div className="flex w-full">
+        <div className="flex w-full" id="save">
           <Button
             className="w-full max-w-md self-end"
             type="button"
             loading={loading}
-            disabled={!isValid}
+            disabled={!isValid || !isUniEmail()}
             onClick={() => handleUpdate()}
           >
             Save

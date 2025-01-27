@@ -43,11 +43,11 @@ export default function Page() {
         </div>
       </div>
 
-      <section id="sponsors">
+      <section id="sponsors" className="scroll-mt-20">
         <SponsorsComponents.SponsorsSection />
       </section>
       
-       <section className="mx-auto mb-28 w-full max-w-7xl" id="faq">
+       <section className="mx-auto mb-28 w-full max-w-7xl scroll-mt-20" id="faq">
         <h2 className="mb-4 text-center font-bold sm:text-xl md:text-2xl lg:text-3xl">
           Frequently Asked Questions
         </h2>

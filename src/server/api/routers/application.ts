@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/api/trpc";
 
 import { Resend } from "resend";
 
@@ -151,7 +151,11 @@ export const applicationRouter = createTRPCRouter({
         throw new Error("Failed to create application");
       }
     }),
-  getUserApplication: protectedProcedure.query(async ({ ctx }) => {
+  getUserApplication: publicProcedure.query(async ({ ctx }) => {
+    if (!ctx.auth.userId) {
+      return null;
+    }
+    
     return ctx.db.application.findFirst({
       where: {
         user_id: ctx.auth.userId,
