@@ -83,7 +83,7 @@ export default function JoinTeam({
             Successfully joined team {team.name}.{" "}
           </p>
           <p className="font-sans text-sm text-muted-foreground">
-            You can invite up to 3 more friends to join your team by sharing the
+            You can have a maximum of 6 friends joining your team by sharing the
             code below with them.
           </p>
           <div className="my-3 flex items-center space-x-2">
