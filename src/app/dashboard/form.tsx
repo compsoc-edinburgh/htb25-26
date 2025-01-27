@@ -107,38 +107,40 @@ export default function EditApplicationForm({
 
   // Really ugly solution, change if have time
   useEffect(() => {
-    if (!isDirty)
-      setIsDirty(
-        firstName !== user.first_name ||
-          lastName !== user.last_name ||
-          email !== user.university_email ||
-          country?.alpha2 !== user.country ||
-          university?.name !== user.university_name ||
-          universityYear !== user.university_year ||
-          cv !== user.cv_url ||
-          portfolio !== user.portfolio_url ||
-          placements !== user.placements_count ||
-          hackathons !== user.hackathons_count ||
-          project !== (user.project_description ?? undefined) ||
-          needsReimbursement !== (user.needs_reimbursement ?? undefined) ||
-          travel !== (user.travelling_from ?? undefined) ||
-          calendarEmail !== (user.calendar_email ?? undefined),
-      );
-
-    setIsValid(
+    const valid =
       !!firstName &&
-        !!lastName &&
-        !!email &&
-        !!country?.alpha2 &&
-        !!university?.name &&
-        !!universityYear &&
-        !!cv &&
-        !!portfolio &&
-        !!placements &&
-        !!hackathons &&
-        !!needsReimbursement &&
-        !!travel,
-    );
+      !!lastName &&
+      !!email &&
+      !!country?.alpha2 &&
+      !!university?.name &&
+      !!universityYear &&
+      !!cv &&
+      !!portfolio &&
+      !!placements &&
+      !!hackathons &&
+      (needsReimbursement === false || !!travel) &&
+      isUniEmail(email) === true;
+
+    const dirty =
+      firstName !== user.first_name ||
+      lastName !== user.last_name ||
+      email !== user.university_email ||
+      country?.alpha2 !== user.country ||
+      university?.name !== user.university_name ||
+      universityYear !== user.university_year ||
+      cv !== user.cv_url ||
+      portfolio !== user.portfolio_url ||
+      placements !== user.placements_count ||
+      hackathons !== user.hackathons_count ||
+      project !== (user.project_description ?? undefined) ||
+      needsReimbursement !== (user.needs_reimbursement ?? undefined) ||
+      travel !== (user.travelling_from ?? undefined) ||
+      calendarEmail !== (user.calendar_email ?? undefined);
+
+    setIsDirty(dirty);
+    setIsValid(valid);
+
+    if (!dirty && valid && dirtyToast) toast.dismiss(dirtyToast);
   }, [
     firstName,
     lastName,
@@ -252,8 +254,6 @@ export default function EditApplicationForm({
     setLoading(false);
   };
 
-  console.log(user.team);
-
   return (
     <div className="mx-auto flex w-full flex-col gap-3 py-10 lg:flex-row">
       <div className="flex w-full flex-col gap-6 lg:w-1/3">
@@ -316,7 +316,7 @@ export default function EditApplicationForm({
                 </span>
               </Label>
               {(team?.members?.length ?? 0) < 4 && (
-                <p className="rounded-xl bg-accent-red p-3 font-sans text-sm leading-tight text-white mt-2">
+                <p className="mt-2 rounded-xl bg-accent-red p-3 font-sans text-sm leading-tight text-white">
                   You need at least 4 members in your team. Otherwise your
                   application will be dismissed.
                 </p>
@@ -403,8 +403,12 @@ export default function EditApplicationForm({
               name="firstName"
               id="firstName"
               defaultValue={firstName}
+              data-error={firstName ? undefined : "true"}
               onChange={(e) => setFirstName(e.target.value)}
             />
+            {!firstName && (
+              <p className="font-sans text-sm text-accent-red">Required</p>
+            )}
           </div>
           <div className="flex max-w-md flex-1 flex-col gap-2">
             <Label htmlFor="lastName">Last Name</Label>
@@ -412,8 +416,12 @@ export default function EditApplicationForm({
               name="lastName"
               id="lastName"
               defaultValue={lastName}
+              data-error={lastName ? undefined : "true"}
               onChange={(e) => setLastName(e.target.value)}
             />
+            {!lastName && (
+              <p className="font-sans text-sm text-accent-red">Required</p>
+            )}
           </div>
         </div>
         <div className="flex flex-col gap-6">
@@ -600,9 +608,8 @@ export default function EditApplicationForm({
                 rows={2}
                 defaultValue={aim}
                 onChange={(e) =>
-                  setProject(`${e.target.value}\n${stack}\n${link}`)
+                  setProject(`${e.target.value}\n${stack ?? ""}\n${link ?? ""}`)
                 }
-                required
               />
             </div>
             <div className="flex flex-col gap-2">
@@ -614,9 +621,8 @@ export default function EditApplicationForm({
                 className="min-h-0 flex-1 resize-none"
                 defaultValue={stack}
                 onChange={(e) =>
-                  setProject(`${aim}\n${e.target.value}\n${link}`)
+                  setProject(`${aim ?? ""}\n${e.target.value}\n${link ?? ""}`)
                 }
-                required
               />
             </div>
             <div className="flex flex-col gap-2">
@@ -628,9 +634,8 @@ export default function EditApplicationForm({
                 defaultValue={link}
                 className="min-h-0 flex-1 resize-none"
                 onChange={(e) =>
-                  setProject(`${aim}\n${stack}\n${e.target.value}`)
+                  setProject(`${aim ?? ""}\n${stack ?? ""}\n${e.target.value}`)
                 }
-                required
               />
             </div>
           </div>
@@ -674,7 +679,14 @@ export default function EditApplicationForm({
                     onChange={(e) => {
                       setTravel(e.target.value);
                     }}
+                    data-error={travel ? undefined : "true"}
+                    required
                   />
+                  {!travel && (
+                    <p className="font-sans text-sm text-accent-red">
+                      Required
+                    </p>
+                  )}
                 </div>
               </TabsContent>
               <TabsContent value="no"></TabsContent>
@@ -737,12 +749,22 @@ export default function EditApplicationForm({
             </Tabs>
           </div>
         </div>
+        {isDirty && !isValid && (
+          <div className="rounded-xl">
+            <div className="flex items-center gap-3">
+              <TriangleAlert size={17} className="text-accent-red"/>
+              <span className="flex-1 text-sm font-medium text-accent-red">
+                Please check your answers
+              </span>
+            </div>
+          </div>
+        )}
         <div className="flex w-full" id="save">
           <Button
             className="w-full max-w-md self-end"
             type="button"
             loading={loading}
-            disabled={!isValid || !isUniEmail()}
+            disabled={!isValid || !isDirty}
             onClick={() => handleUpdate()}
           >
             Save

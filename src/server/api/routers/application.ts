@@ -115,24 +115,24 @@ export const applicationRouter = createTRPCRouter({
                       </style>
                   </head>
 
-                  <body style="background=#000;background=url("https://hacktheburgh.com/screenshot.png") no-repeat fixed center;">
+                  <body style="padding:3rem;background-color:hsl(234,59%,7%);">
                       <div id="header-image-container" style="justify-content:center">
                           <a href="https://hacktheburgh.com/" target="_blank" style="margin: 0 auto;">
                           <img src="https://hacktheburgh.com/HTB-logo.png" id="header-image" />
                           </a>
                       </div>
-                      <div class="container">
+                      <div class="container" style="background-color: hsl(68, 100%, 51%);">
                           <h1>Application Received!</h1>
                           <p>We've received your application to <span class="highlight">Hack The Burgh 2025</span>.</p>
                           <p>You can keep updating your profile until the deadline.</p>
                           <p>Thank you for your interest in our event, best of luck!</p>
                       </div>
-                      <footer>
-                          <p>
+                      <footer style="text-align:center;">
+                          <p style="color:white; text-align:center;">
                               Please don't reply to this email, to contact us, email 
                               <a href="mailto:hello@hacktheburgh.com">hello@hacktheburgh.com</a>
                           </p>
-                          <a href="https://www.hacktheburgh.com/documents/HTB-Privacy-Policy.pdf" target="_blank">
+                          <a style="color:white;" href="https://www.hacktheburgh.com/documents/HTB-Privacy-Policy.pdf" target="_blank">
                               Privacy Policy
                           </a>
                       </footer>
