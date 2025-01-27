@@ -53,7 +53,7 @@ export default function Footer() {
           </div>
         </div>
       </footer>
-      <div className="mt-4 flex flex-col sm:flex-row items-center justify-center gap-2 text-xs sm:text-sm text-gray-400">
+      <div className="my-4 flex flex-col sm:flex-row items-center justify-center gap-2 text-xs sm:text-sm text-gray-400">
         <a
           href="/documents/HTB-Privacy-Policy.pdf"
           className="hover:text-gray-300"

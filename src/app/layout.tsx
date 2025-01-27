@@ -27,7 +27,13 @@ export default async function RootLayout({
     <ClerkProvider>
       <html lang="en" className={`${tektur.variable} ${GeistSans.variable} dark`}>
         <body className="bg-black font-tektur">
-          <Toaster />
+          <Toaster position="bottom-center" toastOptions={{
+            className: "rounded-full bg-background/70 backdrop-blur-xl border-none",
+            classNames: {
+              success: "bg-green-600/70",
+              error: "bg-accent-red/70",
+            }
+          }} />
           <TRPCReactProvider>{children}</TRPCReactProvider>
         </body>
       </html>

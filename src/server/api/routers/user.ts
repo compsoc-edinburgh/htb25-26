@@ -12,7 +12,11 @@ export const userRouter = createTRPCRouter({
     return ctx.db.user.findUnique({
       where: { id: ctx.auth.userId },
       include: {
-        team: true,
+        team: {
+          include: {
+            members: true,
+          },
+        },
       },
     });
   }),

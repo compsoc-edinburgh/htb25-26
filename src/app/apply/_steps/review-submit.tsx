@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 
 import { ExternalLink } from "lucide-react";
 import { Label } from "~/components/ui/label";
+import { Checkbox } from "~/components/ui/checkbox";
 
 export default function ReviewAndSubmitStep({
   user,
@@ -40,6 +41,7 @@ export default function ReviewAndSubmitStep({
   const apply = api.application.create.useMutation();
 
   const [loading, setLoading] = useState(false);
+  const [ageConfirmed, setAgeConfirmed] = useState(false);
 
   const handleBack = async () => {
     updateSearchParam([
@@ -90,24 +92,24 @@ export default function ReviewAndSubmitStep({
           submit it.
         </p>
       </div>
-      <div className="flex-1 ">
-        <div className="grid gap-3 md:flex-wrap max-h-[300px] overflow-y-scroll">
+      <div className="flex-1">
+        <div className="grid max-h-[300px] gap-3 overflow-y-scroll md:flex-wrap">
           <div className="flex flex-col">
-            <Label className="text-xs font-sans">Name</Label>
+            <Label className="font-sans text-xs">Name</Label>
             <span>
               {user.first_name} {user.last_name}
             </span>
           </div>
           <div className="flex flex-col">
-            <Label className="text-xs font-sans">Country</Label>
+            <Label className="font-sans text-xs">Country</Label>
             <span>{user.country}</span>
           </div>
           <div className="flex flex-col">
-            <Label className="text-xs font-sans">University</Label>
+            <Label className="font-sans text-xs">University</Label>
             <span>{user.university_name}</span>
           </div>
           <div className="flex flex-col">
-            <Label className="text-xs font-sans">University level</Label>
+            <Label className="font-sans text-xs">University level</Label>
             <span>
               {user.university_year === "phd"
                 ? "PhD"
@@ -117,7 +119,7 @@ export default function ReviewAndSubmitStep({
             </span>
           </div>
           <div className="flex flex-col">
-            <Label className="text-xs font-sans">CV</Label>
+            <Label className="font-sans text-xs">CV</Label>
             <Button
               asChild
               className="w-max px-0 text-blue-600"
@@ -129,42 +131,55 @@ export default function ReviewAndSubmitStep({
             </Button>
           </div>
           <div className="flex flex-col">
-            <Label className="text-xs font-sans">Portfolio/LinkedIn</Label>
+            <Label className="font-sans text-xs">Portfolio/LinkedIn</Label>
             <span>{user.portfolio_url}</span>
           </div>
           <div className="flex flex-col">
-            <Label className="text-xs font-sans">Placements/internships</Label>
+            <Label className="font-sans text-xs">Placements/internships</Label>
             <span>{user.placements_count}</span>
           </div>
           <div className="flex flex-col">
-            <Label className="text-xs font-sans">Hackathons attended</Label>
+            <Label className="font-sans text-xs">Hackathons attended</Label>
             <span>{user.hackathons_count}</span>
           </div>
           <div className="flex flex-col">
-            <Label className="text-xs font-sans">Project</Label>
+            <Label className="font-sans text-xs">Project</Label>
             <span>{user.project_description}</span>
           </div>
           <div className="flex flex-col">
-            <Label className="text-xs font-sans">Reimbursement</Label>
+            <Label className="font-sans text-xs">Reimbursement</Label>
             <span>{user.needs_reimbursement ? "Yes" : "No"}</span>
           </div>
           {user.needs_reimbursement && (
             <div className="flex flex-col">
-              <Label className="text-xs font-sans">Travel details</Label>
+              <Label className="font-sans text-xs">Travel details</Label>
               <span>{user.travelling_from}</span>
             </div>
           )}
           <div className="flex flex-col">
-            <Label className="text-xs font-sans">Joint calendar</Label>
+            <Label className="font-sans text-xs">Joint calendar</Label>
             <span>{!!user.calendar_email ? "Yes" : "No"}</span>
           </div>
           {user.calendar_email && (
             <div className="flex flex-col">
-              <Label className="text-xs font-sans">Calendar email</Label>
+              <Label className="font-sans text-xs">Calendar email</Label>
               <span>{user.calendar_email}</span>
             </div>
           )}
         </div>
+      </div>
+      <div>
+        <Label
+          htmlFor={"age"}
+          className="flex items-center gap-2 rounded-xl p-3 transition-colors hover:bg-muted [&:has(:checked)]:bg-muted"
+        >
+          <Checkbox
+            required
+            id={"age"}
+            onCheckedChange={(checked) => setAgeConfirmed(checked === true)}
+          />
+          I confirm that I am over 18 years old
+        </Label>
       </div>
       <div className="text-center font-sans text-xs">
         By submitting an application, you consent to us sharing
@@ -178,6 +193,7 @@ export default function ReviewAndSubmitStep({
           className="w-full flex-1"
           onClick={handleSubmit}
           loading={loading}
+          disabled={!ageConfirmed}
         >
           Apply
         </Button>

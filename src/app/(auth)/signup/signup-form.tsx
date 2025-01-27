@@ -226,7 +226,7 @@ export function SignupForm({
                   <div className="grid gap-6">
                     <div className="grid gap-2">
                       <Label htmlFor="email">Email address</Label>
-                      <span className="text-sm text-muted-foreground">
+                      <span className="text-sm font-sans text-muted-foreground">
                         You'll need your university email to apply
                       </span>
                       <Input
@@ -238,7 +238,7 @@ export function SignupForm({
                         required
                       />
                       {emailError && (
-                        <span className="text-sm text-destructive">
+                        <span className="text-sm text-accent-red">
                           {emailError}
                         </span>
                       )}
@@ -287,7 +287,7 @@ export function SignupForm({
             )}
           </CardContent>
         </Card>
-        <div className="text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 [&_a]:hover:text-primary">
+        <div className="mb-6 text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 [&_a]:hover:text-primary">
           By clicking continue, you agree to MLH's{" "}
           <a
             target="_blank"

@@ -23,7 +23,6 @@ export default function UniversityStep({
   setStep: Dispatch<SetStateAction<ApplicationStep>>;
 }) {
   const [loading, setLoading] = useState(false);
-  console.log(university);
 
   const { updateSearchParam } = useSearchParamsHelper();
   const updateUser = api.user.update.useMutation();

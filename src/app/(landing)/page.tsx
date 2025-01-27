@@ -5,9 +5,9 @@ import { SponsorsComponents } from "~/components/modules/landing/sponsors-sectio
 
 export default function Page() {
   return (
-    <main className="w-full max-w-screen-xl space-y-8 px-4 md:mx-auto">
-      <div className="lg:my-26 mx-auto my-12 flex max-w-screen-lg flex-col items-center py-32 text-center md:py-44">
-        <img src="/HTB-logo.png" alt="HTB Logo" className="h-full w-full" />
+    <main className="w-full max-w-screen-xl space-y-8 px-4 md:mx-auto py-20">
+      <div className="mx-auto flex max-w-screen-lg flex-col items-center justify-center pb-20 text-center min-h-[calc(100dvh-32rem)] lg:min-h-[calc(100dvh-12rem)]">
+        <img src="/HTB-logo.png" alt="HTB Logo" className="object-contain" />
       </div>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-6">

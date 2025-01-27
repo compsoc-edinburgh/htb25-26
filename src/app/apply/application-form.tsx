@@ -78,7 +78,7 @@ export default function ApplicationForm({
     countries.all.find((c) => c.alpha2 === user.country),
   );
   const [university, setUniversity] = useState<University | undefined>(
-    universities.find((u) => u.name === user.university_name || u.name === "University of Edinburgh"),
+    universities.find((u) => u.name === user.university_name),
   );
   const [universityYear, setUniversityYear] = useState(
     user.university_year ?? undefined,
@@ -93,20 +93,20 @@ export default function ApplicationForm({
     user.hackathons_count ?? undefined,
   );
   const [project, setProject] = useState(user.project_description ?? undefined);
-  const [needsReimbursement, setNeedsReimbursement] = useState(
-    user.needs_reimbursement ?? undefined,
-  );
+  const [needsReimbursement, setNeedsReimbursement] = useState<
+    boolean | undefined
+  >(user.needs_reimbursement ?? false);
   const [travel, setTravel] = useState(user.travelling_from ?? undefined);
   const [diet, setDiet] = useState(user.dietary_restrictions ?? undefined);
   const [calendarEmail, setCalendarEmail] = useState(
     user.calendar_email ?? undefined,
   );
 
-  useEffect(() => {
-    if (searchParams.has("step")) {
-      setStep((searchParams.get("step") as typeof step) ?? "team");
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (searchParams.has("step")) {
+  //     setStep((searchParams.get("step") as typeof step) ?? "team");
+  //   }
+  // }, []);
 
   return (
     <div className="relative m-auto flex h-screen max-h-full w-full max-w-md flex-1 flex-col gap-3 rounded-xl bg-black/70 p-6 md:aspect-[9/16]">

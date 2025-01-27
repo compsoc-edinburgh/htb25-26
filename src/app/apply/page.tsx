@@ -26,7 +26,7 @@ export default async function ApplyPage() {
   }
 
   if (application) {
-    redirect("/dashboard/application");
+    redirect("/dashboard");
   }
 
   return (

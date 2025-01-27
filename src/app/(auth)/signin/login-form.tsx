@@ -120,7 +120,7 @@ export function LoginForm({
                     {errors.map((el, index) => (
                       <li
                         key={index}
-                        className="list-inside list-disc text-sm text-destructive"
+                        className="list-inside list-disc text-sm text-accent-orange"
                       >
                         {el.longMessage}
                       </li>

@@ -1,9 +1,8 @@
 import { z } from "zod";
 
-import {
-  createTRPCRouter,
-  protectedProcedure,
-} from "~/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+
+import { Resend } from "resend";
 
 export const applicationRouter = createTRPCRouter({
   create: protectedProcedure
@@ -14,12 +13,133 @@ export const applicationRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.db.application.create({
-        data: {
-          user_id: ctx.auth.userId,
-          team_id: input.team_id,
-        },
-      });
+      try {
+        const user = await ctx.db.user.findUnique({
+          where: {
+            id: ctx.auth.userId,
+          },
+        });
+
+        if (!user) {
+          throw new Error("User not found");
+        }
+
+        const resend = new Resend(process.env.RESEND_API_KEY);
+
+        resend.emails.send({
+          from: "applications@hacktheburgh.com",
+          to: user.university_email
+            ? [user.email, user.university_email]
+            : user.email,
+          subject: "We received your application",
+          html: `<!DOCTYPE html>
+                  <html lang="en">
+                  <head>
+                      <meta charset="UTF-8">
+                      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                      <title>Application Confirmation</title>
+                      <style>
+                          :root {
+                              --accent-yellow: hsl(68, 100%, 51%);
+                              --accent-lilac: hsl(282, 81%, 81%);
+                              --accent-blue: hsl(221, 100%, 60%);
+                              --accent-red: hsl(9, 86%, 59%);
+                              --accent-orange: hsl(16, 82%, 61%);
+                          }
+                          body {
+                              font-family: Arial, sans-serif;
+                              display: flex;
+                              flex-direction: column;
+                              align-items: center;
+                              justify-content: center;
+                              gap: 2rem;
+                              height: 100vh;
+                              margin: 0;
+                              background: url("https://hacktheburgh.com/screenshot.png") no-repeat fixed center;
+                          }
+                          .container {
+                              background-color: var(--accent-yellow);
+                              padding: 2rem;
+                              border-radius: 1rem;
+                              text-align: center;
+                              max-width: 400px;
+                          }
+                          h1 {
+                              color: hsl(var(--accent-blue));
+                              margin-bottom: 1rem;
+                          }
+                          p {
+                              color: #333;
+                              line-height: 1.6;
+                          }
+                          .highlight {
+                              color: hsl(var(--accent-red));
+                              font-weight: bold;
+                          }
+                          
+                          #header-image {
+                              width: 100%;
+                              max-width: 400px;   
+                          }
+                          
+                          footer {
+                              display: flex;
+                              justify-content: center;
+                              align-items: center;
+                              flex-direction: column;
+                              color: white;
+                              font-size: 0.8rem;
+                          }
+                          
+                          footer p {
+                              color: white;
+                          }
+                          
+                          footer a {
+                              color: white;
+                              text-decoration: underline;
+                          }
+                          
+                      </style>
+                  </head>
+
+                  <body>
+                      <div id="header-image-container">
+                          <a href="https://hacktheburgh.com/" target="_blank">
+                          <img src="https://hacktheburgh.com/HTB-logo.png" id="header-image" />
+                          </a>
+                      </div>
+                      <div class="container">
+                          <h1>Application Received!</h1>
+                          <p>We've received your application to <span class="highlight">Hack The Burgh 2025</span>.</p>
+                          <p>You can keep updating your profile until the deadline.</p>
+                          <p>Thank you for your interest in our event, best of luck!</p>
+                      </div>
+                      <footer>
+                          <p>
+                              Please don't reply to this email, to contact us, email 
+                              <a href="mailto:hello@hacktheburgh.com">hello@hacktheburgh.com</a>
+                          </p>
+                          <a href="https://www.hacktheburgh.com/documents/HTB-Privacy-Policy.pdf" target="_blank">
+                              Privacy Policy
+                          </a>
+                      </footer>
+                  </body>
+
+                  </html>
+          `,
+        });
+
+        return ctx.db.application.create({
+          data: {
+            user_id: ctx.auth.userId,
+            team_id: input.team_id,
+          },
+        });
+      } catch (error) {
+        console.error(error);
+        throw new Error("Failed to create application");
+      }
     }),
   getUserApplication: protectedProcedure.query(async ({ ctx }) => {
     return ctx.db.application.findFirst({
@@ -27,7 +147,11 @@ export const applicationRouter = createTRPCRouter({
         user_id: ctx.auth.userId,
       },
       include: {
-        team: true,
+        team: {
+          include: {
+            members: true,
+          },
+        },
       },
     });
   }),

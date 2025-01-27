@@ -27,7 +27,7 @@ export default function DoneStep() {
         for updates.
       </p>
       <Button>
-        <Link href="/dashboard/application">Back to dashboard</Link>
+        <Link href="/dashboard">Back to dashboard</Link>
       </Button>
     </div>
   );

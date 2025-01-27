@@ -143,7 +143,7 @@ const FAQAccordionItem = ({ faq }: { faq: FAQItem }) => {
           </span>
         </span>
       </summary>
-      <p className="md:text-md mt-4 text-white/70 leading-relaxed">{faq.answer}</p>
+      <p className="md:text-md mt-4 text-white/70 leading-relaxed font-sans [&>*]:font-sans">{faq.answer}</p>
     </details>
   );
 };
