@@ -38280,7 +38280,7 @@
     "name": "University of Messina",
     "alpha_two_code": "IT",
     "state-province": null,
-    "domains": ["unime.it"],
+    "domains": ["unime.it", "studenti.unime.it"],
     "country": "Italy"
   },
   {
