@@ -4,61 +4,20 @@ import { FAQComponents } from "~/components/modules/landing/faq-section";
 import { SponsorsComponents } from "~/components/modules/landing/sponsors-section";
 import { auth } from "@clerk/nextjs/server";
 import { api } from "~/trpc/server";
-import { Button } from "~/components/ui/button";
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ApplicationStatusSection } from "~/components/application-status-section";
 
 export default async function Page() {
   const user = await auth();
   const application = await api.application.getUserApplication();
+
 
   return (
     <main className="w-full max-w-screen-xl space-y-8 px-4 py-20 md:mx-auto">
       <div className="mx-auto flex min-h-[calc(100dvh-32rem)] max-w-screen-lg flex-col items-center justify-center pb-20 text-center lg:min-h-[calc(100dvh-12rem)]">
         <img src="/HTB-logo.png" alt="HTB Logo" className="object-contain" />
       </div>
-      <div className="flex w-full flex-col items-center justify-between gap-3 rounded-xl bg-accent-yellow px-4 py-3 text-black">
-        {user.userId ? (
-          <>
-            <span className="flex-1 text-center text-sm font-medium">
-              <span>
-                <span className="text-lg">Applications are closed</span>
-                {application && application.status === "pending" && (
-                  <span className="block pt-2 font-sans text-sm font-normal">
-                    Thank you for applying, we'll let you know of your outcome.
-                    You can view your application in the dashboard.
-                  </span>
-                )}
-                {application && application.status === "accepted" && (
-                  <span className="block pt-2 font-sans text-sm font-normal">
-                    Congratulations on being accepted! You can view your
-                    application in the dashboard.
-                  </span>
-                )}
-              </span>
-            </span>
-            <Button className="" asChild>
-              <Link href={"/dashboard"}>
-                Dashboard <ArrowRight size={16} />
-              </Link>
-            </Button>
-          </>
-        ) : (
-          <>
-            <span>
-              <span className="text-lg">Applications are closed</span>
-              <span className="block pt-2 font-sans text-sm font-normal">
-                Check back again next year! If you've already applied, sign in
-                to view your application.
-              </span>
-            </span>
-            <Button className="" asChild>
-              <Link href={"/dashboard"}>
-                Sign in <ArrowRight size={16} />
-              </Link>
-            </Button>
-          </>
-        )}
+      <div className="relative flex w-full flex-col items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/5 px-6 py-4 text-white shadow-[inset_0_0_20px_rgba(255,255,255,0.05)] backdrop-blur-xl transition-all duration-300">
+        <ApplicationStatusSection userId={user?.userId} application={application} />
       </div>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-6">
         <div className="order-2 col-span-1 md:col-span-3 lg:order-none lg:col-span-2">
