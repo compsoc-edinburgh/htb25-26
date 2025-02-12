@@ -70,7 +70,7 @@ export default async function ApplyPage() {
 
   if (application.status === ApplicationStatus.accepted) {
     return (
-      <div className="mx-auto flex min-h-screen w-full max-w-screen-md flex-col justify-center px-2 pb-6 pt-20 md:h-screen md:min-h-full md:pt-6">
+      <div className="mx-auto flex min-h-screen w-full max-w-screen-md flex-col justify-center px-2 pb-6 pt-20 md:pt-6">
         <Link href={"/"}>
           <img
             src="/HB-icon-neon-small.png"
