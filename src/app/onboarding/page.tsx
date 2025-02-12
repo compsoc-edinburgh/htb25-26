@@ -13,7 +13,6 @@ export default async function ApplyPage() {
   }
   const user = await api.user.get();
 
-
   if (!clerkUser?.id || !user) {
     redirect("/signin");
   }
@@ -87,7 +86,10 @@ export default async function ApplyPage() {
             className="object-fit mx-auto block h-12 md:hidden"
           />
         </Link>
-        <OnboardingForm user={user} />
+
+        <div id="onboarding-form" className="mt-12">
+          <OnboardingForm user={user} />
+        </div>
       </div>
     );
   }
