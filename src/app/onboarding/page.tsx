@@ -8,7 +8,11 @@ import { ApplicationStatus } from "@prisma/client";
 
 export default async function ApplyPage() {
   const clerkUser = await currentUser();
+  if (!clerkUser) {
+    redirect("/signin");
+  }
   const user = await api.user.get();
+
 
   if (!clerkUser?.id || !user) {
     redirect("/signin");
