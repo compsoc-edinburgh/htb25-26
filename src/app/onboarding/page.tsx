@@ -18,7 +18,24 @@ export default async function ApplyPage() {
     notFound();
   }
 
-  if (application.status !== "accepted") {
+  if (application.status === "pending") {
+    return (
+      <div className="mx-auto flex min-h-screen w-full max-w-screen-md flex-col justify-center px-2 pb-6 pt-20 md:h-screen md:min-h-full md:pt-6">
+        <div className="mx-auto flex max-w-screen-sm flex-col gap-4">
+          <Image
+            src="/HTB-logo.png"
+            alt="HackTheBurgh Logo"
+            width={300}
+            height={100}
+            className="mb-8 object-contain"
+          />
+          <p>Check back later!</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (application.status === "rejected") {
     return (
       <div className="mx-auto flex min-h-screen w-full max-w-screen-md flex-col justify-center px-2 pb-6 pt-20 md:h-screen md:min-h-full md:pt-6">
         <div className="mx-auto flex max-w-screen-sm flex-col gap-4">
@@ -63,24 +80,32 @@ export default async function ApplyPage() {
     );
   }
 
+  if (application.status === "accepted") {
+    return (
+      <div className="mx-auto flex min-h-screen w-full max-w-screen-md flex-col justify-center px-2 pb-6 pt-20 md:h-screen md:min-h-full md:pt-6">
+        <Link href={"/"}>
+          <img
+            src="/HB-icon-neon-small.png"
+            className="absolute left-0 top-0 z-50 m-6 hidden h-12 md:block"
+          />
+        </Link>
+        <Link
+          href={"/"}
+          className="absolute left-0 top-0 z-50 flex h-20 w-full items-center justify-center md:hidden"
+        >
+          <img
+            src="/HTB-logo.png"
+            className="object-fit mx-auto block h-12 md:hidden"
+          />
+        </Link>
+        <OnboardingForm user={user} />
+      </div>
+    );
+  }
+
   return (
     <div className="mx-auto flex min-h-screen w-full max-w-screen-md flex-col justify-center px-2 pb-6 pt-20 md:h-screen md:min-h-full md:pt-6">
-      <Link href={"/"}>
-        <img
-          src="/HB-icon-neon-small.png"
-          className="absolute left-0 top-0 z-50 m-6 hidden h-12 md:block"
-        />
-      </Link>
-      <Link
-        href={"/"}
-        className="absolute left-0 top-0 z-50 flex h-20 w-full items-center justify-center md:hidden"
-      >
-        <img
-          src="/HTB-logo.png"
-          className="object-fit mx-auto block h-12 md:hidden"
-        />
-      </Link>
-      <OnboardingForm user={user} />
+      <p>Check back later!</p>
     </div>
   );
 }
