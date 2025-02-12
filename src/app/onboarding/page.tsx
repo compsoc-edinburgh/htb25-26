@@ -4,6 +4,8 @@ import { currentUser } from "@clerk/nextjs/server";
 import Link from "next/link";
 import OnboardingForm from "./onboarding-form";
 import Image from "next/image";
+import { ApplicationStatus } from "@prisma/client";
+
 export default async function ApplyPage() {
   const clerkUser = await currentUser();
   const user = await api.user.get();
@@ -18,24 +20,7 @@ export default async function ApplyPage() {
     notFound();
   }
 
-  if (application.status === "pending") {
-    return (
-      <div className="mx-auto flex min-h-screen w-full max-w-screen-md flex-col justify-center px-2 pb-6 pt-20 md:h-screen md:min-h-full md:pt-6">
-        <div className="mx-auto flex max-w-screen-sm flex-col gap-4">
-          <Image
-            src="/HTB-logo.png"
-            alt="HackTheBurgh Logo"
-            width={300}
-            height={100}
-            className="mb-8 object-contain"
-          />
-          <p>Check back later!</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (application.status === "rejected") {
+  if (application.status === ApplicationStatus.rejected) {
     return (
       <div className="mx-auto flex min-h-screen w-full max-w-screen-md flex-col justify-center px-2 pb-6 pt-20 md:h-screen md:min-h-full md:pt-6">
         <div className="mx-auto flex max-w-screen-sm flex-col gap-4">
@@ -80,7 +65,7 @@ export default async function ApplyPage() {
     );
   }
 
-  if (application.status === "accepted") {
+  if (application.status === ApplicationStatus.accepted) {
     return (
       <div className="mx-auto flex min-h-screen w-full max-w-screen-md flex-col justify-center px-2 pb-6 pt-20 md:h-screen md:min-h-full md:pt-6">
         <Link href={"/"}>
