@@ -318,13 +318,6 @@ export default function EditApplicationForm({
               Sign out <LogOut />
             </Button>
           </div>
-          <div className="mt-3 pl-3 pt-2 font-medium">
-            Application status:{" "}
-            <span className="font-bold">Pending decision</span>
-            <p className="pt-1 font-sans text-sm">
-              We'll notify you about our decision by 17th February
-            </p>
-          </div>
         </div>
         <div className="relative h-max w-full overflow-hidden rounded-2xl bg-accent-lilac p-6 text-black">
           <div className="flex items-center justify-between">
