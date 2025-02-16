@@ -29,14 +29,14 @@ const SPONSOR_DATA: Sponsor[] = [
     logo: "/sponsors/qrt.png",
     website: "https://www.qube-rt.com/",
     tier: "gold",
-    isReleased: false,
+    isReleased: true,
   },
   {
     name: "Lloyds Bank Group",
     logo: "/sponsors/lloyds.svg",
     website: "https://www.lloydsbankinggroup.com/",
     tier: "silver",
-    isReleased: false,
+    isReleased: true,
   },
   {
     name: "Viridien",
