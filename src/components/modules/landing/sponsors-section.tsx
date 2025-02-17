@@ -43,14 +43,14 @@ const SPONSOR_DATA: Sponsor[] = [
     logo: "/sponsors/viridien.svg",
     website: "https://www.viridiengroup.com/",
     tier: "silver",
-    isReleased: false,
+    isReleased: true,
   },
   {
     name: "DoraHacks",
     logo: "/sponsors/dorahacks.png",
     website: "https://dorahacks.com/",
     tier: "bronze",
-    isReleased: false,
+    isReleased: true,
   },
 ];
 
