@@ -15,7 +15,7 @@ interface TimeUnit {
 }
 
 export function CountdownTimer() {
-  const TARGET_DATE = new Date('2025-03-01T00:00:00')
+  const TARGET_DATE = new Date('2025-03-01T09:00:00')
 
   const calculateTimeLeft = (): number => {
     const diff = TARGET_DATE.getTime() - Date.now()
