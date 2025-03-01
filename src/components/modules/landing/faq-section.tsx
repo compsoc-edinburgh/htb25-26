@@ -43,6 +43,14 @@ const FAQ_ITEMS: FAQItem[] = [
     ),
   },
   {
+    question: "What are the rules of the hackathon?",
+    answer: (
+      <>
+        Please see the <Link href="/documents/HTB-Rules.pdf" className="text-accent-yellow underline">HackTheBurgh Rules</Link>.
+      </>
+    ),
+  },
+  {
     question: "When will I hear back on my application?",
     answer: (
       <>
