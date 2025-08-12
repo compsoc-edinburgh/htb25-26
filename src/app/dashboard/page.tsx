@@ -1,7 +1,6 @@
 import { redirect } from "next/navigation";
 import { api } from "~/trpc/server";
 import EditApplicationForm from "./form";
-import WebGLBackground from "~/components/gradient-background";
 import { ApplicationStatusSection } from "~/components/application-status-section";
 
 export default async function ApplicationPage() {

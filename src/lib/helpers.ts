@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter, useSearchParams, usePathname } from 'next/navigation';
+import { useSearchParams, usePathname } from 'next/navigation';
 
 type ParamUpdate = {
   name: string;
@@ -8,7 +8,6 @@ type ParamUpdate = {
 };
 
 export const useSearchParamsHelper = () => {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
 
