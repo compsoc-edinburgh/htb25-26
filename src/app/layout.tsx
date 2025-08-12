@@ -10,8 +10,8 @@ import { TRPCReactProvider } from "~/trpc/react";
 import { Toaster } from "~/components/ui/sonner";
 
 export const metadata: Metadata = {
-  title: "Hack The Burgh XI",
-  description: "Hack The Burgh XI",
+  title: "Hack The Burgh XII",
+  description: "Hack The Burgh XII",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
