@@ -184,7 +184,7 @@ export default function EditApplicationForm({
     calendarEmail,
     user,
     dirtyToast,
-    isUniEmail
+    isUniEmail,
   ]);
 
   useEffect(() => {
