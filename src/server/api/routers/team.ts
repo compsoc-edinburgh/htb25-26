@@ -29,7 +29,7 @@ export const teamRouter = createTRPCRouter({
     .input(
       z.object({
         teamName: z.string().min(1),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       try {
@@ -68,7 +68,7 @@ export const teamRouter = createTRPCRouter({
               select: {
                 first_name: true,
                 last_name: true,
-              }
+              },
             },
           },
         });
@@ -81,7 +81,7 @@ export const teamRouter = createTRPCRouter({
     .input(
       z.object({
         team_code: z.string().min(1),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       const team = await ctx.db.team.findFirst({
@@ -121,16 +121,16 @@ export const teamRouter = createTRPCRouter({
             select: {
               first_name: true,
               last_name: true,
-            }
+            },
           },
         },
-      });;
+      });
     }),
   leave: protectedProcedure
     .input(
       z.object({
         team_id: z.string().min(1),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       const team = await ctx.db.team.findFirst({
@@ -167,7 +167,7 @@ export const teamRouter = createTRPCRouter({
       z.object({
         team_id: z.string().min(1),
         name: z.string().min(1),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       const team = await ctx.db.team.findFirst({

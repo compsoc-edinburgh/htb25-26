@@ -38,7 +38,7 @@ export const createTRPCContext = async (opts: {
 }) => {
   return {
     db,
-    ...opts
+    ...opts,
   };
 };
 

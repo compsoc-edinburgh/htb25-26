@@ -19,7 +19,7 @@ const options = [
   {
     value: "Tagliatelle al Pollo",
     label: "Tagliatelle al Pollo (chicken)",
-  }
+  },
 ];
 
 export default function Meal2Step({
@@ -67,15 +67,12 @@ export default function Meal2Step({
         <div className="rounded-xl bg-muted p-4">
           <h2 className="text-xl font-medium">Second meal - Pasta</h2>
           <p className="font-sans text-sm text-muted-foreground">
-            What's your choice of pasta?
+            What&apos;s your choice of pasta?
           </p>
         </div>
       </div>
       <div className="flex flex-1 flex-col gap-2">
-        <Command
-          className="w-full bg-transparent p-0"
-          defaultValue={meal2}
-        >
+        <Command className="w-full bg-transparent p-0" defaultValue={meal2}>
           <CommandList>
             {options.map((option, key) => (
               <CommandItem
@@ -83,7 +80,7 @@ export default function Meal2Step({
                   "my-1 flex w-full items-center gap-2 rounded-xl p-3 transition-colors",
                   option.value === meal2
                     ? "bg-accent-yellow text-black data-[selected=true]:bg-accent-yellow data-[selected=true]:text-black"
-                    : "hover:bg-primary-50",
+                    : "hover:bg-primary-50"
                 )}
                 key={key}
                 onSelect={() => setMeal2(option.value)}

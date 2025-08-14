@@ -5,6 +5,7 @@ import { CodeSnippet } from "./code-snippet";
 import CodeBlockBackground from "./code-block-backgrond";
 import { CountdownTimer } from "./countdown-timer";
 import Link from "next/link";
+import Image from "next/image";
 
 const VOLUNTEER_FORM_URL =
   "https://docs.google.com/forms/d/e/1FAIpQLSdd_aRixgoGqsnhsZ7O92HZ4hEn0NhhL3xSUVCJwWtPVyq3tg/viewform?usp=send_form";
@@ -57,7 +58,7 @@ const VolunteerCard = () => (
   <Card className="border-0 bg-[#DFA8F6] text-black">
     <CardContent className="p-6">
       <div>
-        <h2 className="mb-2 font-tektur text-lg font-semibold md:text-xl lg:text-2xl">
+        <h2 className="font-tektur mb-2 text-lg font-semibold md:text-xl lg:text-2xl">
           We Need More Hands!
         </h2>
         <div className="flex flex-col lg:flex-row lg:justify-between">
@@ -68,7 +69,7 @@ const VolunteerCard = () => (
           <div className="flex justify-end">
             <Button
               asChild
-              className="mt-4 w-full bg-accent-yellow px-4 py-2 font-tektur text-sm text-black transition-colors duration-200 hover:bg-black hover:text-accent-yellow md:text-base lg:mt-2 lg:w-fit lg:py-1 lg:text-lg"
+              className="font-tektur mt-4 w-full bg-accent-yellow px-4 py-2 text-sm text-black transition-colors duration-200 hover:bg-black hover:text-accent-yellow md:text-base lg:mt-2 lg:w-fit lg:py-1 lg:text-lg"
             >
               <a
                 href={VOLUNTEER_FORM_URL}
@@ -89,25 +90,28 @@ const WelcomeCard = () => {
   return (
     <Card className="relative h-full border-0 bg-white text-black">
       <div className="absolute inset-0 z-0">
-        <img
+        <Image
           src="/logo_back.png"
           alt="Background Logo"
+          width={100}
+          height={100}
           className="h-full w-full object-cover opacity-50"
         />
       </div>
       <CardContent className="relative z-10 flex h-full flex-col justify-between p-6">
         <div>
-          <h2 className="mb-4 font-tektur text-3xl font-semibold md:text-4xl lg:text-5xl">
+          <h2 className="font-tektur mb-4 text-3xl font-semibold md:text-4xl lg:text-5xl">
             WELCOME TO HTB!
           </h2>
           <p className="text-base md:text-lg lg:text-xl">
             Hack The Burgh is back for its 11th year! Join us for a weekend of
-            hacking, workshops, and fun in Edinburgh. Whether you're a seasoned
-            hacker or just starting out, we have something for everyone.
+            hacking, workshops, and fun in Edinburgh. Whether you&apos;re a
+            seasoned hacker or just starting out, we have something for
+            everyone.
           </p>
         </div>
         <div className="flex justify-end">
-          <Button className="mt-2 w-full bg-blue-600 px-4 py-2 font-tektur text-lg text-white hover:bg-blue-700 md:text-xl lg:w-fit lg:text-2xl">
+          <Button className="font-tektur mt-2 w-full bg-blue-600 px-4 py-2 text-lg text-white hover:bg-blue-700 md:text-xl lg:w-fit lg:text-2xl">
             <Link href="/apply">Get Started</Link>
           </Button>
         </div>

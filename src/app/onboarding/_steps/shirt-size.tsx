@@ -73,15 +73,13 @@ export default function ShirtSizeStep({
     >
       <div className="flex flex-col gap-3">
         <div className="rounded-xl bg-muted p-4">
-          <h2 className="text-xl font-medium">What's your t-shirt size?</h2>
-          
+          <h2 className="text-xl font-medium">
+            What&apos;s your t-shirt size?
+          </h2>
         </div>
       </div>
       <div className="flex flex-1 flex-col gap-2">
-        <Command
-          className="w-full bg-transparent p-0"
-          defaultValue={shirtSize}
-        >
+        <Command className="w-full bg-transparent p-0" defaultValue={shirtSize}>
           <CommandList>
             {options.map((option, key) => (
               <CommandItem
@@ -89,7 +87,7 @@ export default function ShirtSizeStep({
                   "my-1 flex w-full items-center gap-2 rounded-xl p-3 transition-colors",
                   option.value === shirtSize
                     ? "bg-accent-yellow text-black data-[selected=true]:bg-accent-yellow data-[selected=true]:text-black"
-                    : "hover:bg-primary-50",
+                    : "hover:bg-primary-50"
                 )}
                 key={key}
                 onSelect={() => setShirtSize(option.value)}

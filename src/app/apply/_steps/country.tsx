@@ -34,7 +34,7 @@ export default function CountryStep({
     if (!country) {
       setCountry(countries.all.find((c) => c.alpha3 === "GBR"));
     }
-  }, []);
+  }, [country, setCountry]);
 
   const handleBack = async () => {
     updateSearchParam([
@@ -80,7 +80,9 @@ export default function CountryStep({
     >
       <div className="flex flex-col gap-3">
         <div className="rounded-xl bg-muted p-4">
-          <h2 className="text-xl font-medium">Where is your university based?</h2>
+          <h2 className="text-xl font-medium">
+            Where is your university based?
+          </h2>
         </div>
       </div>
       <div className="flex flex-1 flex-col gap-3">

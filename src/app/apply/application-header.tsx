@@ -18,7 +18,7 @@ export default function ApplicationHeader({
 }) {
   const currentStepIndex = APPLICATION_STEPS.indexOf(currentStep);
   const currentGroupIndex = GROUPED_STEPS.findIndex((group) =>
-    group.steps.includes(currentStep),
+    group.steps.includes(currentStep)
   );
 
   return (
@@ -30,7 +30,7 @@ export default function ApplicationHeader({
           const progress =
             Math.min(
               Math.max(currentStepIndex + 1 - start, 0),
-              group.steps.length,
+              group.steps.length
             ) / group.steps.length;
 
           return (

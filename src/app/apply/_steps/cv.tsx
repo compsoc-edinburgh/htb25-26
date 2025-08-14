@@ -142,9 +142,9 @@ export default function CVStep({
           </div>
         )}
       </div>
-      <p className="text-center font-sans text-xs my-3">
-        By continuing, you consent to us sharing your CV 
-         and all other information with event sponsors.
+      <p className="my-3 text-center font-sans text-xs">
+        By continuing, you consent to us sharing your CV and all other
+        information with event sponsors.
       </p>
       <div className="flex w-full gap-3">
         <Button onClick={handleBack} variant={"secondary"} type="button">

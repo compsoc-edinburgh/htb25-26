@@ -10,12 +10,10 @@ import {
   Loader2,
   LogOut,
   MoreHorizontal,
-  MoreVertical,
   TriangleAlert,
   User2,
   UserIcon,
 } from "lucide-react";
-import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "~/components/ui/button";
@@ -42,12 +40,10 @@ import universities from "~/lib/constants/world_universities_and_domains.json";
 import { api } from "~/trpc/react";
 import CreateTeam from "./_components/create-team";
 import JoinTeam from "./_components/join-team";
-import { OrganizationMembership } from "@clerk/nextjs/server";
 import {
   Dialog,
   DialogClose,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -59,6 +55,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
+import Image from "next/image";
 
 export default function EditApplicationForm({
   user,
@@ -90,16 +87,16 @@ export default function EditApplicationForm({
   const [firstName, setFirstName] = useState(user.first_name ?? undefined);
   const [lastName, setLastName] = useState(user.last_name ?? undefined);
   const [email, setEmail] = useState(
-    user.university_email ?? (user.email as string | undefined),
+    user.university_email ?? (user.email as string | undefined)
   );
   const [country, setCountry] = useState<Country | undefined>(
-    countries.all.find((c) => c.alpha2 === user.country),
+    countries.all.find((c) => c.alpha2 === user.country)
   );
   const [university, setUniversity] = useState<University | undefined>(
-    universities.find((u) => u.name === user.university_name),
+    universities.find((u) => u.name === user.university_name)
   );
   const [universityYear, setUniversityYear] = useState(
-    user.university_year ?? undefined,
+    user.university_year ?? undefined
   );
   const [team, setTeam] = useState<
     | (Team & {
@@ -110,10 +107,10 @@ export default function EditApplicationForm({
   const [cv, setCv] = useState(user.cv_url ?? undefined);
   const [portfolio, setPortfolio] = useState(user.portfolio_url ?? undefined);
   const [placements, setPlacements] = useState(
-    user.placements_count ?? undefined,
+    user.placements_count ?? undefined
   );
   const [hackathons, setHackathons] = useState(
-    user.hackathons_count ?? undefined,
+    user.hackathons_count ?? undefined
   );
   const [project, setProject] = useState(user.project_description ?? undefined);
   const { aim, stack, link } = {
@@ -122,12 +119,17 @@ export default function EditApplicationForm({
     link: project?.split("\n")[2],
   };
   const [needsReimbursement, setNeedsReimbursement] = useState(
-    user.needs_reimbursement ?? undefined,
+    user.needs_reimbursement ?? undefined
   );
   const [travel, setTravel] = useState(user.travelling_from ?? undefined);
   const [calendarEmail, setCalendarEmail] = useState(
-    user.calendar_email ?? undefined,
+    user.calendar_email ?? undefined
   );
+
+  const isUniEmail = (e = email) => {
+    const domain = e?.split("@")[1] as string;
+    return university?.domains.includes(domain);
+  };
 
   // Really ugly solution, change if have time
   useEffect(() => {
@@ -181,6 +183,8 @@ export default function EditApplicationForm({
     travel,
     calendarEmail,
     user,
+    dirtyToast,
+    isUniEmail
   ]);
 
   useEffect(() => {
@@ -207,10 +211,10 @@ export default function EditApplicationForm({
               "rounded-full w-full flex justify-between py-2 pl-4 pr-2 !bg-accent-red/70 backdrop-blur-xl  border-none",
             position: "bottom-center",
             duration: Infinity,
-          },
-        ),
+          }
+        )
       );
-  }, [isDirty]);
+  }, [isDirty, loading, dirtyToast]);
 
   const scrollToSection = (e: React.MouseEvent, sectionId: string) => {
     e.preventDefault();
@@ -225,11 +229,6 @@ export default function EditApplicationForm({
         behavior: "smooth",
       });
     }
-  };
-
-  const isUniEmail = (e = email) => {
-    const domain = e?.split("@")[1] as string;
-    return university?.domains.includes(domain);
   };
 
   const handleUploadComplete = async (res: any) => {
@@ -296,7 +295,13 @@ export default function EditApplicationForm({
           <div className="flex items-center justify-between gap-3">
             {clerkUser?.hasImage ? (
               <div className="aspect-square max-h-12 overflow-hidden rounded-full">
-                <img src={clerkUser?.imageUrl} className="block object-cover" />
+                <Image
+                  src={clerkUser?.imageUrl}
+                  className="block object-cover"
+                  width={100}
+                  height={100}
+                  alt="User Avatar"
+                />
               </div>
             ) : (
               <UserIcon
@@ -330,7 +335,7 @@ export default function EditApplicationForm({
                 <DropdownMenuContent className="w-56">
                   <Dialog>
                     <DropdownMenuItem
-                    disabled
+                      disabled
                       onClick={(e) => {
                         // prevent closing the dialog when clicking the button
                         e.preventDefault();
@@ -364,7 +369,7 @@ export default function EditApplicationForm({
                           } catch (err) {
                             console.error(err);
                             toast.error(
-                              "There was something wrong, please try again.",
+                              "There was something wrong, please try again."
                             );
                           }
                         }}
@@ -405,7 +410,7 @@ export default function EditApplicationForm({
                       } catch (err) {
                         console.error(err);
                         toast.error(
-                          "There was something wrong, please try again.",
+                          "There was something wrong, please try again."
                         );
                       }
                       setLoading(false);
@@ -451,7 +456,10 @@ export default function EditApplicationForm({
               )}
               <div className="flex flex-col gap-4 pt-3">
                 {team?.members?.map((m) => (
-                  <div key={m.id ?? m.first_name! + m.last_name!} className={`flex flex-col`}>
+                  <div
+                    key={m.id ?? m.first_name! + m.last_name!}
+                    className={`flex flex-col`}
+                  >
                     <span className="flex items-center gap-3">
                       <User2 size={18} />
                       <span>
@@ -568,7 +576,7 @@ export default function EditApplicationForm({
             <UniversityDropdown
               disabled
               options={universities.filter(
-                (u) => u.alpha_two_code == country?.alpha2,
+                (u) => u.alpha_two_code == country?.alpha2
               )}
               defaultValue={university?.name}
               onChange={(u) => setUniversity(u)}

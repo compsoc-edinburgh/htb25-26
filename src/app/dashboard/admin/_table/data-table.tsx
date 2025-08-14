@@ -72,7 +72,7 @@ export function DataTable<TValue>({ columns, data }: DataTableProps<TValue>) {
     else columnsToExport = table.getVisibleFlatColumns();
 
     columnsToExport = columnsToExport.filter(
-      (column) => column.id !== "select" && column.id !== "actions",
+      (column) => column.id !== "select" && column.id !== "actions"
     );
 
     let rowsToExport;
@@ -82,11 +82,13 @@ export function DataTable<TValue>({ columns, data }: DataTableProps<TValue>) {
 
     return [
       columnsToExport.map((column) => column.columnDef.header),
-      rowsToExport.map((row) =>
-        columnsToExport.map((column) => {
-          return row.getValue(column.id);
-        }),
-      ).flat(),
+      rowsToExport
+        .map((row) =>
+          columnsToExport.map((column) => {
+            return row.getValue(column.id);
+          })
+        )
+        .flat(),
     ];
   };
 
@@ -109,7 +111,7 @@ export function DataTable<TValue>({ columns, data }: DataTableProps<TValue>) {
               .filter(
                 (column) =>
                   typeof column.accessorFn !== "undefined" &&
-                  column.getCanHide(),
+                  column.getCanHide()
               )
               .map((column) => {
                 return (
@@ -189,7 +191,7 @@ export function DataTable<TValue>({ columns, data }: DataTableProps<TValue>) {
                       ? null
                       : flexRender(
                           header.column.columnDef.header,
-                          header.getContext(),
+                          header.getContext()
                         )}
                   </TableHead>
                 );

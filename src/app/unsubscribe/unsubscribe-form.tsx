@@ -43,7 +43,7 @@ const UnsubscribeForm = () => {
           });
         } else {
           toast.error(
-            `Please enter your correct email. You can only unsubscribe from your email.`,
+            `Please enter your correct email. You can only unsubscribe from your email.`
           );
         }
       }
@@ -67,13 +67,13 @@ const UnsubscribeForm = () => {
         <Input
           type="email"
           placeholder="Email address.."
-          className="basis-2/3 border-transparent bg-[#EEEEEE] font-tektur text-gray-700 md:text-xs lg:text-sm"
+          className="font-tektur basis-2/3 border-transparent bg-[#EEEEEE] text-gray-700 md:text-xs lg:text-sm"
           value={email}
           onChange={handleEmailChange}
         ></Input>
         <Button
           type="submit"
-          className="basis-1/3 bg-[#2A4FEE] font-tektur text-sm text-white hover:bg-blue-700 md:text-sm lg:text-xl"
+          className="font-tektur basis-1/3 bg-[#2A4FEE] text-sm text-white hover:bg-blue-700 md:text-sm lg:text-xl"
           loading={loading}
         >
           Unsubscribe

@@ -80,10 +80,7 @@ export default function PizzaStep({
         </div>
       </div>
       <div className="flex flex-1 flex-col gap-2">
-        <Command
-          className="w-full bg-transparent p-0"
-          defaultValue={pizza}
-        >
+        <Command className="w-full bg-transparent p-0" defaultValue={pizza}>
           <CommandList>
             {options.map((option, key) => (
               <CommandItem
@@ -91,7 +88,7 @@ export default function PizzaStep({
                   "my-1 flex w-full items-center gap-2 rounded-xl p-3 transition-colors",
                   option.value === pizza
                     ? "bg-accent-yellow text-black data-[selected=true]:bg-accent-yellow data-[selected=true]:text-black"
-                    : "hover:bg-primary-50",
+                    : "hover:bg-primary-50"
                 )}
                 key={key}
                 onSelect={() => setPizza(option.value)}

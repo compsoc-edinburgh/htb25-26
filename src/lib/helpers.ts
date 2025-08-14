@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useSearchParams, usePathname } from 'next/navigation';
+import { useSearchParams, usePathname } from "next/navigation";
 
 type ParamUpdate = {
   name: string;
@@ -12,16 +12,16 @@ export const useSearchParamsHelper = () => {
   const pathname = usePathname();
 
   const updateSearchParam = (
-    nameOrUpdates: string | ParamUpdate[], 
+    nameOrUpdates: string | ParamUpdate[],
     value?: string | null
   ) => {
     const params = new URLSearchParams(searchParams.toString());
-    
-    if (typeof nameOrUpdates === 'string') {
+
+    if (typeof nameOrUpdates === "string") {
       if (value === null || value === undefined) {
         params.delete(nameOrUpdates);
       } else {
-        params.set(nameOrUpdates, value || '');
+        params.set(nameOrUpdates, value || "");
       }
     } else {
       nameOrUpdates.forEach(({ name, value }) => {
@@ -32,12 +32,12 @@ export const useSearchParamsHelper = () => {
         }
       });
     }
-    
-    const newUrl = params.toString() 
-      ? `${pathname}?${params.toString()}` 
+
+    const newUrl = params.toString()
+      ? `${pathname}?${params.toString()}`
       : pathname;
-    
-    window.history.pushState({}, '', newUrl);
+
+    window.history.pushState({}, "", newUrl);
   };
 
   return { updateSearchParam };

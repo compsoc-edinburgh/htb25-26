@@ -39,8 +39,8 @@ const CodeBlockBackground = () => {
         setBlocks(
           Array.from(
             { length: e.matches ? MOBILE_BLOCK_COUNT : DESKTOP_BLOCK_COUNT },
-            () => Math.random() > INITIAL_VISIBILITY_THRESHOLD,
-          ),
+            () => Math.random() > INITIAL_VISIBILITY_THRESHOLD
+          )
         );
       };
 
@@ -53,7 +53,7 @@ const CodeBlockBackground = () => {
 
   const regenerateBlocks = useCallback(() => {
     setBlocks((prevBlocks) =>
-      prevBlocks.map(() => Math.random() > REGENERATE_VISIBILITY_THRESHOLD),
+      prevBlocks.map(() => Math.random() > REGENERATE_VISIBILITY_THRESHOLD)
     );
   }, []);
 

@@ -13,7 +13,8 @@ export default function DoneStep() {
     <div className="flex flex-1 flex-col items-center justify-center gap-6">
       <h1 className="text-3xl font-medium">Thank you!</h1>
       <p className="text-center font-sans">
-        Your preferences have been saved. <br />See you on 1st of March!
+        Your preferences have been saved. <br />
+        See you on 1st of March!
       </p>
       <Button>
         <Link href="/">Back to home</Link>

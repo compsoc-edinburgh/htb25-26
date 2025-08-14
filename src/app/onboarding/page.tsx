@@ -44,11 +44,11 @@ export default async function ApplyPage() {
           <p>
             Unfortunately, due to the overwhelming number of strong applications
             we received this year and our limited capacity, we regret to inform
-            you that we cannot offer you a place at this year's event.
+            you that we cannot offer you a place at this year&apos;s event.
           </p>
 
           <p>
-            Please don't let this discourage you from applying to future
+            Please don&apos;t let this discourage you from applying to future
             hackathons or tech events. We encourage you to continue developing
             your skills and pursuing your interest in technology.
           </p>
@@ -72,18 +72,24 @@ export default async function ApplyPage() {
     return (
       <div className="mx-auto flex min-h-screen w-full max-w-screen-md flex-col justify-center px-2 pb-6 pt-20 md:pt-6">
         <Link href={"/"}>
-          <img
+          <Image
             src="/HB-icon-neon-small.png"
             className="absolute left-0 top-0 z-50 m-6 hidden h-12 md:block"
+            width={100}
+            height={100}
+            alt="HackTheBurgh Logo"
           />
         </Link>
         <Link
           href={"/"}
           className="absolute left-0 top-0 z-50 flex h-20 w-full items-center justify-center md:hidden"
         >
-          <img
+          <Image
             src="/HTB-logo.png"
+            width={100}
+            height={100}
             className="object-fit mx-auto block h-12 md:hidden"
+            alt="HackTheBurgh Logo"
           />
         </Link>
 

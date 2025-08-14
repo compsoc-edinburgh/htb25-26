@@ -1,7 +1,6 @@
 import { redirect } from "next/navigation";
 import { SignupForm } from "./signup-form";
 
-
 export default async function SignupPage() {
   const date = new Date();
 
@@ -15,7 +14,7 @@ export default async function SignupPage() {
   }
 
   return (
-    <div className="flex min-h-[calc(100vh-4rem)] mt-14 max-w-screen-md w-full flex-col items-center justify-center">
+    <div className="mt-14 flex min-h-[calc(100vh-4rem)] w-full max-w-screen-md flex-col items-center justify-center">
       <SignupForm />
     </div>
   );

@@ -61,7 +61,7 @@ const UniversitySelectlistComponent = (
     placeholder = "Select a university",
     ...props
   }: UniversityDropdownProps,
-  ref: React.ForwardedRef<HTMLButtonElement>,
+  ref: React.ForwardedRef<HTMLButtonElement>
 ) => {
   const [selectedUniversity, setSelectedUniversity] = useState<
     University | undefined
@@ -71,7 +71,7 @@ const UniversitySelectlistComponent = (
   useEffect(() => {
     if (defaultValue) {
       const initialUniversity = options.find(
-        (university) => university.name === defaultValue,
+        (university) => university.name === defaultValue
       );
       if (initialUniversity) {
         setSelectedUniversity(initialUniversity);
@@ -99,7 +99,7 @@ const UniversitySelectlistComponent = (
       setSelectedUniversity(university);
       onChange?.(university);
     },
-    [onChange],
+    [onChange]
   );
 
   return (
@@ -118,8 +118,8 @@ const UniversitySelectlistComponent = (
                 className={cn(
                   "my-1 flex w-full items-center gap-2 rounded-xl p-3 transition-colors",
                   option.name === selectedUniversity?.name
-                    ? "bg-accent-yellow data-[selected=true]:bg-accent-yellow text-black data-[selected=true]:text-black"
-                    : "hover:bg-primary-50",
+                    ? "bg-accent-yellow text-black data-[selected=true]:bg-accent-yellow data-[selected=true]:text-black"
+                    : "hover:bg-primary-50"
                 )}
                 key={key}
                 onSelect={() => handleSelect(option)}
@@ -134,7 +134,7 @@ const UniversitySelectlistComponent = (
                     "ml-auto h-4 w-4 shrink-0",
                     option.name === selectedUniversity?.name
                       ? "opacity-100"
-                      : "opacity-0",
+                      : "opacity-0"
                   )}
                 />
               </CommandItem>
