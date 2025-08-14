@@ -68,7 +68,7 @@ export function SignupForm({
 
       if (exists) {
         setEmailError(
-          "You already have an account with this email, please sign in instead.",
+          "You already have an account with this email, please sign in instead."
         );
         setLoading(false);
         return;
@@ -141,8 +141,8 @@ export function SignupForm({
           <CardHeader>
             <CardTitle>Verify your email</CardTitle>
             <CardDescription>
-              We've sent a verification code to your email address. Please enter
-              it below.
+              We&apos;ve sent a verification code to your email address. Please
+              enter it below.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -209,7 +209,9 @@ export function SignupForm({
       >
         <Card className="w-full">
           <CardHeader className="text-center">
-            <CardTitle className="text-xl font-tektur">Sign up to Hack the Burgh</CardTitle>
+            <CardTitle className="font-tektur text-xl">
+              Sign up to Hack the Burgh
+            </CardTitle>
           </CardHeader>
           <CardContent>
             {step === "account" && (
@@ -226,8 +228,8 @@ export function SignupForm({
                   <div className="grid gap-6">
                     <div className="grid gap-2">
                       <Label htmlFor="email">Email address</Label>
-                      <span className="text-sm font-sans text-muted-foreground">
-                        You'll need your university email to apply
+                      <span className="font-sans text-sm text-muted-foreground">
+                        You&apos;ll need your university email to apply
                       </span>
                       <Input
                         id="email"
@@ -288,7 +290,7 @@ export function SignupForm({
           </CardContent>
         </Card>
         <div className="mb-6 text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 [&_a]:hover:text-primary">
-          By clicking continue, you agree to MLH's{" "}
+          By clicking continue, you agree to MLH&apos;s{" "}
           <a
             target="_blank"
             href="https://static.mlh.io/docs/mlh-code-of-conduct.pdf?_gl=1*1fc0onz*_ga*MTQzMTk5NjI2LjE3MzU1Nzc1OTU.*_ga_E5KT6TC4TK*MTczNTc1NDMzNS4yLjEuMTczNTc1NTIwNi4wLjAuMA.."

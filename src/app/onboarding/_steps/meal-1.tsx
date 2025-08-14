@@ -76,10 +76,7 @@ export default function Meal1Step({
         </div>
       </div>
       <div className="flex flex-1 flex-col gap-2">
-        <Command
-          className="w-full bg-transparent p-0"
-          defaultValue={meal1}
-        >
+        <Command className="w-full bg-transparent p-0" defaultValue={meal1}>
           <CommandList>
             {options.map((option, key) => (
               <CommandItem
@@ -87,7 +84,7 @@ export default function Meal1Step({
                   "my-1 flex w-full items-center gap-2 rounded-xl p-3 transition-colors",
                   option.value === meal1
                     ? "bg-accent-yellow text-black data-[selected=true]:bg-accent-yellow data-[selected=true]:text-black"
-                    : "hover:bg-primary-50",
+                    : "hover:bg-primary-50"
                 )}
                 key={key}
                 onSelect={() => setMeal1(option.value)}

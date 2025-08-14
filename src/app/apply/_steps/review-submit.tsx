@@ -173,7 +173,7 @@ export default function ReviewAndSubmitStep({
       <div>
         <Label
           htmlFor={"age"}
-          className="w-max mx-auto flex text-center items-center gap-2 rounded-xl p-3 transition-colors hover:bg-muted [&:has(:checked)]:bg-muted"
+          className="mx-auto flex w-max items-center gap-2 rounded-xl p-3 text-center transition-colors hover:bg-muted [&:has(:checked)]:bg-muted"
         >
           <Checkbox
             required

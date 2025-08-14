@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { Fragment, useState, useEffect } from "react";
 import { useTypewriterEffect } from "~/hooks/use-typewriter-effect";
@@ -22,7 +22,10 @@ export const generateMetadata = publicProcedure
       })`;
 
 const SYNTAX_PATTERNS = [
-  { regex: /(async|await|const|export|return|function)/g, className: "text-purple-400" },
+  {
+    regex: /(async|await|const|export|return|function)/g,
+    className: "text-purple-400",
+  },
   { regex: /(string|number|object)/g, className: "text-yellow-400" },
   { regex: /(\{|\}|\(|\))/g, className: "text-blue-400" },
   { regex: /(\/\/.+)/g, className: "text-gray-400" },
@@ -30,7 +33,10 @@ const SYNTAX_PATTERNS = [
 
 export function CodeSnippet() {
   const [isMobile, setIsMobile] = useState(false);
-  const { displayedCode, highlightCode } = useTypewriterEffect(CODE_SNIPPET, SYNTAX_PATTERNS);
+  const { displayedCode, highlightCode } = useTypewriterEffect(
+    CODE_SNIPPET,
+    SYNTAX_PATTERNS
+  );
 
   useEffect(() => {
     const media = window.matchMedia("(max-width: 600px)");
@@ -39,22 +45,25 @@ export function CodeSnippet() {
     };
 
     handleResize(media);
-    media.addEventListener('change', handleResize);
+    media.addEventListener("change", handleResize);
 
-    return () => media.removeEventListener('change', handleResize);
+    return () => media.removeEventListener("change", handleResize);
   }, []);
 
-  const lines = CODE_SNIPPET.split('\n').length;
+  const lines = CODE_SNIPPET.split("\n").length;
   const lineHeight = isMobile ? 1.1 : 1.3;
   const height = `${lines * lineHeight}rem`;
 
   return (
-    <pre className="text-xs md:text-sm font-mono overflow-x-hidden overflow-y-hidden text-white" style={{ height }}>
+    <pre
+      className="overflow-x-hidden overflow-y-hidden font-mono text-xs text-white md:text-sm"
+      style={{ height }}
+    >
       <code>
-        {displayedCode.split('\n').map((line, i) => (
+        {displayedCode.split("\n").map((line, i) => (
           <Fragment key={`line-${i}`}>
             {highlightCode(line)}
-            {'\n'}
+            {"\n"}
           </Fragment>
         ))}
       </code>

@@ -13,15 +13,15 @@ const FAQ_ITEMS: FAQItem[] = [
     answer: (
       <>
         The best place to ask for help is on the HackTheBurgh Discord, which you
-        can access via the discord invite sent to your email address as a participant. Please
-        make a ticket through the #get-help channel and we'll be with you as
-        soon as possible.
+        can access via the discord invite sent to your email address as a
+        participant. Please make a ticket through the #get-help channel and
+        we&apos;ll be with you as soon as possible.
         <br />
         <br />
         If you need help in-person, our volunteers and organizers are wearing
         HackTheBurgh t-shirts and hoodies to help you spot us! Organizers have a
         red HackTheBurgh logo on the back of their hoodies; Volunteers have a
-        green version instead. Please don't hesitate to ask us for help.
+        green version instead. Please don&apos;t hesitate to ask us for help.
       </>
     ),
   },
@@ -30,7 +30,13 @@ const FAQ_ITEMS: FAQItem[] = [
     answer: (
       <>
         The HackTheBurgh Code of Conduct can be found{" "}
-        <Link href="/documents/HTB-Code-of-Conduct.pdf" className="text-accent-yellow underline">here</Link>.
+        <Link
+          href="/documents/HTB-Code-of-Conduct.pdf"
+          className="text-accent-yellow underline"
+        >
+          here
+        </Link>
+        .
       </>
     ),
   },
@@ -46,7 +52,14 @@ const FAQ_ITEMS: FAQItem[] = [
     question: "What are the rules of the hackathon?",
     answer: (
       <>
-        Please see the <Link href="/documents/HTB-Rules.pdf" className="text-accent-yellow underline">HackTheBurgh Rules</Link>.
+        Please see the{" "}
+        <Link
+          href="/documents/HTB-Rules.pdf"
+          className="text-accent-yellow underline"
+        >
+          HackTheBurgh Rules
+        </Link>
+        .
       </>
     ),
   },
@@ -94,8 +107,9 @@ const FAQ_ITEMS: FAQItem[] = [
     question: "What if I don’t have a team?",
     answer: (
       <>
-        Don't worry, we'll have a Discord channel for participants to form teams
-        before the event. You can also form a team when you arrive on the day.
+        Don&apos;t worry, we&apos;ll have a Discord channel for participants to
+        form teams before the event. You can also form a team when you arrive on
+        the day.
       </>
     ),
   },
@@ -115,7 +129,7 @@ const FAQ_ITEMS: FAQItem[] = [
     question: "Do I need loads of experience to participate?",
     answer: (
       <>
-        Not at all. Whether you’re a first year student, study a subject
+        Not at all. Whether you&apos;re a first year student, study a subject
         unrelated to computing, or this is your first Hackathon, you are still
         welcome to enter HackTheBurgh. This is a great opportunity to learn and
         gain new experience!
@@ -126,8 +140,8 @@ const FAQ_ITEMS: FAQItem[] = [
     question: "What am I supposed to build / hack during the weekend?",
     answer: (
       <>
-        You have complete freedom in what you build at our hackathon! Don't
-        worry about making your hack polished or perfect - we know there's
+        You have complete freedom in what you build at our hackathon! Don&apos;t
+        worry about making your hack polished or perfect - we know there&apos;s
         limited time. We hope HackTheBurgh serves as a launchpad for you to
         start a project you can continue working on even after the event ends.
       </>
@@ -147,9 +161,9 @@ const FAQ_ITEMS: FAQItem[] = [
     question: "What about food?",
     answer: (
       <>
-        We’ll provide food, snacks and drinks through the day. We will ask you
-        about any dietary restrictions and share the food options available from
-        our vendors after you’ve been accepted into the event.
+        We&apos;ll provide food, snacks and drinks through the day. We will ask
+        you about any dietary restrictions and share the food options available
+        from our vendors after you&apos;ve been accepted into the event.
       </>
     ),
   },
@@ -162,8 +176,13 @@ const FAQ_ITEMS: FAQItem[] = [
     answer: (
       <>
         Contact us at{" "}
-        <Link href="mailto:hello@hacktheburgh.com" className="text-accent-yellow underline">hello@hacktheburgh.com</Link> or
-        you can ask us questions in the #get-help channel in the discord.
+        <Link
+          href="mailto:hello@hacktheburgh.com"
+          className="text-accent-yellow underline"
+        >
+          hello@hacktheburgh.com
+        </Link>{" "}
+        or you can ask us questions in the #get-help channel in the discord.
       </>
     ),
   },
@@ -171,16 +190,24 @@ const FAQ_ITEMS: FAQItem[] = [
 
 const FAQAccordionItem = ({ faq }: { faq: FAQItem }) => {
   return (
-    <details className="group w-full max-w-5xl rounded-lg bg-white/5 p-6 shadow-[0_0_30px_rgba(255,255,255,0.05)] backdrop-blur-xl border border-white/10 transition-all duration-300 hover:bg-white/10 hover:border-white/20">
+    <details className="group w-full max-w-5xl rounded-lg border border-white/10 bg-white/5 p-6 shadow-[0_0_30px_rgba(255,255,255,0.05)] backdrop-blur-xl transition-all duration-300 hover:border-white/20 hover:bg-white/10">
       <summary className="md:text-md flex cursor-pointer items-center justify-between text-base font-medium text-white/90 lg:text-lg">
         <span className="w-3/4">{faq.question}</span>
-        <span className="flex h-7 w-7 md:h-9 md:w-9 items-center justify-center rounded-full bg-white/10 backdrop-blur-sm border border-white/20">
+        <span className="flex h-7 w-7 items-center justify-center rounded-full border border-white/20 bg-white/10 backdrop-blur-sm md:h-9 md:w-9">
           <span className="text-white/80 transition-transform duration-200 group-open:rotate-180">
-            <Image src="/other/arrow.svg" alt="Arrow" width={14} height={14} className="md:w-4 md:h-4" />
+            <Image
+              src="/other/arrow.svg"
+              alt="Arrow"
+              width={14}
+              height={14}
+              className="md:h-4 md:w-4"
+            />
           </span>
         </span>
       </summary>
-      <p className="md:text-md mt-4 text-white/70 leading-relaxed">{faq.answer}</p>
+      <p className="md:text-md mt-4 leading-relaxed text-white/70">
+        {faq.answer}
+      </p>
     </details>
   );
 };

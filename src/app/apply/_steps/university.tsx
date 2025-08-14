@@ -77,7 +77,7 @@ export default function UniversityStep({
       <div className="flex flex-1 flex-col gap-2">
         <UniversitySelectlist
           options={universities.filter(
-            (u) => u.alpha_two_code == country.alpha2,
+            (u) => u.alpha_two_code == country.alpha2
           )}
           defaultValue={university?.name}
           onChange={(u) => setUniversity(u)}

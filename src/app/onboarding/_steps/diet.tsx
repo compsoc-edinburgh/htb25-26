@@ -47,7 +47,7 @@ export default function DietStep({
   const [loading, setLoading] = useState(false);
 
   const [dietaryRestrictions, setDietaryRestrictions] = useState<string[]>(
-    diet?.split(",") ?? [],
+    diet?.split(",") ?? []
   );
 
   const updateUser = api.user.update.useMutation();
@@ -148,14 +148,14 @@ export default function DietStep({
               }}
               onChange={(e) => {
                 let other = dietaryRestrictions.find((d) =>
-                  d.startsWith("other:"),
+                  d.startsWith("other:")
                 );
                 if (!other) return;
 
                 other = `other:${e.target.value}`;
 
                 let dr = dietaryRestrictions.filter(
-                  (d) => !d.startsWith("other:"),
+                  (d) => !d.startsWith("other:")
                 );
                 dr.push(other);
 

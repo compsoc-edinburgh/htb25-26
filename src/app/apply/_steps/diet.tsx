@@ -47,7 +47,7 @@ export default function DietStep({
   const [loading, setLoading] = useState(false);
 
   const [dietaryRestrictions, setDietaryRestrictions] = useState<string[]>(
-    diet?.split(",") ?? [],
+    diet?.split(",") ?? []
   );
 
   const { updateSearchParam } = useSearchParamsHelper();
@@ -93,7 +93,7 @@ export default function DietStep({
   return (
     <form
       onSubmit={handleContinue}
-      className="flex-1 flex h-full flex-col justify-between gap-3"
+      className="flex h-full flex-1 flex-col justify-between gap-3"
     >
       <div className="rounded-xl bg-muted p-4">
         <h2 className="text-xl font-medium">Dietary Restrictions</h2>
@@ -103,7 +103,7 @@ export default function DietStep({
         </p>
       </div>
       <div className="flex flex-1 flex-col">
-        <div className="flex flex-col gap-1 max-h-[100%] overflow-y-auto">
+        <div className="flex max-h-[100%] flex-col gap-1 overflow-y-auto">
           {items.map((item) => (
             <Label
               key={item.id}

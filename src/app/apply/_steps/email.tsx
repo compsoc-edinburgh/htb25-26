@@ -1,9 +1,4 @@
-import {
-  Dispatch,
-  FormEvent,
-  SetStateAction,
-  useState,
-} from "react";
+import { Dispatch, FormEvent, SetStateAction, useState } from "react";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { useSearchParamsHelper } from "~/lib/helpers";
@@ -146,16 +141,16 @@ export default function EmailStep({
               </Button>
             </div>
           )}
-          <div className="rounded-lg border border-blue-400/20 bg-blue-100/10 backdrop-blur-sm p-3 mt-5 text-sm text-blue-100 shadow-lg">
+          <div className="mt-5 rounded-lg border border-blue-400/20 bg-blue-100/10 p-3 text-sm text-blue-100 shadow-lg backdrop-blur-sm">
             <p>
               Having trouble with your university email domain? Contact us at{" "}
-              <a 
-                href="mailto:hello@hacktheburgh.com" 
-                className="font-medium underline hover:text-blue-200 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-400/50 focus:ring-offset-1 focus:ring-offset-transparent"
+              <a
+                href="mailto:hello@hacktheburgh.com"
+                className="font-medium underline transition-colors hover:text-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400/50 focus:ring-offset-1 focus:ring-offset-transparent"
               >
                 hello@hacktheburgh.com
-              </a>
-              {" "}and we'll help sort it out.
+              </a>{" "}
+              and we&apos;ll help sort it out.
             </p>
           </div>
         </div>

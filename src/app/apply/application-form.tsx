@@ -72,25 +72,25 @@ export default function ApplicationForm({
   const [firstName, setFirstName] = useState(user.first_name ?? undefined);
   const [lastName, setLastName] = useState(user.last_name ?? undefined);
   const [email, setEmail] = useState(
-    user.university_email ?? (user.email as string | undefined),
+    user.university_email ?? (user.email as string | undefined)
   );
   const [country, setCountry] = useState<Country | undefined>(
-    countries.all.find((c) => c.alpha2 === user.country),
+    countries.all.find((c) => c.alpha2 === user.country)
   );
   const [university, setUniversity] = useState<University | undefined>(
-    universities.find((u) => u.name === user.university_name),
+    universities.find((u) => u.name === user.university_name)
   );
   const [universityYear, setUniversityYear] = useState(
-    user.university_year ?? undefined,
+    user.university_year ?? undefined
   );
   const [team, setTeam] = useState<Team | undefined>(user.team ?? undefined);
   const [cv, setCv] = useState(user.cv_url ?? undefined);
   const [portfolio, setPortfolio] = useState(user.portfolio_url ?? undefined);
   const [placements, setPlacements] = useState(
-    user.placements_count ?? undefined,
+    user.placements_count ?? undefined
   );
   const [hackathons, setHackathons] = useState(
-    user.hackathons_count ?? undefined,
+    user.hackathons_count ?? undefined
   );
   const [project, setProject] = useState(user.project_description ?? undefined);
   const [needsReimbursement, setNeedsReimbursement] = useState<
@@ -99,7 +99,7 @@ export default function ApplicationForm({
   const [travel, setTravel] = useState(user.travelling_from ?? undefined);
   const [diet, setDiet] = useState(user.dietary_restrictions ?? undefined);
   const [calendarEmail, setCalendarEmail] = useState(
-    user.calendar_email ?? undefined,
+    user.calendar_email ?? undefined
   );
 
   // useEffect(() => {

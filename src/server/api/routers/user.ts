@@ -44,7 +44,7 @@ export const userRouter = createTRPCRouter({
         email: z.string().min(1).email(),
         firstName: z.string().optional(),
         lastName: z.string().optional(),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       return ctx.db.user.create({
@@ -93,7 +93,7 @@ export const userRouter = createTRPCRouter({
         meal2: z.string().optional(),
         meal3: z.string().optional(),
         pizza: z.string().optional(),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       const client = await clerkClient();
@@ -149,7 +149,7 @@ export const userRouter = createTRPCRouter({
     .input(
       z.object({
         solution: z.string().trim(),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       const existing = await ctx.db.challengeCompletion.findUnique({

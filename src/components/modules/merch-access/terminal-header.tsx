@@ -5,8 +5,10 @@ const TerminalHeader = () => (
       <div className="h-3 w-3 rounded-full bg-yellow-500/80" />
       <div className="h-3 w-3 rounded-full bg-green-500/80" />
     </div>
-    <span className="text-sm text-gray-400">hack_the_burgh_merch_service_terminal</span>
+    <span className="text-sm text-gray-400">
+      hack_the_burgh_merch_service_terminal
+    </span>
   </div>
-)
+);
 
-export { TerminalHeader }
+export { TerminalHeader };

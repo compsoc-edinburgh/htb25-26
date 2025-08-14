@@ -126,7 +126,9 @@ export default function ReimbursementStep({
           type="submit"
           className="flex-1"
           disabled={
-            loading || needsReimbursement === undefined || (needsReimbursement && !travel?.length)
+            loading ||
+            needsReimbursement === undefined ||
+            (needsReimbursement && !travel?.length)
           }
         >
           Next

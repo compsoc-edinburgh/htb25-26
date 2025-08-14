@@ -52,7 +52,7 @@ interface CountryDropdownProps {
 const CountrySelectListComponent = (
   {
     options = countries.all.filter(
-      (country: Country) => country.emoji && country.status !== "deleted",
+      (country: Country) => country.emoji && country.status !== "deleted"
     ),
     onChange,
     defaultValue,
@@ -61,17 +61,17 @@ const CountrySelectListComponent = (
     slim = false,
     ...props
   }: CountryDropdownProps,
-  ref: React.ForwardedRef<HTMLButtonElement>,
+  ref: React.ForwardedRef<HTMLButtonElement>
 ) => {
   const [selectedCountry, setSelectedCountry] = useState<Country | undefined>(
-    undefined,
+    undefined
   );
   const selectedRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (defaultValue) {
       const initialCountry = options.find(
-        (country) => country.alpha3 === defaultValue,
+        (country) => country.alpha3 === defaultValue
       );
       if (initialCountry) {
         setSelectedCountry(initialCountry);
@@ -99,7 +99,7 @@ const CountrySelectListComponent = (
       setSelectedCountry(country);
       onChange?.(country);
     },
-    [onChange],
+    [onChange]
   );
 
   return (
@@ -117,8 +117,8 @@ const CountrySelectListComponent = (
                 className={cn(
                   "my-1 flex w-full items-center gap-2 rounded-xl p-3 transition-colors",
                   option.name === selectedCountry?.name
-                    ? "bg-accent-yellow data-[selected=true]:bg-accent-yellow text-black data-[selected=true]:text-black"
-                    : "hover:bg-primary-50",
+                    ? "bg-accent-yellow text-black data-[selected=true]:bg-accent-yellow data-[selected=true]:text-black"
+                    : "hover:bg-primary-50"
                 )}
                 ref={option.alpha3 === defaultValue ? selectedRef : null}
                 key={key}
@@ -140,7 +140,7 @@ const CountrySelectListComponent = (
                     "ml-auto h-4 w-4 shrink-0",
                     option.name === selectedCountry?.name
                       ? "opacity-100"
-                      : "opacity-0",
+                      : "opacity-0"
                   )}
                 />
               </CommandItem>

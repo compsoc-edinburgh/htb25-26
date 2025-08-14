@@ -54,7 +54,7 @@ const UniversityDropdownComponent = (
     placeholder = "Select a university",
     ...props
   }: UniversityDropdownProps,
-  ref: React.ForwardedRef<HTMLButtonElement>,
+  ref: React.ForwardedRef<HTMLButtonElement>
 ) => {
   const [open, setOpen] = useState(false);
   const [selectedUniversity, setSelectedUniversity] = useState<
@@ -64,7 +64,7 @@ const UniversityDropdownComponent = (
   useEffect(() => {
     if (defaultValue) {
       const initialUniversity = options.find(
-        (university) => university.name === defaultValue,
+        (university) => university.name === defaultValue
       );
       if (initialUniversity) {
         setSelectedUniversity(initialUniversity);
@@ -84,11 +84,11 @@ const UniversityDropdownComponent = (
       onChange?.(university);
       setOpen(false);
     },
-    [onChange],
+    [onChange]
   );
 
   const triggerClasses = cn(
-    "flex h-10 w-full items-center justify-between whitespace-nowrap rounded-xl border border-input bg-background px-3 py-2 text-sm shadow-sm ring-offset-background placeholder:text-muted-foreground focus-visible:shadow-md focus-visible:outline-0 focus-visible:ring-4 focus-visible:ring-black/10 focus-visible:ring-offset-0 focus-visible:border-black/20 transition-all disabled:cursor-not-allowed disabled:opacity-50 md:text-sm active:outline-0 focus:outline-0 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1",
+    "flex h-10 w-full items-center justify-between whitespace-nowrap rounded-xl border border-input bg-background px-3 py-2 text-sm shadow-sm ring-offset-background placeholder:text-muted-foreground focus-visible:shadow-md focus-visible:outline-0 focus-visible:ring-4 focus-visible:ring-black/10 focus-visible:ring-offset-0 focus-visible:border-black/20 transition-all disabled:cursor-not-allowed disabled:opacity-50 md:text-sm active:outline-0 focus:outline-0 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1"
   );
 
   return (
@@ -140,7 +140,7 @@ const UniversityDropdownComponent = (
                         "ml-auto h-4 w-4 shrink-0",
                         option.name === selectedUniversity?.name
                           ? "opacity-100"
-                          : "opacity-0",
+                          : "opacity-0"
                       )}
                     />
                   </CommandItem>

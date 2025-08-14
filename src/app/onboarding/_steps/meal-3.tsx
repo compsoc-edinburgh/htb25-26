@@ -80,13 +80,14 @@ export default function Meal3Step({
         <div className="rounded-xl bg-muted p-4">
           <h2 className="text-xl font-medium">Third meal - Soul Sushi</h2>
           <p className="font-sans text-sm text-muted-foreground">
-            Choose one of the following Poke Bowls from Soul Sushi. Check out the menu{" "}
+            Choose one of the following Poke Bowls from Soul Sushi. Check out
+            the menu{" "}
             <a
               target="_blank"
               href={"https://soulsushi.kjgroups.co.uk/menupage "}
               className="underline"
             >
-               here
+              here
             </a>
             .
           </p>
@@ -101,7 +102,7 @@ export default function Meal3Step({
                   "my-1 flex w-full items-center gap-2 rounded-xl p-3 transition-colors",
                   option.value === meal3
                     ? "bg-accent-yellow text-black data-[selected=true]:bg-accent-yellow data-[selected=true]:text-black"
-                    : "hover:bg-primary-50",
+                    : "hover:bg-primary-50"
                 )}
                 key={key}
                 onSelect={() => setMeal3(option.value)}
