@@ -65,28 +65,40 @@ export default function Navbar({
 
   const navLinks = [
     {
-      href: "/#sponsors",
-      label: "Sponsors",
+      href: "/#about",
+      label: "ABOUT",
+    },
+    {
+      href: "/#schedule",
+      label: "SCHEDULE",
+    },
+    {
+      href: "/#team",
+      label: "TEAM",
     },
     {
       href: "/#faq",
-      label: "FAQs",
+      label: "FAQ",
     },
     {
-      href: "https://2024.hacktheburgh.com",
-      label: "HTB 2024",
-      external: true,
+      href: "/#volunteer",
+      label: "VOLUNTEER",
     },
-    {
-      href: "mailto:hello@hacktheburgh.com",
-      label: "Contact",
-      external: true,
-    },
+    // {
+    //   href: "https://2024.hacktheburgh.com",
+    //   label: "HTB 2024",
+    //   external: true,
+    // },
+    // {
+    //   href: "mailto:hello@hacktheburgh.com",
+    //   label: "Contact",
+    //   external: true,
+    // },
   ];
-
+  
   const renderNavLinks = (mobile = false) => (
-    <div className={mobile ? "flex flex-col gap-2" : "flex items-center gap-1"}>
-      {navLinks.map(({ href, label, external }, index) => (
+    <div className={mobile ? "flex flex-col gap-2 items-center justify-center": "flex w-full items-center justify-center gap-4"}>
+      {navLinks.map(({ href, label }, index) => ( // removed external from here because not going to external sites
         <motion.div
           key={href}
           initial={mobile ? { opacity: 0, x: -20 } : {}}
@@ -99,7 +111,7 @@ export default function Navbar({
           >
             <Link
               href={href}
-              {...(external && {
+              {...({ // removed external from here because not going to external sites
                 target: "_blank",
                 rel: "noopener noreferrer",
               })}
@@ -205,7 +217,7 @@ export default function Navbar({
             asChild
             className="h-full w-full rounded-md bg-transparent px-5 py-2 font-semibold text-foreground hover:bg-black/90"
           >
-            <Link href="/signin">Sign In</Link>
+            <Link href="/signin">SIGN IN</Link>
           </Button>
         </motion.div>
       </div>
@@ -215,7 +227,10 @@ export default function Navbar({
   return (
     <>
       <div className="flex justify-center">
-        <nav className="fixed top-3 z-50 flex h-14 w-[calc(100vw-2rem)] items-center justify-between rounded-2xl border border-border/10 bg-black/30 p-2 font-tektur font-medium text-white shadow backdrop-blur-xl md:w-[calc(100vw-16rem)]">
+       <nav className="fixed bottom-3 z-50 flex h-14 w-[calc(100vw-2rem)] items-center justify-between rounded-bl-lg rounded-br-lg border border-white border-border/10 font-tektur font-medium text-white"></nav>
+       <nav className="fixed left-4 top-3 z-50 flex h-[calc(100vh-1.5rem)] w-14 items-center justify-between rounded-tl-lg rounded-bl-lg border border-white border-border/10 font-tektur font-medium text-white"></nav>
+       <div className="fixed right-4 top-5 z-50 h-[calc(100vh-4rem)] w-[1px] bg-white"></div>
+        <nav className="fixed top-3 z-50 flex h-14 w-[calc(100vw-2rem)] items-center justify-between rounded-tl-lg rounded-tr-lg border border-white border-border/10 font-tektur font-medium text-white"> 
           <div className="flex items-center gap-4 pl-4 md:gap-8">
             <Link href="/" aria-label="Home">
               <img
@@ -224,7 +239,9 @@ export default function Navbar({
                 className="h-8 w-auto md:h-9"
               />
             </Link>
+            </div>
 
+            <div className="flex flex-grow justify-center">
             <div className="hidden items-center gap-1 lg:flex">
               {renderNavLinks()}
             </div>
