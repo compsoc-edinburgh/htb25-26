@@ -1,6 +1,10 @@
+import Navbar from "~/components/navbar";
+
 export default async function Page() {
   return (
     <main className="min-h-screen w-full">
+
+      <Navbar/>
       {/*TODO: Test Landing page*/}
       <div className="flex h-screen w-full items-center justify-center">
         <div className="flex flex-col items-center">

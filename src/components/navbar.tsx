@@ -98,7 +98,7 @@ export default function Navbar({
   ];
   
   const renderNavLinks = (mobile = false) => (
-    <div className={mobile ? "flex flex-col gap-2 items-center justify-center": "flex w-full items-center justify-center gap-4"}>
+    <div className={mobile ? "flex flex-col gap-4 items-center text-black justify-center": "flex w-full items-center text-black justify-center gap-4"}>
       {navLinks.map(({ href, label }, index) => ( // removed external from here because not going to external sites
         <motion.div
           key={href}
@@ -108,7 +108,7 @@ export default function Navbar({
         >
           <Button
             asChild
-            className="h-full w-full rounded-md bg-transparent px-5 py-2 font-semibold text-foreground hover:bg-black/90"
+            className="h-full w-full rounded-md bg-transparent px-5 py-2 font-normal text-black"
           >
             <Link
               href={href}
@@ -216,11 +216,21 @@ export default function Navbar({
           }}
         >
           <Button
-            asChild
-            className="h-full w-full rounded-md bg-transparent px-5 py-2 font-semibold text-foreground hover:bg-black/90"
           >
-            <Link href="/signin">SIGN IN</Link>
-          </Button>
+            <Link href="/signin" className="relative flex items-center justify-center">
+              <Image
+                src="/htb-sign-in.png"
+                alt="HTB Sign In Png"
+                width={40}
+                height={40}
+                className="h-8 w-auto md:h-12 -ml-4"
+              />
+              <span className="absolute text-white font-normal text-xs md:text-sm -ml-3">
+                SIGN IN
+              </span>
+            </Link>
+</Button>
+
         </motion.div>
       </div>
     );
@@ -229,30 +239,31 @@ export default function Navbar({
   return (
     <>
       <div className="flex justify-center">
-       <nav className="fixed bottom-3 z-50 flex h-14 w-[calc(100vw-2rem)] items-center justify-between rounded-bl-lg rounded-br-lg border border-white border-border/10 font-tektur font-medium text-white"></nav>
-       <nav className="fixed left-4 top-3 z-50 flex h-[calc(100vh-1.5rem)] w-14 items-center justify-between rounded-tl-lg rounded-bl-lg border border-white border-border/10 font-tektur font-medium text-white"></nav>
-       <div className="fixed right-4 top-5 z-50 h-[calc(100vh-4rem)] w-[1px] bg-white"></div>
-        <nav className="fixed top-3 z-50 flex h-14 w-[calc(100vw-2rem)] items-center justify-between rounded-tl-lg rounded-tr-lg border border-white border-border/10 font-tektur font-medium text-white"> 
-          <div className="flex items-center gap-4 pl-4 md:gap-8">
+       <nav className="fixed bottom-3 left-5 z-50 flex h-14 w-[calc(100vw-2.5rem)] items-center justify-between rounded-bl-lg rounded-br-lg border border-gray-200 border-border/10 font-tektur font-medium text-white"></nav>
+       <nav className="fixed left-5 top-3 z-50 flex h-[calc(100vh-1.5rem)] w-14 items-center justify-between rounded-tl-lg rounded-bl-lg border border-gray-200 border-border/10 font-tektur font-medium text-white"></nav>
+       <div className="fixed right-5 top-5 z-50 h-[calc(100vh-4rem)] w-[1px] bg-gray-200"></div>
+        <nav className="fixed top-3 left-5 z-50 flex h-14 w-[calc(100vw-2.5rem)] items-center justify-between rounded-tl-lg rounded-tr-lg border border-gray-200 border-border/10 font-tektur font-medium text-white"> 
+        <div className="flex w-full items-center justify-between mx-auto px-4">
             <Link href="/" aria-label="Home">
               <Image
-                src="/HB-icon-neon-small.png"
-                alt="HackBurgh Logo"
+                src="/navbar.png"
+                alt="Navbar Png"
                 width={32}
                 height={32}
-                className="h-8 w-auto md:h-9"
+                className="h-8 w-auto md:h-3 -ml-1"
               />
             </Link>
             </div>
 
-            <div className="flex flex-grow justify-center">
-            <div className="hidden items-center gap-1 lg:flex">
+            <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 hidden lg:flex gap-4">
               {renderNavLinks()}
             </div>
-          </div>
 
-          <div className="hidden items-center gap-8 lg:flex">
+            <div className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-1/4 flex items-center gap-4 pr-4">
+            {/* Desktop auth section */}
+            <div className="hidden lg:flex">
             {renderAuthSection()}
+            </div>
           </div>
 
           <Button
