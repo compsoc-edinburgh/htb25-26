@@ -124,7 +124,7 @@ export default function UniversityYearStep({
                   "my-1 flex w-full items-center gap-2 rounded-xl p-3 transition-colors",
                   option.value === universityYear
                     ? "bg-accent-yellow text-black data-[selected=true]:bg-accent-yellow data-[selected=true]:text-black"
-                    : "hover:bg-primary-50",
+                    : "hover:bg-primary-50"
                 )}
                 key={key}
                 onSelect={() => setUniversityYear(option.value)}

@@ -8,6 +8,7 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { toast } from "sonner";
 import { Application } from "@prisma/client";
+import Image from "next/image";
 
 export default function Navbar({
   isAdmin = false,
@@ -125,7 +126,8 @@ export default function Navbar({
   );
 
   const renderAuthSection = (mobile = false) => {
-    if (!isLoaded) return <span className="text-gray-400 pr-4">Loading...</span>;
+    if (!isLoaded)
+      return <span className="pr-4 text-gray-400">Loading...</span>;
 
     if (isSignedIn) {
       return (
@@ -141,7 +143,7 @@ export default function Navbar({
           }
           transition={{ delay: mobile ? navLinks.length * 0.1 : 0, bounce: 0 }}
         >
-          <div className="flex flex-col items-center justify-center gap-4 lg:flex-row pr-4">
+          <div className="flex flex-col items-center justify-center gap-4 pr-4 lg:flex-row">
             {application ? (
               <Button
                 asChild
@@ -164,7 +166,7 @@ export default function Navbar({
               //     Apply
               //   </Link>
               // </Button>
-             <></>
+              <></>
             )}
             {isAdmin && (
               <Button
@@ -233,9 +235,11 @@ export default function Navbar({
         <nav className="fixed top-3 z-50 flex h-14 w-[calc(100vw-2rem)] items-center justify-between rounded-tl-lg rounded-tr-lg border border-white border-border/10 font-tektur font-medium text-white"> 
           <div className="flex items-center gap-4 pl-4 md:gap-8">
             <Link href="/" aria-label="Home">
-              <img
+              <Image
                 src="/HB-icon-neon-small.png"
                 alt="HackBurgh Logo"
+                width={32}
+                height={32}
                 className="h-8 w-auto md:h-9"
               />
             </Link>
@@ -289,7 +293,7 @@ export default function Navbar({
                 ease: "easeInOut",
                 bounce: 0,
               }}
-              className="fixed left-4 right-4 top-[5rem] z-50 h-[calc(100dvh-5.75rem)] rounded-2xl border border-border/10 bg-black/20 p-4 font-tektur shadow-2xl backdrop-blur-xl lg:hidden"
+              className="font-tektur fixed left-4 right-4 top-[5rem] z-50 h-[calc(100dvh-5.75rem)] rounded-2xl border border-border/10 bg-black/20 p-4 shadow-2xl backdrop-blur-xl lg:hidden"
             >
               <div className="flex h-full flex-col justify-between gap-2 pr-4">
                 {renderNavLinks(true)}

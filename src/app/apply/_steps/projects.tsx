@@ -61,7 +61,7 @@ export default function ProjectStep({
 
   const { aim, stack, link } = {
     aim: project?.split("\n")[0] ?? "",
-    stack: project?.split("\n")[1] ?? "", 
+    stack: project?.split("\n")[1] ?? "",
     link: project?.split("\n")[2] ?? "",
   };
 
@@ -90,7 +90,9 @@ export default function ProjectStep({
               rows={2}
               defaultValue={aim}
               onChange={(e) =>
-                setProject(`${e.target.value.replace(/\n/g, ' ')}\n${stack ?? ""}\n${link ?? ""}`)
+                setProject(
+                  `${e.target.value.replace(/\n/g, " ")}\n${stack ?? ""}\n${link ?? ""}`
+                )
               }
             />
           </div>
@@ -103,7 +105,9 @@ export default function ProjectStep({
               className="min-h-0 flex-1 resize-none"
               defaultValue={stack}
               onChange={(e) =>
-                setProject(`${aim ?? ""}\n${e.target.value.replace(/\n/g, ' ')}\n${link ?? ""}`)
+                setProject(
+                  `${aim ?? ""}\n${e.target.value.replace(/\n/g, " ")}\n${link ?? ""}`
+                )
               }
             />
           </div>
@@ -116,7 +120,9 @@ export default function ProjectStep({
               defaultValue={link}
               className="min-h-0 flex-1 resize-none"
               onChange={(e) =>
-                setProject(`${aim ?? ""}\n${stack ?? ""}\n${e.target.value.replace(/\n/g, ' ')}`)
+                setProject(
+                  `${aim ?? ""}\n${stack ?? ""}\n${e.target.value.replace(/\n/g, " ")}`
+                )
               }
             />
           </div>

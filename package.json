@@ -2,6 +2,7 @@
   "name": "htb-web",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "next build",
     "check": "next lint && tsc --noEmit",
@@ -70,21 +71,24 @@
     "zod": "^3.23.3"
   },
   "devDependencies": {
-    "@types/eslint": "^8.56.10",
+    "@eslint/eslintrc": "^3",
+    "@eslint/js": "^9.27.0",
     "@types/node": "^20.14.10",
     "@types/react": "^18.3.3",
     "@types/react-csv": "^1.1.10",
     "@types/react-dom": "^18.3.0",
-    "@typescript-eslint/eslint-plugin": "^8.1.0",
-    "@typescript-eslint/parser": "^8.1.0",
-    "eslint": "^8.57.0",
-    "eslint-config-next": "^15.0.1",
+    "autoprefixer": "^10.4.21",
+    "eslint": "^9.27.0",
+    "eslint-config-next": "15.3.2",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
     "postcss": "^8.4.39",
-    "prettier": "^3.3.2",
+    "prettier": "^3.5.3",
     "prettier-plugin-tailwindcss": "^0.6.5",
     "prisma": "^6.2.1",
     "tailwindcss": "^3.4.3",
-    "typescript": "^5.5.3"
+    "typescript": "^5.5.3",
+    "typescript-eslint": "^8.32.1"
   },
   "ct3aMetadata": {
     "initVersion": "7.38.1"

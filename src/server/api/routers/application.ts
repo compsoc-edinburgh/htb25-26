@@ -14,7 +14,7 @@ export const applicationRouter = createTRPCRouter({
       z.object({
         team_id: z.string().optional(),
         type: z.enum(["individual", "team"]),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       const user = await ctx.db.user.findUnique({
@@ -169,7 +169,7 @@ export const applicationRouter = createTRPCRouter({
               select: {
                 first_name: true,
                 last_name: true,
-              }
+              },
             },
           },
         },

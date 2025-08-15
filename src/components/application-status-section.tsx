@@ -49,8 +49,8 @@ export function ApplicationStatusSection({
         </h3>
         <p className="mx-auto max-w-2xl font-sans text-sm text-white/80">
           Thank you for your interest! Applications for this year have closed,
-          but we'd love to see you next year. If you've already submitted an
-          application, please sign in to check your status.
+          but we&apos;d love to see you next year. If you&apos;ve already
+          submitted an application, please sign in to check your status.
         </p>
       </div>
       <Button

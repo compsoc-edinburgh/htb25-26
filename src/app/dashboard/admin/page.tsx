@@ -17,7 +17,7 @@ export default async function AdminPage() {
   return (
     <div className="mx-auto w-full max-w-screen-md py-20">
       <h1 className="text-center text-2xl font-bold">Manage applications</h1>
-      <div className="my-10 mx-auto">
+      <div className="mx-auto my-10">
         <DataTable columns={columns} data={applications} />
       </div>
     </div>

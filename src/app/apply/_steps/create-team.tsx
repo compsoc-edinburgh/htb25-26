@@ -23,7 +23,7 @@ export default function CreateTeam({
   setTeam,
   setApplicationType,
   setStep,
-  setJoined
+  setJoined,
 }: {
   team?: Team;
   setTeam: Dispatch<SetStateAction<Team | undefined>>;
@@ -79,7 +79,7 @@ export default function CreateTeam({
         <CardContent className="space-y-2">
           <div className="space-y-1">
             <Label htmlFor="name">Name</Label>
-            <span className="text-xs text-muted-foreground font-sans p-2">
+            <span className="p-2 font-sans text-xs text-muted-foreground">
               You can change this later
             </span>
             <Input
@@ -88,7 +88,6 @@ export default function CreateTeam({
               name="teamName"
               placeholder="Autobots"
             />
-            
           </div>
         </CardContent>
         <CardFooter className="justify-end">

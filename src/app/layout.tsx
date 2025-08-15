@@ -60,7 +60,7 @@ export default async function RootLayout({
         lang="en"
         className={`${ibmPlexMono.className} ${hexaframe.variable} ${GeistSans.variable} dark`}
       >
-        <body className="bg-black">
+        <body className="bg-white text-zinc-900">
           <Toaster
             position="bottom-center"
             toastOptions={{

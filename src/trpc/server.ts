@@ -21,7 +21,7 @@ const createContext = cache(async () => {
   return createTRPCContext({
     headers: heads,
     auth: getAuth(
-      new NextRequest("https://notused", { headers: await headers() }),
+      new NextRequest("https://notused", { headers: await headers() })
     ),
   });
 });
@@ -31,5 +31,5 @@ const caller = createCaller(createContext);
 
 export const { trpc: api, HydrateClient } = createHydrationHelpers<AppRouter>(
   caller,
-  getQueryClient,
+  getQueryClient
 );

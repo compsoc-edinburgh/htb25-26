@@ -13,7 +13,7 @@ export const appRouter = createTRPCRouter({
   application: applicationRouter,
   user: userRouter,
   team: teamRouter,
-  mailingList: mailingListRouter
+  mailingList: mailingListRouter,
 });
 
 // export type definition of API

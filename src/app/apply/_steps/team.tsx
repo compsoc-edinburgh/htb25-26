@@ -43,7 +43,7 @@ export default function TeamStep({
   const [joined, setJoined] = useState(false);
   const [loading, setLoading] = useState(false);
   const [tab, setTab] = useState<"individual" | "create" | "join">(
-    team ? (team.created_by === user?.id ? "create" : "join") : "individual",
+    team ? (team.created_by === user?.id ? "create" : "join") : "individual"
   );
 
   if (team) {

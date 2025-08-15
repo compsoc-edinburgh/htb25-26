@@ -24,7 +24,7 @@ export default function CalendarStep({
   const { user } = useUser();
 
   const [tab, setTab] = useState<"yes" | "no">(
-    calendarEmail !== undefined ? "yes" : "no",
+    calendarEmail !== undefined ? "yes" : "no"
   );
   const [loading, setLoading] = useState(false);
 
@@ -75,7 +75,7 @@ export default function CalendarStep({
     >
       <div className="rounded-xl bg-muted p-4">
         <h2 className="text-xl font-medium">Update your calendar</h2>
-        <p className="text-sm text-muted-foreground font-sans">
+        <p className="font-sans text-sm text-muted-foreground">
           Would you like to be added to our joint calendar?
         </p>
       </div>

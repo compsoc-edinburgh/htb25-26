@@ -1,5 +1,6 @@
 import { cn } from "~/lib/utils";
 import { ArrowUpRight } from "lucide-react";
+import Image from "next/image";
 
 interface Sponsor {
   name: string;
@@ -12,7 +13,7 @@ interface Sponsor {
 const SPONSOR_DATA: Sponsor[] = [
   {
     name: "G-Research",
-    logo: "/sponsors/g-research.svg", 
+    logo: "/sponsors/g-research.svg",
     website: "https://www.gresearch.com/",
     tier: "platinum",
     isReleased: true,
@@ -21,7 +22,7 @@ const SPONSOR_DATA: Sponsor[] = [
     name: "Optiver",
     logo: "/sponsors/optiver.svg",
     website: "https://www.optiver.com/",
-    tier: "gold", 
+    tier: "gold",
     isReleased: true,
   },
   {
@@ -60,7 +61,7 @@ const TIER_STYLES = {
     card: "bg-neutral-500/20 shadow-lg hover:shadow-purple-200/20 animate-shine relative overflow-hidden",
   },
   gold: {
-    badge: "bg-yellow-500/10 text-yellow-500 border-yellow-500/20", 
+    badge: "bg-yellow-500/10 text-yellow-500 border-yellow-500/20",
     card: "bg-neutral-500/20 shadow-md hover:shadow-yellow-100/20",
   },
   silver: {
@@ -73,7 +74,6 @@ const TIER_STYLES = {
   },
 } as const;
 
-
 const SponsorBox = ({
   sponsor,
   index,
@@ -85,10 +85,11 @@ const SponsorBox = ({
     <div
       className={cn(
         "group relative flex flex-col items-center justify-center rounded-2xl",
-        "aspect-video border border-border/10 p-6 transition-all duration-300 backdrop-blur-xl bg-white/5 shadow-[inset_0_0_20px_rgba(255,255,255,0.05)]",
+        "aspect-video border border-border/10 bg-white/5 p-6 shadow-[inset_0_0_20px_rgba(255,255,255,0.05)] backdrop-blur-xl transition-all duration-300",
         !sponsor.isReleased && "cursor-default",
-        sponsor.isReleased && "hover:border-accent/50 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] hover:bg-white/10",
-        sponsor.isReleased ? TIER_STYLES[sponsor.tier].card : "",
+        sponsor.isReleased &&
+          "hover:scale-[1.02] hover:border-accent/50 hover:bg-white/10 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)]",
+        sponsor.isReleased ? TIER_STYLES[sponsor.tier].card : ""
       )}
     >
       {sponsor.tier === "platinum" && sponsor.isReleased && (
@@ -97,7 +98,7 @@ const SponsorBox = ({
 
       {sponsor.isReleased ? (
         <>
-          <div className="absolute left-3 top-3 ">
+          <div className="absolute left-3 top-3">
             <span
               className={cn(
                 "rounded-full border px-2 py-1 text-xs font-medium transition-colors",
@@ -115,12 +116,14 @@ const SponsorBox = ({
             className="flex h-full w-full items-center justify-center"
             aria-label={`Visit ${sponsor.name}'s website`}
           >
-            <img
+            <Image
               src={sponsor.logo}
               alt={`${sponsor.name} logo`}
+              width={100}
+              height={100}
               className="max-h-[60%] max-w-[60%] object-contain transition-transform group-hover:scale-105"
             />
-            <ArrowUpRight className="absolute right-3 top-3 h-5 w-5 opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:text-accent" />
+            <ArrowUpRight className="absolute right-3 top-3 h-5 w-5 opacity-0 transition-all duration-300 group-hover:text-accent group-hover:opacity-100" />
           </a>
         </>
       ) : (
@@ -128,9 +131,7 @@ const SponsorBox = ({
           <div className="text-lg font-semibold text-accent-yellow/60">
             Coming Soon
           </div>
-          <div className="text-sm text-white/40">
-            New sponsor announcement
-          </div>
+          <div className="text-sm text-white/40">New sponsor announcement</div>
         </div>
       )}
     </div>

@@ -65,9 +65,9 @@ export default function OnboardingForm({
         <div className="rounded-lg border border-primary/20 bg-primary/5 p-6">
           <p className="mb-4">Hey {user.first_name},</p>
           <p className="mb-4">
-            Great news! We're thrilled to inform you that your application to
-            HackTheBurgh has been accepted! Congratulations on being selected to
-            join us for an amazing weekend of innovation, learning, and fun.
+            Great news! We&apos;re thrilled to inform you that your application
+            to HackTheBurgh has been accepted! Congratulations on being selected
+            to join us for an amazing weekend of innovation, learning, and fun.
           </p>
 
           <div className="mt-6 rounded-md bg-primary/10 p-4">
@@ -78,8 +78,8 @@ export default function OnboardingForm({
               </li>
               <li>
                 📍 <strong>Location:</strong> The Nucleus Building, The
-                University of Edinburgh King's Buildings Campus, Thomas Bayes
-                Rd, Edinburgh EH9 3FG
+                University of Edinburgh King&apos;s Buildings Campus, Thomas
+                Bayes Rd, Edinburgh EH9 3FG
               </li>
               <li>
                 ⏰ <strong>Check-in Time:</strong> 9 am
@@ -90,7 +90,7 @@ export default function OnboardingForm({
             We will re-send you these details closer to the event.
           </p>
 
-          <h2 className="mb-2 text-xl font-semibold">What's Next?</h2>
+          <h2 className="mb-2 text-xl font-semibold">What&apos;s Next?</h2>
           <p className="mb-4">
             Please confirm your attendance by filling out the form below by the
             14th Feb!
@@ -101,10 +101,10 @@ export default function OnboardingForm({
             <li>
               • If you cannot attend, please let us know as soon as possible
             </li>
-            <li>• Don't forget to bring your laptop and charger!</li>
+            <li>• Don&apos;t forget to bring your laptop and charger!</li>
             <li>
-              • We'll provide meals, snacks, and plenty of coffee throughout the
-              event
+              • We&apos;ll provide meals, snacks, and plenty of coffee
+              throughout the event
             </li>
             <li>
               • More detailed information about schedules and workshops will be
@@ -113,8 +113,9 @@ export default function OnboardingForm({
           </ul>
 
           <p className="mb-4">
-            We can't wait to see what you'll create at HackTheBurgh! If you have
-            any questions in the meantime, don't hesitate to reach out.
+            We can&apos;t wait to see what you&apos;ll create at HackTheBurgh!
+            If you have any questions in the meantime, don&apos;t hesitate to
+            reach out.
           </p>
 
           <p>
