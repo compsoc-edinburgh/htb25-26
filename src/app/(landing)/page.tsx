@@ -33,7 +33,7 @@ export default async function Page() {
             seasoned hacker or just starting out, we have something for
             everyone.
           </p>
-          <button className="mt-12 rounded-xl border px-10 py-4 font-hexaframe text-2xl">
+          <button className="mt-12 rounded-xl border w-80 py-4 font-hexaframe text-2xl">
             Register
           </button>
         </div>

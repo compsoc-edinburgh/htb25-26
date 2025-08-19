@@ -10,6 +10,18 @@ import { toast } from "sonner";
 import { Application } from "@prisma/client";
 import Image from "next/image";
 
+import {
+  Drawer,
+  DrawerTrigger,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerClose,
+} from "./ui/drawer"; // adjust path if needed
+
+
 export default function Navbar({
   isAdmin = false,
   application,
@@ -215,22 +227,16 @@ export default function Navbar({
             bounce: 0,
           }}
         >
-          <Button
-          >
-            <Link href="/signin" className="relative flex items-center justify-center">
-              <Image
-                src="/htb-sign-in.png"
-                alt="HTB Sign In Png"
-                width={40}
-                height={40}
-                className="h-8 w-auto md:h-12 -ml-4"
-              />
-              <span className="absolute text-white font-normal text-xs md:text-sm -ml-3">
-                SIGN IN
-              </span>
-            </Link>
-</Button>
-
+      <Link
+        href="/signin"
+        className="relative bg-black px-10 py-4 text-white font-normal text-sm md:text-base 
+             hover:bg-blue-700 transition flex items-center justify-center rounded-t-lg translate-x-4"
+  style={{
+    clipPath: 'polygon(0 0, 100% 0, 100% 100%, 20px 100%, 0 calc(100% - 20px))'
+  }}
+      >
+        SIGN IN
+      </Link>
         </motion.div>
       </div>
     );
@@ -238,82 +244,50 @@ export default function Navbar({
 
   return (
     <>
-      <div className="flex justify-center">
-       <nav className="fixed bottom-3 left-5 z-50 flex h-14 w-[calc(100vw-2.5rem)] items-center justify-between rounded-bl-lg rounded-br-lg border border-gray-200 border-border/10 font-tektur font-medium text-white"></nav>
-       <nav className="fixed left-5 top-3 z-50 flex h-[calc(100vh-1.5rem)] w-14 items-center justify-between rounded-tl-lg rounded-bl-lg border border-gray-200 border-border/10 font-tektur font-medium text-white"></nav>
-       <div className="fixed right-5 top-5 z-50 h-[calc(100vh-4rem)] w-[1px] bg-gray-200"></div>
-        <nav className="fixed top-3 left-5 z-50 flex h-14 w-[calc(100vw-2.5rem)] items-center justify-between rounded-tl-lg rounded-tr-lg border border-gray-200 border-border/10 font-tektur font-medium text-white"> 
-        <div className="flex w-full items-center justify-between mx-auto px-4">
-            <Link href="/" aria-label="Home">
-              <Image
-                src="/navbar.png"
-                alt="Navbar Png"
-                width={32}
-                height={32}
-                className="h-8 w-auto md:h-3 -ml-1"
-              />
-            </Link>
-            </div>
+      {/* bottom bar */}
+  <footer className="fixed bottom-3 left-5 z-50 grid h-14 w-[calc(100vw-2.5rem)] grid-cols-[1fr_auto_1fr] items-center rounded-bl-lg rounded-br-lg border border-gray-200 border-border/10 font-tektur font-medium text-white"></footer>
 
-            <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 hidden lg:flex gap-4">
-              {renderNavLinks()}
-            </div>
+{/* left sidebar */}
+<aside className="fixed left-5 top-3 z-40 flex h-[calc(100vh-1.5rem)] w-14 items-center justify-between rounded-bl-lg rounded-tl-lg border border-gray-200 border-border/10 border-t-0 font-tektur font-medium text-white" />
 
-            <div className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-1/4 flex items-center gap-4 pr-4">
-            {/* Desktop auth section */}
-            <div className="hidden lg:flex">
-            {renderAuthSection()}
-            </div>
-          </div>
+{/* right divider */}
+<div className="fixed right-5 top-4 z-40 h-[calc(100vh-1.5rem)] w-[1px] bg-gray-200 border-t-0 border-b-0" />
 
-          <Button
-            variant="ghost"
-            size="icon"
-            className="p-2 hover:bg-black lg:hidden"
-            onClick={toggleMenu}
-            aria-label="Toggle menu"
-          >
-            <motion.div
-              animate={{ rotate: isMenuOpen ? 180 : 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              {isMenuOpen ? (
-                <X className="h-6 w-6" />
-              ) : (
-                <Menu className="h-6 w-6" />
-              )}
-            </motion.div>
-          </Button>
-        </nav>
-      </div>
-      <AnimatePresence>
-        {isMenuOpen && (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="pointer-events-none fixed inset-0 left-0 top-0 z-30 h-full w-full bg-black/50"
-            />
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{
-                duration: 0.3,
-                ease: "easeInOut",
-                bounce: 0,
-              }}
-              className="font-tektur fixed left-4 right-4 top-[5rem] z-50 h-[calc(100dvh-5.75rem)] rounded-2xl border border-border/10 bg-black/20 p-4 shadow-2xl backdrop-blur-xl lg:hidden"
-            >
-              <div className="flex h-full flex-col justify-between gap-2 pr-4">
-                {renderNavLinks(true)}
-                {renderAuthSection(true)}
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+<nav className="fixed top-3 left-5 z-50 grid h-14 w-[calc(100vw-2.5rem)] grid-cols-[1fr_auto_1fr] items-center rounded-tl-lg rounded-tr-lg border border-gray-200 border-border/10 font-tektur font-medium text-white">
+
+  {/* drawer for mobile that drives me crazy */}
+  <div className="flex items-center h-full px-4">
+    <Drawer>
+      <DrawerTrigger asChild>
+        <button
+          type="button"
+          aria-label="Open menu"
+          className="block lg:hidden -ml-1 cursor-pointer"
+        >
+          <Image src="/navbar.png" alt="Menu" width={32} height={32} className="h-6 w-auto" />
+        </button>
+      </DrawerTrigger>
+      <DrawerContent className="font-tektur bg-black/80 backdrop-blur-xl border border-border/10 rounded-t-2xl">
+        <div className="flex flex-col gap-6 p-6">
+          {renderNavLinks(true)}
+          {renderAuthSection(true)}
+        </div>
+      </DrawerContent>
+    </Drawer>
+  </div>
+
+  {/* Center slot: nav links (desktop only) */}
+  <div className="hidden lg:flex justify-center h-full items-center gap-4 px-4">
+    {renderNavLinks()}
+  </div>
+
+  {/* Right slot: auth */}
+  <div className="flex justify-end items-center h-full px-4">
+    <div className="hidden lg:flex">{renderAuthSection()}</div>
+  </div>
+</nav>
+
+
     </>
   );
 }
