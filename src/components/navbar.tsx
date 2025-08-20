@@ -3,7 +3,7 @@
 import { UserButton, useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import { Button } from "./ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Loader} from "lucide-react";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { toast } from "sonner";
@@ -119,8 +119,10 @@ export default function Navbar({
           transition={{ delay: mobile ? index * 0.1 : 0, bounce: 0 }}
         >
           <Button
-            asChild
-            className="h-full w-full rounded-md bg-transparent px-5 py-2 font-normal text-black"
+             asChild
+             className={`h-full w-full rounded-md bg-transparent px-5 py-2 font-normal ${
+               mobile ? "text-white" : "text-black"
+             }`}
           >
             <Link
               href={href}
@@ -244,37 +246,48 @@ export default function Navbar({
 
   return (
     <>
-      {/* bottom bar */}
-  <footer className="fixed bottom-3 left-5 z-50 grid h-14 w-[calc(100vw-2.5rem)] grid-cols-[1fr_auto_1fr] items-center rounded-bl-lg rounded-br-lg border border-gray-200 border-border/10 font-tektur font-medium text-white"></footer>
+    {/* bottom bar */}
+<footer className="hidden lg:grid fixed bottom-3 left-5 z-50 h-14 w-[calc(100vw-2.5rem)] grid-cols-[1fr_auto_1fr] items-center rounded-bl-lg rounded-br-lg border border-gray-200 border-border/10 font-tektur font-medium text-white"></footer>
 
 {/* left sidebar */}
-<aside className="fixed left-5 top-3 z-40 flex h-[calc(100vh-1.5rem)] w-14 items-center justify-between rounded-bl-lg rounded-tl-lg border border-gray-200 border-border/10 border-t-0 font-tektur font-medium text-white" />
+<aside className="hidden lg:flex fixed left-5 top-3 z-40 h-[calc(100vh-1.5rem)] w-14 items-center justify-between rounded-bl-lg rounded-tl-lg border border-gray-200 border-border/10 border-t-0 font-tektur font-medium text-white" />
 
 {/* right divider */}
-<div className="fixed right-5 top-4 z-40 h-[calc(100vh-1.5rem)] w-[1px] bg-gray-200 border-t-0 border-b-0" />
+<div className="hidden lg:block fixed right-5 top-4 z-40 h-[calc(100vh-1.5rem)] w-[1px] bg-gray-200 border-t-0 border-b-0" />
 
-<nav className="fixed top-3 left-5 z-50 grid h-14 w-[calc(100vw-2.5rem)] grid-cols-[1fr_auto_1fr] items-center rounded-tl-lg rounded-tr-lg border border-gray-200 border-border/10 font-tektur font-medium text-white">
+
+<nav className="fixed lg:top-3 top-0
+                left-0 w-full 
+                lg:left-5 lg:w-[calc(100vw-2.5rem)] 
+                z-50 grid h-14 
+                grid-cols-[1fr_auto_1fr] items-center 
+                rounded-none lg:rounded-tl-lg lg:rounded-tr-lg 
+                border border-gray-200 border-border/10 
+                font-tektur font-medium text-white">
+
 
   {/* drawer for mobile that drives me crazy */}
   <div className="flex items-center h-full px-4">
-    <Drawer>
-      <DrawerTrigger asChild>
-        <button
-          type="button"
-          aria-label="Open menu"
-          className="block lg:hidden -ml-1 cursor-pointer"
-        >
-          <Image src="/navbar.png" alt="Menu" width={32} height={32} className="h-6 w-auto" />
-        </button>
-      </DrawerTrigger>
-      <DrawerContent className="font-tektur bg-black/80 backdrop-blur-xl border border-border/10 rounded-t-2xl">
-        <div className="flex flex-col gap-6 p-6">
-          {renderNavLinks(true)}
-          {renderAuthSection(true)}
-        </div>
-      </DrawerContent>
-    </Drawer>
-  </div>
+  <Drawer>
+    <DrawerTrigger asChild>
+      <button
+        type="button"
+        aria-label="Open menu"
+        className="block lg:hidden -ml-1 cursor-pointer"
+      >
+        <Menu className="h-6 w-6 text-black" />
+      </button>
+    </DrawerTrigger>
+    <DrawerContent className="font-tektur bg-black backdrop-blur-xl border border-border/10 rounded-t-2xl">
+      <div className="flex flex-col gap-6 p-6 font-hexaframe">
+      <DrawerTitle></DrawerTitle>
+        {renderNavLinks(true)}
+        {renderAuthSection(true)}
+      </div>
+    </DrawerContent>
+  </Drawer>
+</div>
+
 
   {/* Center slot: nav links (desktop only) */}
   <div className="hidden lg:flex justify-center h-full items-center gap-4 px-4">

@@ -33,9 +33,22 @@ export default async function Page() {
             seasoned hacker or just starting out, we have something for
             everyone.
           </p>
-          <button className="mt-12 rounded-xl border w-80 py-4 font-hexaframe text-2xl">
-            Register
-          </button>
+          <div className="relative mt-12">
+            <button
+              className="absolute top-0 right-0 w-40 py-2 bg-transparent border z-10"
+              style={{
+                clipPath: 'polygon(0% 0%, 25% 100%, 100% 100%)'
+                
+              }}
+            >
+            </button>
+            <button className="rounded-xl border w-80 py-4 pl-7 font-hexaframe text-xl text-left"
+            style={{
+              clipPath: 'polygon(0 0, 55% 0, 70% 25%, 100% 25%, 100% 100%, 0% 100%'}}>
+              Register
+              <span className="absolute bottom-1 right-2 text-xs text-gray-600 font-sans"> Press Enter To Start ↵ </span>
+            </button>
+          </div>
         </div>
       </div>
     </main>
