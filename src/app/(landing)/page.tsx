@@ -1,5 +1,11 @@
+"use client";
+
+import { ArrowUpRight } from "lucide-react";
 import NavbarLayout from "~/components/modules/navbar-layout";
 import RegisterButton from "~/components/modules/register-button";
+import { useState } from "react";
+import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface SponsorCardProps {
   name: string;
@@ -7,6 +13,8 @@ interface SponsorCardProps {
   overview: string;
   prizes: Array<string>;
   number: string;
+  logo: string;
+  onHover: () => void;
 }
 
 const SponsorCard = ({
@@ -15,42 +23,72 @@ const SponsorCard = ({
   overview,
   prizes,
   number,
+  logo,
+  onHover,
 }: SponsorCardProps) => {
+  const TIERS = {
+    PLATINUM: "PLATINUM",
+    GOLD: "GOLD",
+    SILVER: "SILVER",
+    BRONZE: "BRONZE",
+  } as const;
+
+  const TIER_COLORS = {
+    [TIERS.PLATINUM]: "#4D4F51",
+    [TIERS.GOLD]: "#FFD700",
+    [TIERS.SILVER]: "#C0C0C0",
+    [TIERS.BRONZE]: "#CD7F32",
+  } as const;
+
   return (
-    <div className="notched-frame corner-brackets h-fit w-[65%] p-6">
-      <div className="flex flex-wrap items-end gap-3">
-        <h1 className="font-hexaframe text-5xl font-bold leading-none">
-          {name}
+    <div
+      className="notched-frame corner-brackets group h-full w-full cursor-pointer p-6 transition-shadow duration-300 hover:shadow-lg sm:p-8"
+      onMouseEnter={onHover}
+    >
+      <div className="mb-6 flex flex-wrap items-end gap-3 sm:gap-4">
+        <h1 className="flex cursor-pointer items-center gap-3 font-hexaframe text-3xl font-bold leading-none group-hover:underline sm:text-4xl md:text-5xl">
+          {name}{" "}
+          <ArrowUpRight className="h-4 w-4 sm:h-5 sm:w-5" strokeWidth={3} />
         </h1>
-        <div className="flex items-center gap-2 pt-1">
-          <div className="h-2 w-2 bg-black" />
-          <p className="text-sm uppercase tracking-wide text-gray-500">
+        <div className="flex items-center gap-3 pt-1">
+          <div
+            className="h-2 w-2 sm:h-2.5 sm:w-2.5"
+            style={{
+              backgroundColor: TIER_COLORS[tier as keyof typeof TIER_COLORS],
+            }}
+          />
+          <p
+            className="text-sm font-medium uppercase tracking-wide sm:text-base"
+            style={{
+              color: TIER_COLORS[tier as keyof typeof TIER_COLORS],
+            }}
+          >
             {tier}
           </p>
         </div>
       </div>
 
-      <div className="mb-4 mt-5 h-px w-full bg-black" />
+      <div className="mb-6 mt-6 h-px w-full bg-black" />
 
-      <div className="grid grid-cols-1 gap-6 md:flex md:justify-between">
-        <div className="flex gap-3 md:max-w-[48%]">
-          <div className="min-w-28 text-sm uppercase tracking-wide text-gray-500">
+      <div className="grid grid-cols-1 gap-6 sm:gap-8 lg:grid-cols-2">
+        <div className="flex flex-col gap-3 sm:gap-4">
+          <div className="text-sm font-medium uppercase tracking-wide text-gray-500 sm:text-base">
             Overview:
           </div>
-          <div className="text-sm leading-relaxed text-gray-900">
+          <div className="text-sm leading-relaxed text-gray-900 sm:text-base">
             {overview}
           </div>
         </div>
 
-        <div className="flex gap-3 md:max-w-[48%]">
-          <div className="min-w-28 text-sm uppercase tracking-wide text-gray-500">
+        <div className="flex flex-col gap-3 sm:gap-4">
+          <div className="text-sm font-medium uppercase tracking-wide text-gray-500 sm:text-base">
             Prizes:
           </div>
-          <div className="text-sm text-gray-900">
-            <ul className="space-y-2">
+          <div className="text-sm text-gray-900 sm:text-base">
+            <ul className="space-y-2 sm:space-y-3">
               {prizes.map((prize, index) => (
-                <li key={index} className="flex items-start gap-2">
-                  <span className="mt-2 inline-block h-1.5 w-1.5 flex-shrink-0 bg-black" />
+                <li key={index} className="flex items-start gap-3">
+                  <span className="mt-2 inline-block h-1.5 w-1.5 flex-shrink-0 bg-black sm:h-2 sm:w-2" />
                   <span className="leading-relaxed">{prize}</span>
                 </li>
               ))}
@@ -58,14 +96,167 @@ const SponsorCard = ({
           </div>
         </div>
       </div>
-      <span className="text-sm font-medium uppercase tracking-wide text-gray-500">
+      <span className="mt-8 inline-block text-sm font-medium uppercase tracking-wide text-gray-500 sm:text-base">
         {number}
       </span>
     </div>
   );
 };
 
-export default async function Page() {
+const SponsorsGrid = () => {
+  const sponsors = [
+    {
+      name: "Optiver",
+      tier: "PLATINUM",
+      overview:
+        "Optiver is a global market maker. As one of the oldest market making firms in the world, Optiver has been improving financial markets since 1986.",
+      prizes: [
+        "1st Prize: Latest iPhone Pro",
+        "2nd Prize: iPad Pro",
+        "3rd Prize: Apple AirPods Pro",
+      ],
+      number: "01",
+      logo: "/sponsors/optiver.svg",
+    },
+    {
+      name: "Lloyds Banking Group",
+      tier: "GOLD",
+      overview:
+        "Lloyds Banking Group is one of the UK's leading financial services companies, serving millions of customers and providing comprehensive banking solutions.",
+      prizes: [
+        "1st Prize: Samsung Galaxy Tab S9",
+        "2nd Prize: Microsoft Surface",
+        "3rd Prize: Premium Tech Bundle",
+      ],
+      number: "02",
+      logo: "/sponsors/lloyds.svg",
+    },
+    {
+      name: "G-Research",
+      tier: "SILVER",
+      overview:
+        "G-Research is a leading quantitative research and technology company, using machine learning and big data to predict movements in financial markets.",
+      prizes: [
+        "1st Prize: Gaming Setup",
+        "2nd Prize: Mechanical Keyboard",
+        "3rd Prize: Premium Swag Bundle",
+      ],
+      number: "03",
+      logo: "/sponsors/g-research.svg",
+    },
+    {
+      name: "DoraHacks",
+      tier: "BRONZE",
+      overview:
+        "DoraHacks is a global hackathon organizer and one of the world's most active developer incentive platforms, fostering innovation in blockchain and emerging technologies.",
+      prizes: [
+        "1st Prize: Exclusive Swag",
+        "2nd Prize: DoraHacks Merch",
+        "3rd Prize: Community Access",
+      ],
+      number: "06",
+      logo: "/sponsors/dorahacks.png",
+    },
+  ];
+
+  const [currentLogo, setCurrentLogo] = useState(
+    sponsors[0]?.logo || "/sponsors/optiver.svg"
+  );
+
+  const TIER_COLORS = {
+    PLATINUM: "#4D4F51",
+    GOLD: "#FFD700",
+    SILVER: "#C0C0C0",
+    BRONZE: "#CD7F32",
+  } as const;
+
+  return (
+    <div className="relative w-full px-4 sm:px-8">
+      <div className="block lg:hidden">
+        <div className="grid grid-cols-1 gap-8 sm:gap-12">
+          {sponsors.map((sponsor, index) => (
+            <div
+              key={index}
+              className="notched-frame corner-brackets relative flex h-40 items-center justify-center bg-white p-4 sm:h-48 sm:p-6"
+            >
+              <Image
+                src={sponsor.logo}
+                alt={`${sponsor.name} logo`}
+                width={160}
+                height={100}
+                className="max-h-24 max-w-full object-contain sm:max-h-28"
+              />
+              <span
+                className="absolute bottom-4 left-4 text-xs font-medium uppercase tracking-wide sm:text-sm"
+                style={{
+                  color: TIER_COLORS[sponsor.tier as keyof typeof TIER_COLORS],
+                }}
+              >
+                {sponsor.tier}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="hidden flex-col gap-8 lg:flex lg:flex-row lg:gap-12">
+        <div className="lg:sticky lg:top-28 lg:w-80 lg:self-start">
+          <div className="notched-frame corner-brackets relative flex h-64 items-center justify-center overflow-hidden bg-white p-8">
+            <AnimatePresence mode="popLayout">
+              <motion.div
+                key={currentLogo}
+                initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.8, y: -20 }}
+                transition={{
+                  duration: 0.2,
+                  ease: "easeInOut",
+                  scale: { type: "spring", stiffness: 300, damping: 30 },
+                }}
+                className="flex items-center justify-center"
+              >
+                <Image
+                  src={currentLogo}
+                  alt="Sponsor logo"
+                  width={200}
+                  height={120}
+                  className="max-h-32 max-w-full object-contain"
+                />
+              </motion.div>
+            </AnimatePresence>
+            <motion.span
+              className="absolute bottom-4 left-4 text-xs font-medium uppercase tracking-wide text-gray-500"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+            >
+              [LOGO]
+            </motion.span>
+          </div>
+        </div>
+
+        <div className="flex-1">
+          <div className="space-y-8">
+            {sponsors.map((sponsor, index) => (
+              <div key={index} className="min-h-[400px]">
+                <SponsorCard
+                  name={sponsor.name}
+                  tier={sponsor.tier}
+                  overview={sponsor.overview}
+                  prizes={sponsor.prizes}
+                  number={sponsor.number}
+                  logo={sponsor.logo}
+                  onHover={() => setCurrentLogo(sponsor.logo)}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default function Page() {
   return (
     <main className="h-full w-full pb-24">
       <NavbarLayout className="h-screen">
@@ -101,52 +292,18 @@ export default async function Page() {
         </div>
       </NavbarLayout>
       <NavbarLayout className="min-h-screen">
-        <div className="pb-10">
-          <h1 className="font-hexaframe text-7xl font-bold">Our Sponsors</h1>
+        <div className="px-4 pb-10 sm:pb-16">
+          <h1 className="font-hexaframe text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl">
+            Our Sponsors
+          </h1>
           <div className="flex items-center gap-2 pt-2">
-            <div className="h-2 w-2 bg-black" />
-            <p className="text-sm uppercase text-gray-500">
+            <div className="h-1.5 w-1.5 bg-black sm:h-2 sm:w-2" />
+            <p className="text-xs uppercase text-gray-500 sm:text-sm">
               Meet the amazing organisations that make Hack the Burgh possible
             </p>
           </div>
         </div>
-        <div className="flex flex-col items-end gap-10">
-          <SponsorCard
-            name="Optiver"
-            tier="PLATINUM"
-            overview="Optiver is a global market maker. As one of the oldest market making firms in the world, Optiver has been improving financial markets since 1986."
-            prizes={["Prize 1", "Prize 2", "Prize 3"]}
-            number="01"
-          />
-          <SponsorCard
-            name="Sponsor 2"
-            tier="Tier 2"
-            overview="Overview 2"
-            prizes={["Prize 1", "Prize 2", "Prize 3"]}
-            number="02"
-          />
-          <SponsorCard
-            name="Sponsor 3"
-            tier="Tier 3"
-            overview="Overview 3"
-            prizes={["Prize 1", "Prize 2", "Prize 3"]}
-            number="03"
-          />
-          <SponsorCard
-            name="Sponsor 4"
-            tier="Tier 4"
-            overview="Overview 4"
-            prizes={["Prize 1", "Prize 2", "Prize 3"]}
-            number="04"
-          />
-          <SponsorCard
-            name="Sponsor 5"
-            tier="Tier 5"
-            overview="Overview 5"
-            prizes={["Prize 1", "Prize 2", "Prize 3"]}
-            number="05"
-          />
-        </div>
+        <SponsorsGrid />
       </NavbarLayout>
     </main>
   );
