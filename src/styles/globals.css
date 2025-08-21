@@ -103,39 +103,3 @@
   top: 0;
   left: 0;
 }
-
-.notched-frame {
-  --n: 1rem;
-  clip-path: polygon(
-    var(--n) 0,
-    calc(100% - var(--n)) 0,
-    100% var(--n),
-    100% calc(100% - var(--n)),
-    calc(100% - var(--n)) 100%,
-    var(--n) 100%,
-    0 calc(100% - var(--n)),
-    0 var(--n)
-  );
-}
-
-.corner-brackets {
-  position: relative;
-}
-.corner-brackets::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  --c: 3rem;
-  --t: 1.5px;
-  background:
-    /* TL */
-    linear-gradient(#000 0 0) top left/var(--c) var(--t) no-repeat,
-    linear-gradient(#000 0 0) top left/var(--t) var(--c) no-repeat,
-    /* TR */ linear-gradient(#000 0 0) top right/var(--c) var(--t) no-repeat,
-    linear-gradient(#000 0 0) top right/var(--t) var(--c) no-repeat,
-    /* BL */ linear-gradient(#000 0 0) bottom left/var(--c) var(--t) no-repeat,
-    linear-gradient(#000 0 0) bottom left/var(--t) var(--c) no-repeat,
-    /* BR */ linear-gradient(#000 0 0) bottom right/var(--c) var(--t) no-repeat,
-    linear-gradient(#000 0 0) bottom right/var(--t) var(--c) no-repeat;
-}
