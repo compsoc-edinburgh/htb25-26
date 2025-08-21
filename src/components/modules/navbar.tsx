@@ -1,10 +1,8 @@
 "use client";
 
-import { useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { Menu } from "lucide-react";
-import { motion } from "framer-motion";
 
 import {
   Drawer,
@@ -25,14 +23,6 @@ const NAV_LINKS: NavLink[] = [
   { href: "/#faq", label: "FAQ" },
   { href: "/#volunteer", label: "VOLUNTEER" },
 ];
-
-const ANIMATIONS = {
-  mobile: {
-    initial: { opacity: 0, x: -20 },
-    animate: { opacity: 1, x: 0 },
-    transition: { bounce: 0 },
-  },
-} as const;
 
 const STYLES = {
   clipPath: "polygon(0 0, 100% 0, 100% 100%, 20px 100%, 0 calc(100% - 20px))",
@@ -56,64 +46,31 @@ const NavLinks = ({ mobile = false }: { mobile?: boolean }) => {
 
   return (
     <div className={containerClasses}>
-      {NAV_LINKS.map(({ href, label }, index) => (
-        <motion.div
-          key={href}
-          {...(mobile
-            ? {
-                ...ANIMATIONS.mobile,
-                transition: {
-                  ...ANIMATIONS.mobile.transition,
-                  delay: index * 0.1,
-                },
-              }
-            : {})}
-        >
-          <Button asChild className={buttonClasses}>
-            <Link href={href} target="_blank" rel="noopener noreferrer">
-              {label}
-            </Link>
-          </Button>
-        </motion.div>
+      {NAV_LINKS.map(({ href, label }) => (
+        <Button asChild key={href} className={buttonClasses}>
+          <Link href={href} target="_blank" rel="noopener noreferrer">
+            {label}
+          </Link>
+        </Button>
       ))}
     </div>
   );
 };
 
 const AuthSection = ({ mobile = false }: { mobile?: boolean }) => {
-  // const { isSignedIn, isLoaded } = useUser();
-
-  // if (!isLoaded) {
-  //   return <span className="pr-4 text-gray-400">Loading...</span>;
-  // }
-
   const containerClasses = mobile
     ? "flex flex-col gap-2"
     : "flex items-center gap-1";
 
-  const animationDelay = mobile ? NAV_LINKS.length * 0.1 + 0.1 : 0;
-
   return (
     <div className={containerClasses}>
-      <motion.div
-        {...(mobile
-          ? {
-              ...ANIMATIONS.mobile,
-              transition: {
-                ...ANIMATIONS.mobile.transition,
-                delay: animationDelay,
-              },
-            }
-          : {})}
+      <Link
+        href="/signin"
+        className={STYLES.signInButton}
+        style={{ clipPath: STYLES.clipPath }}
       >
-        <Link
-          href="/signin"
-          className={STYLES.signInButton}
-          style={{ clipPath: STYLES.clipPath }}
-        >
-          SIGN IN
-        </Link>
-      </motion.div>
+        SIGN IN
+      </Link>
     </div>
   );
 };
@@ -142,9 +99,15 @@ const MobileDrawer = () => (
 );
 export default function Navbar() {
   return (
-    <div className="pointer-events-none fixed inset-0 z-40 md:p-5">
+    <div className="pointer-events-none fixed inset-0 z-40 grid grid-cols-[auto_1fr_auto] grid-rows-[auto_1fr_auto]">
+      <div
+        className="col-span-3 h-5 w-full backdrop-blur-sm"
+        aria-hidden="true"
+      />
+      <div className="h-full w-5 backdrop-blur-sm" aria-hidden="true" />
+
       <div className="flex h-full w-full flex-col rounded-lg md:border md:border-gray-200">
-        <nav className="pointer-events-auto relative flex h-14 w-full items-center justify-between rounded-t-lg border-b border-gray-200 bg-white/80 backdrop-blur-md md:pl-14">
+        <nav className="pointer-events-auto relative flex h-14 w-full items-center justify-between rounded-t-lg border-b border-gray-200 bg-white md:pl-14">
           <MobileDrawer />
 
           <div className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center gap-4 px-4 lg:block">
@@ -159,14 +122,21 @@ export default function Navbar() {
         </nav>
 
         <div
-          className="hidden h-full w-14 border-r border-gray-200 bg-white/80 backdrop-blur-md md:block"
+          className="hidden h-full w-14 border-r border-gray-200 bg-white md:block"
           aria-hidden="true"
         />
         <div
-          className="hidden h-14 w-full rounded-b-lg border-t border-gray-200 bg-white/80 backdrop-blur-md md:block"
+          className="hidden h-14 w-full rounded-b-lg border-t border-gray-200 bg-white md:block"
           aria-hidden="true"
         />
       </div>
+
+      <div className="h-5 w-5 backdrop-blur-sm" aria-hidden="true" />
+
+      <div
+        className="col-span-3 h-5 w-full backdrop-blur-sm"
+        aria-hidden="true"
+      />
     </div>
   );
 }
