@@ -33,18 +33,37 @@ export default async function Page() {
             seasoned hacker or just starting out, we have something for
             everyone.
           </p>
-          <div className="relative mt-12">
-            <button
-              className="absolute top-0 right-0 w-40 py-2 bg-transparent border z-10"
-              style={{
-                clipPath: 'polygon(0% 0%, 25% 100%, 100% 100%)'
-                
-              }}
-            >
-            </button>
+          
+          <div className="relative mt-12 -mr-12">
+          <svg
+            className="absolute top-0 -right-4 w-40 h-40 z-10"
+            viewBox="0 0 100 100"
+          >
+            <line
+              x1="0"
+              y1="0"
+              x2="15"
+              y2="11"
+              stroke="black"
+              strokeWidth="0.5"
+            />
+          </svg>
+          <svg
+            className="absolute top-0 right-0 w-50 h-40 z-10"
+            viewBox="0 0 100 100"
+          >
+            <line
+              x1="25"
+              y1="11"
+              x2="100"
+              y2="11"
+              stroke="black"
+              strokeWidth="0.5"
+            />
+            </svg>
             <button className="rounded-xl border w-80 py-4 pl-7 font-hexaframe text-xl text-left"
             style={{
-              clipPath: 'polygon(0 0, 55% 0, 70% 25%, 100% 25%, 100% 100%, 0% 100%'}}>
+              clipPath: 'polygon(0 0, 55% 0, 70% 25%, 100% 28%, 100% 100%, 0% 100%'}}>
               Register
               <span className="absolute bottom-1 right-2 text-xs text-gray-600 font-sans"> Press Enter To Start ↵ </span>
             </button>
