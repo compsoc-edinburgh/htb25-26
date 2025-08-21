@@ -2,7 +2,7 @@ import { api } from "~/trpc/server";
 import ApplicationForm from "./application-form";
 import { redirect } from "next/navigation";
 import { auth, currentUser } from "@clerk/nextjs/server";
-import Navbar from "~/components/navbar";
+import Navbar from "~/components/modules/navbar";
 import Link from "next/link";
 
 export default async function ApplyPage() {

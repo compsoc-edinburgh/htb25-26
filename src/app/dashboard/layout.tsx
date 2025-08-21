@@ -1,8 +1,7 @@
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { PropsWithChildren } from "react";
-import Footer from "~/components/footer";
-import Navbar from "~/components/navbar";
+import Navbar from "~/components/modules/navbar";
 import { api } from "~/trpc/server";
 
 export default async function DashboardLayout({
@@ -16,12 +15,8 @@ export default async function DashboardLayout({
 
   return (
     <main className="flex w-full flex-col items-center px-4">
-      <Navbar
-        isAdmin={user.sessionClaims.metadata.role === "admin"}
-        application={application}
-      />
+      <Navbar />
       {children}
-      <Footer />
     </main>
   );
 }
