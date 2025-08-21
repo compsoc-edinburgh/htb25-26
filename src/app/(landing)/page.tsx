@@ -6,8 +6,8 @@ export default async function Page() {
 
       <Navbar/>
       {/*TODO: Test Landing page*/}
-      <div className="flex h-screen w-full items-center justify-center">
-        <div className="flex flex-col items-center">
+      <div className="flex h-screen w-full items-center justify-center relative">
+        <div className="flex flex-col items-center transform scale-90 sm:scale-100 text-center px-4">
           <svg
             width="178"
             height="156"
@@ -24,10 +24,10 @@ export default async function Page() {
               fill="black"
             />
           </svg>
-          <h1 className="mt-3 font-hexaframe text-7xl font-extrabold">
+          <h1 className="mt-3 font-hexaframe text-4xl sm:text-6xl md:text-7xl font-extrabold">
             Hack The Burgh
           </h1>
-          <p className="mt-6 max-w-3xl text-center">
+          <p className="mt-6 max-w-3xl text-center text-sm sm:text-base px-2">
             Hack The Burgh is back for its 11th year! Join us for a weekend of
             hacking, workshops, and fun in Edinburgh. Whether you&rsquo;re a
             seasoned hacker or just starting out, we have something for

@@ -120,9 +120,7 @@ export default function Navbar({
         >
           <Button
              asChild
-             className={`h-full w-full rounded-md bg-transparent px-5 py-2 font-normal ${
-               mobile ? "text-white" : "text-black"
-             }`}
+             className={`h-full w-full rounded-md bg-transparent px-5 py-2 font-normal ${mobile ? "text-white hover:bg-white hover:text-black" : "text-black hover:bg-white hover:text-black"}`}
           >
             <Link
               href={href}
@@ -233,9 +231,9 @@ export default function Navbar({
         href="/signin"
         className="relative bg-black px-10 py-4 text-white font-normal text-sm md:text-base 
              hover:bg-blue-700 transition flex items-center justify-center rounded-t-lg translate-x-4"
-  style={{
-    clipPath: 'polygon(0 0, 100% 0, 100% 100%, 20px 100%, 0 calc(100% - 20px))'
-  }}
+          style={{
+            clipPath: 'polygon(0 0, 100% 0, 100% 100%, 20px 100%, 0 calc(100% - 20px))'
+          }}
       >
         SIGN IN
       </Link>
@@ -263,7 +261,7 @@ export default function Navbar({
                 grid-cols-[1fr_auto_1fr] items-center 
                 rounded-none lg:rounded-tl-lg lg:rounded-tr-lg 
                 border border-gray-200 border-border/10 
-                font-tektur font-medium text-white">
+                font-tektur font-medium">
 
 
   {/* drawer for mobile that drives me crazy */}
