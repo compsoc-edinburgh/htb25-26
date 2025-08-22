@@ -34,7 +34,7 @@ export default async function Page() {
             everyone.
           </p>
           
-          <div className="relative mt-12 -mr-12">
+          <div className="relative mt-20 sm:mt-10 -mr-12 sm:-mr-1 md:scale-x-100 scale-x-[-1]">
           <svg
             className="absolute top-0 -right-4 w-40 h-40 z-10"
             viewBox="0 0 100 100"
@@ -64,8 +64,9 @@ export default async function Page() {
             <button className="rounded-xl border w-80 py-4 pl-7 font-hexaframe text-xl text-left"
             style={{
               clipPath: 'polygon(0 0, 55% 0, 70% 25%, 100% 28%, 100% 100%, 0% 100%'}}>
-              Register
-              <span className="absolute bottom-1 right-2 text-xs text-gray-600 font-sans"> Press Enter To Start ↵ </span>
+                <span className="inline-block scale-x-[-1] sm:scale-x-100">Register</span>
+                <span className="absolute bottom-1 right-2 text-xs text-gray-600 font-sans inline-block block scale-x-[-1] sm:hidden">Start your journey ↵</span>
+              <span className="absolute bottom-1 right-2 text-xs text-gray-600 font-sans hidden sm:block"> Press Enter To Start ↵ </span>
             </button>
           </div>
         </div>

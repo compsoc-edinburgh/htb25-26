@@ -110,7 +110,7 @@ export default function Navbar({
   ];
   
   const renderNavLinks = (mobile = false) => (
-    <div className={mobile ? "flex flex-col gap-4 items-center text-black justify-center": "flex w-full items-center text-black justify-center gap-4"}>
+    <div className={mobile ? "flex flex-col gap-0 items-center text-black justify-center": "flex w-full items-center text-black justify-center gap-4"}>
       {navLinks.map(({ href, label }, index) => ( // removed external from here because not going to external sites
         <motion.div
           key={href}
@@ -276,13 +276,34 @@ export default function Navbar({
         <Menu className="h-6 w-6 text-black" />
       </button>
     </DrawerTrigger>
-    <DrawerContent className="font-tektur bg-black backdrop-blur-xl border border-border/10 rounded-t-2xl">
-      <div className="flex flex-col gap-6 p-6 font-hexaframe">
-      <DrawerTitle></DrawerTitle>
-        {renderNavLinks(true)}
-        {renderAuthSection(true)}
+    <DrawerContent className="h-[80vh] font-tektur bg-black backdrop-blur-xl border border-border/10 rounded-t-2xl">
+  <div className="grid grid-cols-2 gap-6 p-6 font-hexaframe">
+  <div>
+      <p className="text-xs uppercase tracking-wide text-white mb-2">
+        Pages
+      </p>
+      <p className="mt-32 text-xs uppercase tracking-wide text-white mb-2">
+        Connect
+      </p>
+      <p className="mt-12 text-xs uppercase tracking-wide text-white mb-2">
+        Twitter
+      </p>
+    </div>
+    <div className="flex flex-col items-start">
+      {renderNavLinks(true)}
+      <div className="mt-32 flex flex-col gap-2 text-sm text-gray-400">
+        <a href="#" className="hover:text-white">Twitter</a>
+        <a href="#" className="hover:text-white">Discord</a>
+        <a href="#" className="hover:text-white">Instagram</a>
       </div>
-    </DrawerContent>
+    </div>
+    <div>
+      <DrawerTitle className="mb-4">Account</DrawerTitle>
+      {renderAuthSection(true)}
+    </div>
+  </div>
+</DrawerContent>
+
   </Drawer>
 </div>
 
