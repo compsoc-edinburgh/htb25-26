@@ -1,6 +1,5 @@
 "use client";
 
-import Navbar from "~/components/navbar";
 import NavbarLayout from "~/components/modules/navbar-layout";
 import RegisterButton from "~/components/modules/register-button";
 import { SponsorsGrid } from "~/components/modules/sponsors";
