@@ -68,25 +68,15 @@ export default function RegisterButton({
           "backdrop-blur transition-[background,transform,box-shadow]",
           "hover:bg-white hover:shadow-md active:translate-y-[1px]",
         ].join(" ")}
+        style={{
+          clipPath: "polygon(0 0, 55% 0, 70% 25%, 100% 28%, 100% 100%, 0% 100%)",
+        }}
       >
         {label}
 
         <span className="pointer-events-none absolute bottom-1 right-2 font-sans text-xs text-gray-600">
           {subtitle}
         </span>
-
-        <div
-          className="pointer-events-none absolute inset-0 -z-10"
-          aria-hidden="true"
-          style={{
-            clipPath:
-              "polygon(0 0, 55% 0, 70% 25%, 100% 28%, 100% 100%, 0 100%)",
-            border: "1px solid rgba(0,0,0,0.18)",
-            boxShadow: "0 6px 14px rgba(0,0,0,0.08)",
-            background: "white",
-            borderRadius: "0.75rem",
-          }}
-        />
       </div>
     </button>
   );
