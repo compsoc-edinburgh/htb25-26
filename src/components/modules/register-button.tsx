@@ -69,7 +69,8 @@ export default function RegisterButton({
           "hover:bg-white hover:shadow-md active:translate-y-[1px]",
         ].join(" ")}
         style={{
-          clipPath: "polygon(0 0, 55% 0, 70% 25%, 100% 28%, 100% 100%, 0% 100%)",
+          clipPath:
+            "polygon(0 0, 55% 0, 70% 25%, 100% 28%, 100% 100%, 0% 100%)",
         }}
       >
         {label}

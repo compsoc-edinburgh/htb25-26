@@ -5,7 +5,6 @@ import RegisterButton from "~/components/modules/register-button";
 import { SponsorsGrid } from "~/components/modules/sponsors";
 
 export default function Page() {
-
   return (
     <main className="h-full w-full pb-24">
       <NavbarLayout className="h-screen">
@@ -55,5 +54,4 @@ export default function Page() {
       </NavbarLayout>
     </main>
   );
-
 }

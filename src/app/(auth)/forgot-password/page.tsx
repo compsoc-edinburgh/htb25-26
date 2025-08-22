@@ -83,7 +83,7 @@ const ForgotPasswordPage: NextPage = () => {
   }
 
   return (
-    <div className="mt-14 flex min-h-[calc(100vh-4rem)] w-full max-w-screen-md flex-col items-center justify-center">
+    <div className="flex min-h-[calc(100vh-4rem)] w-full max-w-screen-md flex-col items-center justify-center">
       <div className="flex w-full max-w-sm flex-col gap-6">
         <Card className="w-full">
           <CardHeader className="text-center">
