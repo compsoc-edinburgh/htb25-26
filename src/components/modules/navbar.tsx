@@ -100,26 +100,20 @@ const MobileDrawer = () => (
   <div className="grid grid-cols-[100px_1fr] gap-6 p-6 font-hexaframe">
     
     <div className="flex flex-col gap-8">
-      <div className="flex items-center gap-1">
-      <div className="w-1 h-1 bg-white" />
-        <p className="text-[9px] uppercase text-white mb-2 align-middle">
-          Pages
-        </p>
+    <div className="flex items-center gap-2 text-[9px] uppercase text-white">
+        <div className="w-1 h-1 bg-white" />
+        <span>Pages</span>
       </div>
 
-      <div className="mt-40 flex items-center gap-1">
-      <div className="w-1 h-1 bg-white" />
-        <p className="text-[9px] uppercase text-white mb-2">
-          Connect
-        </p>
+      <div className="mt-40 flex items-center gap-2 text-[9px] uppercase text-white">
+        <div className="w-1 h-1 bg-white" />
+        <span>Connect</span>
       </div>
 
-      <div className="mt-7 flex items-center gap-1">
-      <div className="w-1 h-1 bg-white" />
-        <p className="text-[9px] uppercase text-white mb-2">
-          Participate
-        </p>
-        </div>
+      <div className="mt-7 flex items-center gap-2 text-[9px] uppercase text-white">
+        <div className="w-1 h-1 bg-white" />
+        <span>Participate</span>
+      </div>
     </div>
 
     <div className="flex flex-col gap-2 space-y-0">
@@ -127,12 +121,12 @@ const MobileDrawer = () => (
   <NavLinks mobile />
 </div>
 
-    <div className="flex flex-col gap-2 text-[9px] mr-1 [&_a]:text-white [&_a]:text-left" style={{ paddingTop: "2.5rem" }}>
+    <div className="flex flex-col gap-2 text-[9px] mr-1 [&_a]:text-white [&_a]:text-left" style={{ paddingTop: "2rem" }}>
       <a href="#" className="text-white">TWITTER</a>
       <a href="#" className="text-white">DISCORD</a>
       <a href="#" className="text-white">INSTAGRAM</a>
       </div>
-      <div className="text-[9px] flex flex-col gap-2" style={{ paddingTop: "1rem" }}>
+      <div className="text-[9px] flex flex-col gap-2" style={{ paddingTop: "0.5rem" }}>
       <a href="#" className="text-white">REGISTER</a>
       <AuthSection mobile />
       <a href="#" className="text-white">VOLUNTEER</a>
