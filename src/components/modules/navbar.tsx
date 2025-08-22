@@ -37,12 +37,12 @@ const STYLES = {
 
 const NavLinks = ({ mobile = false }: { mobile?: boolean }) => {
   const containerClasses = mobile
-    ? "flex flex-col items-center justify-center gap-4 text-black"
+    ? "flex flex-col items-start gap-2 text-[9px]" // items-start = left-aligned
     : "flex w-full items-center justify-center gap-4 text-black";
 
-  const buttonClasses = `${STYLES.navButton.base} ${
-    mobile ? STYLES.navButton.mobile : STYLES.navButton.desktop
-  }`;
+  const buttonClasses = mobile
+    ? "bg-transparent py-1 px-0 rounded-none text-white hover:bg-white hover:text-black w-auto inline-block"
+    : `${STYLES.navButton.base} ${STYLES.navButton.desktop}`;
 
   return (
     <div className={containerClasses}>
@@ -57,6 +57,7 @@ const NavLinks = ({ mobile = false }: { mobile?: boolean }) => {
   );
 };
 
+
 const AuthSection = ({ mobile = false }: { mobile?: boolean }) => {
   const containerClasses = mobile
     ? "flex flex-col gap-2"
@@ -64,16 +65,23 @@ const AuthSection = ({ mobile = false }: { mobile?: boolean }) => {
 
   return (
     <div className={containerClasses}>
-      <Link
-        href="/signin"
-        className={STYLES.signInButton}
-        style={{ clipPath: STYLES.clipPath }}
-      >
-        SIGN IN
-      </Link>
+      {mobile ? (
+        <Link href="/signin" className="text-[9px] text-white hover:text-gray-300">
+          SIGN IN
+        </Link>
+      ) : (
+        <Link
+          href="/signin"
+          className={STYLES.signInButton}
+          style={{ clipPath: STYLES.clipPath }}
+        >
+          SIGN IN
+        </Link>
+      )}
     </div>
   );
 };
+
 
 const MobileDrawer = () => (
   <div className="flex h-full items-center px-4">
@@ -87,13 +95,52 @@ const MobileDrawer = () => (
           <Menu className="h-6 w-6 text-black" />
         </button>
       </DrawerTrigger>
-      <DrawerContent className="font-tektur rounded-t-2xl border border-border/10 bg-black backdrop-blur-xl">
-        <div className="flex flex-col gap-6 p-6 font-hexaframe">
-          <DrawerTitle />
-          <NavLinks mobile />
-          <AuthSection mobile />
+      <DrawerContent className="h-[60vh] overflow-y-auto font-tektur rounded-t-2xl border border-border/10 bg-black backdrop-blur-xl">
+      <DrawerTitle className="sr-only"></DrawerTitle>
+  <div className="grid grid-cols-[100px_1fr] gap-6 p-6 font-hexaframe">
+    
+    <div className="flex flex-col gap-8">
+      <div className="flex items-center gap-1">
+      <div className="w-1 h-1 bg-white" />
+        <p className="text-[9px] uppercase text-white mb-2 align-middle">
+          Pages
+        </p>
+      </div>
+
+      <div className="mt-40 flex items-center gap-1">
+      <div className="w-1 h-1 bg-white" />
+        <p className="text-[9px] uppercase text-white mb-2">
+          Connect
+        </p>
+      </div>
+
+      <div className="mt-7 flex items-center gap-1">
+      <div className="w-1 h-1 bg-white" />
+        <p className="text-[9px] uppercase text-white mb-2">
+          Participate
+        </p>
         </div>
-      </DrawerContent>
+    </div>
+
+    <div className="flex flex-col gap-2 space-y-0">
+    <div className="flex flex-col gap-1 text-sm items-start [&_a]:py-1 [&_a]:px-0 [&_a]:rounded-none [&_a]:inline-block [&_a]:w-auto [&_a]:text-left -mt-2">
+  <NavLinks mobile />
+</div>
+
+    <div className="flex flex-col gap-2 text-[9px] mr-1 [&_a]:text-white [&_a]:text-left" style={{ paddingTop: "2.5rem" }}>
+      <a href="#" className="text-white">TWITTER</a>
+      <a href="#" className="text-white">DISCORD</a>
+      <a href="#" className="text-white">INSTAGRAM</a>
+      </div>
+      <div className="text-[9px] flex flex-col gap-2" style={{ paddingTop: "1rem" }}>
+      <a href="#" className="text-white">REGISTER</a>
+      <AuthSection mobile />
+      <a href="#" className="text-white">VOLUNTEER</a>
+      </div>
+    </div>
+
+  </div>
+</DrawerContent>
     </Drawer>
   </div>
 );
