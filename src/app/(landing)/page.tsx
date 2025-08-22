@@ -1,6 +1,10 @@
-import Navbar from "~/components/navbar";
+"use client";
 
-export default async function Page() {
+import NavbarLayout from "~/components/modules/navbar-layout";
+import RegisterButton from "~/components/modules/register-button";
+import { SponsorsGrid } from "~/components/modules/sponsors";
+
+export default function Page() {
   return (
     <main className="min-h-screen w-full">
 
@@ -34,7 +38,7 @@ export default async function Page() {
             everyone.
           </p>
           
-          <div className="relative mt-20 sm:mt-10 -mr-12 sm:-mr-1 md:scale-x-100 scale-x-[-1]">
+          <div className="relative mt-12 -mr-12">
           <svg
             className="absolute top-0 -right-4 w-40 h-40 z-10"
             viewBox="0 0 100 100"
@@ -64,13 +68,26 @@ export default async function Page() {
             <button className="rounded-xl border w-80 py-4 pl-7 font-hexaframe text-xl text-left"
             style={{
               clipPath: 'polygon(0 0, 55% 0, 70% 25%, 100% 28%, 100% 100%, 0% 100%'}}>
-                <span className="inline-block scale-x-[-1] sm:scale-x-100">Register</span>
-                <span className="absolute bottom-1 right-2 text-xs text-gray-600 font-sans inline-block block scale-x-[-1] sm:hidden">Start your journey ↵</span>
-              <span className="absolute bottom-1 right-2 text-xs text-gray-600 font-sans hidden sm:block"> Press Enter To Start ↵ </span>
+              Register
+              <span className="absolute bottom-1 right-2 text-xs text-gray-600 font-sans"> Press Enter To Start ↵ </span>
             </button>
           </div>
         </div>
-      </div>
+      </NavbarLayout>
+      <NavbarLayout className="min-h-screen">
+        <div className="px-4 pb-10 sm:pb-16">
+          <h1 className="font-hexaframe text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl">
+            Our Sponsors
+          </h1>
+          <div className="flex items-center gap-2 pt-2">
+            <div className="h-1.5 w-1.5 bg-black sm:h-2 sm:w-2" />
+            <p className="text-xs uppercase text-gray-500 sm:text-sm">
+              Meet the amazing organisations that make Hack the Burgh possible
+            </p>
+          </div>
+        </div>
+        <SponsorsGrid />
+      </NavbarLayout>
     </main>
   );
 }
