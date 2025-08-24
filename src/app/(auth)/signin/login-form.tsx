@@ -65,7 +65,7 @@ export function LoginForm({
         <div className="text-center">
           <h1 className="font-hexaframe text-2xl font-bold">Welcome back</h1>
         </div>
-        
+
         <div className="grid gap-6">
           <div className="flex flex-col gap-4">
             <ContinueWithSocial />
@@ -78,7 +78,9 @@ export function LoginForm({
           <form onSubmit={handleSubmit} className="w-full">
             <div className="grid gap-6">
               <div className="grid gap-2">
-                <Label htmlFor="email" className="text-sm font-medium">Email address</Label>
+                <Label htmlFor="email" className="text-sm font-medium">
+                  Email address
+                </Label>
                 <Input
                   id="email"
                   type="email"
@@ -89,7 +91,9 @@ export function LoginForm({
               </div>
               <div className="grid gap-2">
                 <div className="flex items-center justify-between">
-                  <Label htmlFor="password" className="text-sm font-medium">Password</Label>
+                  <Label htmlFor="password" className="text-sm font-medium">
+                    Password
+                  </Label>
                   <Link
                     href="/forgot-password"
                     className="text-sm text-gray-500 underline-offset-4 hover:underline"
@@ -97,12 +101,7 @@ export function LoginForm({
                     Forgot your password?
                   </Link>
                 </div>
-                <Input
-                  id="password"
-                  type="password"
-                  name="password"
-                  required
-                />
+                <Input id="password" type="password" name="password" required />
               </div>
               {errors && (
                 <ul className="my-3 box-border max-w-sm">
@@ -116,19 +115,26 @@ export function LoginForm({
                   ))}
                 </ul>
               )}
-              <Button type="submit" className="w-full bg-zinc-900 text-white hover:bg-zinc-800" loading={loading}>
+              <Button
+                type="submit"
+                className="w-full bg-zinc-900 text-white hover:bg-zinc-800"
+                loading={loading}
+              >
                 Sign in
               </Button>
               <div className="text-center text-sm text-gray-500">
                 Don&apos;t have an account?{" "}
-                <Link href="/signup" className="text-zinc-900 underline underline-offset-4 hover:no-underline">
+                <Link
+                  href="/signup"
+                  className="text-zinc-900 underline underline-offset-4 hover:no-underline"
+                >
                   Sign up
                 </Link>
               </div>
             </div>
           </form>
         </div>
-        
+
         <div className="text-balance text-center text-xs text-gray-500 [&_a]:underline [&_a]:underline-offset-4 [&_a]:hover:text-gray-900">
           By clicking continue, you agree to MLH&apos;s{" "}
           <a

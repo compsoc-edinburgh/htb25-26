@@ -6,7 +6,7 @@ export default function AuthLayout({ children }: Readonly<PropsWithChildren>) {
   return (
     <main>
       <Navbar />
-      <div className="flex items-center justify-center h-screen">
+      <div className="flex h-screen items-center justify-center">
         {children}
       </div>
     </main>

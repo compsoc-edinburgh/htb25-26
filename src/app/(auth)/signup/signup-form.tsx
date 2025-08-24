@@ -208,9 +208,11 @@ export function SignupForm({
       <div className="flex min-h-[calc(100vh-4rem)] w-full max-w-screen-md flex-col items-center justify-center bg-white px-4">
         <div className="flex w-full max-w-sm flex-col gap-8 bg-white">
           <div className="text-center">
-            <h1 className="font-hexaframe text-2xl font-bold">Sign up to Hack the Burgh</h1>
+            <h1 className="font-hexaframe text-2xl font-bold">
+              Sign up to Hack the Burgh
+            </h1>
           </div>
-          
+
           {step === "account" && (
             <div className="grid gap-6">
               <div className="flex flex-col gap-4">
@@ -224,7 +226,9 @@ export function SignupForm({
               <form onSubmit={handleCreateAccount}>
                 <div className="grid gap-6">
                   <div className="grid gap-2">
-                    <Label htmlFor="email" className="text-sm font-medium">Email address</Label>
+                    <Label htmlFor="email" className="text-sm font-medium">
+                      Email address
+                    </Label>
                     <span className="font-sans text-sm text-gray-500">
                       You&apos;ll need your university email to apply
                     </span>
@@ -238,13 +242,13 @@ export function SignupForm({
                       required
                     />
                     {emailError && (
-                      <span className="text-sm text-red-600">
-                        {emailError}
-                      </span>
+                      <span className="text-sm text-red-600">{emailError}</span>
                     )}
                   </div>
                   <div className="grid gap-2">
-                    <Label htmlFor="password" className="text-sm font-medium">Password</Label>
+                    <Label htmlFor="password" className="text-sm font-medium">
+                      Password
+                    </Label>
                     <Input
                       id="password"
                       name="password"
@@ -278,7 +282,7 @@ export function SignupForm({
               </form>
             </div>
           )}
-          
+
           <div className="text-balance text-center text-xs text-gray-500 [&_a]:underline [&_a]:underline-offset-4 [&_a]:hover:text-gray-900">
             By clicking continue, you agree to MLH&apos;s{" "}
             <a

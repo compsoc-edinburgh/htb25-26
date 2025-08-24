@@ -85,9 +85,11 @@ const ForgotPasswordPage: NextPage = () => {
     <div className="flex w-full max-w-screen-md flex-col items-center justify-center bg-white px-4">
       <div className="flex w-full max-w-sm flex-col gap-8">
         <div className="text-center">
-          <h1 className="font-hexaframe text-2xl font-bold">Reset your password</h1>
+          <h1 className="font-hexaframe text-2xl font-bold">
+            Reset your password
+          </h1>
         </div>
-        
+
         <form
           onSubmit={!successfulCreation ? create : reset}
           className="grid gap-6"
@@ -95,7 +97,9 @@ const ForgotPasswordPage: NextPage = () => {
           {!successfulCreation && (
             <div className="grid gap-4">
               <div className="grid gap-2">
-                <Label htmlFor="email" className="text-sm font-medium">Email address</Label>
+                <Label htmlFor="email" className="text-sm font-medium">
+                  Email address
+                </Label>
                 <Input
                   id="email"
                   type="email"
@@ -104,7 +108,10 @@ const ForgotPasswordPage: NextPage = () => {
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
-              <Button type="submit" className="w-full bg-zinc-900 text-white hover:bg-zinc-800">
+              <Button
+                type="submit"
+                className="w-full bg-zinc-900 text-white hover:bg-zinc-800"
+              >
                 Send reset code
               </Button>
             </div>
@@ -113,7 +120,9 @@ const ForgotPasswordPage: NextPage = () => {
           {successfulCreation && (
             <div className="grid gap-4">
               <div className="grid gap-2">
-                <Label htmlFor="password" className="text-sm font-medium">New password</Label>
+                <Label htmlFor="password" className="text-sm font-medium">
+                  New password
+                </Label>
                 <Input
                   id="password"
                   type="password"
@@ -123,7 +132,9 @@ const ForgotPasswordPage: NextPage = () => {
               </div>
 
               <div className="grid gap-2">
-                <Label htmlFor="code" className="text-sm font-medium">Reset code</Label>
+                <Label htmlFor="code" className="text-sm font-medium">
+                  Reset code
+                </Label>
                 <Input
                   id="code"
                   type="text"
@@ -133,11 +144,18 @@ const ForgotPasswordPage: NextPage = () => {
                 />
               </div>
 
-              <Button type="submit" className="w-full bg-zinc-900 text-white hover:bg-zinc-800">Reset password</Button>
+              <Button
+                type="submit"
+                className="w-full bg-zinc-900 text-white hover:bg-zinc-800"
+              >
+                Reset password
+              </Button>
             </div>
           )}
 
-          {error && <p className="text-sm text-red-600 text-zinc-900">{error}</p>}
+          {error && (
+            <p className="text-sm text-red-600 text-zinc-900">{error}</p>
+          )}
 
           {secondFactor && (
             <p className="text-sm text-red-600 text-zinc-900">
@@ -147,7 +165,10 @@ const ForgotPasswordPage: NextPage = () => {
 
           <div className="text-center text-sm text-gray-500">
             Remember your password?{" "}
-            <Link href="/signin" className="text-zinc-900 underline underline-offset-4 hover:no-underline">
+            <Link
+              href="/signin"
+              className="text-zinc-900 underline underline-offset-4 hover:no-underline"
+            >
               Sign in
             </Link>
           </div>
