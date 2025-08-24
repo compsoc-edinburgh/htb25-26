@@ -41,7 +41,7 @@ const NavLinks = ({ mobile = false }: { mobile?: boolean }) => {
     : "flex w-full items-center justify-center gap-4 text-black";
 
   const buttonClasses = mobile
-    ? "bg-transparent py-1 px-0 rounded-none text-white hover:bg-white hover:text-black w-auto inline-block"
+    ? "bg-transparent py-1 px-0 text-xl rounded-none text-white hover:bg-white hover:text-black w-auto inline-block"
     : `${STYLES.navButton.base} ${STYLES.navButton.desktop}`;
 
   return (
@@ -60,13 +60,13 @@ const NavLinks = ({ mobile = false }: { mobile?: boolean }) => {
 
 const AuthSection = ({ mobile = false }: { mobile?: boolean }) => {
   const containerClasses = mobile
-    ? "flex flex-col gap-2"
-    : "flex items-center gap-1";
+    ? "flex flex-col gap-2 text-zinc-400"
+    : "flex items-center gap-1 text-white";
 
   return (
     <div className={containerClasses}>
       {mobile ? (
-        <Link href="/signin" className="text-[9px] text-white hover:text-gray-300">
+        <Link href="/signin" className="text-[9px] hover:text-gray-300">
           SIGN IN
         </Link>
       ) : (
@@ -95,60 +95,82 @@ const MobileDrawer = () => (
           <Menu className="h-6 w-6 text-black" />
         </button>
       </DrawerTrigger>
-      <DrawerContent className="h-[60vh] overflow-y-auto font-tektur rounded-t-2xl border border-border/10 bg-black backdrop-blur-xl">
-      <DrawerTitle className="sr-only"></DrawerTitle>
-  <div className="grid grid-cols-[100px_1fr] gap-6 p-6 font-hexaframe">
-    
-    <div className="flex flex-col gap-8">
-    <div className="flex items-center gap-2 text-[9px] uppercase text-white">
-        <div className="w-1 h-1 bg-white" />
-        <span>Pages</span>
-      </div>
 
-      <div className="mt-40 flex items-center gap-2 text-[9px] uppercase text-white">
-        <div className="w-1 h-1 bg-white" />
-        <span>Connect</span>
-      </div>
+      <DrawerContent className="h-[75vh] rounded-t-2xl border border-border/10 bg-black font-tektur backdrop-blur-xl">
+        <DrawerTitle className="sr-only">Menu</DrawerTitle>
 
-      <div className="mt-7 flex items-center gap-2 text-[9px] uppercase text-white">
-        <div className="w-1 h-1 bg-white" />
-        <span>Participate</span>
-      </div>
-    </div>
+        <div className="flex flex-col divide-y divide-zinc-800 p-6 font-hexaframe">
+          <section className="flex items-start py-8">
+            <div className="basis-1/3 shrink-0 pr-4">
+              <div className="flex items-center gap-2 text-[9px] uppercase text-white pt-2">
+                <span className="h-1 w-1 bg-white" />
+                <span>Pages</span>
+              </div>
+            </div>
+            <div className="basis-2/3">
+              <div className="flex flex-col items-start gap-1 text-sm [&_a]:inline-block [&_a]:rounded-none [&_a]:px-0 [&_a]:py-1 [&_a]:text-left">
+                <NavLinks mobile />
+              </div>
+            </div>
+          </section>
 
-    <div className="flex flex-col gap-2 space-y-0">
-    <div className="flex flex-col gap-1 text-sm items-start [&_a]:py-1 [&_a]:px-0 [&_a]:rounded-none [&_a]:inline-block [&_a]:w-auto [&_a]:text-left -mt-2">
-  <NavLinks mobile />
-</div>
+          <section className="flex items-start py-8">
+            <div className="basis-1/3 shrink-0 pr-4">
+              <div className="flex items-center gap-2 text-[9px] uppercase text-white">
+                <span className="h-1 w-1 bg-white" />
+                <span>Connect</span>
+              </div>
+            </div>
+            <div className="basis-2/3">
+              <ul className="flex flex-col gap-2 text-[11px] tracking-wide">
+                <li><a href="https://x.com/hackthevalley" className="text-neutral-400">TWITTER</a></li>
+                <li><a href="https://discord.com/invite/hackthevalley" className="text-neutral-400">DISCORD</a></li>
+                <li><a href="https://www.instagram.com/hackthevalley/" className="text-neutral-400">INSTAGRAM</a></li>
+              </ul>
+            </div>
+          </section>
 
-    <div className="flex flex-col gap-2 text-[9px] mr-1 [&_a]:text-white [&_a]:text-left" style={{ paddingTop: "2rem" }}>
-      <a href="#" className="text-white">TWITTER</a>
-      <a href="#" className="text-white">DISCORD</a>
-      <a href="#" className="text-white">INSTAGRAM</a>
-      </div>
-      <div className="text-[9px] flex flex-col gap-2" style={{ paddingTop: "0.5rem" }}>
-      <a href="#" className="text-white">REGISTER</a>
-      <AuthSection mobile />
-      <a href="#" className="text-white">VOLUNTEER</a>
-      </div>
-    </div>
+          <section className="flex items-start py-8">
+            <div className="basis-1/3 shrink-0 pr-4">
+              <div className="flex items-center gap-2 text-[9px] uppercase text-white">
+                <span className="h-1 w-1 bg-white" />
+                <span>Participate</span>
+              </div>
+            </div>
+            <div className="basis-2/3">
+              <div className="flex flex-col gap-2 text-[11px] tracking-wide">
+                <a href="/apply" className="text-neutral-400">REGISTER</a>
+                <AuthSection mobile />
+                <a href="/volunteer" className="text-neutral-400">VOLUNTEER</a>
+              </div>
+            </div>
+          </section>
 
-  </div>
-</DrawerContent>
+          <section className="flex flex-col items-center py-8 text-xs">
+            <div className="text-[10px] text-neutral-600">
+              MADE WITH &lt;3 BY: DANYIL, KAY, EMILY, YUNA, ABIBABIS
+            </div>
+            <div className="text-[10px] text-neutral-600 mt-2">©CompSoc HTB Team</div>
+          </section>
+        </div>
+      </DrawerContent>
     </Drawer>
   </div>
 );
+
+
+
 export default function Navbar() {
   return (
-    <div className="pointer-events-none fixed inset-0 z-40 grid grid-cols-[auto_1fr_auto] grid-rows-[auto_1fr_auto]">
+    <div className="pointer-events-none fixed inset-0 z-40 block md:grid grid-cols-[auto_1fr_auto] grid-rows-[auto_1fr_auto]">
       <div
-        className="col-span-3 h-5 w-full backdrop-blur-sm"
+        className="col-span-3 h-5 w-full backdrop-blur-sm md:block hidden"
         aria-hidden="true"
       />
-      <div className="h-full w-5 backdrop-blur-sm" aria-hidden="true" />
+      <div className="h-full w-5 backdrop-blur-sm md:block hidden" aria-hidden="true" />
 
       <div className="flex h-full w-full flex-col rounded-lg md:border md:border-gray-200">
-        <nav className="pointer-events-auto relative flex h-14 w-full items-center justify-between rounded-t-lg border-b border-gray-200 bg-white md:pl-14">
+        <nav className="pointer-events-auto relative flex h-14 w-full items-center justify-between rounded-t-lg border-b border-gray-200 bg-white px-2 md:px-0 md:pl-14">
           <MobileDrawer />
 
           <div className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center gap-4 px-4 lg:block">
@@ -172,10 +194,10 @@ export default function Navbar() {
         />
       </div>
 
-      <div className="h-5 w-5 backdrop-blur-sm" aria-hidden="true" />
+      <div className="h-5 w-5 backdrop-blur-sm md:block hidden" aria-hidden="true" />
 
       <div
-        className="col-span-3 h-5 w-full backdrop-blur-sm"
+        className="col-span-3 h-5 w-full backdrop-blur-sm md:block hidden"
         aria-hidden="true"
       />
     </div>

@@ -1,11 +1,14 @@
 import { PropsWithChildren } from "react";
 import Navbar from "~/components/modules/navbar";
+import NavbarLayout from "~/components/modules/navbar-layout";
 
 export default function AuthLayout({ children }: Readonly<PropsWithChildren>) {
   return (
-    <main className="flex flex-col items-center px-4 pt-16">
+    <main>
       <Navbar />
-      {children}
+      <div className="flex items-center justify-center h-screen">
+        {children}
+      </div>
     </main>
   );
 }

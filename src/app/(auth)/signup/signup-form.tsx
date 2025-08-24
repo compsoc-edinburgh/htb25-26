@@ -179,7 +179,8 @@ export function SignupForm({
                       {codeError}
                       {codeError.includes("Too many failed attempts") && (
                         <Button
-                          className="my-3 block justify-self-center"
+                          className="my-3"
+                          variant="outline"
                           onClick={() => setStep("account")}
                         >
                           Retry
@@ -192,6 +193,7 @@ export function SignupForm({
                   type="submit"
                   loading={loading}
                   disabled={code.length < 6 || codeError.length}
+                  className="w-full"
                 >
                   Verify
                 </Button>
@@ -203,100 +205,89 @@ export function SignupForm({
     );
   } else
     return (
-      <div
-        className={cn("flex w-full max-w-sm flex-col gap-6", className)}
-        {...props}
-      >
-        <Card className="w-full">
-          <CardHeader className="text-center">
-            <CardTitle className="font-tektur text-xl">
-              Sign up to Hack the Burgh
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {step === "account" && (
-              <div className="grid gap-6">
-                <div className="flex flex-col gap-4">
-                  <ContinueWithSocial />
-                </div>
-                <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
-                  <span className="relative z-10 bg-background px-2 text-muted-foreground">
-                    Or
-                  </span>
-                </div>
-                <form onSubmit={handleCreateAccount}>
-                  <div className="grid gap-6">
-                    <div className="grid gap-2">
-                      <Label htmlFor="email">Email address</Label>
-                      <span className="font-sans text-sm text-muted-foreground">
-                        You&apos;ll need your university email to apply
-                      </span>
-                      <Input
-                        id="email"
-                        type="email"
-                        name="email"
-                        placeholder=""
-                        data-error={emailError}
-                        required
-                      />
-                      {emailError && (
-                        <span className="text-sm text-accent-red">
-                          {emailError}
-                        </span>
-                      )}
-                    </div>
-                    <div className="grid gap-2">
-                      <div className="flex items-center">
-                        <Label htmlFor="password">Password</Label>
-                        {/* <a
-                      href="#"
-                      className="ml-auto text-sm underline-offset-4 hover:underline"
-                    >
-                      Forgot your password?
-                    </a> */}
-                      </div>
-                      <Input
-                        id="password"
-                        name="password"
-                        type="password"
-                        required
-                      />
-                    </div>
-                    <div className="flex justify-center">
-                      <div id="clerk-captcha"></div>
-                    </div>
-
-                    <Button
-                      type="submit"
-                      className="w-full"
-                      loading={loading}
-                      disabled={!isLoaded}
-                    >
-                      Continue
-                    </Button>
-                    <div className="text-center text-sm">
-                      Already have an account?{" "}
-                      <Link
-                        href="/signin"
-                        className="underline underline-offset-4"
-                      >
-                        Sign in
-                      </Link>
-                    </div>
-                  </div>
-                </form>
+      <div className="flex min-h-[calc(100vh-4rem)] w-full max-w-screen-md flex-col items-center justify-center bg-white px-4">
+        <div className="flex w-full max-w-sm flex-col gap-8 bg-white">
+          <div className="text-center">
+            <h1 className="font-hexaframe text-2xl font-bold">Sign up to Hack the Burgh</h1>
+          </div>
+          
+          {step === "account" && (
+            <div className="grid gap-6">
+              <div className="flex flex-col gap-4">
+                <ContinueWithSocial />
               </div>
-            )}
-          </CardContent>
-        </Card>
-        <div className="mb-6 text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 [&_a]:hover:text-primary">
-          By clicking continue, you agree to MLH&apos;s{" "}
-          <a
-            target="_blank"
-            href="https://static.mlh.io/docs/mlh-code-of-conduct.pdf?_gl=1*1fc0onz*_ga*MTQzMTk5NjI2LjE3MzU1Nzc1OTU.*_ga_E5KT6TC4TK*MTczNTc1NDMzNS4yLjEuMTczNTc1NTIwNi4wLjAuMA.."
-          >
-            Code of Conduct
-          </a>
+              <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-gray-200">
+                <span className="relative z-10 bg-white px-2 text-gray-500">
+                  Or
+                </span>
+              </div>
+              <form onSubmit={handleCreateAccount}>
+                <div className="grid gap-6">
+                  <div className="grid gap-2">
+                    <Label htmlFor="email" className="text-sm font-medium">Email address</Label>
+                    <span className="font-sans text-sm text-gray-500">
+                      You&apos;ll need your university email to apply
+                    </span>
+                    <Input
+                      id="email"
+                      type="email"
+                      name="email"
+                      placeholder="name@example.com"
+                      data-error={emailError}
+                      className="border-gray-200 focus:border-black focus:ring-black"
+                      required
+                    />
+                    {emailError && (
+                      <span className="text-sm text-red-600">
+                        {emailError}
+                      </span>
+                    )}
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="password" className="text-sm font-medium">Password</Label>
+                    <Input
+                      id="password"
+                      name="password"
+                      type="password"
+                      className="border-gray-200 focus:border-black focus:ring-black"
+                      required
+                    />
+                  </div>
+                  <div className="flex justify-center">
+                    <div id="clerk-captcha"></div>
+                  </div>
+
+                  <Button
+                    type="submit"
+                    className="w-full bg-black text-white hover:bg-gray-800"
+                    loading={loading}
+                    disabled={!isLoaded}
+                  >
+                    Continue
+                  </Button>
+                  <div className="text-center text-sm text-gray-600">
+                    Already have an account?{" "}
+                    <Link
+                      href="/signin"
+                      className="text-gray-900 underline underline-offset-4 hover:no-underline"
+                    >
+                      Sign in
+                    </Link>
+                  </div>
+                </div>
+              </form>
+            </div>
+          )}
+          
+          <div className="text-balance text-center text-xs text-gray-500 [&_a]:underline [&_a]:underline-offset-4 [&_a]:hover:text-gray-900">
+            By clicking continue, you agree to MLH&apos;s{" "}
+            <a
+              target="_blank"
+              href="https://static.mlh.io/docs/mlh-code-of-conduct.pdf?_gl=1*1fc0onz*_ga*MTQzMTk5NjI2LjE3MzU1Nzc1OTU.*_ga_E5KT6TC4TK*MTczNTc1NDMzNS4yLjEuMTczNTc1NTIwNi4wLjAuMA.."
+            >
+              Code of Conduct
+            </a>
+          </div>
         </div>
       </div>
     );

@@ -4,7 +4,6 @@ import { useAuth, useSignIn } from "@clerk/nextjs";
 import type { NextPage } from "next";
 import { useRouter } from "next/navigation";
 import { Button } from "~/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import Link from "next/link";
@@ -83,77 +82,76 @@ const ForgotPasswordPage: NextPage = () => {
   }
 
   return (
-    <div className="flex min-h-[calc(100vh-4rem)] w-full max-w-screen-md flex-col items-center justify-center">
-      <div className="flex w-full max-w-sm flex-col gap-6">
-        <Card className="w-full">
-          <CardHeader className="text-center">
-            <CardTitle className="text-xl">Reset your password</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <form
-              onSubmit={!successfulCreation ? create : reset}
-              className="grid gap-6"
-            >
-              {!successfulCreation && (
-                <div className="grid gap-2">
-                  <Label htmlFor="email">Email address</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="name@example.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                  <Button type="submit" className="w-full">
-                    Send reset code
-                  </Button>
-                </div>
-              )}
-
-              {successfulCreation && (
-                <div className="grid gap-4">
-                  <div className="grid gap-2">
-                    <Label htmlFor="password">New password</Label>
-                    <Input
-                      id="password"
-                      type="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                    />
-                  </div>
-
-                  <div className="grid gap-2">
-                    <Label htmlFor="code">Reset code</Label>
-                    <Input
-                      id="code"
-                      type="text"
-                      placeholder="Check your email"
-                      value={code}
-                      onChange={(e) => setCode(e.target.value)}
-                    />
-                  </div>
-
-                  <Button type="submit">Reset password</Button>
-                </div>
-              )}
-
-              {error && <p className="text-sm text-accent-orange">{error}</p>}
-
-              {secondFactor && (
-                <p className="text-sm text-accent-orange">
-                  2FA is required, but this UI does not handle that
-                </p>
-              )}
-
-              <div className="text-center text-sm">
-                Remember your password?{" "}
-                <Link href="/signin" className="underline underline-offset-4">
-                  Sign in
-                </Link>
+    <div className="flex w-full max-w-screen-md flex-col items-center justify-center bg-white px-4">
+      <div className="flex w-full max-w-sm flex-col gap-8">
+        <div className="text-center">
+          <h1 className="font-hexaframe text-2xl font-bold">Reset your password</h1>
+        </div>
+        
+        <form
+          onSubmit={!successfulCreation ? create : reset}
+          className="grid gap-6"
+        >
+          {!successfulCreation && (
+            <div className="grid gap-4">
+              <div className="grid gap-2">
+                <Label htmlFor="email" className="text-sm font-medium">Email address</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="name@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
               </div>
-            </form>
-          </CardContent>
-        </Card>
+              <Button type="submit" className="w-full bg-zinc-900 text-white hover:bg-zinc-800">
+                Send reset code
+              </Button>
+            </div>
+          )}
+
+          {successfulCreation && (
+            <div className="grid gap-4">
+              <div className="grid gap-2">
+                <Label htmlFor="password" className="text-sm font-medium">New password</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+
+              <div className="grid gap-2">
+                <Label htmlFor="code" className="text-sm font-medium">Reset code</Label>
+                <Input
+                  id="code"
+                  type="text"
+                  placeholder="Check your email"
+                  value={code}
+                  onChange={(e) => setCode(e.target.value)}
+                />
+              </div>
+
+              <Button type="submit" className="w-full bg-zinc-900 text-white hover:bg-zinc-800">Reset password</Button>
+            </div>
+          )}
+
+          {error && <p className="text-sm text-red-600 text-zinc-900">{error}</p>}
+
+          {secondFactor && (
+            <p className="text-sm text-red-600 text-zinc-900">
+              2FA is required, but this UI does not handle that
+            </p>
+          )}
+
+          <div className="text-center text-sm text-gray-500">
+            Remember your password?{" "}
+            <Link href="/signin" className="text-zinc-900 underline underline-offset-4 hover:no-underline">
+              Sign in
+            </Link>
+          </div>
+        </form>
       </div>
     </div>
   );

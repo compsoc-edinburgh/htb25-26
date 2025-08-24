@@ -6,25 +6,25 @@ import { cn } from "~/lib/utils";
 import { Loader2, LoaderIcon } from "lucide-react";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 relative whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 relative whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-900 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        default: "bg-gray-900 text-white hover:bg-gray-700",
         destructive:
-          "bg-accent-red text-destructive-foreground hover:bg-accent-red/90",
+          "bg-red-600 text-white hover:bg-red-700",
         outline:
-          "border border-input bg-background hover:bg-accent hover:text-accent-foreground text-foreground",
+          "border border-gray-200 bg-white text-gray-900 hover:bg-gray-50",
         secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+          "bg-gray-100 text-gray-900 hover:bg-gray-200",
+        ghost: "text-gray-900 hover:bg-gray-100",
+        link: "text-gray-900 underline-offset-4 hover:underline",
       },
       size: {
         default: "px-4 py-2",
-        sm: "rounded-lg px-3 py-0.5 font-normal",
-        lg: "rounded-md px-8",
-        icon: "w-10",
+        sm: "px-3 py-1 text-xs",
+        lg: "px-8 py-3",
+        icon: "w-10 h-10",
       },
     },
     defaultVariants: {
