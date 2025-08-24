@@ -5,9 +5,9 @@ export default async function LandingLayout({
   children,
 }: Readonly<PropsWithChildren>) {
   return (
-    <section>
+    <main className="flex h-screen flex-col items-center">
       <Navbar />
       {children}
-    </section>
+    </main>
   );
 }

@@ -1,19 +1,27 @@
 import Link from "next/link";
+import NavbarLayout from "~/components/modules/navbar-layout";
 
 export default async function ApplicationsClosed() {
   return (
-    <div className="mx-auto flex min-h-screen w-full max-w-screen-md flex-col justify-center px-2 md:h-screen md:min-h-full md:pt-6">
-      <h1 className="text-center text-xl font-bold md:text-2xl">
-        Applications were closed on 11/02/2025 at 12:00AM
-      </h1>
-      <p className="pt-2 text-center text-sm text-muted-foreground md:text-base">
-        If you&apos;ve applied and want to check the status of your application,
-        please{" "}
-        <Link href="/dashboard" className="underline">
-          sign in
-        </Link>
-        .
-      </p>
-    </div>
+    <main className="h-full w-full">
+      <div className="relative flex h-full w-full items-center justify-center">
+        <div className="flex scale-90 transform flex-col items-center px-4 text-center sm:scale-100">
+          <h1 className="font-hexaframe text-3xl font-extrabold sm:text-4xl md:text-5xl">
+            Applications Closed
+          </h1>
+
+          <div className="mt-6 max-w-2xl">
+            <p className="text-lg font-medium text-gray-900 sm:text-xl">
+              Applications closed on 11 February 2025 at midnight
+            </p>
+
+            <p className="mt-4 text-base text-gray-600 sm:text-lg">
+              Thank you to everyone who applied! We received an incredible
+              number of applications this year.
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
   );
 }
