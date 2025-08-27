@@ -161,7 +161,7 @@ export const SponsorsGrid = () => {
   );
 
   return (
-    <div className="relative w-full px-4 sm:px-8">
+    <div className="w-full px-4 sm:px-8">
       <div className="block lg:hidden">
         <div className="grid grid-cols-1 gap-8 sm:gap-12">
           {sponsorsData.map((sponsor, index) => (
@@ -192,7 +192,7 @@ export const SponsorsGrid = () => {
 
       <div className="hidden flex-col gap-8 lg:flex lg:flex-row lg:gap-12">
         <div className="lg:sticky lg:top-28 lg:w-80 lg:self-start">
-          <div className="relative flex h-64 items-center justify-center overflow-hidden p-8">
+          <div className="flex h-64 items-center justify-center overflow-hidden p-8">
             <CornerBrackets />
             <AnimatePresence mode="popLayout">
               <motion.div
