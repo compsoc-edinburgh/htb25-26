@@ -8,7 +8,5 @@ export default function NavbarLayout({
   children,
   className = "",
 }: NavbarLayoutProps) {
-  return (
-    <div className={`h-full w-full p-5 md:p-24 ${className} `}>{children}</div>
-  );
+  return <div className={`w-full p-5 md:p-24 ${className} `}>{children}</div>;
 }

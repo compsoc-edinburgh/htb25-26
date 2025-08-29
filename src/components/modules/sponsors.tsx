@@ -161,7 +161,7 @@ export const SponsorsGrid = () => {
   );
 
   return (
-    <div className="w-full px-4 sm:px-8">
+    <div className="h-full w-full px-4 sm:px-8">
       <div className="block lg:hidden">
         <div className="grid grid-cols-1 gap-8 sm:gap-12">
           {sponsorsData.map((sponsor, index) => (
@@ -229,7 +229,7 @@ export const SponsorsGrid = () => {
         <div className="flex-1">
           <div className="space-y-8">
             {sponsorsData.map((sponsor, index) => (
-              <div key={index} className="min-h-[400px]">
+              <div key={index}>
                 <SponsorCard
                   name={sponsor.name}
                   tier={sponsor.tier}

@@ -1,0 +1,76 @@
+import { Event } from "~/types/schedule";
+
+export const hackathonEvents: Event[] = [
+  {
+    id: "opening-ceremony",
+    day: "2025-09-12",
+    start: "10:00",
+    end: "11:00",
+    title: "OPENING CEREMONY",
+    location: "@BOAK_LEC_THEATRE",
+    description: "Official kickoff with sponsors and organizers",
+  },
+  {
+    id: "lunch-wed",
+    day: "2025-09-12",
+    start: "12:00",
+    end: "13:00",
+    title: "LUNCH BREAK",
+    location: "@CATERING_AREA",
+  },
+  {
+    id: "workshop-1",
+    day: "2025-09-12",
+    start: "19:30",
+    end: "20:30",
+    title: "TECH WORKSHOP",
+    location: "@WORKSHOP_ROOM_A",
+    description: "Learn new technologies and frameworks",
+  },
+
+  // Thursday - Day 2
+  {
+    id: "doggies-event",
+    day: "2025-09-13",
+    start: "09:30",
+    end: "10:30",
+    title: "LET THE DOGGIES COME TO ME",
+    location: "@KFC",
+    description: "Stress relief session with therapy dogs",
+  },
+  {
+    id: "lunch-thu",
+    day: "2025-09-13",
+    start: "12:00",
+    end: "13:00",
+    title: "LUNCH BREAK",
+    location: "@CATERING_AREA",
+  },
+  {
+    id: "submissions",
+    day: "2025-09-13",
+    start: "16:00",
+    end: "17:00",
+    title: "PROJECT SUBMISSIONS",
+    location: "@SUBMISSION_PORTAL",
+    description: "Submit your projects for judging",
+  },
+  {
+    id: "demos",
+    day: "2025-09-13",
+    start: "17:00",
+    end: "18:30",
+    title: "PROJECT DEMOS",
+    location: "@DEMO_HALL",
+    description: "Present your creations to judges and peers",
+  },
+  {
+    id: "awards",
+    day: "2025-09-13",
+    start: "18:30",
+    end: "19:30",
+    title: "AWARDS CEREMONY",
+    location: "@BOAK_LEC_THEATRE",
+    description: "Celebrate the winners and wrap up the event",
+  },
+];
