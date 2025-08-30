@@ -70,8 +70,8 @@ export default function FAQSection() {
                   onClick={() => toggle(idx)}
                   className="flex w-full items-center justify-between gap-4 py-5 text-left"
                 >
-                  <div className="flex items-start gap-3">
-                    <span className="mt-2 inline-block h-1.5 w-1.5 flex-shrink-0 bg-black sm:h-2 sm:w-2" />
+                  <div className="flex items-center gap-3">
+                    <div className="h-1.5 w-1.5 flex-shrink-0 bg-black sm:h-2 sm:w-2" />
                     <h2 className="font-hexaframe text-xl font-bold sm:text-2xl">
                       {item.q}
                     </h2>
@@ -92,7 +92,7 @@ export default function FAQSection() {
                       transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
                       className="overflow-hidden"
                     >
-                      <div className="pb-6 pl-6 sm:pl-7">
+                      <div className="pb-6 pl-5">
                         <p className="text-sm leading-relaxed text-gray-900 sm:text-base">
                           {item.a}
                         </p>

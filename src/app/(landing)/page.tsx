@@ -1,12 +1,13 @@
 "use client";
 
 import NavbarLayout from "~/components/modules/navbar-layout";
-import AboutSection from "~/components/modules/about";
 import FAQSection from "~/components/modules/faq";
 import RegisterButton from "~/components/modules/register-button";
 import { SponsorsGrid } from "~/components/modules/sponsors";
 import ScheduleTimeline from "~/components/schedule-timeline";
 import { hackathonEvents } from "~/data/schedule";
+import Image from "next/image";
+import { ArrowRightIcon } from "lucide-react";
 
 export default function Page() {
   return (
@@ -44,9 +45,6 @@ export default function Page() {
         </div>
       </NavbarLayout>
       <NavbarLayout>
-        <AboutSection />
-      </NavbarLayout>
-      <NavbarLayout>
         <div id="schedule" className="px-4 pb-10 sm:pb-16">
           <h1 className="font-hexaframe text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl">
             Schedule
@@ -54,12 +52,12 @@ export default function Page() {
           <div className="flex items-center gap-2 pt-2">
             <div className="h-1.5 w-1.5 bg-black sm:h-2 sm:w-2" />
             <p className="text-xs uppercase text-gray-500 sm:text-sm">
-              Discover the schedule for Hack the Burgh 2025.
+              Discover the hackathon will unfold.
             </p>
           </div>
         </div>
         <ScheduleTimeline events={hackathonEvents} />
-        <p className="mt-4 text-center text-sm text-gray-500">
+        <p className="mt-2 text-center text-xs text-gray-500">
           Scroll to see the full schedule
         </p>
       </NavbarLayout>
@@ -79,6 +77,57 @@ export default function Page() {
       </NavbarLayout>
       <NavbarLayout>
         <FAQSection />
+      </NavbarLayout>
+      <NavbarLayout className="flex h-screen items-center">
+        <div className="flex-1 px-6 sm:px-8 lg:px-10">
+          <div className="grid grid-cols-1 items-center gap-x-16 gap-y-10 lg:grid-cols-12">
+            <div className="max-w-2xl space-y-6 lg:col-span-7">
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold leading-tight tracking-tight">We need more hands!</h2>
+              <div className="text-base md:text-xl lg:text-2xl leading-tight tracking-tight pb-5">
+                Could be anything from photography, to social media, to anything
+                related to helping out with the event!
+              </div>
+
+              <button className="relative md:h-[49px] md:w-[246px] h-[40px] w-[190px]">
+                <svg
+                  className="absolute inset-0 md:w-[246px] md:h-[49px] w-[190px] h-[40px]"
+                  viewBox="0 0 246 49"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+<path d="M1 5.7V13.5333L5.78378 16.6667V32.3333L1 35.4667V42.6713L7.37838 48L227.743 48L245.283 29.2V5.7L240.499 1L5.78378 1L1 5.7Z" fill="black" stroke="black"/>
+</svg>
+                <div className="flex items-center gap-2 justify-center md:text-base text-sm">
+                  <div className="relative z-10 font-medium text-white">
+                  Volunteer
+                  </div>
+                  <ArrowRightIcon className="h-3 w-3 z-10 text-white md:h-5 md:w-5" />
+                </div>
+              </button>
+            </div>
+
+            <div className="w-full lg:col-span-5 max-w-xl">
+              <figure className="relative w-full max-w-[560px]">
+                <div className="relative aspect-[4/3] bg-white p-3 shadow-sm ring-1 ring-black/10">
+                  <div className="relative h-full w-full overflow-hidden">
+                    <Image
+                      src="/htb-photos/team.png"
+                      alt="Hack the Burgh volunteers, 2024"
+                      fill
+                      className="object-cover"
+                      sizes="(min-width: 1024px) 560px, 100vw"
+                      priority
+                    />
+                  </div>
+
+                  <figcaption className="absolute bottom-3 right-3 bg-white px-2 py-1 text-[10px] font-medium text-zinc-700 sm:text-xs">
+                    HTB_2024
+                  </figcaption>
+                </div>
+              </figure>
+            </div>
+          </div>
+        </div>
       </NavbarLayout>
     </main>
   );

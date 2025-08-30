@@ -66,14 +66,14 @@ const formatDay = (dateStr: string) => {
   const date = new Date(dateStr);
   return {
     dayNumber: String(date.getDate()).padStart(2, "0"),
-    dayOrdinal: toOrdinal(date.getDate()), // e.g., 12th
+    dayOrdinal: toOrdinal(date.getDate()),
     dayName: date
       .toLocaleDateString("en-GB", { weekday: "long" })
       .toUpperCase(),
     monthNameUpper: date
       .toLocaleDateString("en-GB", { month: "long" })
       .toUpperCase(),
-    monthNameTitle: date.toLocaleDateString("en-GB", { month: "long" }), // e.g., September
+    monthNameTitle: date.toLocaleDateString("en-GB", { month: "long" }),
   };
 };
 
@@ -208,7 +208,7 @@ export default function ScheduleTimeline({
                           return (
                             <div
                               key={`gap-${idx}`}
-                              className="shrink-0"
+                              className="hidden shrink-0 md:block"
                               style={{ width: `${w}px` }}
                               aria-hidden
                             />
