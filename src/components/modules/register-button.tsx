@@ -20,7 +20,7 @@ export default function RegisterButton({
 }: RegisterButtonProps) {
   const commonProps = {
     className: [
-      "group relative inline-block -mr-12 mt-12 focus:outline-none",
+      "group relative inline-block mx-auto mt-10 sm:mt-12 focus:outline-none",
       "focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2",
       className,
     ].join(" "),

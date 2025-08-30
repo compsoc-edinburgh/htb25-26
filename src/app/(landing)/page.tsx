@@ -1,6 +1,8 @@
 "use client";
 
 import NavbarLayout from "~/components/modules/navbar-layout";
+import AboutSection from "~/components/modules/about";
+import FAQSection from "~/components/modules/faq";
 import RegisterButton from "~/components/modules/register-button";
 import { SponsorsGrid } from "~/components/modules/sponsors";
 import ScheduleTimeline from "~/components/schedule-timeline";
@@ -9,10 +11,11 @@ import { hackathonEvents } from "~/data/schedule";
 export default function Page() {
   return (
     <main className="h-full w-full pb-24">
-      <NavbarLayout className="h-screen">
+      <NavbarLayout className="h-screen py-0">
         <div className="relative flex h-full w-full items-center justify-center">
           <div className="flex scale-90 transform flex-col items-center px-4 text-center sm:scale-100">
             <svg
+              className="h-40 w-40 2xl:h-72 2xl:w-72"
               width="178"
               height="156"
               viewBox="0 0 178 156"
@@ -28,10 +31,10 @@ export default function Page() {
                 fill="black"
               />
             </svg>
-            <h1 className="mt-3 font-hexaframe text-4xl font-extrabold sm:text-6xl md:text-7xl">
+            <h1 className="mt-3 font-hexaframe text-4xl font-extrabold sm:text-6xl md:text-7xl 2xl:text-8xl">
               Hack The Burgh
             </h1>
-            <p className="mt-6 max-w-3xl px-2 text-center text-sm sm:text-base">
+            <p className="mt-6 max-w-3xl px-2 text-center text-sm sm:text-base 2xl:max-w-4xl 2xl:text-2xl">
               Ready to build something amazing? Hack The Burgh is back for its
               12th year! Join us in Edinburgh for a weekend of coding and
               creativity, no matter your experience level.
@@ -40,8 +43,11 @@ export default function Page() {
           </div>
         </div>
       </NavbarLayout>
-      <NavbarLayout className="min-h-screen">
-        <div className="px-4 pb-10 sm:pb-16">
+      <NavbarLayout>
+        <AboutSection />
+      </NavbarLayout>
+      <NavbarLayout>
+        <div id="schedule" className="px-4 pb-10 sm:pb-16">
           <h1 className="font-hexaframe text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl">
             Schedule
           </h1>
@@ -53,12 +59,12 @@ export default function Page() {
           </div>
         </div>
         <ScheduleTimeline events={hackathonEvents} />
-        <p className="text-center text-xs text-gray-500 mt-2">
+        <p className="mt-4 text-center text-sm text-gray-500">
           Scroll to see the full schedule
         </p>
       </NavbarLayout>
       <NavbarLayout>
-        <div className="px-4 pb-10 sm:pb-16">
+        <div id="sponsors" className="px-4 pb-10 sm:pb-16">
           <h1 className="font-hexaframe text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl">
             Our Sponsors
           </h1>
@@ -70,6 +76,9 @@ export default function Page() {
           </div>
         </div>
         <SponsorsGrid />
+      </NavbarLayout>
+      <NavbarLayout>
+        <FAQSection />
       </NavbarLayout>
     </main>
   );

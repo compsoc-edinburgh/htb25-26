@@ -48,9 +48,7 @@ const NavLinks = ({ mobile = false }: { mobile?: boolean }) => {
     <div className={containerClasses}>
       {NAV_LINKS.map(({ href, label }) => (
         <Button asChild key={href} className={buttonClasses}>
-          <Link href={href} target="_blank" rel="noopener noreferrer">
-            {label}
-          </Link>
+          <Link href={href}>{label}</Link>
         </Button>
       ))}
     </div>

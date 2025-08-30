@@ -172,7 +172,7 @@ export default function ScheduleTimeline({
               key={day}
               className="flex border-b border-gray-200 last:border-b-0"
             >
-              <div className="hidden w-64 flex-shrink-0 flex-col justify-center p-4 md:flex">
+              <div className="hidden w-64 flex-shrink-0 flex-col justify-center p-6 md:flex">
                 <div className="flex items-end gap-1 text-7xl font-bold leading-none">
                   <h1 className="font-hexaframe text-black">{dayNumber}</h1>
                   <p className="text-xs font-medium uppercase text-zinc-500">
@@ -185,7 +185,7 @@ export default function ScheduleTimeline({
               </div>
 
               <div className="relative min-w-0 flex-1">
-                <div className="px-4 pt-4 md:hidden">
+                <div className="px-5 pt-5 md:hidden">
                   <div className="font-hexaframe text-2xl font-bold leading-none text-black">
                     {dayOrdinal} {monthNameTitle}
                   </div>
@@ -196,7 +196,7 @@ export default function ScheduleTimeline({
 
                 <div className="relative">
                   <div
-                    className="scrollbar-hide overflow-x-auto overflow-y-hidden px-8 py-5 pt-3 md:pt-5"
+                    className="scrollbar-hide overflow-x-auto overflow-y-hidden px-6 py-6 md:px-8"
                     style={{ height: `${dayRowHeight}px` }}
                     role="region"
                     aria-label={`${dayOrdinal} ${monthNameTitle} timeline`}
@@ -221,7 +221,7 @@ export default function ScheduleTimeline({
                         return (
                           <motion.article
                             key={e.id}
-                            className="relative mx-1 flex w-auto max-w-[70vw] shrink-0 flex-col overflow-hidden  bg-white"
+                            className="relative mx-1.5 flex w-auto max-w-[70vw] shrink-0 flex-col overflow-hidden bg-white md:mx-2"
                             style={{
                               width: `${w}px`,
                               height: `${dayRowHeight - 32}px`,
