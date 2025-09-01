@@ -64,7 +64,7 @@ export default function FAQSection() {
             return (
               <li
                 key={idx}
-                className={`px-4 sm:px-6 ${expanded ? "bg-zinc-200" : "bg-white"}`}
+                className={`px-4 sm:px-6 ${expanded ? "bg-zinc-100" : "bg-white"}`}
               >
                 <button
                   id={buttonId}
