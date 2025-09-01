@@ -64,7 +64,7 @@ export default function FAQSection() {
             return (
               <li
                 key={idx}
-                className={`px-4 sm:px-6 ${expanded ? "bg-gray-100" : "bg-white"}`}
+                className={`px-4 sm:px-6 ${expanded ? "bg-zinc-200" : "bg-white"}`}
               >
                 <button
                   id={buttonId}
@@ -97,8 +97,8 @@ export default function FAQSection() {
                       transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
                       className="overflow-hidden"
                     >
-                      <div className="pb-6 pl-5">
-                        <p className="text-sm leading-relaxed text-gray-900 sm:text-base">
+                      <div className="pt-2 pb-6 pl-[22rem]"> 
+                        <p className="text-sm sm:text-base text-gray-900 leading-relaxed break-words">
                           {item.a}
                         </p>
                       </div>
