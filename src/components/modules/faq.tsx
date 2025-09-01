@@ -88,21 +88,22 @@ export default function FAQSection() {
                 <AnimatePresence initial={false}>
                   {expanded && (
                     <motion.div
-                      id={contentId}
-                      role="region"
-                      aria-labelledby={buttonId}
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-                      className="overflow-hidden"
-                    >
-                      <div className="pt-2 pb-6 pl-[22rem]"> 
-                        <p className="text-sm sm:text-base text-gray-900 leading-relaxed break-words">
-                          {item.a}
-                        </p>
-                      </div>
-                    </motion.div>
+                    id={contentId}
+                    role="region"
+                    aria-labelledby={buttonId}
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+                    className="overflow-hidden"
+                  >
+                    <div className="pt-2 pb-6 pl-[22rem] pr-8"> 
+                      <p className="text-sm sm:text-base text-gray-900 leading-relaxed break-words">
+                        {item.a}
+                      </p>
+                    </div>
+                  </motion.div>
+                  
                   )}
                 </AnimatePresence>
               </li>
