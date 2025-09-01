@@ -122,7 +122,7 @@ const SponsorCard = ({
         </div>
       </div>
 
-      <div className="mb-6 mt-6 h-px w-full bg-black" />
+      <div className="my-6 h-px w-full bg-black sm:my-8" />
 
       <div className="grid grid-cols-1 gap-6 sm:gap-8 lg:grid-cols-2">
         <div className="flex flex-col gap-3 sm:gap-4">
@@ -148,7 +148,7 @@ const SponsorCard = ({
         </div>
       </div>
 
-      <span className="mt-8 inline-block text-sm font-medium uppercase tracking-wide text-gray-500 sm:text-base">
+      <span className="mt-8 inline-block text-sm font-medium uppercase tracking-wide text-gray-500 sm:mt-10 sm:text-base">
         {number}
       </span>
     </div>
@@ -161,7 +161,7 @@ export const SponsorsGrid = () => {
   );
 
   return (
-    <div className="w-full px-4 sm:px-8">
+    <div className="h-full w-full px-4 sm:px-8">
       <div className="block lg:hidden">
         <div className="grid grid-cols-1 gap-8 sm:gap-12">
           {sponsorsData.map((sponsor, index) => (
@@ -227,9 +227,9 @@ export const SponsorsGrid = () => {
         </div>
 
         <div className="flex-1">
-          <div className="space-y-8">
+          <div className="max-w-6xl space-y-8">
             {sponsorsData.map((sponsor, index) => (
-              <div key={index} className="min-h-[400px]">
+              <div key={index}>
                 <SponsorCard
                   name={sponsor.name}
                   tier={sponsor.tier}
