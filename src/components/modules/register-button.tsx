@@ -22,6 +22,7 @@ export default function RegisterButton({
     className: [
       "group relative inline-block -mr-12 mt-12 focus:outline-none",
       "focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2",
+      "scale-x-[-1] md:scale-x-100",
       className,
     ].join(" "),
     "aria-label": `${label}. ${subtitle}`,
