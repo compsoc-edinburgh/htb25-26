@@ -82,31 +82,37 @@ export default function Page() {
         <div className="flex-1 px-6 sm:px-8 lg:px-10">
           <div className="grid grid-cols-1 items-center gap-x-16 gap-y-10 lg:grid-cols-12">
             <div className="max-w-2xl space-y-6 lg:col-span-7">
-              <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold leading-tight tracking-tight">We need more hands!</h2>
-              <div className="text-base md:text-xl lg:text-2xl leading-tight tracking-tight pb-5">
+              <h2 className="text-2xl font-extrabold leading-tight tracking-tight md:text-3xl lg:text-4xl">
+                We need more hands!
+              </h2>
+              <div className="pb-5 text-base leading-tight tracking-tight md:text-xl lg:text-2xl">
                 Could be anything from photography, to social media, to anything
                 related to helping out with the event!
               </div>
 
-              <button className="relative md:h-[49px] md:w-[246px] h-[40px] w-[190px]">
+              <button className="relative h-[40px] w-[190px] md:h-[49px] md:w-[246px]">
                 <svg
-                  className="absolute inset-0 md:w-[246px] md:h-[49px] w-[190px] h-[40px]"
+                  className="absolute inset-0 h-[40px] w-[190px] md:h-[49px] md:w-[246px]"
                   viewBox="0 0 246 49"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-<path d="M1 5.7V13.5333L5.78378 16.6667V32.3333L1 35.4667V42.6713L7.37838 48L227.743 48L245.283 29.2V5.7L240.499 1L5.78378 1L1 5.7Z" fill="black" stroke="black"/>
-</svg>
-                <div className="flex items-center gap-2 justify-center md:text-base text-sm">
+                  <path
+                    d="M1 5.7V13.5333L5.78378 16.6667V32.3333L1 35.4667V42.6713L7.37838 48L227.743 48L245.283 29.2V5.7L240.499 1L5.78378 1L1 5.7Z"
+                    fill="black"
+                    stroke="black"
+                  />
+                </svg>
+                <div className="flex items-center justify-center gap-2 text-sm md:text-base">
                   <div className="relative z-10 font-medium text-white">
-                  Volunteer
+                    Volunteer
                   </div>
-                  <ArrowRightIcon className="h-3 w-3 z-10 text-white md:h-5 md:w-5" />
+                  <ArrowRightIcon className="z-10 h-3 w-3 text-white md:h-5 md:w-5" />
                 </div>
               </button>
             </div>
 
-            <div className="w-full lg:col-span-5 max-w-xl">
+            <div className="w-full max-w-xl lg:col-span-5">
               <figure className="relative w-full max-w-[560px]">
                 <div className="relative aspect-[4/3] bg-white p-3 shadow-sm ring-1 ring-black/10">
                   <div className="relative h-full w-full overflow-hidden">

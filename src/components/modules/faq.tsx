@@ -62,7 +62,10 @@ export default function FAQSection() {
             const contentId = `faq-panel-${idx}`;
             const buttonId = `faq-button-${idx}`;
             return (
-              <li key={idx} className={`px-4 sm:px-6 ${expanded ? "bg-gray-100" : "bg-white"}`}>
+              <li
+                key={idx}
+                className={`px-4 sm:px-6 ${expanded ? "bg-gray-100" : "bg-white"}`}
+              >
                 <button
                   id={buttonId}
                   aria-controls={contentId}
@@ -71,11 +74,11 @@ export default function FAQSection() {
                   className="flex w-full items-center justify-between gap-4 py-5"
                 >
                   <div className="flex items-center gap-80">
-                  <span className="text-black-500 font-mono text-lg sm:text-l w-8 text-center">
-                    {String(idx + 1).padStart(2, "0")}
-                  </span>
+                    <span className="text-black-500 sm:text-l w-8 text-center font-mono text-lg">
+                      {String(idx + 1).padStart(2, "0")}
+                    </span>
                     <h2 className="text-center text-xl font-bold sm:text-2xl">
-                        {item.q}
+                      {item.q}
                     </h2>
                   </div>
                   <ChevronDown
