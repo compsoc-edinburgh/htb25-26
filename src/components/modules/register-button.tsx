@@ -28,58 +28,39 @@ export default function RegisterButton({
     "aria-label": `${label}. ${subtitle}`,
   };
 
-  return href ? (
-    <Link href={href} {...commonProps}></Link>
-  ) : (
-    <button type="button" onClick={onClick} {...commonProps}>
+  const ButtonContent = () => (
+    <div className="relative w-80">
       <svg
-        className="pointer-events-none absolute -right-4 top-0 z-10 h-40 w-40"
-        viewBox="0 0 100 100"
-        aria-hidden="true"
+        viewBox="0 0 305 64"
+        className="absolute inset-0 w-full h-full pointer-events-none"
+        preserveAspectRatio="none" 
       >
-        <line
-          x1="0"
-          y1="0"
-          x2="15"
-          y2="11"
-          stroke="currentColor"
-          strokeWidth="0.5"
+        <path
+          d="M304.5 24.9609V55C304.5 59.6944 300.694 63.5 296 63.5L9 63.5C4.30556 63.5 0.5 59.6944 0.5 55V9C0.5 4.30558 4.30556 0.5 9 0.5L176.099 0.5C177.712 0.5 179.293 0.95925 180.655 1.82422L201.376 14.9814C202.898 15.948 204.664 16.4609 206.468 16.4609L296 16.4609C300.694 16.4609 304.5 20.2666 304.5 24.9609Z"
+          stroke="black"
+          fill="none"
         />
       </svg>
 
-      <svg
-        className="pointer-events-none absolute right-0 top-0 z-10 h-40 w-40"
-        viewBox="0 0 100 100"
-        aria-hidden="true"
-      >
-        <line
-          x1="25"
-          y1="11"
-          x2="100"
-          y2="11"
-          stroke="currentColor"
-          strokeWidth="0.5"
-        />
-      </svg>
-
-      <div
-        className={[
-          "relative z-0 w-80 rounded-xl border bg-white/80",
-          "py-4 pl-7 pr-20 text-left font-hexaframe text-xl text-black",
-          "backdrop-blur transition-[background,transform,box-shadow]",
-          "hover:bg-white hover:shadow-md active:translate-y-[1px]",
-        ].join(" ")}
-        style={{
-          clipPath:
-            "polygon(0 0, 55% 0, 70% 25%, 100% 28%, 100% 100%, 0% 100%)",
-        }}
-      >
-        {label}
-
-        <span className="pointer-events-none absolute bottom-1 right-2 font-sans text-xs text-gray-600">
+      <div className="relative z-10 py-4 pl-7 pr-20 text-left font-hexaframe text-xl text-black">
+      <span className="inline-block sm:inline sm:scale-x-100 scale-x-[-1]">{label}</span>
+        <span className="absolute bottom-1 right-2 hidden sm:inline text-xs text-gray-600">
           {subtitle}
         </span>
+        <span className="scale-x-[-1] absolute bottom-1 right-2 inline sm:hidden text-xs text-gray-600">
+           Start your journey↵
+        </span>
       </div>
+    </div>
+  );
+
+  return href ? (
+    <Link href={href} {...commonProps}>
+      <ButtonContent />
+    </Link>
+  ) : (
+    <button type="button" onClick={onClick} {...commonProps}>
+      <ButtonContent />
     </button>
   );
 }
