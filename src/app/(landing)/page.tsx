@@ -75,9 +75,10 @@ export default function Page() {
         </div>
         <SponsorsGrid />
       </NavbarLayout>
-      <NavbarLayout>
+      <div className={`w-full py-10 md:py-24 md:pl-[4.2rem] md:pr-[1.25rem]`}>
         <FAQSection />
-      </NavbarLayout>
+      </div>
+
       <NavbarLayout className="flex h-screen items-center">
         <div className="flex-1 px-6 sm:px-8 lg:px-10">
           <div className="grid grid-cols-1 items-center gap-x-16 gap-y-10 lg:grid-cols-12">
