@@ -15,6 +15,7 @@ export default withUt({
         mono: ["var(--font-ibm-plex-mono)"],
         geist: ["var(--font-geist-sans)"],
         hexaframe: ["var(--font-hexaframe)"],
+        whyte: ["var(--font-whyte)"],
       },
       borderRadius: {
         lg: "var(--radius)",

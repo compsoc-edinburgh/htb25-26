@@ -51,6 +51,21 @@ const hexaframe = localFont({
   display: "swap",
 });
 
+const whyteInktrap = localFont({
+  src: [
+    {
+      path: "./fonts/WhyteInktrap-Heavy.woff2",
+      weight: "700",
+    },
+    {
+      path: "./fonts/WhyteInktrap-Medium.woff2",
+      weight: "500",
+    },
+  ],
+  variable: "--font-whyte",
+  display: "swap",
+});
+
 export default async function RootLayout({
   children,
 }: Readonly<{ children: ReactNode }>) {
@@ -58,7 +73,7 @@ export default async function RootLayout({
     <ClerkProvider>
       <html
         lang="en"
-        className={`${ibmPlexMono.className} ${hexaframe.variable} ${GeistSans.variable} dark`}
+        className={`${ibmPlexMono.className} ${hexaframe.variable} ${whyteInktrap.variable} ${GeistSans.variable} dark`}
       >
         <body className="bg-white text-zinc-900">
           <Toaster
