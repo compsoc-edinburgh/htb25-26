@@ -98,13 +98,13 @@ export default function FAQSection() {
         .timeline()
         .from(content, {
           height: 0,
-          duration: 0.4,
+          duration: 0.32,
           ease: "power2.inOut",
         })
         .to(
           plusElement,
           {
-            duration: 0.4,
+            duration: 0.32,
             rotation: 180,
             transformOrigin: "center center",
             ease: "power2.inOut",
@@ -114,7 +114,7 @@ export default function FAQSection() {
         .fromTo(
           element,
           { backgroundColor: "#ffffff" },
-          { backgroundColor: "#E5E5E5", duration: 0.4 },
+          { backgroundColor: "#E5E5E5", duration: 0.32 },
           0
         )
         .reverse();
@@ -184,17 +184,18 @@ export default function FAQSection() {
                   className="accordion-menu flex w-full items-center justify-between gap-4 py-5"
                 >
                   <div className="flex items-center gap-4 pr-8 sm:gap-60 sm:pr-28">
-                    <span className="text-black-500 sm:text-l w-8 text-center font-mono text-lg">
+                    <span className="text-black-500 text-center font-mono text-xs sm:w-8 sm:text-lg">
                       {String(idx + 1).padStart(2, "0")}
                     </span>
-                    <h2 className="font-whyte -mb-2 text-left text-lg font-medium sm:text-xl md:text-2xl">
+                    <h2 className="font-whyte -mb-2 text-left text-base font-medium sm:text-xl md:text-2xl">
                       {item.q}
                     </h2>
                   </div>
-                  <div className="accordion-plus absolute right-4 top-[2.4rem] h-5 w-5 -translate-y-1/2 sm:right-9">
+                  <div className="accordion-plus absolute right-4 top-[1.8rem] h-3 w-3 -translate-y-1/2 sm:right-9 sm:top-[2.4rem] sm:h-5 sm:w-5">
                     <svg
                       width="13"
                       height="14"
+                      className="h-full w-full"
                       viewBox="0 0 13 14"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
@@ -213,8 +214,8 @@ export default function FAQSection() {
                   className="accordion-content overflow-hidden"
                   style={{ height: 0 }}
                 >
-                  <div className="pb-6 pl-12 pr-8 pt-0 sm:pl-[17rem] sm:pr-32">
-                    <p className="break-words text-[0.875rem] leading-relaxed text-gray-900">
+                  <div className="pb-6 pl-[2rem] pr-8 pt-0 sm:pl-[17rem] sm:pr-32">
+                    <p className="break-words text-[0.7rem] leading-relaxed text-gray-900 sm:text-[0.875rem]">
                       {item.a}
                     </p>
                   </div>
