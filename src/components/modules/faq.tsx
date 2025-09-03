@@ -184,7 +184,7 @@ export default function FAQSection() {
                     <span className="text-black-500 text-center font-mono text-xs sm:w-8 sm:text-lg">
                       {String(idx + 1).padStart(2, "0")}
                     </span>
-                    <h2 className="font-white -mb-2 text-left text-base font-medium sm:text-xl md:text-2xl">
+                    <h2 className="font-whyte -mb-2 text-left text-base font-medium sm:text-xl md:text-2xl">
                       {item.q}
                     </h2>
                   </div>
