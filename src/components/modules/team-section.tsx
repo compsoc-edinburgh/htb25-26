@@ -186,6 +186,7 @@ const TeamCard: React.FC<{ member: TeamMember }> = ({ member }) => {
         bottomShape.querySelector("path"),
         {
           fill: "black",
+          stroke: "black",
         },
         0
       )
