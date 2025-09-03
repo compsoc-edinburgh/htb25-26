@@ -51,13 +51,13 @@ export default function Page() {
           </h1>
           <div className="flex items-center gap-2 pt-2">
             <div className="h-1.5 w-1.5 bg-black sm:h-2 sm:w-2" />
-            <p className="text-xs uppercase text-gray-500 sm:text-sm">
+            <p className="text-xs uppercase text-zinc-500 sm:text-sm">
               Discover the hackathon will unfold.
             </p>
           </div>
         </div>
         <ScheduleTimeline events={hackathonEvents} />
-        <p className="mt-2 text-center text-xs text-gray-500">
+        <p className="mt-2 text-center text-xs text-zinc-500">
           Scroll to see the full schedule
         </p>
       </NavbarLayout>
@@ -68,7 +68,7 @@ export default function Page() {
           </h1>
           <div className="flex items-center gap-2 pt-2">
             <div className="h-1.5 w-1.5 bg-black sm:h-2 sm:w-2" />
-            <p className="text-xs uppercase text-gray-500 sm:text-sm">
+            <p className="text-xs uppercase text-zinc-500 sm:text-sm">
               Meet the amazing organisations that make Hack the Burgh possible.
             </p>
           </div>

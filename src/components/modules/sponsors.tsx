@@ -126,18 +126,18 @@ const SponsorCard = ({
 
       <div className="grid grid-cols-1 gap-6 sm:gap-8 lg:grid-cols-2">
         <div className="flex flex-col gap-3 sm:gap-4">
-          <div className="text-sm font-medium uppercase tracking-wide text-gray-500 sm:text-base">
+          <div className="text-sm font-medium uppercase tracking-wide text-zinc-500 sm:text-base">
             Overview:
           </div>
-          <div className="text-sm leading-relaxed text-gray-900 sm:text-base">
+          <div className="text-sm leading-relaxed text-zinc-900 sm:text-base">
             {overview}
           </div>
         </div>
         <div className="flex flex-col gap-3 sm:gap-4">
-          <div className="text-sm font-medium uppercase tracking-wide text-gray-500 sm:text-base">
+          <div className="text-sm font-medium uppercase tracking-wide text-zinc-500 sm:text-base">
             Prizes:
           </div>
-          <ul className="space-y-2 text-sm text-gray-900 sm:space-y-3 sm:text-base">
+          <ul className="space-y-2 text-sm text-zinc-900 sm:space-y-3 sm:text-base">
             {prizes.map((prize, i) => (
               <li key={i} className="flex items-start gap-3">
                 <span className="mt-2 inline-block h-1.5 w-1.5 flex-shrink-0 bg-black sm:h-2 sm:w-2" />
@@ -148,7 +148,7 @@ const SponsorCard = ({
         </div>
       </div>
 
-      <span className="mt-8 inline-block text-sm font-medium uppercase tracking-wide text-gray-500 sm:mt-10 sm:text-base">
+      <span className="mt-8 inline-block text-sm font-medium uppercase tracking-wide text-zinc-500 sm:mt-10 sm:text-base">
         {number}
       </span>
     </div>
@@ -217,7 +217,7 @@ export const SponsorsGrid = () => {
               </motion.div>
             </AnimatePresence>
             <motion.span
-              className="absolute bottom-4 left-4 text-xs font-medium uppercase tracking-wide text-gray-500"
+              className="absolute bottom-4 left-4 text-xs font-medium uppercase tracking-wide text-zinc-500"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
             >

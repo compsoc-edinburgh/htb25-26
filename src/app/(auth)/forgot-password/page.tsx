@@ -163,7 +163,7 @@ const ForgotPasswordPage: NextPage = () => {
             </p>
           )}
 
-          <div className="text-center text-sm text-gray-500">
+          <div className="text-center text-sm text-zinc-500">
             Remember your password?{" "}
             <Link
               href="/signin"
