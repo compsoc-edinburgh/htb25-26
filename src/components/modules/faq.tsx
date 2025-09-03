@@ -184,7 +184,7 @@ export default function FAQSection() {
                     <span className="text-black-500 text-center font-mono text-xs sm:w-8 sm:text-lg">
                       {String(idx + 1).padStart(2, "0")}
                     </span>
-                    <h2 className="font-whyte -mb-2 text-left text-base font-medium sm:text-xl md:text-2xl">
+                    <h2 className="font-white -mb-2 text-left text-base font-medium sm:text-xl md:text-2xl">
                       {item.q}
                     </h2>
                   </div>
@@ -212,7 +212,7 @@ export default function FAQSection() {
                   style={{ height: 0 }}
                 >
                   <div className="pb-6 pl-[2rem] pr-8 pt-0 sm:pl-[17rem] sm:pr-32">
-                    <p className="break-words text-[0.7rem] leading-relaxed text-gray-900 sm:text-[0.875rem]">
+                    <p className="break-words text-[0.7rem] leading-relaxed text-zinc-900 sm:text-[0.875rem]">
                       {item.a}
                     </p>
                   </div>

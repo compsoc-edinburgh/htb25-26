@@ -154,16 +154,16 @@ const ForgotPasswordPage: NextPage = () => {
           )}
 
           {error && (
-            <p className="text-sm text-red-600 text-zinc-900">{error}</p>
+            <p className="text-sm text-red-600">{error}</p>
           )}
 
           {secondFactor && (
-            <p className="text-sm text-red-600 text-zinc-900">
+            <p className="text-sm text-red-600">
               2FA is required, but this UI does not handle that
             </p>
           )}
 
-          <div className="text-center text-sm text-gray-500">
+          <div className="text-center text-sm text-zinc-500">
             Remember your password?{" "}
             <Link
               href="/signin"

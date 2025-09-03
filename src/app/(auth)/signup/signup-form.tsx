@@ -218,7 +218,7 @@ export function SignupForm({
                 <ContinueWithSocial />
               </div>
               <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-gray-200">
-                <span className="relative z-10 bg-white px-2 text-gray-500">
+                <span className="relative z-10 bg-white px-2 text-zinc-500">
                   Or
                 </span>
               </div>
@@ -228,7 +228,7 @@ export function SignupForm({
                     <Label htmlFor="email" className="text-sm font-medium">
                       Email address
                     </Label>
-                    <span className="font-sans text-sm text-gray-500">
+                    <span className="font-sans text-sm text-zinc-500">
                       You&apos;ll need your university email to apply
                     </span>
                     <Input
@@ -268,11 +268,11 @@ export function SignupForm({
                   >
                     Continue
                   </Button>
-                  <div className="text-center text-sm text-gray-600">
+                  <div className="text-center text-sm text-zinc-600">
                     Already have an account?{" "}
                     <Link
                       href="/signin"
-                      className="text-gray-900 underline underline-offset-4 hover:no-underline"
+                      className="text-zinc-900 underline underline-offset-4 hover:no-underline"
                     >
                       Sign in
                     </Link>
@@ -282,7 +282,7 @@ export function SignupForm({
             </div>
           )}
 
-          <div className="text-balance text-center text-xs text-gray-500 [&_a]:underline [&_a]:underline-offset-4 [&_a]:hover:text-gray-900">
+          <div className="text-balance text-center text-xs text-zinc-500 [&_a]:underline [&_a]:underline-offset-4 [&_a]:hover:text-zinc-900">
             By clicking continue, you agree to MLH&apos;s{" "}
             <a
               target="_blank"

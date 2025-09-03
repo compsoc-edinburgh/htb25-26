@@ -63,7 +63,7 @@ const AuthSection = ({ mobile = false }: { mobile?: boolean }) => {
   return (
     <div className={containerClasses}>
       {mobile ? (
-        <Link href="/signin" className="text-[9px] hover:text-gray-300">
+        <Link href="/signin" className="text-[9px] hover:text-zinc-300">
           SIGN IN
         </Link>
       ) : (

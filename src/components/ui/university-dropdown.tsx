@@ -124,10 +124,10 @@ const UniversityDropdownComponent = (
             <CommandGroup>
               {options
                 .filter((x) => x.name)
-                .map((option, key: number) => (
+                .map((option, index: number) => (
                   <CommandItem
                     className="flex w-full items-center gap-2"
-                    key={key}
+                    key={`${option.name}-${option.domains[0] || 'no-domain'}-${index}`}
                     onSelect={() => handleSelect(option)}
                   >
                     <div className="flex w-0 flex-grow space-x-2 overflow-hidden">

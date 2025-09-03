@@ -7,11 +7,11 @@ export default async function ApplicationsClosed() {
             Applications are Closed
           </h1>
 
-          <p className="mt-4 text-xl font-semibold text-gray-900 sm:text-2xl">
+          <p className="mt-4 text-xl font-semibold text-zinc-900 sm:text-2xl">
             Applications for Hack the Burgh 2026 open on November 1–2, 2025
           </p>
 
-          <p className="mt-4 max-w-2xl text-base text-gray-600 sm:text-lg">
+          <p className="mt-4 max-w-2xl text-base text-zinc-600 sm:text-lg">
             Thank you for your patience, we’re excited to see your applications
             when the process begins!
           </p>

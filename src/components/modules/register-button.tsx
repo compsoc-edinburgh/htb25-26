@@ -32,8 +32,8 @@ export default function RegisterButton({
     <div className="relative w-80">
       <svg
         viewBox="0 0 305 64"
-        className="absolute inset-0 w-full h-full pointer-events-none"
-        preserveAspectRatio="none" 
+        className="pointer-events-none absolute inset-0 h-full w-full"
+        preserveAspectRatio="none"
       >
         <path
           d="M304.5 24.9609V55C304.5 59.6944 300.694 63.5 296 63.5L9 63.5C4.30556 63.5 0.5 59.6944 0.5 55V9C0.5 4.30558 4.30556 0.5 9 0.5L176.099 0.5C177.712 0.5 179.293 0.95925 180.655 1.82422L201.376 14.9814C202.898 15.948 204.664 16.4609 206.468 16.4609L296 16.4609C300.694 16.4609 304.5 20.2666 304.5 24.9609Z"
@@ -43,12 +43,14 @@ export default function RegisterButton({
       </svg>
 
       <div className="relative z-10 py-4 pl-7 pr-20 text-left font-hexaframe text-xl text-black">
-      <span className="inline-block sm:inline sm:scale-x-100 scale-x-[-1]">{label}</span>
-        <span className="absolute bottom-1 right-2 hidden sm:inline text-xs text-gray-600">
+        <span className="inline-block scale-x-[-1] sm:inline sm:scale-x-100">
+          {label}
+        </span>
+        <span className="absolute bottom-1 right-2 hidden text-xs text-zinc-600 sm:inline">
           {subtitle}
         </span>
-        <span className="scale-x-[-1] absolute bottom-1 right-2 inline sm:hidden text-xs text-gray-600">
-           Start your journey↵
+        <span className="absolute bottom-1 right-2 inline scale-x-[-1] text-xs text-zinc-600 sm:hidden">
+          Start your journey↵
         </span>
       </div>
     </div>

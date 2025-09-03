@@ -1,12 +1,11 @@
 import { useSignIn } from "@clerk/nextjs";
-import { OAuthStrategy } from "@clerk/types";
 
 import { Button } from "~/components/ui/button";
 
 export default function ContinueWithSocial() {
   const { signIn, isLoaded } = useSignIn();
 
-  const signInWith = (strategy: OAuthStrategy) => {
+  const signInWith = (strategy: "oauth_github" | "oauth_google") => {
     if (!isLoaded) return;
 
     return signIn.authenticateWithRedirect({

@@ -67,7 +67,7 @@ const UnsubscribeForm = () => {
         <Input
           type="email"
           placeholder="Email address.."
-          className="font-tektur basis-2/3 border-transparent bg-[#EEEEEE] text-gray-700 md:text-xs lg:text-sm"
+          className="font-tektur basis-2/3 border-transparent bg-[#EEEEEE] text-zinc-700 md:text-xs lg:text-sm"
           value={email}
           onChange={handleEmailChange}
         ></Input>
