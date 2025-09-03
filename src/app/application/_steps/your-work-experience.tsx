@@ -42,7 +42,7 @@ export const YourWorkExperience = ({
           render={({ field }) => (
             <div className="flex flex-col gap-3">
               {field.value ? (
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 text-black">
                   <Button asChild className="flex-1">
                     <a href={field.value} target="_blank" rel="noreferrer">
                       View uploaded CV
@@ -58,7 +58,7 @@ export const YourWorkExperience = ({
                 </div>
               ) : (
                 <UploadDropzone
-                  className="ut-button:rounded-xl ut-button:bg-primary ut-button:text-primary-foreground ut-button:transition-colors ut-button:after:bg-primary ut-button:focus-within:ring-2 ut-button:focus-within:ring-ring hover:ut-button:bg-primary/90 ut-button:focus-visible:outline-none ut-button:focus-visible:ring-2 focus-visible:ut-button:ring-ring ut-button:focus-visible:ring-offset-2 ut-label:hover:text-primary ut-button:ut-uploading:bg-accent-foreground/30"
+                  className="ut-button:bg-zinc-900 ut-button:text-white ut-button:transition-colors ut-button:after:bg-zinc-900 ut-button:focus-within:ring-2 ut-button:focus-within:ring-ring hover:ut-button:bg-zinc-900/90 ut-button:focus-visible:outline-none ut-button:focus-visible:ring-2 focus-visible:ut-button:ring-ring ut-button:focus-visible:ring-offset-2 ut-label:hover:text-primary ut-button:ut-uploading:bg-zinc-400/30"
                   endpoint="pdfUploader"
                   onClientUploadComplete={(res: any) =>
                     field.onChange(res?.[0]?.url)

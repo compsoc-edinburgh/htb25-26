@@ -53,8 +53,8 @@ const UniversitySelectlistComponent = (
         <SelectGroup>
           {options
             .filter((x) => x.name)
-            .map((option) => (
-              <SelectItem key={option.name} value={option.name}>
+            .map((option, index) => (
+              <SelectItem key={`${option.name}-${index}`} value={option.name}>
                 {option.name}
               </SelectItem>
             ))}

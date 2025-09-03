@@ -155,7 +155,7 @@ const AccordionForm = () => {
         );
       })}
 
-      <div className="h-24 bg-white px-5 md:h-28 md:px-10 lg:h-32">
+      <div className="h-24 bg-white px-5 md:h-28 lg:h-32 p-8 pb-20 md:p-10 md:pb-20 lg:p-12 lg:pb-20">
         <div className="flex justify-center">
           <Button
             type="submit"
