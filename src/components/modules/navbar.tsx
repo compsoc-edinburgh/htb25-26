@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { Menu } from "lucide-react";
+import { motion } from "framer-motion";
 
 import {
   Drawer,
@@ -60,6 +61,9 @@ const AuthSection = ({ mobile = false }: { mobile?: boolean }) => {
     ? "flex flex-col gap-2 text-zinc-400"
     : "flex items-center gap-1 text-white";
 
+  // Define a simple rectangle clip path for the overlay
+  const rectClipPath = "polygon(0 0, 100% 0, 100% 100%, 0 100%)";
+
   return (
     <div className={containerClasses}>
       {mobile ? (
@@ -67,12 +71,29 @@ const AuthSection = ({ mobile = false }: { mobile?: boolean }) => {
           SIGN IN
         </Link>
       ) : (
-        <Link
-          href="/signin"
-          className={STYLES.signInButton}
-          style={{ clipPath: STYLES.clipPath }}
-        >
-          SIGN IN
+        <Link href="/signin" className="inline-block">
+          <motion.div
+            className={`${STYLES.signInButton} border border-white bg-black`}
+            style={{ clipPath: STYLES.clipPath }}
+            whileHover="hover"
+          >
+           <motion.div
+              className="absolute inset-0 bg-white"
+              // Use the simple rectangle clip path here
+              style={{ clipPath: rectClipPath }}
+              initial={{ x: "100%" }}
+              variants={{ hover: { x: "0%" } }}
+              transition={{ duration: 0.4, ease: "easeInOut" }}
+            />
+             <motion.span
+              className="relative z-10"
+              initial={{ color: "#ffffff" }}
+              variants={{ hover: { color: "#000000" } }}
+              transition={{ duration: 0.4, ease: "easeInOut" }}
+            >
+              SIGN IN
+            </motion.span>
+          </motion.div>
         </Link>
       )}
     </div>
