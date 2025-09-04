@@ -1,26 +1,17 @@
 "use client";
-import React, {
-  useCallback,
-  useState,
-  forwardRef,
-  useEffect,
-  useRef,
-} from "react";
+import React, { useCallback, useState, forwardRef, useEffect } from "react";
 
 // shadcn
 import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "~/components/ui/command";
-// utils
-import { cn } from "~/lib/utils";
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "~/components/ui/select";
 
 // assets
-import { ChevronDown, CheckIcon, Globe } from "lucide-react";
 import { CircleFlag } from "react-circle-flags";
 
 // data
@@ -52,7 +43,13 @@ interface CountryDropdownProps {
 const CountrySelectListComponent = (
   {
     options = countries.all.filter(
-      (country: Country) => country.emoji && country.status !== "deleted"
+      (country: Country) =>
+        country.emoji &&
+        country.status !== "deleted" &&
+        !!country.alpha3 &&
+        country.alpha3.trim().length > 0 &&
+        !!country.alpha2 &&
+        country.alpha2.trim().length > 0
     ),
     onChange,
     defaultValue,
@@ -66,7 +63,6 @@ const CountrySelectListComponent = (
   const [selectedCountry, setSelectedCountry] = useState<Country | undefined>(
     undefined
   );
-  const selectedRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (defaultValue) {
@@ -75,15 +71,6 @@ const CountrySelectListComponent = (
       );
       if (initialCountry) {
         setSelectedCountry(initialCountry);
-        // Scroll the selected into view, as it may be invisible
-        setTimeout(() => {
-          if (selectedRef.current) {
-            selectedRef.current.scrollIntoView({
-              block: "center",
-              behavior: "instant",
-            });
-          }
-        }, 100);
       } else {
         // Reset selected country if defaultValue is not found
         setSelectedCountry(undefined);
@@ -95,37 +82,54 @@ const CountrySelectListComponent = (
   }, [defaultValue, options]);
 
   const handleSelect = useCallback(
-    (country: Country) => {
-      setSelectedCountry(country);
-      onChange?.(country);
+    (countryAlpha3: string) => {
+      const country = options.find((c) => c.alpha3 === countryAlpha3);
+      if (country) {
+        setSelectedCountry(country);
+        onChange?.(country);
+      }
     },
-    [onChange]
+    [onChange, options]
   );
 
   return (
-    <Command className="w-full bg-transparent">
-      <div className="sticky top-0 z-10">
-        <CommandInput placeholder="Search country..." />
-      </div>
-      <CommandList>
-        <CommandEmpty>No country found.</CommandEmpty>
-        <CommandGroup className="">
+    <Select
+      value={defaultValue}
+      onValueChange={handleSelect}
+      disabled={disabled}
+    >
+      <SelectTrigger ref={ref} className="w-full">
+        <SelectValue placeholder={placeholder}>
+          {selectedCountry && (
+            <div className="flex items-center gap-2">
+              <div className="inline-flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full">
+                <CircleFlag
+                  countryCode={selectedCountry.alpha2.toLowerCase()}
+                  height={20}
+                />
+              </div>
+              <span className="overflow-hidden text-ellipsis whitespace-nowrap">
+                {selectedCountry.name}
+              </span>
+            </div>
+          )}
+        </SelectValue>
+      </SelectTrigger>
+      <SelectContent>
+        <SelectGroup>
           {options
-            .filter((x) => x.name)
+            .filter(
+              (x) =>
+                x.name &&
+                !!x.alpha3 &&
+                x.alpha3.trim().length > 0 &&
+                !!x.alpha2 &&
+                x.alpha2.trim().length > 0
+            )
             .map((option, key: number) => (
-              <CommandItem
-                className={cn(
-                  "my-1 flex w-full items-center gap-2 rounded-xl p-3 transition-colors",
-                  option.name === selectedCountry?.name
-                    ? "bg-accent-yellow text-black data-[selected=true]:bg-accent-yellow data-[selected=true]:text-black"
-                    : "hover:bg-primary-50"
-                )}
-                ref={option.alpha3 === defaultValue ? selectedRef : null}
-                key={key}
-                onSelect={() => handleSelect(option)}
-              >
-                <div className="flex w-0 flex-grow space-x-2 overflow-hidden">
-                  <div className="inline-flex h-5 w-5 shrink-0 items-center justify-center overflow-hidden rounded-full">
+              <SelectItem key={key} value={option.alpha3}>
+                <div className="flex items-center gap-2">
+                  <div className="inline-flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full">
                     <CircleFlag
                       countryCode={option.alpha2.toLowerCase()}
                       height={20}
@@ -135,19 +139,11 @@ const CountrySelectListComponent = (
                     {option.name}
                   </span>
                 </div>
-                <CheckIcon
-                  className={cn(
-                    "ml-auto h-4 w-4 shrink-0",
-                    option.name === selectedCountry?.name
-                      ? "opacity-100"
-                      : "opacity-0"
-                  )}
-                />
-              </CommandItem>
+              </SelectItem>
             ))}
-        </CommandGroup>
-      </CommandList>
-    </Command>
+        </SelectGroup>
+      </SelectContent>
+    </Select>
   );
 };
 

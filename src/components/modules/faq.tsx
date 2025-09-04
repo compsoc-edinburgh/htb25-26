@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ChevronDown, Plus, Minus } from "lucide-react";
+import SectionHeader from "./section-header";
 
 export default function FAQSection() {
   const faqs = [
@@ -152,15 +153,11 @@ export default function FAQSection() {
 
   return (
     <div id="faq" className="pb-10 sm:pb-16">
-      <h1 className="px-4 font-hexaframe text-4xl font-bold sm:pl-8 sm:text-5xl md:text-6xl lg:text-7xl">
-        FAQs
-      </h1>
-      <div className="flex items-center gap-2 px-4 pt-2 sm:pl-9">
-        <div className="h-2 w-2 bg-black" />
-        <p className="text-[10px] uppercase text-black">
-          You have questions, We have answers!
-        </p>
-      </div>
+      <SectionHeader
+        title="FAQs"
+        subtitle="You have questions, We have answers!"
+        className="pl-8 sm:pl-10"
+      />
 
       <div className="mt-8 md:mt-10">
         <ul className="divide-y divide-gray-200 border border-gray-200 bg-white">
@@ -215,7 +212,7 @@ export default function FAQSection() {
                   style={{ height: 0 }}
                 >
                   <div className="pb-6 pl-[2rem] pr-8 pt-0 sm:pl-[17rem] sm:pr-32">
-                    <p className="break-words text-[0.7rem] leading-relaxed text-gray-900 sm:text-[0.875rem]">
+                    <p className="break-words text-[0.7rem] leading-relaxed text-zinc-900 sm:text-[0.875rem]">
                       {item.a}
                     </p>
                   </div>

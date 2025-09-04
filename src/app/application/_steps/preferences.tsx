@@ -1,0 +1,76 @@
+import { Control, Controller } from "react-hook-form";
+import { Input } from "~/components/ui/input";
+import { Textarea } from "~/components/ui/textarea";
+import { Button } from "~/components/ui/button";
+import { Label } from "~/components/ui/label";
+import { FormValues } from "./types";
+
+interface PreferencesProps {
+  control: Control<FormValues>;
+  register: any;
+  watch: any;
+}
+
+export const Preferences = ({ control, register, watch }: PreferencesProps) => {
+  return (
+    <div className="grid gap-6">
+      <div className="mb-5 flex max-w-md flex-col gap-2">
+        <div className="my-5 flex items-center gap-2">
+          <Label className="font-whyte text-xl">
+            Do you need travel reimbursement?
+          </Label>
+        </div>
+        <Controller
+          control={control}
+          name="needsReimbursement"
+          render={({ field }) => (
+            <div className="flex gap-2">
+              <Button
+                type="button"
+                variant={field.value ? "default" : "secondary"}
+                onClick={() => field.onChange(true)}
+                className="flex-1"
+              >
+                Yes
+              </Button>
+              <Button
+                type="button"
+                variant={!field.value ? "default" : "secondary"}
+                onClick={() => field.onChange(false)}
+                className="flex-1"
+              >
+                No
+              </Button>
+            </div>
+          )}
+        />
+      </div>
+      {watch("needsReimbursement") && (
+        <div className="flex max-w-xl flex-col gap-2">
+          <div className="my-5 flex items-center gap-2">
+            <Label className="font-whyte text-xl">
+              Where are you travelling from?
+            </Label>
+          </div>
+          <Textarea
+            rows={4}
+            placeholder="e.g. Edinburgh, Glasgow, etc."
+            {...register("travellingFrom")}
+          />
+        </div>
+      )}
+      <div className="flex max-w-xl flex-col gap-2">
+        <div className="my-5 flex items-center gap-2">
+          <Label className="font-whyte text-xl">
+            Which email should we use?
+          </Label>
+        </div>
+        <Input
+          type="email"
+          placeholder="john.doe@gmail.com"
+          {...register("calendarEmail")}
+        />
+      </div>
+    </div>
+  );
+};

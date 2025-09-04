@@ -1,0 +1,356 @@
+"use client";
+
+import Image from "next/image";
+import React, { useRef, useEffect } from "react";
+import { gsap } from "gsap";
+import { ScrambleTextPlugin } from "gsap/ScrambleTextPlugin";
+import SectionHeader from "./section-header";
+
+// Register GSAP plugins
+gsap.registerPlugin(ScrambleTextPlugin);
+
+interface TeamMember {
+  name: string;
+  role: string;
+  bio: string;
+  image?: string; // remote image
+}
+
+// Unsplash mock images (cropped with parameters for consistent sizing)
+const teamMembers: TeamMember[] = [
+  {
+    name: "Danyil Butov",
+    role: "Tech Lead",
+    bio: "Software developer passionate about user‑centric design.",
+    // image:
+    //   "https://images.unsplash.com/photo-1527980965255-d3b416303d12?auto=format&fit=crop&w=400&q=80",
+  },
+  {
+    name: "Alex Morgan",
+    role: "President",
+    bio: "Guiding the vision and keeping everything on track.",
+  },
+  {
+    name: "Priya Shah",
+    role: "Sponsorship",
+    bio: "Building meaningful relationships.",
+  },
+  {
+    name: "Leo Martínez",
+    role: "Design",
+    bio: "Crafting consistent branding and visual identity.",
+  },
+  {
+    name: "Hannah Lee",
+    role: "Logistics",
+    bio: "Making the weekend run smoothly end‑to‑end.",
+  },
+  {
+    name: "Omar Ali",
+    role: "Workshops",
+    bio: "Curating sessions that inspire creative hacks.",
+  },
+  {
+    name: "Sofia Rossi",
+    role: "Community",
+    bio: "Creating an inclusive, welcoming atmosphere.",
+  },
+  {
+    name: "Ethan Park",
+    role: "Ops Engineer",
+    bio: "Keeping infrastructure stable and fast all weekend.",
+  },
+];
+
+// SVG wrappers so we can style them with absolute content overlays
+const TopShape: React.FC<React.PropsWithChildren> = ({ children }) => (
+  <div className="relative aspect-[177/178] w-full">
+    <svg
+      viewBox="0 0 177 178"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className="h-full w-full"
+      preserveAspectRatio="xMidYMid meet"
+    >
+      <path d="M1 47.5V141" stroke="#E5E5E5" strokeWidth="0.5" />
+      <path
+        d="M1 53.5V1H142.5L176 39.5V177.5H1V127.5L11 118.5V63.5L1 53.5Z"
+        fill="white"
+        stroke="#E5E5E5"
+        strokeWidth="0.5"
+      />
+    </svg>
+    {children}
+  </div>
+);
+
+const BottomShape: React.FC<React.PropsWithChildren> = ({ children }) => (
+  <div className="relative aspect-[177/57] w-full">
+    <svg
+      viewBox="0 0 177 57"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className="h-full w-full"
+      preserveAspectRatio="xMidYMid meet"
+    >
+      <path
+        d="M1 39.6504V0.5H176V56.5H16.9091L1 39.6504Z"
+        stroke="#E5E5E5"
+        strokeWidth="0.5"
+        fill="white"
+      />
+    </svg>
+    {children}
+  </div>
+);
+
+function initials(name: string) {
+  return name
+    .split(/\s+/)
+    .map((p) => p[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+}
+const TeamCard: React.FC<{ member: TeamMember }> = ({ member }) => {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const topShapeRef = useRef<HTMLDivElement>(null);
+  const bottomShapeRef = useRef<HTMLDivElement>(null);
+  const nameRef = useRef<HTMLParagraphElement>(null);
+  const roleRef = useRef<HTMLSpanElement>(null);
+  const bioRef = useRef<HTMLParagraphElement>(null);
+  const roleSquareRef = useRef<HTMLDivElement>(null);
+
+  // Timeline refs
+  const hoverTimelineRef = useRef<gsap.core.Timeline>();
+  const clickTimelineRef = useRef<gsap.core.Timeline>();
+
+  useEffect(() => {
+    const card = cardRef.current;
+    const topShape = topShapeRef.current;
+    const bottomShape = bottomShapeRef.current;
+    const nameElement = nameRef.current;
+    const roleElement = roleRef.current;
+    const bioElement = bioRef.current;
+    const roleSquareElement = roleSquareRef.current;
+
+    if (
+      !card ||
+      !topShape ||
+      !bottomShape ||
+      !nameElement ||
+      !roleElement ||
+      !bioElement ||
+      !roleSquareElement
+    )
+      return;
+
+    // Set initial states
+    gsap.set(topShape.querySelector("path:nth-child(2)"), { fill: "white" });
+    gsap.set(bottomShape.querySelector("path"), { fill: "white" });
+    gsap.set([roleElement, bioElement], { color: "#1f2937" });
+    gsap.set(bottomShape, { y: 0 });
+    gsap.set(card, { scale: 1 });
+
+    // Create hover timeline
+    hoverTimelineRef.current = gsap
+      .timeline({
+        paused: true,
+        defaults: { ease: "power3.inOut", duration: 0.3 },
+      })
+      .to(
+        topShape.querySelector("path:nth-child(1)"),
+        {
+          x: "+=1.5",
+        },
+        0
+      )
+      .to(
+        bottomShape,
+        {
+          y: "-=3",
+        },
+        0
+      );
+
+    // Create click timeline
+    clickTimelineRef.current = gsap
+      .timeline({
+        paused: true,
+        defaults: { ease: "power3.inOut", duration: 0.3 },
+      })
+      .to(card, {
+        scale: 0.98,
+      })
+      .to(
+        bottomShape.querySelector("path"),
+        {
+          fill: "black",
+          stroke: "black",
+        },
+        0
+      )
+      .to(
+        [roleElement, bioElement],
+        {
+          color: "#ffffff",
+        },
+        0
+      )
+      .to(
+        [roleSquareElement],
+        {
+          backgroundColor: "white",
+        },
+        0
+      )
+      .to(
+        topShape.querySelector("path:nth-child(2)"),
+        {
+          stroke: "black",
+        },
+        0
+      )
+      .to(
+        topShape.querySelector("path:nth-child(1)"),
+        {
+          x: "+=1",
+        },
+        0
+      );
+
+    // Event handlers
+    const handleMouseEnter = () => {
+      hoverTimelineRef.current?.play();
+    };
+
+    const handleMouseLeave = () => {
+      hoverTimelineRef.current?.reverse();
+    };
+
+    const handleMouseDown = () => {
+      clickTimelineRef.current?.play();
+    };
+
+    const handleMouseUp = () => {
+      clickTimelineRef.current?.reverse();
+    };
+
+    const handleTouchStart = () => {
+      clickTimelineRef.current?.play();
+    };
+
+    const handleTouchEnd = () => {
+      clickTimelineRef.current?.reverse();
+    };
+
+    // Use GSAP MatchMedia for responsive behavior
+    const mm = gsap.matchMedia();
+
+    // Desktop and tablet hover animations (768px and above)
+    mm.add("(min-width: 768px)", () => {
+      card.addEventListener("mouseenter", handleMouseEnter);
+      card.addEventListener("mouseleave", handleMouseLeave);
+      return () => {
+        card.removeEventListener("mouseenter", handleMouseEnter);
+        card.removeEventListener("mouseleave", handleMouseLeave);
+      };
+    });
+
+    // Click/touch animations for all devices
+    card.addEventListener("mousedown", handleMouseDown);
+    card.addEventListener("mouseup", handleMouseUp);
+    card.addEventListener("touchstart", handleTouchStart);
+    card.addEventListener("touchend", handleTouchEnd);
+
+    return () => {
+      card.removeEventListener("mousedown", handleMouseDown);
+      card.removeEventListener("mouseup", handleMouseUp);
+      card.removeEventListener("touchstart", handleTouchStart);
+      card.removeEventListener("touchend", handleTouchEnd);
+
+      // Kill timelines and match media
+      hoverTimelineRef.current?.kill();
+      clickTimelineRef.current?.kill();
+      mm.kill();
+    };
+  }, [member.name]);
+
+  return (
+    <div
+      ref={cardRef}
+      className="flex w-full max-w-[200px] cursor-pointer flex-col font-mono sm:max-w-[260px] md:max-w-[280px] lg:max-w-[300px]"
+    >
+      <div ref={topShapeRef}>
+        <TopShape>
+          <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center pt-[9%]">
+            <div
+              className="relative aspect-square w-[68%] overflow-hidden rounded-sm bg-black/5 shadow-sm"
+              style={{
+                clipPath: "polygon(79% 0, 100% 23%, 100% 100%, 0 100%, 0 0)",
+              }}
+            >
+              {member.image ? (
+                <Image
+                  src={member.image}
+                  alt={member.name}
+                  fill
+                  className="object-cover"
+                  priority={false}
+                />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center bg-[#D9D9D9] text-3xl font-bold text-black/70">
+                  {initials(member.name)}
+                </div>
+              )}
+            </div>
+            <p
+              ref={nameRef}
+              className="font-whyte mt-3 line-clamp-2 px-2 text-center text-[0.6rem] font-semibold uppercase tracking-wide text-black sm:mt-4 sm:text-[0.7rem] sm:text-xs md:text-sm"
+            >
+              {member.name}
+            </p>
+          </div>
+        </TopShape>
+      </div>
+      <div ref={bottomShapeRef}>
+        <BottomShape>
+          <div className="absolute left-0 top-0 flex h-full w-full flex-col justify-start py-[0.55rem] pl-[1.52rem] pr-[0.3rem]">
+            <div className="flex items-center gap-1">
+              <div ref={roleSquareRef} className="h-1 w-1 bg-black" />
+              <span
+                ref={roleRef}
+                className="text-[0.4rem] font-bold uppercase tracking-wide sm:text-[0.6rem] xl:text-[0.7rem]"
+              >
+                {member.role}
+              </span>
+            </div>
+            <p
+              ref={bioRef}
+              className="mt-1 line-clamp-3 pr-3 text-[0.35rem] leading-tight sm:text-[0.6rem] xl:text-[0.7rem]"
+            >
+              {member.bio}
+            </p>
+          </div>
+        </BottomShape>
+      </div>
+    </div>
+  );
+};
+
+export default function TeamSection() {
+  return (
+    <section id="team" className="pb-10 sm:pb-16">
+      <SectionHeader
+        title="The Team"
+        subtitle="The people making it happen behind the scenes"
+      />
+
+      <div className="mt-10 grid grid-cols-2 justify-center gap-4 px-4 sm:grid-cols-2 sm:gap-8 md:grid-cols-3 md:gap-10 lg:grid-cols-4 lg:gap-12">
+        {teamMembers.map((m) => (
+          <TeamCard key={m.name} member={m} />
+        ))}
+      </div>
+    </section>
+  );
+}

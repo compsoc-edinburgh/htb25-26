@@ -6,17 +6,17 @@ import { cn } from "~/lib/utils";
 import { Loader2, LoaderIcon } from "lucide-react";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 relative whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-900 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 relative whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-900 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
-        default: "bg-gray-900 text-white hover:bg-gray-700",
+        default: "bg-zinc-900 text-white hover:bg-zinc-700",
         destructive: "bg-red-600 text-white hover:bg-red-700",
         outline:
-          "border border-gray-200 bg-white text-gray-900 hover:bg-gray-50",
-        secondary: "bg-gray-100 text-gray-900 hover:bg-gray-200",
-        ghost: "text-gray-900 hover:bg-gray-100",
-        link: "text-gray-900 underline-offset-4 hover:underline",
+          "border border-gray-200 bg-white text-zinc-900 hover:bg-gray-50",
+        secondary: "bg-zinc-100 text-zinc-900 hover:bg-zinc-200",
+        ghost: "text-zinc-900 hover:bg-gray-100",
+        link: "text-zinc-900 underline-offset-4 hover:underline",
       },
       size: {
         default: "px-4 py-2",

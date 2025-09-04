@@ -1,7 +1,5 @@
 "use client";
 
-import { GalleryVerticalEnd } from "lucide-react";
-
 import { cn } from "~/lib/utils";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
@@ -11,8 +9,7 @@ import { useSignIn } from "@clerk/nextjs";
 import { FormEvent, useState } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { isClerkAPIResponseError } from "@clerk/shared/error";
-import { ClerkAPIError } from "@clerk/types";
+
 
 export function LoginForm({
   className,
@@ -22,7 +19,7 @@ export function LoginForm({
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState<ClerkAPIError[]>();
+  const [errors, setErrors] = useState<string[]>([]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -50,9 +47,13 @@ export function LoginForm({
         console.error(JSON.stringify(signInAttempt, null, 2));
         toast.error(JSON.stringify(signInAttempt, null, 2));
       }
-    } catch (e) {
-      if (isClerkAPIResponseError(e)) setErrors(e.errors);
-      else toast.error("An unknown error occurred");
+    } catch (e: any) {
+      if (e?.errors) {
+        setErrors(e.errors.map((err: any) => err.message || err.longMessage || "An error occurred"));
+      } else {
+        toast.error("An unknown error occurred");
+        setErrors(["An unknown error occurred"]);
+      }
       console.error(JSON.stringify(e, null, 2));
     }
 
@@ -115,21 +116,21 @@ export function LoginForm({
                 <Label htmlFor="password">Password</Label>
                 <Link
                   href="/forgot-password"
-                  className="text-xs text-gray-500 underline-offset-4 hover:underline"
+                  className="text-xs text-zinc-500 underline-offset-4 hover:underline"
                 >
                   Forgot your password?
                 </Link>
               </div>
               <Input id="password" type="password" name="password" required />
             </div>
-            {errors && (
+            {errors.length > 0 && (
               <ul className="my-3 box-border max-w-sm">
-                {errors.map((el, index) => (
+                {errors.map((error, index) => (
                   <li
                     key={index}
                     className="list-inside list-disc text-sm text-red-600"
                   >
-                    {el.longMessage}
+                    {error}
                   </li>
                 ))}
               </ul>
