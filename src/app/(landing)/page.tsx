@@ -3,13 +3,14 @@
 import NavbarLayout from "~/components/modules/navbar-layout";
 import FAQSection from "~/components/modules/faq";
 import RegisterButton from "~/components/modules/register-button";
-import { SponsorsGrid } from "~/components/modules/sponsors";
+import Sponsors from "~/components/modules/sponsors";
 import ScheduleTimeline from "~/components/schedule-timeline";
 import VolunteerSection from "~/components/modules/volunteer-section";
 import TeamSection from "~/components/modules/team-section";
 import { hackathonEvents } from "~/data/schedule";
 import Image from "next/image";
 import { ArrowRightIcon } from "lucide-react";
+import SectionHeader from "~/components/modules/section-header";
 
 export default function Page() {
   return (
@@ -63,20 +64,7 @@ export default function Page() {
           Scroll to see the full schedule
         </p>
       </NavbarLayout>
-      <NavbarLayout>
-        <div id="sponsors" className="px-4 pb-10 sm:pb-16">
-          <h1 className="font-hexaframe text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl">
-            Our Sponsors
-          </h1>
-          <div className="flex items-center gap-2 pt-2">
-            <div className="h-1.5 w-1.5 bg-black sm:h-2 sm:w-2" />
-            <p className="text-xs uppercase text-zinc-500 sm:text-sm">
-              Meet the amazing organisations that make Hack the Burgh possible.
-            </p>
-          </div>
-        </div>
-        <SponsorsGrid />
-      </NavbarLayout>
+      <Sponsors />
       <NavbarLayout>
         <TeamSection />
       </NavbarLayout>
