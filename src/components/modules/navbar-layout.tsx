@@ -9,7 +9,9 @@ export default function NavbarLayout({
   className = "",
 }: NavbarLayoutProps) {
   return (
-    <div className={`w-full px-3 py-10 md:px-24 md:py-24 ${className} `}>
+    <div
+      className={`w-full px-3 py-10 md:px-24 md:py-24 md:pr-[2.55rem] ${className} `}
+    >
       {children}
     </div>
   );
