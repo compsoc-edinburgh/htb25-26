@@ -1,19 +1,27 @@
 "use client";
 
-import CornerBrackets from "../module/corner-brackets";
+import CornerBrackets from "~/components/module/corner-brackets";
 import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { gsap } from "gsap";
+import NavbarLayout from "~/components/layout/navbar-layout";
 import SectionHeader from "../module/section-header";
-import NavbarLayout from "../layout/navbar-layout";
+
+type Prize = {
+  // Placeholder prize copy. Keep this as gibberish for now.
+  text: string;
+  // Toggle to reveal actual text later (when set to true).
+  revealed: boolean;
+};
 
 interface SponsorCardProps {
   name: string;
   tier: string;
   overview: string;
-  prizes: Array<string>;
+  prizes: Array<Prize>;
   number: string;
   logo: string;
+  website: string;
   onHover: () => void;
   cardRef: React.RefObject<HTMLDivElement>;
 }
@@ -70,12 +78,17 @@ const MobileSponsorCard = ({
   overview,
   prizes,
   number,
+  website,
 }: Pick<
   SponsorCardProps,
-  "name" | "tier" | "overview" | "prizes" | "number"
+  "name" | "tier" | "overview" | "prizes" | "number" | "website"
 >) => {
   const cornersRef = React.useRef<HTMLDivElement>(null);
   const contentRef = React.useRef<HTMLDivElement>(null);
+
+  const handleCardClick = () => {
+    window.open(website, "_blank", "noopener,noreferrer");
+  };
 
   useEffect(() => {
     const corners = cornersRef.current;
@@ -120,7 +133,10 @@ const MobileSponsorCard = ({
   }, []);
 
   return (
-    <div className="relative w-full px-6 pb-10 pt-10 text-black">
+    <div
+      className="relative w-full cursor-pointer px-6 pb-10 pt-10 text-black"
+      onClick={handleCardClick}
+    >
       <div ref={cornersRef}>
         <CornerBrackets />
       </div>
@@ -154,12 +170,34 @@ const MobileSponsorCard = ({
             <div className="text-[0.8rem] font-light uppercase tracking-wide">
               Prizes:
             </div>
-            <ul className="space-y-0 text-[0.8rem] font-light uppercase tracking-wide">
-              {prizes.map((prize, i) => (
-                <li key={i} className="flex items-start gap-2">
-                  <span className="leading-relaxed">{prize}</span>
-                </li>
-              ))}
+            <ul className="space-y-1 text-[0.8rem] font-light uppercase tracking-wide">
+              {prizes.map((prize, i) => {
+                const labels = ["1ST PRIZE", "2ND PRIZE", "3RD PRIZE"];
+                const label = labels[i] ?? `${i + 1}TH PRIZE`;
+                const widths = [96, 152, 208]; // px, to vary bar lengths like the mock
+                const barWidth = widths[i] ?? 160;
+                return (
+                  <li key={i} className="flex items-center gap-3">
+                    <span className="shrink-0">{label}:</span>
+                    {prize.revealed ? (
+                      <span className="normal-case leading-relaxed">
+                        {prize.text}
+                      </span>
+                    ) : (
+                      <span
+                        aria-label="redacted"
+                        className="inline-block w-fit align-middle"
+                        // style={{ width: barWidth }}
+                      >
+                          <span className="overflow-hidden bg-[#000000833] blur-[4px]"
+                          style={{ userSelect: "none" }}>
+                          {prize.text}
+                        </span>
+                      </span>
+                    )}
+                  </li>
+                );
+              })}
             </ul>
           </div>
         </div>
@@ -176,58 +214,77 @@ const MobileSponsorCard = ({
   );
 };
 
+const TIERS = {
+  PLATINUM: "PLATINUM",
+  GOLD: "GOLD",
+  SILVER: "SILVER",
+  BRONZE: "BRONZE",
+} as const;
+
+const TIER_COLORS = {
+  [TIERS.PLATINUM]: "#d2d2d2",
+  [TIERS.GOLD]: "#FFD700",
+  [TIERS.SILVER]: "#C0C0C0",
+  [TIERS.BRONZE]: "#CD7F32",
+} as const;
+
 const sponsorsData = [
   {
-    name: "Optiver",
+    name: "Huawei",
     tier: "PLATINUM",
     overview:
-      "Optiver is a global market maker. As one of the oldest market making firms in the world, Optiver has been improving financial markets since 1986.",
+      "A leading global provider of ICT infrastructure and smart devices, headquartered in Shenzhen, operating across telecom networks, cloud/AI and consumer electronics.",
     prizes: [
-      "1st Prize: Latest iPhone Pro",
-      "2nd Prize: iPad Pro",
-      "3rd Prize: Apple AirPods Pro",
-    ],
-    number: "01",
-    logo: "/sponsors/optiver.svg",
-  },
-  {
-    name: "Lloyds Banking Group",
-    tier: "GOLD",
-    overview:
-      "Lloyds Banking Group is one of the UK's leading financial services companies, serving millions of customers and providing comprehensive banking solutions.",
-    prizes: [
-      "1st Prize: Samsung Galaxy Tab S9",
-      "2nd Prize: Microsoft Surface",
-      "3rd Prize: Premium Tech Bundle",
+      { text: "xra vurg ran jolt max", revealed: false },
+      { text: "zor plix meta flux", revealed: false },
+      { text: "quil drax tono suma", revealed: false },
     ],
     number: "02",
-    logo: "/sponsors/lloyds.svg",
+    logo: "/sponsors/huwaei.svg",
+    website: "https://www.huawei.com/en/",
   },
   {
     name: "G-Research",
-    tier: "SILVER",
+    tier: "PLATINUM",
     overview:
-      "G-Research is a leading quantitative research and technology company, using machine learning and big data to predict movements in financial markets.",
+      "A leading quantitative research and technology firm applying scientific rigor and advanced ML to predict movements in global financial markets.",
     prizes: [
-      "1st Prize: Gaming Setup",
-      "2nd Prize: Mechanical Keyboard",
-      "3rd Prize: Premium Swag Bundle",
+      { text: "sigma nova grid pack", revealed: false },
+      { text: "tensor flux keyset", revealed: false },
+      { text: "alpha kit delta", revealed: false },
+    ],
+    number: "01",
+    logo: "/sponsors/g-research.svg",
+    website: "https://www.gresearch.com",
+  },
+
+  {
+    name: "Optiver",
+    tier: "GOLD",
+    overview:
+      "A global, tech-driven market maker providing liquidity across 50+ exchanges since 1986, trading derivatives, equities, ETFs, bonds and FX.",
+    prizes: [
+      { text: "neo rig vanta", revealed: false },
+      { text: "mecha key array", revealed: false },
+      { text: "pro swag stack", revealed: false },
     ],
     number: "03",
-    logo: "/sponsors/g-research.svg",
+    logo: "/sponsors/optiver.svg",
+    website: "https://optiver.com",
   },
   {
-    name: "DoraHacks",
-    tier: "BRONZE",
+    name: "Bending Spoons",
+    tier: "SILVER",
     overview:
-      "DoraHacks is a global hackathon organizer and one of the world's most active developer incentive platforms, fostering innovation in blockchain and emerging technologies.",
+      "An Italian tech company that owns and operates popular digital products—including Evernote, Meetup, Remini and WeTransfer.",
     prizes: [
-      "1st Prize: Exclusive Swag",
-      "2nd Prize: DoraHacks Merch",
-      "3rd Prize: Community Access",
+      { text: "suite pro delta", revealed: false },
+      { text: "accessory nova", revealed: false },
+      { text: "brand pack plus", revealed: false },
     ],
-    number: "06",
-    logo: "/sponsors/dorahacks.png",
+    number: "04",
+    logo: "/sponsors/bending-spoons.png",
+    website: "https://bendingspoons.com",
   },
 ];
 
@@ -237,6 +294,8 @@ const SponsorCard = ({
   overview,
   prizes,
   number,
+  logo,
+  website,
   onHover,
   cardRef,
 }: SponsorCardProps) => {
@@ -244,6 +303,10 @@ const SponsorCard = ({
   const squareIconRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const tierDotRef = useRef<HTMLDivElement>(null);
+
+  const handleCardClick = () => {
+    window.open(website, "_blank", "noopener,noreferrer");
+  };
 
   useEffect(() => {
     const card = cardRef.current;
@@ -332,13 +395,14 @@ const SponsorCard = ({
       card.removeEventListener("mouseleave", handleMouseLeave);
       card.removeEventListener("click", handleClick);
     };
-  }, [cardRef]);
+  }, []);
 
   return (
     <div
       ref={cardRef}
       className="group relative h-full w-full cursor-pointer px-10 pb-8 pt-7 text-black transition-shadow duration-300"
       onMouseEnter={onHover}
+      onClick={handleCardClick}
     >
       <div ref={cornerBracketsRef}>
         <CornerBrackets />
@@ -375,11 +439,33 @@ const SponsorCard = ({
             Prizes:
           </div>
           <ul className="space-y-1 text-[0.8rem] font-light uppercase tracking-wide">
-            {prizes.map((prize, i) => (
-              <li key={i} className="flex items-start gap-3">
-                <span className="leading-relaxed">{prize}</span>
-              </li>
-            ))}
+            {prizes.map((prize, i) => {
+              const labels = ["1ST PRIZE", "2ND PRIZE", "3RD PRIZE"];
+              const label = labels[i] ?? `${i + 1}TH PRIZE`;
+              const widths = [50, 70, 100]; // px, progressively longer bars
+              const barWidth = widths[i] ?? 160;
+              return (
+                <li key={i} className="flex items-center gap-3">
+                  <span className="shrink-0">{label}:</span>
+                  {prize.revealed ? (
+                    <span className="normal-case leading-relaxed">
+                      {prize.text}
+                    </span>
+                  ) : (
+                    <span
+                      aria-label="redacted"
+                      className="inline-block w-fit align-middle"
+                      // style={{ width: barWidth }}
+                    >
+                      <span className="user-select-none overflow-hidden bg-[#000000833] blur-[4px]"
+                        style={{ userSelect: "none" }}>
+                        {prize.text}
+                      </span>
+                    </span>
+                  )}
+                </li>
+              );
+            })}
           </ul>
         </div>
       </div>
@@ -600,6 +686,9 @@ export const SponsorsGrid = () => {
               <button
                 type="button"
                 onClick={(e) => {
+                  // Handle mobile sponsor interaction
+                  e.stopPropagation();
+
                   // Animate corner brackets inward on click
                   const button = e.currentTarget;
                   const corners = button.querySelector(
@@ -617,7 +706,19 @@ export const SponsorsGrid = () => {
                     });
                   }
 
-                  setMobileOpenIndex((prev) => (prev === index ? null : index));
+                  // Toggle mobile expansion
+                  const isCurrentlyOpen = mobileOpenIndex === index;
+                  if (isCurrentlyOpen) {
+                    // If already open, clicking goes to website
+                    window.open(
+                      sponsor.website,
+                      "_blank",
+                      "noopener,noreferrer"
+                    );
+                  } else {
+                    // If not open, expand the card
+                    setMobileOpenIndex(index);
+                  }
                 }}
                 className="relative flex h-40 w-full items-center justify-center p-4 pt-1 sm:h-48 sm:p-6"
                 aria-expanded={mobileOpenIndex === index}
@@ -673,6 +774,7 @@ export const SponsorsGrid = () => {
                   overview={sponsor.overview}
                   prizes={sponsor.prizes}
                   number={sponsor.number}
+                  website={sponsor.website}
                 />
               </MobileExpander>
             </div>
@@ -716,6 +818,7 @@ export const SponsorsGrid = () => {
                   prizes={sponsor.prizes}
                   number={sponsor.number}
                   logo={sponsor.logo}
+                  website={sponsor.website}
                   onHover={() => handleSponsorHover(index, sponsor.logo)}
                   cardRef={cardRefs.current[index]!}
                 />
