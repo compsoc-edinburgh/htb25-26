@@ -63,10 +63,10 @@ export default function RegisterButton({
 
       <div className="relative z-10 py-4 pl-7 pr-20 text-left font-hexaframe text-xl text-black">
         <span className="inline-block scale-x-[-1] sm:inline sm:scale-x-100">
-          {gated ? `Opens ${OPEN_DATE_READABLE}` : label}
+          {label}
         </span>
         <span className="absolute bottom-1 right-2 hidden text-xs text-zinc-600 sm:inline">
-          {gated ? "Registration disabled" : subtitle}
+          {subtitle}
         </span>
         <span className="absolute bottom-1 right-2 inline scale-x-[-1] text-xs text-zinc-600 sm:hidden">
           Start your journey↵
@@ -83,7 +83,7 @@ export default function RegisterButton({
       onClick={(e) => {
         if (gated) e.preventDefault();
       }}
-      title={gated ? `Opens ${OPEN_DATE_READABLE}` : undefined}
+      title={gated ? `Closed` : undefined}
     >
       <ButtonContent />
     </Link>
@@ -93,7 +93,7 @@ export default function RegisterButton({
       onClick={gated ? undefined : (onClick ?? handleDefaultClick)}
       {...commonProps}
       aria-disabled={gated}
-      title={gated ? `Opens ${OPEN_DATE_READABLE}` : undefined}
+      title={gated ? `Closed` : undefined}
     >
       <ButtonContent />
     </button>

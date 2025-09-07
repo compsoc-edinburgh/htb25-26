@@ -84,7 +84,7 @@ const AuthSection = ({
             onClick={(e) => {
               if (gated) e.preventDefault();
             }}
-            title={gated ? `Opens ${OPEN_DATE_READABLE}` : undefined}
+            title={gated ? `Closed` : undefined}
           >
             <div
               className={`${STYLES.signInButton} border border-black bg-white transition-colors duration-200 hover:bg-zinc-900 ${gated ? "cursor-not-allowed opacity-60" : ""}`}
