@@ -85,7 +85,7 @@ export default function FAQSection() {
       <SectionHeader
         title="FAQs"
         subtitle="You have questions, We have answers!"
-        className="pl-8 2xl:pl-0 sm:pl-10"
+        className="pl-8 sm:pl-10 2xl:pl-0"
       />
 
       <div className="mt-8 md:mt-10">

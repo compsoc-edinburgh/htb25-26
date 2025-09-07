@@ -75,8 +75,8 @@ const AuthSection = ({
   const gated = isBeforeOpenDate();
   return (
     <div className="flex items-center gap-1 text-white">
-      {!mobile && (
-        isSignedIn ? (
+      {!mobile &&
+        (isSignedIn ? (
           <Link
             href={gated ? "/applications-closed" : "/dashboard"}
             className="inline-block"
@@ -87,7 +87,7 @@ const AuthSection = ({
             title={gated ? `Opens ${OPEN_DATE_READABLE}` : undefined}
           >
             <div
-              className={`${STYLES.signInButton} border border-black bg-white transition-colors duration-200 hover:bg-zinc-900 ${gated ? "opacity-60 cursor-not-allowed" : ""}`}
+              className={`${STYLES.signInButton} border border-black bg-white transition-colors duration-200 hover:bg-zinc-900 ${gated ? "cursor-not-allowed opacity-60" : ""}`}
               style={{ clipPath: STYLES.clipPath }}
             >
               <div
@@ -108,7 +108,7 @@ const AuthSection = ({
             title={gated ? `Opens ${OPEN_DATE_READABLE}` : undefined}
           >
             <div
-              className={`${STYLES.signInButton} border border-black bg-white transition-colors duration-200 hover:bg-zinc-900 ${gated ? "opacity-60 cursor-not-allowed" : ""}`}
+              className={`${STYLES.signInButton} border border-black bg-white transition-colors duration-200 hover:bg-zinc-900 ${gated ? "cursor-not-allowed opacity-60" : ""}`}
               style={{ clipPath: STYLES.clipPath }}
             >
               <div
@@ -118,14 +118,15 @@ const AuthSection = ({
               <span className="relative z-10 flex w-[5rem] items-center justify-center">
                 {isSignedIn == undefined ? (
                   <Loader2 className="animate-spin" />
+                ) : gated ? (
+                  `OPENS ${OPEN_DATE_READABLE}`
                 ) : (
-                  gated ? `OPENS ${OPEN_DATE_READABLE}` : "SIGN IN"
+                  "SIGN IN"
                 )}
               </span>
             </div>
           </button>
-        )
-      )}
+        ))}
     </div>
   );
 };
@@ -209,11 +210,15 @@ const MobileDrawer = ({ onSignInClick }: { onSignInClick: () => void }) => (
               <div className="flex flex-col gap-2 text-[11px] tracking-wide">
                 <a
                   href={isBeforeOpenDate() ? "/applications-closed" : "/apply"}
-                  className={`text-neutral-400 ${isBeforeOpenDate() ? "opacity-60 cursor-not-allowed" : ""}`}
+                  className={`text-neutral-400 ${isBeforeOpenDate() ? "cursor-not-allowed opacity-60" : ""}`}
                   onClick={(e) => {
                     if (isBeforeOpenDate()) e.preventDefault();
                   }}
-                  title={isBeforeOpenDate() ? `Opens ${OPEN_DATE_READABLE}` : undefined}
+                  title={
+                    isBeforeOpenDate()
+                      ? `Opens ${OPEN_DATE_READABLE}`
+                      : undefined
+                  }
                 >
                   REGISTER
                 </a>

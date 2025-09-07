@@ -12,8 +12,8 @@ export default async function ApplicationsClosed() {
           </p>
 
           <p className="mt-4 max-w-2xl text-base text-zinc-600 sm:text-lg">
-            Thank you for your patience, we&apos;re excited to see your applications
-            when the process begins!
+            Thank you for your patience, we&apos;re excited to see your
+            applications when the process begins!
           </p>
         </div>
       </div>

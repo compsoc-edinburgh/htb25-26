@@ -168,11 +168,13 @@ export function SignUpForm({
           disabled={!isLoaded}
           aria-disabled={!isLoaded}
           type="button"
-           onClick={() => signIn?.authenticateWithRedirect({
-            strategy: "oauth_google",
-            redirectUrl: "/signup/sso-callback",
-            redirectUrlComplete: "/",
-           })}
+          onClick={() =>
+            signIn?.authenticateWithRedirect({
+              strategy: "oauth_google",
+              redirectUrl: "/signup/sso-callback",
+              redirectUrlComplete: "/",
+            })
+          }
           className="flex w-full items-center gap-2 text-xs"
           loading={!isLoaded}
         >

@@ -90,7 +90,7 @@ export default function RegisterButton({
   ) : (
     <button
       type="button"
-      onClick={gated ? undefined : onClick ?? handleDefaultClick}
+      onClick={gated ? undefined : (onClick ?? handleDefaultClick)}
       {...commonProps}
       aria-disabled={gated}
       title={gated ? `Opens ${OPEN_DATE_READABLE}` : undefined}

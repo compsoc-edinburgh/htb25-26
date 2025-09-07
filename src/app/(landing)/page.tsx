@@ -65,7 +65,7 @@ export default function Page() {
             className="pb-10"
           />
           <ScheduleTimeline events={hackathonEvents} />
-          <p className="absolute right-auto 2xl:hidden mt-2 flex w-fit items-center gap-2 text-center text-[0.6rem] font-thin uppercase md:right-10">
+          <p className="absolute right-auto mt-2 flex w-fit items-center gap-2 text-center text-[0.6rem] font-thin uppercase md:right-10 2xl:hidden">
             <span className="inline-block h-1 w-1 bg-black" />
             <span>Keep scrolling to see the full schedule</span>
           </p>

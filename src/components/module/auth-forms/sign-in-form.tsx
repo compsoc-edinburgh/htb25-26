@@ -162,11 +162,13 @@ export function SignInForm({
           className="flex w-full items-center gap-2 text-xs"
           disabled={!isLoaded}
           aria-disabled={!isLoaded}
-          onClick={() => signIn?.authenticateWithRedirect({
-            strategy: "oauth_google",
-            redirectUrl: "/signin/sso-callback",
-            redirectUrlComplete: "/",
-          })}
+          onClick={() =>
+            signIn?.authenticateWithRedirect({
+              strategy: "oauth_google",
+              redirectUrl: "/signin/sso-callback",
+              redirectUrlComplete: "/",
+            })
+          }
           loading={!isLoaded}
         >
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
