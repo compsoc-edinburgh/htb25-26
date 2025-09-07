@@ -1,17 +1,15 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowRightIcon } from "lucide-react";
 import { useRef, useEffect } from "react";
 import { gsap } from "gsap";
 
-export default function VolunteerSection() {
+export default function Volunteer() {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const photoRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const button = buttonRef.current;
-    const photo = photoRef.current;
 
     if (button) {
       // Button hover animations

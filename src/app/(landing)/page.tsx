@@ -1,13 +1,13 @@
 "use client";
 
-import NavbarLayout from "~/components/modules/navbar-layout";
-import FAQSection from "~/components/modules/faq";
-import RegisterButton from "~/components/modules/register-button";
-import Sponsors from "~/components/modules/sponsors";
-import ScheduleTimeline from "~/components/schedule-timeline";
-import VolunteerSection from "~/components/modules/volunteer-section";
-import TeamSection from "~/components/modules/team-section";
-import { hackathonEvents } from "~/data/schedule";
+import NavbarLayout from "~/components/layout/navbar-layout";
+import { hackathonEvents } from "~/lib/constants/schedule";
+import RegisterButton from "~/components/module/register-button";
+import ScheduleTimeline from "~/components/module/schedule-timeline";
+import Sponsors from "~/components/section/sponsors";
+import FAQSection from "~/components/section/faq";
+import Team from "~/components/section/team";
+import Volunteer from "~/components/section/volunteer";
 
 export default function Page() {
   return (
@@ -63,14 +63,14 @@ export default function Page() {
       </NavbarLayout>
       <Sponsors />
       <NavbarLayout>
-        <TeamSection />
+        <Team />
       </NavbarLayout>
       <div className={`w-full py-10 md:py-24 md:pl-[4.2rem] md:pr-[1.25rem]`}>
         <FAQSection />
       </div>
 
       <NavbarLayout className="flex h-screen items-center">
-        <VolunteerSection />
+        <Volunteer />
       </NavbarLayout>
     </main>
   );

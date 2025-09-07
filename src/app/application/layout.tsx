@@ -1,6 +1,5 @@
 import { type PropsWithChildren } from "react";
-import Footer from "~/components/modules/footer";
-import Navbar from "~/components/modules/navbar";
+import Navbar from "~/components/layout/navbar";
 
 export default async function LandingLayout({
   children,

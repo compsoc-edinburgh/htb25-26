@@ -1,6 +1,5 @@
 import { PropsWithChildren } from "react";
-import Navbar from "~/components/modules/navbar";
-import NavbarLayout from "~/components/modules/navbar-layout";
+import Navbar from "~/components/layout/navbar";
 
 export default function AuthLayout({ children }: Readonly<PropsWithChildren>) {
   return (

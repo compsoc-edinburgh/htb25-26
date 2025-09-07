@@ -1,11 +1,10 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
-import { ChevronDown, Plus, Minus } from "lucide-react";
-import SectionHeader from "./section-header";
+import SectionHeader from "../module/section-header";
 
-export default function FAQSection() {
+export default function FAQ() {
   const faqs = [
     {
       q: "How do I ask for help during the Hackathon?",
@@ -79,7 +78,7 @@ export default function FAQSection() {
 
   useEffect(() => {
     // Initialize GSAP animations for each FAQ item
-    animationsRef.current = accordionRefs.current.map((element, index) => {
+    animationsRef.current = accordionRefs.current.map((element) => {
       if (!element) return gsap.timeline();
 
       const content = element.querySelector(
@@ -95,7 +94,7 @@ export default function FAQSection() {
       gsap.set(content, { height: "auto" });
       gsap.set(plusElement, { rotation: 0, transformOrigin: "center center" });
 
-      const animation = gsap
+      return gsap
         .timeline()
         .from(content, {
           height: 0,
@@ -119,8 +118,6 @@ export default function FAQSection() {
           0
         )
         .reverse();
-
-      return animation;
     });
   }, []);
 

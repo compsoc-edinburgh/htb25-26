@@ -34,7 +34,7 @@ import {
   University,
   UniversityDropdown,
 } from "~/components/ui/university-dropdown";
-import { UploadButton } from "~/components/uploadthing";
+import { UploadButton } from "~/components/module/uploadthing";
 
 import universities from "~/lib/constants/world_universities_and_domains.json";
 import { api } from "~/trpc/react";

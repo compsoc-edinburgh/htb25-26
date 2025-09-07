@@ -1,12 +1,11 @@
 "use client";
 
-import { ArrowUpRight } from "lucide-react";
-import CornerBrackets from "~/components/modules/corner-brackets";
+import CornerBrackets from "../module/corner-brackets";
 import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { gsap } from "gsap";
-import SectionHeader from "./section-header";
-import NavbarLayout from "./navbar-layout";
+import SectionHeader from "../module/section-header";
+import NavbarLayout from "../layout/navbar-layout";
 
 interface SponsorCardProps {
   name: string;
@@ -177,20 +176,6 @@ const MobileSponsorCard = ({
   );
 };
 
-const TIERS = {
-  PLATINUM: "PLATINUM",
-  GOLD: "GOLD",
-  SILVER: "SILVER",
-  BRONZE: "BRONZE",
-} as const;
-
-const TIER_COLORS = {
-  [TIERS.PLATINUM]: "#d2d2d2",
-  [TIERS.GOLD]: "#FFD700",
-  [TIERS.SILVER]: "#C0C0C0",
-  [TIERS.BRONZE]: "#CD7F32",
-} as const;
-
 const sponsorsData = [
   {
     name: "Optiver",
@@ -252,7 +237,6 @@ const SponsorCard = ({
   overview,
   prizes,
   number,
-  logo,
   onHover,
   cardRef,
 }: SponsorCardProps) => {
@@ -348,7 +332,7 @@ const SponsorCard = ({
       card.removeEventListener("mouseleave", handleMouseLeave);
       card.removeEventListener("click", handleClick);
     };
-  }, []);
+  }, [cardRef]);
 
   return (
     <div

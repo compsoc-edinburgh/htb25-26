@@ -4,7 +4,7 @@ import Image from "next/image";
 import React, { useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrambleTextPlugin } from "gsap/ScrambleTextPlugin";
-import SectionHeader from "./section-header";
+import SectionHeader from "../module/section-header";
 
 // Register GSAP plugins
 gsap.registerPlugin(ScrambleTextPlugin);
@@ -338,7 +338,7 @@ const TeamCard: React.FC<{ member: TeamMember }> = ({ member }) => {
   );
 };
 
-export default function TeamSection() {
+export default function Team() {
   return (
     <section id="team" className="pb-10 sm:pb-16">
       <SectionHeader

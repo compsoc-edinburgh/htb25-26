@@ -11,9 +11,9 @@ import {
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { useSignUp } from "@clerk/nextjs";
-import { FormEvent, useState } from "react";
+import { ComponentPropsWithoutRef, FormEvent, useState } from "react";
 import { toast } from "sonner";
-import ContinueWithSocial from "~/components/continue-with-social";
+import ContinueWithSocial from "~/components/module/continue-with-social";
 import { api } from "~/trpc/react";
 import {
   InputOTP,
@@ -26,14 +26,13 @@ import Link from "next/link";
 export function SignupForm({
   className,
   ...props
-}: React.ComponentPropsWithoutRef<"div">) {
+}: ComponentPropsWithoutRef<"div">) {
   const router = useRouter();
   const { isLoaded, signUp, setActive } = useSignUp();
 
   const [step, setStep] = useState<"account" | "verifying">("account");
   const [loading, setLoading] = useState(false);
   const [emailError, setEmailError] = useState<string>();
-  const [passwordError, setPasswordError] = useState<string>();
 
   const [code, setCode] = useState("");
   const [codeError, setCodeError] = useState<any>("");
@@ -135,7 +134,7 @@ export function SignupForm({
 
   if (step === "verifying") {
     return (
-      <div>
+      <div {...props}>
         <Card>
           <CardHeader>
             <CardTitle>Verify your email</CardTitle>

@@ -10,7 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
-import { UploadDropzone } from "~/components/uploadthing";
+import { UploadDropzone } from "~/components/module/uploadthing";
 import { FormValues } from "./types";
 
 const countOptions = [
