@@ -4,6 +4,7 @@ import Link from "next/link";
 import React, { useCallback } from "react";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
+import { isBeforeOpenDate, OPEN_DATE_READABLE } from "~/lib/date-gate";
 
 type RegisterButtonProps = {
   href?: string;
@@ -22,8 +23,10 @@ export default function RegisterButton({
 }: RegisterButtonProps) {
   const router = useRouter();
   const { isSignedIn } = useUser();
+  const gated = isBeforeOpenDate();
 
   const handleDefaultClick = useCallback(() => {
+    if (gated) return;
     if (isSignedIn) {
       router.push("/apply");
       return;
@@ -33,7 +36,7 @@ export default function RegisterButton({
     } catch {}
     const event = new CustomEvent("open-auth", { detail: { mode: "signup" } });
     window.dispatchEvent(event);
-  }, [isSignedIn, router]);
+  }, [gated, isSignedIn, router]);
   const commonProps = {
     className: [
       "group relative inline-block mx-auto mt-10 sm:mt-12 focus:outline-none",
@@ -60,10 +63,10 @@ export default function RegisterButton({
 
       <div className="relative z-10 py-4 pl-7 pr-20 text-left font-hexaframe text-xl text-black">
         <span className="inline-block scale-x-[-1] sm:inline sm:scale-x-100">
-          {label}
+          {gated ? `Opens ${OPEN_DATE_READABLE}` : label}
         </span>
         <span className="absolute bottom-1 right-2 hidden text-xs text-zinc-600 sm:inline">
-          {subtitle}
+          {gated ? "Registration disabled" : subtitle}
         </span>
         <span className="absolute bottom-1 right-2 inline scale-x-[-1] text-xs text-zinc-600 sm:hidden">
           Start your journey↵
@@ -73,14 +76,24 @@ export default function RegisterButton({
   );
 
   return href ? (
-    <Link href={href} {...commonProps}>
+    <Link
+      href={gated ? "/applications-closed" : href}
+      {...commonProps}
+      aria-disabled={gated}
+      onClick={(e) => {
+        if (gated) e.preventDefault();
+      }}
+      title={gated ? `Opens ${OPEN_DATE_READABLE}` : undefined}
+    >
       <ButtonContent />
     </Link>
   ) : (
     <button
       type="button"
-      onClick={onClick ?? handleDefaultClick}
+      onClick={gated ? undefined : onClick ?? handleDefaultClick}
       {...commonProps}
+      aria-disabled={gated}
+      title={gated ? `Opens ${OPEN_DATE_READABLE}` : undefined}
     >
       <ButtonContent />
     </button>

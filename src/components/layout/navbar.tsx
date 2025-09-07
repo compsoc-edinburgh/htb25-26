@@ -14,6 +14,7 @@ import {
 import { useUser } from "@clerk/nextjs";
 import AuthDrawer from "../module/auth-drawer";
 import { useEffect } from "react";
+import { isBeforeOpenDate, OPEN_DATE_READABLE } from "~/lib/date-gate";
 
 interface NavLink {
   href: string;
@@ -71,13 +72,22 @@ const AuthSection = ({
   // Define a simple rectangle clip path for the overlay
   const rectClipPath = "polygon(0 0, 100% 0, 100% 100%, 0 100%)";
 
+  const gated = isBeforeOpenDate();
   return (
     <div className="flex items-center gap-1 text-white">
-      {!mobile &&
-        (isSignedIn ? (
-          <Link href="/dashboard" className="inline-block">
+      {!mobile && (
+        isSignedIn ? (
+          <Link
+            href={gated ? "/applications-closed" : "/dashboard"}
+            className="inline-block"
+            aria-disabled={gated}
+            onClick={(e) => {
+              if (gated) e.preventDefault();
+            }}
+            title={gated ? `Opens ${OPEN_DATE_READABLE}` : undefined}
+          >
             <div
-              className={`${STYLES.signInButton} border border-black bg-white transition-colors duration-200 hover:bg-zinc-900`}
+              className={`${STYLES.signInButton} border border-black bg-white transition-colors duration-200 hover:bg-zinc-900 ${gated ? "opacity-60 cursor-not-allowed" : ""}`}
               style={{ clipPath: STYLES.clipPath }}
             >
               <div
@@ -92,11 +102,13 @@ const AuthSection = ({
         ) : (
           <button
             type="button"
-            onClick={onSignInClick}
+            onClick={gated ? undefined : onSignInClick}
             className="inline-block"
+            aria-disabled={gated}
+            title={gated ? `Opens ${OPEN_DATE_READABLE}` : undefined}
           >
             <div
-              className={`${STYLES.signInButton} border border-black bg-white transition-colors duration-200 hover:bg-zinc-900`}
+              className={`${STYLES.signInButton} border border-black bg-white transition-colors duration-200 hover:bg-zinc-900 ${gated ? "opacity-60 cursor-not-allowed" : ""}`}
               style={{ clipPath: STYLES.clipPath }}
             >
               <div
@@ -107,12 +119,13 @@ const AuthSection = ({
                 {isSignedIn == undefined ? (
                   <Loader2 className="animate-spin" />
                 ) : (
-                  "SIGN IN"
+                  gated ? `OPENS ${OPEN_DATE_READABLE}` : "SIGN IN"
                 )}
               </span>
             </div>
           </button>
-        ))}
+        )
+      )}
     </div>
   );
 };
@@ -194,7 +207,14 @@ const MobileDrawer = ({ onSignInClick }: { onSignInClick: () => void }) => (
             </div>
             <div className="basis-2/3">
               <div className="flex flex-col gap-2 text-[11px] tracking-wide">
-                <a href="/apply" className="text-neutral-400">
+                <a
+                  href={isBeforeOpenDate() ? "/applications-closed" : "/apply"}
+                  className={`text-neutral-400 ${isBeforeOpenDate() ? "opacity-60 cursor-not-allowed" : ""}`}
+                  onClick={(e) => {
+                    if (isBeforeOpenDate()) e.preventDefault();
+                  }}
+                  title={isBeforeOpenDate() ? `Opens ${OPEN_DATE_READABLE}` : undefined}
+                >
                   REGISTER
                 </a>
                 <AuthSection mobile onSignInClick={onSignInClick} />
