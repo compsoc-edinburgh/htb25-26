@@ -8,6 +8,11 @@ import Sponsors from "~/components/section/sponsors";
 import FAQSection from "~/components/section/faq";
 import Team from "~/components/section/team";
 import Volunteer from "~/components/section/volunteer";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "~/components/ui/dialog";
+import { Label } from "~/components/ui/label";
+import { Input } from "~/components/ui/input";
+import Link from "next/link";
+import { Button } from "~/components/ui/button";
 
 export default function Page() {
   return (
@@ -68,7 +73,6 @@ export default function Page() {
       <div className={`w-full py-10 md:py-24 md:pl-[4.2rem] md:pr-[1.25rem]`}>
         <FAQSection />
       </div>
-
       <NavbarLayout className="flex h-screen items-center">
         <Volunteer />
       </NavbarLayout>

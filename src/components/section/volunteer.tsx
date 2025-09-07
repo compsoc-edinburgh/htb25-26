@@ -87,7 +87,7 @@ export default function Volunteer() {
     }
   }, []);
   return (
-    <div className="flex h-screen items-center">
+    <div className="flex h-screen items-center" id="volunteer">
       <div className="flex-1 px-6 sm:px-8 lg:px-10">
         <div className="grid grid-cols-1 items-center gap-x-16 gap-y-10 lg:grid-cols-12">
           <div className="max-w-2xl space-y-6 lg:col-span-7">

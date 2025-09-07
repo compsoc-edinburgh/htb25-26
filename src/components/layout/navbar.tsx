@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { Button } from "../ui/button";
-import { Menu } from "lucide-react";
-import { motion } from "framer-motion";
+import { Loader2, Menu } from "lucide-react";
+import { useState } from "react";
 
 import {
   Drawer,
@@ -11,6 +11,10 @@ import {
   DrawerContent,
   DrawerTitle,
 } from "../ui/drawer";
+import { useUser } from "@clerk/nextjs";
+import SigninDrawer from "../module/signin-drawer";
+import SignupDrawer from "../module/signup-drawer";
+import ForgotPasswordDrawer from "../module/forgot-password-drawer";
 
 interface NavLink {
   href: string;
@@ -56,51 +60,56 @@ const NavLinks = ({ mobile = false }: { mobile?: boolean }) => {
   );
 };
 
-const AuthSection = ({ mobile = false }: { mobile?: boolean }) => {
-  const containerClasses = mobile
-    ? "flex flex-col gap-2 text-zinc-400"
-    : "flex items-center gap-1 text-white";
+const AuthSection = ({ mobile = false, onSignInClick }: { mobile?: boolean; onSignInClick: () => void }) => {
+  const { isSignedIn } = useUser();
 
   // Define a simple rectangle clip path for the overlay
   const rectClipPath = "polygon(0 0, 100% 0, 100% 100%, 0 100%)";
 
   return (
-    <div className={containerClasses}>
-      {mobile ? (
-        <Link href="/signin" className="text-[9px] hover:text-zinc-300">
-          SIGN IN
-        </Link>
-      ) : (
-        <Link href="/signin" className="inline-block">
-          <motion.div
-            className={`${STYLES.signInButton} border border-white bg-black`}
-            style={{ clipPath: STYLES.clipPath }}
-            whileHover="hover"
-          >
-           <motion.div
-              className="absolute inset-0 bg-white"
-              // Use the simple rectangle clip path here
-              style={{ clipPath: rectClipPath }}
-              initial={{ x: "100%" }}
-              variants={{ hover: { x: "0%" } }}
-              transition={{ duration: 0.4, ease: "easeInOut" }}
-            />
-             <motion.span
-              className="relative z-10"
-              initial={{ color: "#ffffff" }}
-              variants={{ hover: { color: "#000000" } }}
-              transition={{ duration: 0.4, ease: "easeInOut" }}
+    <div className="flex items-center gap-1 text-white">
+      {!mobile && (
+        isSignedIn ? (
+          <Link href="/dashboard" className="inline-block">
+            <div
+              className={`${STYLES.signInButton} border border-black bg-white hover:bg-zinc-900 transition-colors duration-200`}
+              style={{ clipPath: STYLES.clipPath }}
             >
-              SIGN IN
-            </motion.span>
-          </motion.div>
-        </Link>
+             <div
+                className="absolute inset-0 bg-black rounded-t-sm hover:bg-zinc-900 transition-colors duration-200"
+                style={{ clipPath: rectClipPath }}
+              />
+               <span
+                className="relative z-10 w-[5rem] flex items-center justify-center"
+              >
+                DASHBOARD
+              </span>
+            </div>
+          </Link>
+        ) : (
+          <button type="button" onClick={onSignInClick} className="inline-block">
+            <div
+              className={`${STYLES.signInButton} border border-black bg-white hover:bg-zinc-900 transition-colors duration-200`}
+              style={{ clipPath: STYLES.clipPath }}
+            >
+             <div
+                className="absolute inset-0 bg-black rounded-t-sm hover:bg-zinc-900 transition-colors duration-200"
+                style={{ clipPath: rectClipPath }}
+              />
+               <span
+                className="relative z-10 w-[5rem] flex items-center justify-center"
+              >
+                {isSignedIn == undefined ? <Loader2 className="animate-spin" /> : "SIGN IN"}
+              </span>
+            </div>
+          </button>
+        )
       )}
     </div>
   );
 };
 
-const MobileDrawer = () => (
+const MobileDrawer = ({ onSignInClick }: { onSignInClick: () => void }) => (
   <div className="flex h-full items-center px-4">
     <Drawer>
       <DrawerTrigger asChild>
@@ -180,7 +189,7 @@ const MobileDrawer = () => (
                 <a href="/apply" className="text-neutral-400">
                   REGISTER
                 </a>
-                <AuthSection mobile />
+                <AuthSection mobile onSignInClick={onSignInClick} />
                 <a href="/volunteer" className="text-neutral-400">
                   VOLUNTEER
                 </a>
@@ -203,6 +212,9 @@ const MobileDrawer = () => (
 );
 
 export default function Navbar() {
+  const [signinOpen, setSigninOpen] = useState(false);
+  const [signupOpen, setSignupOpen] = useState(false);
+  const [forgotOpen, setForgotOpen] = useState(false);
   return (
     <div className="pointer-events-none fixed inset-0 z-40 block grid-cols-[auto_1fr_auto] grid-rows-[auto_1fr_auto] md:grid">
       <div
@@ -216,7 +228,7 @@ export default function Navbar() {
 
       <div className="flex h-full w-full flex-col rounded-lg md:border md:border-gray-200">
         <nav className="pointer-events-auto relative flex h-14 w-full items-center justify-between rounded-t-lg border-b border-gray-200 bg-white px-2 md:px-0 md:pl-14">
-          <MobileDrawer />
+          <MobileDrawer onSignInClick={() => setSigninOpen(true)} />
 
           <div className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center gap-4 px-4 lg:block">
             <NavLinks />
@@ -224,7 +236,7 @@ export default function Navbar() {
 
           <div className="flex h-full items-center px-4">
             <div className="hidden lg:flex">
-              <AuthSection />
+              <AuthSection onSignInClick={() => setSigninOpen(true)} />
             </div>
           </div>
         </nav>
@@ -238,6 +250,23 @@ export default function Navbar() {
           aria-hidden="true"
         />
       </div>
+
+      <SigninDrawer
+        open={signinOpen}
+        onOpenChange={setSigninOpen}
+        onSignupClick={() => setSignupOpen(true)}
+        onForgotClick={() => setForgotOpen(true)}
+      />
+      <SignupDrawer
+        open={signupOpen}
+        onOpenChange={setSignupOpen}
+        onSigninClick={() => setSigninOpen(true)}
+      />
+      <ForgotPasswordDrawer
+        open={forgotOpen}
+        onOpenChange={setForgotOpen}
+        onSigninClick={() => setSigninOpen(true)}
+      />
 
       <div
         className="hidden h-5 w-5 backdrop-blur-sm md:block"
