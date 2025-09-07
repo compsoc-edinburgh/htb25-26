@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import React from "react";
+import React, { useCallback } from "react";
+import { useUser } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 
 type RegisterButtonProps = {
   href?: string;
@@ -18,6 +20,20 @@ export default function RegisterButton({
   subtitle = "Press Enter To Start ↵",
   className = "",
 }: RegisterButtonProps) {
+  const router = useRouter();
+  const { isSignedIn } = useUser();
+
+  const handleDefaultClick = useCallback(() => {
+    if (isSignedIn) {
+      router.push("/apply");
+      return;
+    }
+    try {
+      localStorage.setItem("auth:returnTo", "/apply");
+    } catch {}
+    const event = new CustomEvent("open-auth", { detail: { mode: "signup" } });
+    window.dispatchEvent(event);
+  }, [isSignedIn, router]);
   const commonProps = {
     className: [
       "group relative inline-block mx-auto mt-10 sm:mt-12 focus:outline-none",
@@ -61,7 +77,11 @@ export default function RegisterButton({
       <ButtonContent />
     </Link>
   ) : (
-    <button type="button" onClick={onClick} {...commonProps}>
+    <button
+      type="button"
+      onClick={onClick ?? handleDefaultClick}
+      {...commonProps}
+    >
       <ButtonContent />
     </button>
   );

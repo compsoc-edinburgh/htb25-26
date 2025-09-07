@@ -105,6 +105,7 @@ export function ForgotPasswordForm({
           className="w-full bg-zinc-900 text-white hover:bg-zinc-800"
           size="lg"
           loading={emailForm.formState.isSubmitting}
+          disabled={emailForm.formState.isSubmitting}
         >
           Send reset code
         </Button>
@@ -114,6 +115,7 @@ export function ForgotPasswordForm({
             type="button"
             className="text-zinc-900 underline underline-offset-4 hover:no-underline"
             onClick={onSwitchToSignIn}
+            disabled={emailForm.formState.isSubmitting}
           >
             Sign in
           </button>

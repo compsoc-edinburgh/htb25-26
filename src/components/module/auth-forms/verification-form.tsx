@@ -22,6 +22,7 @@ export function VerificationForm({
   ...props
 }: VerificationFormProps) {
   const verifyForm = useForm<{ code: string }>({ defaultValues: { code: "" } });
+  const codeValue = verifyForm.watch("code");
 
   const handleFormSubmit = async (values: { code: string }) => {
     try {
@@ -118,7 +119,7 @@ export function VerificationForm({
         <Button
           type="submit"
           loading={verifyForm.formState.isSubmitting}
-          disabled={(verifyForm.getValues("code")?.length ?? 0) < 6}
+          disabled={(codeValue?.length ?? 0) < 6}
           className="w-full"
         >
           Verify

@@ -9,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "../../ui/button";
 import { Input } from "../../ui/input";
 import { Label } from "../../ui/label";
+import { useSignIn } from "@clerk/nextjs";
 
 const SignInSchema = z.object({
   email: z.string().email(),
@@ -39,6 +40,7 @@ export function SignInForm({
     setError,
     formState: { errors, isSubmitting },
   } = useForm<SignInValues>({ resolver: zodResolver(SignInSchema) });
+  const { signIn, isLoaded } = useSignIn();
 
   const handleFormSubmit = async (values: SignInValues) => {
     try {
@@ -91,6 +93,8 @@ export function SignInForm({
             aria-errormessage={errors.email ? "email-error" : undefined}
             {...register("email")}
             required
+            disabled={isSubmitting}
+            aria-disabled={isSubmitting}
           />
           {errors.email && (
             <span
@@ -110,6 +114,7 @@ export function SignInForm({
               type="button"
               className="text-xs text-zinc-500 underline-offset-4 hover:underline"
               onClick={onForgotPassword}
+              disabled={isSubmitting}
             >
               Forgot your password?
             </button>
@@ -123,6 +128,8 @@ export function SignInForm({
             aria-errormessage={errors.password ? "password-error" : undefined}
             {...register("password")}
             required
+            disabled={isSubmitting}
+            aria-disabled={isSubmitting}
           />
           {errors.password && (
             <span
@@ -140,6 +147,7 @@ export function SignInForm({
           className="w-full"
           size="lg"
           loading={isSubmitting}
+          disabled={isSubmitting}
         >
           Sign In
         </Button>
@@ -152,6 +160,14 @@ export function SignInForm({
           variant="outline"
           type="button"
           className="flex w-full items-center gap-2 text-xs"
+          disabled={!isLoaded}
+          aria-disabled={!isLoaded}
+          onClick={() => signIn?.authenticateWithRedirect({
+            strategy: "oauth_google",
+            redirectUrl: "/signin/sso-callback",
+            redirectUrlComplete: "/",
+          })}
+          loading={!isLoaded}
         >
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
             <path
@@ -167,6 +183,8 @@ export function SignInForm({
             type="button"
             className="text-black underline"
             onClick={onSwitchToSignUp}
+            disabled={isSubmitting}
+            aria-disabled={isSubmitting}
           >
             SIGN UP
           </button>

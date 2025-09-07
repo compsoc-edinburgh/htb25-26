@@ -139,6 +139,7 @@ export function ResetPasswordForm({
           className="w-full bg-zinc-900 text-white hover:bg-zinc-800"
           size="lg"
           loading={resetForm.formState.isSubmitting}
+          disabled={resetForm.formState.isSubmitting}
         >
           Reset password
         </Button>
