@@ -8,9 +8,6 @@ import ScheduleTimeline from "~/components/schedule-timeline";
 import VolunteerSection from "~/components/modules/volunteer-section";
 import TeamSection from "~/components/modules/team-section";
 import { hackathonEvents } from "~/data/schedule";
-import Image from "next/image";
-import { ArrowRightIcon } from "lucide-react";
-import SectionHeader from "~/components/modules/section-header";
 
 export default function Page() {
   return (

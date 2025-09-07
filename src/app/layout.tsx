@@ -80,10 +80,10 @@ export default async function RootLayout({
             position="bottom-center"
             toastOptions={{
               className:
-                "rounded-full bg-background/70 backdrop-blur-xl border-none",
+                "bg-zinc-900 border-none",
               classNames: {
-                success: "bg-green-600/70",
-                error: "bg-accent-red/70",
+                success: "bg-green-600",
+                error: "bg-red-600",
               },
             }}
           />
