@@ -33,7 +33,7 @@ const STYLES = {
     mobile: "text-white hover:bg-white hover:text-black",
   },
   signInButton:
-    "relative flex translate-x-4 items-center justify-center rounded-t-lg bg-black px-10 py-4 text-sm font-normal text-white transition hover:bg-amber-400 md:text-base",
+    "relative flex translate-x-4 items-center justify-center rounded-t-lg bg-black px-10 py-4 text-sm font-normal text-white transition md:text-base",
 } as const;
 
 const NavLinks = ({ mobile = false }: { mobile?: boolean }) => {

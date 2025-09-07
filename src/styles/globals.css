@@ -28,12 +28,6 @@
     --accent: 0 0% 96%;
     --accent-foreground: 0 0% 0%;
 
-    --accent-yellow: 68 100% 51%;
-    --accent-lilac: 282 81% 81%;
-    --accent-blue: 221 100% 60%;
-    --accent-red: 9 86% 59%;
-    --accent-orange: 16 82% 61%;
-
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
     --border: 0 0% 88%;
@@ -61,11 +55,6 @@
     --muted-foreground: 215 20.2% 65.1%;
     --accent: 217.2 32.6% 17.5%;
     --accent-foreground: 210 40% 98%;
-
-    --accent-yellow: 68 100% 51%;
-    --accent-lilac: 282 81% 81%;
-    --accent-blue: 221 100% 60%;
-    --accent-red: 9 86% 59%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;

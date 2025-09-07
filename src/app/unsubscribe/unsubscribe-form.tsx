@@ -67,13 +67,13 @@ const UnsubscribeForm = () => {
         <Input
           type="email"
           placeholder="Email address.."
-          className="font-tektur basis-2/3 border-transparent bg-[#EEEEEE] text-zinc-700 md:text-xs lg:text-sm"
+          className="font-tektur basis-2/3 border-transparent bg-zinc-100 text-zinc-700 md:text-xs lg:text-sm"
           value={email}
           onChange={handleEmailChange}
         ></Input>
         <Button
           type="submit"
-          className="font-tektur basis-1/3 bg-[#2A4FEE] text-sm text-white hover:bg-blue-700 md:text-sm lg:text-xl"
+          className="font-tektur basis-1/3 bg-zinc-900 text-sm text-white hover:bg-zinc-800 md:text-sm lg:text-xl"
           loading={loading}
         >
           Unsubscribe
