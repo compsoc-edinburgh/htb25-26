@@ -4,6 +4,10 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import { Loader2, Menu } from "lucide-react";
 import { useState } from "react";
+import { useEffect, useRef } from "react";
+import { gsap } from "gsap";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+import { ScrambleTextPlugin } from "gsap/ScrambleTextPlugin";
 
 import {
   Drawer,
@@ -13,7 +17,16 @@ import {
 } from "../ui/drawer";
 import { useUser } from "@clerk/nextjs";
 import AuthDrawer from "../module/auth-drawer";
-import { useEffect } from "react";
+
+// register gsap plugins once on client
+if (
+  typeof window !== "undefined" &&
+  (gsap as any) &&
+  !(gsap as any)._htbPlugins
+) {
+  gsap.registerPlugin(ScrollToPlugin, ScrambleTextPlugin);
+  (gsap as any)._htbPlugins = true;
+}
 import { isBeforeOpenDate, OPEN_DATE_READABLE } from "~/lib/date-gate";
 
 interface NavLink {
@@ -32,28 +45,170 @@ const NAV_LINKS: NavLink[] = [
 const STYLES = {
   clipPath: "polygon(0 0, 100% 0, 100% 100%, 20px 100%, 0 calc(100% - 20px))",
   navButton: {
-    base: "h-full w-full rounded-md bg-transparent px-5 py-2 font-normal",
-    desktop: "text-black hover:bg-white hover:text-black",
-    mobile: "text-white hover:bg-white hover:text-black",
+    base: "bg-transparent font-normal",
+    desktop: "text-black text-xs",
+    mobile: "text-white font-whyte",
   },
   signInButton:
     "relative flex translate-x-4 items-center justify-center rounded-t-lg bg-black px-10 py-4 text-sm font-normal text-white transition md:text-base",
 } as const;
 
-const NavLinks = ({ mobile = false }: { mobile?: boolean }) => {
+const NavLinks = ({
+  mobile = false,
+  onNavigate,
+}: {
+  mobile?: boolean;
+  onNavigate?: () => void;
+}) => {
   const containerClasses = mobile
-    ? "flex flex-col items-start gap-2 text-[9px]" // items-start = left-aligned
-    : "flex w-full items-center justify-center gap-4 text-black";
+    ? "flex flex-col items-start gap-2 text-[9px]"
+    : "flex w-full items-center justify-center gap-14 text-black";
 
   const buttonClasses = mobile
-    ? "bg-transparent py-1 px-0 text-xl rounded-none text-white hover:bg-white hover:text-black w-auto inline-block"
+    ? "py-1 px-0 text-2xl rounded-none text-white w-auto inline-block font-bold"
     : `${STYLES.navButton.base} ${STYLES.navButton.desktop}`;
+
+  // smooth scroll handler using gsap ScrollTo with offset for navbar
+  const handleClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string
+  ) => {
+    if (!href.startsWith("/#")) return; // external or page route
+    e.preventDefault();
+
+    // play click animation on mobile
+    if (mobile) {
+      const anchor = e.currentTarget;
+      const bg = anchor.querySelector(".navlink-bg") as HTMLElement | null;
+      const text = anchor.querySelector(".navlink-text") as HTMLElement | null;
+      if (bg) {
+        gsap.killTweensOf(bg);
+        gsap.set(bg, { zIndex: 0, transformOrigin: "left center", scaleX: 0 });
+        gsap.to(bg, { scaleX: 1, duration: 0.25, ease: "power2.out" });
+      }
+      if (text) {
+        if (!text.dataset.originalLabel) text.dataset.originalLabel = text.textContent || "";
+        gsap.killTweensOf(text);
+        gsap.set(text, { position: "relative", zIndex: 1 });
+        gsap.to(text, { color: "#000", duration: 0.2, ease: "power2.out" });
+        gsap.to(text, {
+          duration: 0.5,
+          scrambleText: {
+            text: text.dataset.originalLabel || "",
+            chars: "upperCase",
+            revealDelay: 0,
+            speed: 0.6,
+          },
+        });
+      }
+    }
+
+    const id = href.replace("/#", "");
+    const el = document.getElementById(id);
+    if (!el) return;
+    const offset = 88; // approximate navbar height
+
+    const doScroll = () =>
+      gsap.to(window, {
+        duration: 0.6,
+        ease: "power2.out",
+        scrollTo: { y: el, offsetY: offset },
+      });
+
+    if (mobile && onNavigate) {
+      // close the drawer first so content becomes scrollable and visible
+      onNavigate();
+      // give the drawer a brief moment to start closing before scrolling
+      setTimeout(doScroll, 220);
+    } else {
+      doScroll();
+    }
+  };
 
   return (
     <div className={containerClasses}>
       {NAV_LINKS.map(({ href, label }) => (
-        <Button asChild key={href} className={buttonClasses}>
-          <Link href={href}>{label}</Link>
+        <Button
+          asChild
+          key={href}
+          className={buttonClasses + " px-0 py-0 hover:none"}
+          variant="ghost"
+        >
+          <a
+            href={href}
+            onClick={(e) => handleClick(e, href)}
+            className="relative inline-block"
+            onMouseEnter={(e) => {
+              const el = e.currentTarget;
+              const bg = el.querySelector(".navlink-bg") as HTMLElement;
+              const text = el.querySelector(".navlink-text") as HTMLElement;
+              if (bg) {
+                gsap.killTweensOf(bg);
+                gsap.set(bg, { zIndex: 0 });
+                gsap.fromTo(
+                  bg,
+                  { scaleX: 0, transformOrigin: "left center" },
+                  { scaleX: 1, duration: 0.25, ease: "power2.out" }
+                );
+              }
+              if (text) {
+                // Store original label if not already stored
+                if (!text.dataset.originalLabel) {
+                  text.dataset.originalLabel = label;
+                }
+                gsap.killTweensOf(text);
+                gsap.set(text, { position: "relative", zIndex: 1 });
+                gsap.to(text, {
+                  color: mobile ? "#000" : "#fff",
+                  duration: 0.2,
+                  ease: "power2.out",
+                });
+                gsap.to(text, {
+                  duration: 0.5,
+                  scrambleText: {
+                    text: label,
+                    chars: "upperCase",
+                    revealDelay: 0,
+                    speed: 0.6,
+                  },
+                });
+              }
+            }}
+            onMouseLeave={(e) => {
+              const el = e.currentTarget;
+              const bg = el.querySelector(".navlink-bg") as HTMLElement;
+              const text = el.querySelector(".navlink-text") as HTMLElement;
+              if (bg) {
+                gsap.killTweensOf(bg);
+                gsap.to(bg, {
+                  scaleX: 0,
+                  transformOrigin: "right center",
+                  duration: 0.25,
+                  ease: "power2.in",
+                });
+              }
+              if (text) {
+                gsap.killTweensOf(text);
+                // Restore original text content to avoid partial scramble
+                if (text.dataset.originalLabel) {
+                  text.textContent = text.dataset.originalLabel;
+                }
+                gsap.to(text, {
+                  color: mobile ? "#fff" : "#000",
+                  duration: 0.2,
+                  ease: "power2.out",
+                });
+              }
+            }}
+          >
+            <span
+              className={
+                "navlink-bg pointer-events-none absolute inset-0 -z-10 origin-left scale-x-0 " +
+                (mobile ? "bg-white" : "bg-black")
+              }
+            />
+            <span className="navlink-text relative z-[1]">{label}</span>
+          </a>
         </Button>
       ))}
     </div>
@@ -131,9 +286,17 @@ const AuthSection = ({
   );
 };
 
-const MobileDrawer = ({ onSignInClick }: { onSignInClick: () => void }) => (
+const MobileDrawer = ({
+  onSignInClick,
+  open,
+  onOpenChange,
+}: {
+  onSignInClick: () => void;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}) => (
   <div className="flex h-full items-center px-4">
-    <Drawer>
+    <Drawer open={open} onOpenChange={onOpenChange}>
       <DrawerTrigger asChild>
         <button
           type="button"
@@ -144,11 +307,12 @@ const MobileDrawer = ({ onSignInClick }: { onSignInClick: () => void }) => (
         </button>
       </DrawerTrigger>
 
-      <DrawerContent className="font-tektur h-[75vh] rounded-t-2xl border border-border/10 bg-black backdrop-blur-xl">
+      <DrawerContent className="h-fit border border-border/10 bg-black backdrop-blur-xl">
         <DrawerTitle className="sr-only">Menu</DrawerTitle>
+        <div className="z-1 absolute -top-1 h-10 w-full bg-black"></div>
 
-        <div className="flex flex-col divide-y divide-zinc-800 p-6 font-hexaframe">
-          <section className="flex items-start py-8">
+        <div className="z-10 -mt-5 flex flex-col divide-y divide-zinc-800">
+          <section className="flex items-start px-6 pb-3 pt-9">
             <div className="shrink-0 basis-1/3 pr-4">
               <div className="flex items-center gap-2 pt-2 text-[9px] uppercase text-white">
                 <span className="h-1 w-1 bg-white" />
@@ -156,13 +320,13 @@ const MobileDrawer = ({ onSignInClick }: { onSignInClick: () => void }) => (
               </div>
             </div>
             <div className="basis-2/3">
-              <div className="flex flex-col items-start gap-1 text-sm [&_a]:inline-block [&_a]:rounded-none [&_a]:px-0 [&_a]:py-1 [&_a]:text-left">
-                <NavLinks mobile />
+              <div className="flex flex-col items-start gap-1 font-whyte text-sm [&_a]:inline-block [&_a]:rounded-none [&_a]:px-0 [&_a]:py-1 [&_a]:text-left">
+                <NavLinks mobile onNavigate={() => onOpenChange(false)} />
               </div>
             </div>
           </section>
 
-          <section className="flex items-start py-8">
+          <section className="flex items-start px-6 py-8">
             <div className="shrink-0 basis-1/3 pr-4">
               <div className="flex items-center gap-2 text-[9px] uppercase text-white">
                 <span className="h-1 w-1 bg-white" />
@@ -170,27 +334,24 @@ const MobileDrawer = ({ onSignInClick }: { onSignInClick: () => void }) => (
               </div>
             </div>
             <div className="basis-2/3">
-              <ul className="flex flex-col gap-2 text-[11px] tracking-wide">
+              <ul className="-mt-0.5 flex flex-col gap-2 text-[11px] uppercase tracking-wide">
                 <li>
                   <a
-                    href="https://x.com/hackthevalley"
-                    className="text-neutral-400"
+                    href="https://www.linkedin.com/company/hacktheburgh/"
+                    className="text-white"
                   >
-                    TWITTER
+                    Linkedin
                   </a>
                 </li>
-                <li>
-                  <a
-                    href="https://discord.com/invite/hackthevalley"
-                    className="text-neutral-400"
-                  >
+                {/* <li>
+                  <a href="" className="text-white">
                     DISCORD
                   </a>
-                </li>
+                </li> */}
                 <li>
                   <a
-                    href="https://www.instagram.com/hackthevalley/"
-                    className="text-neutral-400"
+                    href="https://www.instagram.com/hacktheburgh"
+                    className="text-white"
                   >
                     INSTAGRAM
                   </a>
@@ -199,18 +360,18 @@ const MobileDrawer = ({ onSignInClick }: { onSignInClick: () => void }) => (
             </div>
           </section>
 
-          <section className="flex items-start py-8">
+          <section className="flex items-start px-6 py-8">
             <div className="shrink-0 basis-1/3 pr-4">
               <div className="flex items-center gap-2 text-[9px] uppercase text-white">
                 <span className="h-1 w-1 bg-white" />
                 <span>Participate</span>
               </div>
             </div>
-            <div className="basis-2/3">
+            <div className="-mt-0.5 basis-2/3">
               <div className="flex flex-col gap-2 text-[11px] tracking-wide">
                 <a
                   href={isBeforeOpenDate() ? "/applications-closed" : "/apply"}
-                  className={`text-neutral-400 ${isBeforeOpenDate() ? "cursor-not-allowed opacity-60" : ""}`}
+                  className={`text-white ${isBeforeOpenDate() ? "cursor-not-allowed opacity-60" : ""}`}
                   onClick={(e) => {
                     if (isBeforeOpenDate()) e.preventDefault();
                   }}
@@ -223,16 +384,39 @@ const MobileDrawer = ({ onSignInClick }: { onSignInClick: () => void }) => (
                   REGISTER
                 </a>
                 <AuthSection mobile onSignInClick={onSignInClick} />
-                <a href="/volunteer" className="text-neutral-400">
+                <a
+                  href="/volunteer"
+                  className="text-white"
+                  onClick={() => onOpenChange(false)}
+                >
                   VOLUNTEER
                 </a>
               </div>
             </div>
           </section>
 
-          <section className="flex flex-col items-center py-8 text-xs">
+          <section className="flex flex-col items-center py-8 text-xs uppercase">
             <div className="text-[10px] text-neutral-600">
-              MADE WITH &lt;3 BY: DANYIL, KAY, EMILY, YUNA, ABIBABIS
+              MADE WITH &lt;3 BY:{" "}
+              <a href="https://danyilbutov.com/" className="underline">
+                Danyil
+              </a>
+              ,{" "}
+              <a href="https://itskay.co" className="underline">
+                KAY
+              </a>{" "}
+              ,{" "}
+              <a href="https://emilymiller.xyz" className="underline">
+                Emily
+              </a>
+              ,{" "}
+              <a
+                href="https://www.linkedin.com/in/yuna-shono-1b3431188?"
+                className="underline"
+              >
+                Yuna
+              </a>
+              , Abibabis
             </div>
             <div className="mt-2 text-[10px] text-neutral-600">
               ©CompSoc HTB Team
@@ -249,6 +433,7 @@ type AuthMode = "signin" | "signup" | "forgot" | "reset" | "verify";
 export default function Navbar() {
   const [authOpen, setAuthOpen] = useState(false);
   const [authMode, setAuthMode] = useState<AuthMode>("signin");
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     // Open modal from URL params on landing page
@@ -298,6 +483,8 @@ export default function Navbar() {
       <div className="flex h-full w-full flex-col rounded-lg md:border md:border-gray-200">
         <nav className="pointer-events-auto relative flex h-14 w-full items-center justify-between rounded-t-lg border-b border-gray-200 bg-white px-2 md:px-0 md:pl-14">
           <MobileDrawer
+            open={mobileOpen}
+            onOpenChange={setMobileOpen}
             onSignInClick={() => {
               setAuthMode("signin");
               setAuthOpen(true);

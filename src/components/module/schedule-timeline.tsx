@@ -140,8 +140,13 @@ export default function ScheduleTimeline({
     const timeline = timelineRef.current;
     if (!container || !timeline) return;
 
-    // Find the parent schedule section container
-    const scheduleSection = document.getElementById("schedule-section");
+    // Find the parent schedule section container (updated id = "schedule")
+    let scheduleSection = document.getElementById("schedule");
+    if (!scheduleSection) {
+      // Fallback to old id for safety if present
+      scheduleSection =
+        document.getElementById("schedule-section") || (undefined as any);
+    }
     if (!scheduleSection) return;
 
     // Calculate total timeline width
