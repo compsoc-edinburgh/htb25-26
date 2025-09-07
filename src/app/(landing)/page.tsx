@@ -49,23 +49,20 @@ export default function Page() {
           </div>
         </div>
       </NavbarLayout>
-      <NavbarLayout>
-        <div id="schedule" className="px-4 pb-10 sm:pb-16">
-          <h1 className="font-hexaframe text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl">
-            Schedule
-          </h1>
-          <div className="flex items-center gap-2 pt-2">
-            <div className="h-1.5 w-1.5 bg-black sm:h-2 sm:w-2" />
-            <p className="text-xs uppercase text-zinc-500 sm:text-sm">
-              Discover the hackathon will unfold.
-            </p>
-          </div>
-        </div>
-        <ScheduleTimeline events={hackathonEvents} />
-        <p className="mt-2 text-center text-xs text-zinc-500">
-          Scroll to see the full schedule
-        </p>
-      </NavbarLayout>
+      <div id="schedule-section">
+        <NavbarLayout>
+          <SectionHeader
+            title="Schedule"
+            subtitle="Discover the hackathon will unfold"
+            className="pb-10"
+          />
+          <ScheduleTimeline events={hackathonEvents} />
+          <p className="mt-2 absolute right-auto md:right-10 text-center text-[0.6rem] w-fit flex items-center gap-2 font-thin uppercase">
+            <div className="h-1 w-1 bg-black"></div> Keep scrolling to see the
+            full schedule
+          </p>
+        </NavbarLayout>
+      </div>
       <Sponsors />
       <NavbarLayout>
         <Team />
