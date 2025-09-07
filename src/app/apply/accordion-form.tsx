@@ -8,6 +8,8 @@ import { cn } from "~/lib/utils";
 import { api } from "~/trpc/react";
 import { countries } from "country-data-list";
 import { Button } from "~/components/ui/button";
+import { useFormPersist } from "use-react-hook-form-persist";
+
 import {
   FormSchema,
   FormValues,
@@ -28,20 +30,25 @@ const AccordionForm = () => {
     setExpandedSections(s);
   };
 
-  const form = useForm<FormValues>({
-    resolver: zodResolver(FormSchema),
-    defaultValues: {
-      countryAlpha3: "GBR",
-      cvUrl: "",
-      portfolioUrl: "",
-      projectAim: "",
-      projectStack: "",
-      projectLink: "",
-      travellingFrom: "",
-      calendarEmail: "",
-    },
-    mode: "onChange",
-  });
+  const form = useFormPersist(
+    useForm<FormValues>({
+      resolver: zodResolver(FormSchema),
+      defaultValues: {
+        countryAlpha3: "GBR",
+        cvUrl: "",
+        portfolioUrl: "",
+        projectAim: "",
+        projectStack: "",
+        projectLink: "",
+        travellingFrom: "",
+        calendarEmail: "",
+      },
+      mode: "onChange",
+    }),
+    {
+      key: "apply-form",
+    }
+  );
 
   const updateUser = api.user.update.useMutation();
 
@@ -155,7 +162,7 @@ const AccordionForm = () => {
         );
       })}
 
-      <div className="h-24 bg-white px-5 md:h-28 lg:h-32 p-8 pb-20 md:p-10 md:pb-20 lg:p-12 lg:pb-20">
+      <div className="h-24 bg-white p-8 px-5 pb-20 md:h-28 md:p-10 md:pb-20 lg:h-32 lg:p-12 lg:pb-20">
         <div className="flex justify-center">
           <Button
             type="submit"

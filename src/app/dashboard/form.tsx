@@ -280,7 +280,7 @@ export default function EditApplicationForm({
   return (
     <div className="mx-auto flex w-full flex-col gap-3 py-10 lg:flex-row">
       <div className="flex w-full flex-col gap-6 lg:w-1/3">
-        <div className="flex w-full flex-col items-center justify-between gap-3 rounded-xl bg-accent-red px-4 py-3 text-white">
+        <div className="bg-accent-red flex w-full flex-col items-center justify-between gap-3 rounded-xl px-4 py-3 text-white">
           <span className="flex-1 text-sm font-medium">
             <span>
               <span className="text-lg">Applications are closed</span>
@@ -291,7 +291,7 @@ export default function EditApplicationForm({
             </span>
           </span>
         </div>
-        <div className="w-full rounded-2xl bg-accent-yellow p-3 py-6 text-black">
+        <div className="bg-accent-yellow w-full rounded-2xl p-3 py-6 text-black">
           <div className="flex items-center justify-between gap-3">
             {clerkUser?.hasImage ? (
               <div className="aspect-square max-h-12 overflow-hidden rounded-full">
@@ -324,7 +324,7 @@ export default function EditApplicationForm({
             </Button>
           </div>
         </div>
-        <div className="relative h-max w-full overflow-hidden rounded-2xl bg-accent-lilac p-6 text-black">
+        <div className="bg-accent-lilac relative h-max w-full overflow-hidden rounded-2xl p-6 text-black">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-medium">Team {team?.name}</h2>
             {team && (
@@ -449,7 +449,7 @@ export default function EditApplicationForm({
                 </span>
               </Label>
               {(team?.members?.length ?? 0) < 4 && (
-                <p className="mt-2 rounded-xl bg-accent-red p-3 font-sans text-sm leading-tight text-white">
+                <p className="bg-accent-red mt-2 rounded-xl p-3 font-sans text-sm leading-tight text-white">
                   You need at least 4 members in your team. Otherwise your
                   application will be dismissed.
                 </p>
@@ -544,7 +544,7 @@ export default function EditApplicationForm({
               onChange={(e) => setFirstName(e.target.value)}
             />
             {!firstName && (
-              <p className="font-sans text-sm text-accent-red">Required</p>
+              <p className="text-accent-red font-sans text-sm">Required</p>
             )}
           </div>
           <div className="flex max-w-md flex-1 flex-col gap-2">
@@ -558,7 +558,7 @@ export default function EditApplicationForm({
               onChange={(e) => setLastName(e.target.value)}
             />
             {!lastName && (
-              <p className="font-sans text-sm text-accent-red">Required</p>
+              <p className="text-accent-red font-sans text-sm">Required</p>
             )}
           </div>
         </div>
@@ -834,7 +834,7 @@ export default function EditApplicationForm({
                     required
                   />
                   {!travel && (
-                    <p className="font-sans text-sm text-accent-red">
+                    <p className="text-accent-red font-sans text-sm">
                       Required
                     </p>
                   )}
@@ -908,7 +908,7 @@ export default function EditApplicationForm({
           <div className="rounded-xl">
             <div className="flex items-center gap-3">
               <TriangleAlert size={17} className="text-accent-red" />
-              <span className="flex-1 text-sm font-medium text-accent-red">
+              <span className="text-accent-red flex-1 text-sm font-medium">
                 Please check your answers
               </span>
             </div>

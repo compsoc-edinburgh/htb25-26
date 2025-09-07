@@ -698,7 +698,7 @@ export const SponsorsGrid = () => {
                 className="max-h-32 max-w-full object-contain"
               />
             </div>
-            <span className="absolute bottom-4 left-4 text-[0.6rem] flex gap-2 items-center font-light uppercase tracking-wide">
+            <span className="absolute bottom-4 left-4 flex items-center gap-2 text-[0.6rem] font-light uppercase tracking-wide">
               <div className="h-2 w-2 bg-black" />
               [LOGO]
             </span>

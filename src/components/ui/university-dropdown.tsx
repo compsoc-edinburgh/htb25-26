@@ -127,7 +127,7 @@ const UniversityDropdownComponent = (
                 .map((option, index: number) => (
                   <CommandItem
                     className="flex w-full items-center gap-2"
-                    key={`${option.name}-${option.domains[0] || 'no-domain'}-${index}`}
+                    key={`${option.name}-${option.domains[0] || "no-domain"}-${index}`}
                     onSelect={() => handleSelect(option)}
                   >
                     <div className="flex w-0 flex-grow space-x-2 overflow-hidden">

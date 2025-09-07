@@ -1,19 +1,18 @@
 import { auth } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
 import { PropsWithChildren } from "react";
 import Navbar from "~/components/layout/navbar";
+import RequestAuth from "~/components/layout/request-auth";
 
 export default async function DashboardLayout({
   children,
 }: Readonly<PropsWithChildren>) {
   const user = await auth();
-
-  if (!user.userId) redirect("/signin");
+  const isAuthed = !!user.userId;
 
   return (
     <main className="flex w-full flex-col items-center px-4">
       <Navbar />
-      {children}
+      {isAuthed ? children : <RequestAuth mode="signin" />}
     </main>
   );
 }

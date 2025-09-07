@@ -306,7 +306,7 @@ const TeamCard: React.FC<{ member: TeamMember }> = ({ member }) => {
             </div>
             <p
               ref={nameRef}
-              className="font-whyte mt-3 line-clamp-2 px-2 text-center text-[0.6rem] font-semibold uppercase tracking-wide text-black sm:mt-4 sm:text-[0.7rem] sm:text-xs md:text-sm"
+              className="mt-3 line-clamp-2 px-2 text-center font-whyte text-[0.6rem] font-semibold uppercase tracking-wide text-black sm:mt-4 sm:text-[0.7rem] sm:text-xs md:text-sm"
             >
               {member.name}
             </p>

@@ -79,8 +79,7 @@ export default async function RootLayout({
           <Toaster
             position="bottom-center"
             toastOptions={{
-              className:
-                "bg-zinc-900 border-none",
+              className: "bg-zinc-900 border-none",
               classNames: {
                 success: "bg-green-600",
                 error: "bg-red-600",

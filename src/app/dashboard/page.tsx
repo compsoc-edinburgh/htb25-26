@@ -1,12 +1,13 @@
-import { redirect } from "next/navigation";
 import { api } from "~/trpc/server";
 import EditApplicationForm from "./form";
+import { auth } from "@clerk/nextjs/server";
+import RequestAuth from "~/components/layout/request-auth";
 
 export default async function ApplicationPage() {
-  const application = await api.application.getUserApplication();
-  const user = await api.user.get();
+  const { userId } = await auth();
+  if (!userId) return <RequestAuth mode="signin" />;
 
-  if (!application || !user) redirect("/apply");
+  const user = await api.user.get();
 
   return (
     <div className="w-full py-20">
@@ -20,7 +21,7 @@ export default async function ApplicationPage() {
               <h1>Application Status</h1>
             </div>
           </div>
-          <EditApplicationForm user={user} />
+          {user ? <EditApplicationForm user={user} /> : null}
         </div>
       </div>
     </div>

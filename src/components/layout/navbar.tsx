@@ -12,9 +12,8 @@ import {
   DrawerTitle,
 } from "../ui/drawer";
 import { useUser } from "@clerk/nextjs";
-import SigninDrawer from "../module/signin-drawer";
-import SignupDrawer from "../module/signup-drawer";
-import ForgotPasswordDrawer from "../module/forgot-password-drawer";
+import AuthDrawer from "../module/auth-drawer";
+import { useEffect } from "react";
 
 interface NavLink {
   href: string;
@@ -60,7 +59,13 @@ const NavLinks = ({ mobile = false }: { mobile?: boolean }) => {
   );
 };
 
-const AuthSection = ({ mobile = false, onSignInClick }: { mobile?: boolean; onSignInClick: () => void }) => {
+const AuthSection = ({
+  mobile = false,
+  onSignInClick,
+}: {
+  mobile?: boolean;
+  onSignInClick: () => void;
+}) => {
   const { isSignedIn } = useUser();
 
   // Define a simple rectangle clip path for the overlay
@@ -68,43 +73,46 @@ const AuthSection = ({ mobile = false, onSignInClick }: { mobile?: boolean; onSi
 
   return (
     <div className="flex items-center gap-1 text-white">
-      {!mobile && (
-        isSignedIn ? (
+      {!mobile &&
+        (isSignedIn ? (
           <Link href="/dashboard" className="inline-block">
             <div
-              className={`${STYLES.signInButton} border border-black bg-white hover:bg-zinc-900 transition-colors duration-200`}
+              className={`${STYLES.signInButton} border border-black bg-white transition-colors duration-200 hover:bg-zinc-900`}
               style={{ clipPath: STYLES.clipPath }}
             >
-             <div
-                className="absolute inset-0 bg-black rounded-t-sm hover:bg-zinc-900 transition-colors duration-200"
+              <div
+                className="absolute inset-0 rounded-t-sm bg-black transition-colors duration-200 hover:bg-zinc-900"
                 style={{ clipPath: rectClipPath }}
               />
-               <span
-                className="relative z-10 w-[5rem] flex items-center justify-center"
-              >
+              <span className="relative z-10 flex w-[5rem] items-center justify-center">
                 DASHBOARD
               </span>
             </div>
           </Link>
         ) : (
-          <button type="button" onClick={onSignInClick} className="inline-block">
+          <button
+            type="button"
+            onClick={onSignInClick}
+            className="inline-block"
+          >
             <div
-              className={`${STYLES.signInButton} border border-black bg-white hover:bg-zinc-900 transition-colors duration-200`}
+              className={`${STYLES.signInButton} border border-black bg-white transition-colors duration-200 hover:bg-zinc-900`}
               style={{ clipPath: STYLES.clipPath }}
             >
-             <div
-                className="absolute inset-0 bg-black rounded-t-sm hover:bg-zinc-900 transition-colors duration-200"
+              <div
+                className="absolute inset-0 rounded-t-sm bg-black transition-colors duration-200 hover:bg-zinc-900"
                 style={{ clipPath: rectClipPath }}
               />
-               <span
-                className="relative z-10 w-[5rem] flex items-center justify-center"
-              >
-                {isSignedIn == undefined ? <Loader2 className="animate-spin" /> : "SIGN IN"}
+              <span className="relative z-10 flex w-[5rem] items-center justify-center">
+                {isSignedIn == undefined ? (
+                  <Loader2 className="animate-spin" />
+                ) : (
+                  "SIGN IN"
+                )}
               </span>
             </div>
           </button>
-        )
-      )}
+        ))}
     </div>
   );
 };
@@ -211,10 +219,46 @@ const MobileDrawer = ({ onSignInClick }: { onSignInClick: () => void }) => (
   </div>
 );
 
+type AuthMode = "signin" | "signup" | "forgot" | "reset" | "verify";
+
 export default function Navbar() {
-  const [signinOpen, setSigninOpen] = useState(false);
-  const [signupOpen, setSignupOpen] = useState(false);
-  const [forgotOpen, setForgotOpen] = useState(false);
+  const [authOpen, setAuthOpen] = useState(false);
+  const [authMode, setAuthMode] = useState<AuthMode>("signin");
+
+  useEffect(() => {
+    // Open modal from URL params on landing page
+    try {
+      const url = new URL(window.location.href);
+      const auth = url.searchParams.get("auth") as AuthMode | null;
+      const returnTo = url.searchParams.get("returnTo");
+      if (auth) {
+        if (returnTo) localStorage.setItem("auth:returnTo", returnTo);
+        setAuthMode(auth);
+        setAuthOpen(true);
+        url.searchParams.delete("auth");
+        // keep returnTo stored but clean URL for aesthetics
+        window.history.replaceState(
+          {},
+          "",
+          url.pathname + (url.searchParams.size ? `?${url.searchParams}` : "")
+        );
+      }
+    } catch {}
+
+    const handler = (e: Event) => {
+      const detail = (e as CustomEvent<{ mode?: AuthMode }>).detail;
+      if (detail?.mode) setAuthMode(detail.mode);
+      setAuthOpen(true);
+    };
+    if (typeof window !== "undefined") {
+      window.addEventListener("open-auth", handler as EventListener);
+    }
+    return () => {
+      if (typeof window !== "undefined") {
+        window.removeEventListener("open-auth", handler as EventListener);
+      }
+    };
+  }, []);
   return (
     <div className="pointer-events-none fixed inset-0 z-40 block grid-cols-[auto_1fr_auto] grid-rows-[auto_1fr_auto] md:grid">
       <div
@@ -228,7 +272,12 @@ export default function Navbar() {
 
       <div className="flex h-full w-full flex-col rounded-lg md:border md:border-gray-200">
         <nav className="pointer-events-auto relative flex h-14 w-full items-center justify-between rounded-t-lg border-b border-gray-200 bg-white px-2 md:px-0 md:pl-14">
-          <MobileDrawer onSignInClick={() => setSigninOpen(true)} />
+          <MobileDrawer
+            onSignInClick={() => {
+              setAuthMode("signin");
+              setAuthOpen(true);
+            }}
+          />
 
           <div className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center gap-4 px-4 lg:block">
             <NavLinks />
@@ -236,7 +285,12 @@ export default function Navbar() {
 
           <div className="flex h-full items-center px-4">
             <div className="hidden lg:flex">
-              <AuthSection onSignInClick={() => setSigninOpen(true)} />
+              <AuthSection
+                onSignInClick={() => {
+                  setAuthMode("signin");
+                  setAuthOpen(true);
+                }}
+              />
             </div>
           </div>
         </nav>
@@ -251,21 +305,10 @@ export default function Navbar() {
         />
       </div>
 
-      <SigninDrawer
-        open={signinOpen}
-        onOpenChange={setSigninOpen}
-        onSignupClick={() => setSignupOpen(true)}
-        onForgotClick={() => setForgotOpen(true)}
-      />
-      <SignupDrawer
-        open={signupOpen}
-        onOpenChange={setSignupOpen}
-        onSigninClick={() => setSigninOpen(true)}
-      />
-      <ForgotPasswordDrawer
-        open={forgotOpen}
-        onOpenChange={setForgotOpen}
-        onSigninClick={() => setSigninOpen(true)}
+      <AuthDrawer
+        open={authOpen}
+        onOpenChange={setAuthOpen}
+        initialMode={authMode}
       />
 
       <div

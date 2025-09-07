@@ -97,7 +97,7 @@ export default function JoinTeam({
             {!!errors.length && (
               <ul className="px-2 py-1">
                 {errors.map((error) => (
-                  <li key={error} className="text-sm text-accent-red">
+                  <li key={error} className="text-accent-red text-sm">
                     {error}
                   </li>
                 ))}
