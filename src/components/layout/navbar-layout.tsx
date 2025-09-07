@@ -9,10 +9,16 @@ export default function NavbarLayout({
   className = "",
 }: NavbarLayoutProps) {
   return (
-    <div
-      className={`w-full px-3 py-10 md:px-24 md:py-24 md:pr-[2.55rem] ${className} `}
-    >
-      {children}
+    <div className="w-full">
+      <div
+        className={
+          // Symmetric horizontal padding + centered container.
+          // On very large screens, cap width and keep centered.
+          `mx-auto w-full px-3 py-10 sm:px-24 md:py-24 2xl:max-w-[1400px] 2xl:min-w-[1200px] ${className}`
+        }
+      >
+        {children}
+      </div>
     </div>
   );
 }
