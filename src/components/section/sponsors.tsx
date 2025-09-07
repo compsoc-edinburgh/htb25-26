@@ -189,7 +189,7 @@ const MobileSponsorCard = ({
                         className="inline-block w-fit align-middle"
                         // style={{ width: barWidth }}
                       >
-                          <span className="overflow-hidden bg-[#000000833] blur-[4px]"
+                          <span className="overflow-hidden bg-black"
                           style={{ userSelect: "none" }}>
                           {prize.text}
                         </span>
@@ -457,7 +457,7 @@ const SponsorCard = ({
                       className="inline-block w-fit align-middle"
                       // style={{ width: barWidth }}
                     >
-                      <span className="user-select-none overflow-hidden bg-[#000000833] blur-[4px]"
+                      <span className="user-select-none overflow-hidden bg-black"
                         style={{ userSelect: "none" }}>
                         {prize.text}
                       </span>
