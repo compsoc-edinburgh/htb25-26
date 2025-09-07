@@ -87,7 +87,8 @@ const NavLinks = ({
         gsap.to(bg, { scaleX: 1, duration: 0.25, ease: "power2.out" });
       }
       if (text) {
-        if (!text.dataset.originalLabel) text.dataset.originalLabel = text.textContent || "";
+        if (!text.dataset.originalLabel)
+          text.dataset.originalLabel = text.textContent || "";
         gsap.killTweensOf(text);
         gsap.set(text, { position: "relative", zIndex: 1 });
         gsap.to(text, { color: "#000", duration: 0.2, ease: "power2.out" });
@@ -131,7 +132,7 @@ const NavLinks = ({
         <Button
           asChild
           key={href}
-          className={buttonClasses + " px-0 py-0 hover:none"}
+          className={buttonClasses + " hover:none px-0 py-0"}
           variant="ghost"
         >
           <a
@@ -368,12 +369,16 @@ const MobileDrawer = ({
               </div>
             </div>
             <div className="-mt-0.5 basis-2/3">
-              <div className="flex flex-col gap-2 text-[11px] tracking-wide">
+              <div className="flex flex-col gap-1 text-[11px] tracking-wide">
                 <a
                   href={isBeforeOpenDate() ? "/applications-closed" : "/apply"}
                   className={`text-white ${isBeforeOpenDate() ? "cursor-not-allowed opacity-60" : ""}`}
                   onClick={(e) => {
-                    if (isBeforeOpenDate()) e.preventDefault();
+                    if (isBeforeOpenDate()) {
+                      e.preventDefault();
+                    } else {
+                      onOpenChange(false);
+                    }
                   }}
                   title={
                     isBeforeOpenDate()
