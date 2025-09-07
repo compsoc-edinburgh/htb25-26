@@ -80,3 +80,36 @@
     @apply scroll-smooth bg-background text-foreground;
   }
 }
+
+/* Custom text selection styles  */
+
+/*** Works on common browsers ***/
+::selection {
+  background-color: black;
+  color: white;
+  /* -webkit-text-decoration: underline wavy white;
+  text-decoration: underline wavy white; */
+}
+
+/*** Mozilla based browsers ***/
+::-moz-selection {
+  background-color: black;
+  color: #fff;
+}
+
+/***For Other Browsers ***/
+::-o-selection {
+  background-color: black;
+  color: #fff;
+}
+
+::-ms-selection {
+  background-color: black;
+  color: #fff;
+}
+
+/*** For Webkit ***/
+::-webkit-selection {
+  background-color: black;
+  color: #fff;
+}
