@@ -214,7 +214,6 @@ const NavLinks = ({
     </div>
   );
 };
-
 const AuthSection = ({
   mobile = false,
   onSignInClick,
@@ -226,6 +225,41 @@ const AuthSection = ({
 
   // Define a simple rectangle clip path for the overlay
   const rectClipPath = "polygon(0 0, 100% 0, 100% 100%, 0 100%)";
+
+  // Scramble handlers (match NavLinks behavior, no bg expansion)
+  const handleMouseEnter = (e: React.MouseEvent<HTMLElement>) => {
+    const text = (e.currentTarget as HTMLElement).querySelector(
+      ".authlink-text"
+    ) as HTMLElement | null;
+    if (!text) return;
+    // Skip if loader is shown
+    if (text.querySelector("svg")) return;
+
+    if (!text.dataset.originalLabel) {
+      text.dataset.originalLabel = text.textContent || "";
+    }
+    gsap.killTweensOf(text);
+    gsap.to(text, {
+      duration: 0.5,
+      scrambleText: {
+        text: text.dataset.originalLabel || "",
+        chars: "upperCase",
+        revealDelay: 0,
+        speed: 0.6,
+      },
+    });
+  };
+
+  const handleMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
+    const text = (e.currentTarget as HTMLElement).querySelector(
+      ".authlink-text"
+    ) as HTMLElement | null;
+    if (!text) return;
+    gsap.killTweensOf(text);
+    if (text.dataset.originalLabel) {
+      text.textContent = text.dataset.originalLabel;
+    }
+  };
 
   const gated = isBeforeOpenDate();
   return (
@@ -244,12 +278,14 @@ const AuthSection = ({
             <div
               className={`${STYLES.signInButton} border border-black bg-white transition-colors duration-200 hover:bg-zinc-900 ${gated ? "cursor-not-allowed opacity-60" : ""}`}
               style={{ clipPath: STYLES.clipPath }}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
             >
               <div
                 className="absolute inset-0 rounded-t-sm bg-black transition-colors duration-200 hover:bg-zinc-900"
                 style={{ clipPath: rectClipPath }}
               />
-              <span className="relative z-10 flex w-[5rem] items-center justify-center">
+              <span className="authlink-text relative z-10 flex w-[5rem] items-center justify-center">
                 DASHBOARD
               </span>
             </div>
@@ -263,14 +299,25 @@ const AuthSection = ({
             title={gated ? `CLOSED` : undefined}
           >
             <div
-              className={`${STYLES.signInButton} border border-black bg-white transition-colors duration-200 hover:bg-zinc-900 ${gated ? "cursor-not-allowed opacity-60" : ""}`}
+              className={`${STYLES.signInButton} border border-black bg-white transition-colors duration-200 hover:bg-zinc-900 ${gated ? "cursor-not-allowed border-none" : ""}`}
               style={{ clipPath: STYLES.clipPath }}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
             >
               <div
-                className="absolute inset-0 rounded-t-sm bg-black transition-colors duration-200 hover:bg-zinc-900"
+                className={`absolute inset-0 rounded-t-sm transition-colors duration-200 hover:bg-zinc-900 bg-black`}
                 style={{ clipPath: rectClipPath }}
               />
-              <span className="relative z-10 flex w-[5rem] items-center justify-center">
+              <span
+                className={`authlink-text relative z-10 flex w-[5rem] items-center justify-center ${gated ? "w-fit text-[0.6rem] uppercase text-grey 2xl:text-[0.8rem]" : ""}`}
+                data-original-label={
+                  isSignedIn === undefined
+                    ? undefined
+                    : gated
+                      ? `OPENS ${OPEN_DATE_READABLE}`
+                      : "SIGN IN"
+                }
+              >
                 {isSignedIn == undefined ? (
                   <Loader2 className="animate-spin" />
                 ) : gated ? (
