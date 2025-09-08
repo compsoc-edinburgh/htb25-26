@@ -99,11 +99,17 @@ export default function ScheduleTimeline({
   startHour = 9,
   endHour = 23,
   className = "",
-  pxPerHour = 400, // Increased from 240 to give more space
+  pxPerHour = typeof window !== "undefined" &&
+  window.matchMedia("(max-width: 768px)").matches
+    ? 300
+    : 330, // 300 on desktop, 330 on mobile
   compressAfterMinutes = 60,
   gapCompressFactor = 0.25,
   minEventWidth = 120, // Increased from 80 to 120 for better readability
-  dayRowHeight = 400, // Increased from 220 to 260
+  dayRowHeight = typeof window !== "undefined"
+    && window.matchMedia("(max-width: 768px)").matches
+      ? 280 // mobile
+      : 330,
 }: ScheduleTimelineProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
@@ -380,11 +386,11 @@ export default function ScheduleTimeline({
                                   willChange: "color",
                                 }}
                               >
-                                <div className="mb-3 whitespace-nowrap text-sm font-light">
+                                <div className="mb-3 whitespace-nowrap text-xs 2xl:text-sm font-light">
                                   {e.start} – {e.end}
                                 </div>
 
-                                <div className="mb-2 break-words font-whyte text-base font-bold leading-tight sm:text-base">
+                                <div className="mb-2 break-words font-whyte text-base font-bold leading-tight sm:text-base  xl:text-xl 2xl:text-2xl">
                                   {e.title}
                                 </div>
 
