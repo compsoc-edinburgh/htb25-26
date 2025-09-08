@@ -62,10 +62,7 @@ const NavLinks = ({
     : `${STYLES.navButton.base} ${STYLES.navButton.desktop}`;
 
   // smooth scroll handler using gsap ScrollTo with offset for navbar
-   const handleClick = (
-    e: MouseEvent<HTMLAnchorElement>,
-    href: string
-  ) => {
+  const handleClick = (e: MouseEvent<HTMLAnchorElement>, href: string) => {
     if (!href.startsWith("/#")) return; // external or page route
     e.preventDefault();
 
@@ -406,11 +403,7 @@ const MobileDrawer = ({
                       onOpenChange(false);
                     }
                   }}
-                  title={
-                    isBeforeOpenDate()
-                      ? `CLOSED`
-                      : undefined
-                  }
+                  title={isBeforeOpenDate() ? `CLOSED` : undefined}
                 >
                   REGISTER
                 </a>
@@ -449,7 +442,9 @@ const MobileDrawer = ({
               </a>
               , Abibabis
             </div>
-            <div className="mt-2 text-[10px] text-neutral-600">{COPYRIGHT_TEXT}</div>
+            <div className="mt-2 text-[10px] text-neutral-600">
+              {COPYRIGHT_TEXT}
+            </div>
           </section>
         </div>
       </DrawerContent>

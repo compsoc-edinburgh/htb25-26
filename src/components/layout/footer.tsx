@@ -7,7 +7,7 @@ const FooterSection = ({
   items: {
     label: string;
     href: string;
-  }[]
+  }[];
   className?: string;
 }) => (
   <div className={`flex flex-col justify-between px-0 py-2 pl-2 ${className}`}>
@@ -17,7 +17,11 @@ const FooterSection = ({
     </div>
     <div className="flex h-28 flex-col gap-2 md:h-auto">
       {items.map((item, index) => (
-        <a href={item.href} key={index} className="text-xs uppercase text-white md:text-sm hover:underline">
+        <a
+          href={item.href}
+          key={index}
+          className="text-xs uppercase text-white hover:underline md:text-sm"
+        >
           {item.label}
         </a>
       ))}
@@ -29,7 +33,6 @@ import { NAV_LINKS, SOCIAL_LINKS } from "~/lib/constants/navigation";
 import { COPYRIGHT_TEXT } from "~/lib/constants/site";
 
 const Footer = () => {
-
   return (
     <div className="relative z-50 grid w-full gap-4 bg-black p-5 sm:p-6 md:h-96 md:grid-cols-4 md:grid-rows-5">
       <div className="flex items-center border-b border-zinc-800 px-0 md:col-span-2 md:row-span-4 md:border-b-0 md:border-r md:px-5">
