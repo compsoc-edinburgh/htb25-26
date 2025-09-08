@@ -29,7 +29,7 @@ export const applicationRouter = createTRPCRouter({
 
       const resend = new Resend(process.env.RESEND_API_KEY);
 
-      resend.emails.send({
+      await resend.emails.send({
         from: "applications@hacktheburgh.com",
         to: user.email,
         subject: "We received your application",
@@ -118,7 +118,7 @@ export const applicationRouter = createTRPCRouter({
                   <body style="padding:3rem;background-color:hsl(234,59%,7%);">
                       <div id="header-image-container" style="justify-content:center">
                           <a href="https://hacktheburgh.com/" target="_blank" style="margin: 0 auto;">
-                          <img src="https://hacktheburgh.com/HTB-logo.png" id="header-image" />
+                          <img alt="logo" src="https://hacktheburgh.com/HTB-logo.png" id="header-image" />
                           </a>
                       </div>
                       <div class="container" style="background-color: hsl(68, 100%, 51%);">

@@ -4,7 +4,10 @@ const FooterSection = ({
   className = "",
 }: {
   title: string;
-  items: string[];
+  items: {
+    label: string;
+    href: string;
+  }[]
   className?: string;
 }) => (
   <div className={`flex flex-col justify-between px-0 py-2 pl-2 ${className}`}>
@@ -14,17 +17,37 @@ const FooterSection = ({
     </div>
     <div className="flex h-28 flex-col gap-2 md:h-auto">
       {items.map((item, index) => (
-        <div key={index} className="text-xs uppercase text-white md:text-sm">
-          {item}
-        </div>
+        <a href={item.href} key={index} className="text-xs uppercase text-white md:text-sm hover:underline">
+          {item.label}
+        </a>
       ))}
     </div>
   </div>
 );
 
 const Footer = () => {
-  const discoverItems = ["ABOUT", "SCHEDULE", "SPONSORS", "FAQ", "APPLY"];
-  const socialItems = ["GITHUB", "LINKEDIN", "INSTAGRAM"];
+  const NAV_LINKS = [
+    { href: "/#about", label: "ABOUT" },
+    { href: "/#schedule", label: "SCHEDULE" },
+    { href: "/#team", label: "TEAM" },
+    { href: "/#faq", label: "FAQ" },
+    { href: "/#volunteer", label: "VOLUNTEER" },
+  ];
+
+  const SOCIAL_LINKS = [
+    {
+      label: "GITHUB",
+      href: "https://github.com/compsoc-edinburgh/htb25-26",
+    },
+    {
+      label: "INSTAGRAM",
+      href: "https://www.instagram.com/hacktheburgh",
+    },
+    {
+      label: "LINKEDIN",
+      href: "https://www.linkedin.com/company/hacktheburgh/",
+    },
+  ];
 
   return (
     <div className="relative z-50 grid w-full gap-4 bg-black p-5 sm:p-6 md:h-96 md:grid-cols-4 md:grid-rows-5">
@@ -35,18 +58,18 @@ const Footer = () => {
       </div>
 
       <div className="grid grid-cols-2 gap-4 md:hidden">
-        <FooterSection title="Discover" items={discoverItems} />
-        <FooterSection title="Follow Us" items={socialItems} />
+        <FooterSection title="Discover" items={NAV_LINKS} />
+        <FooterSection title="Follow Us" items={SOCIAL_LINKS} />
       </div>
 
       <FooterSection
         title="Discover"
-        items={discoverItems}
+        items={NAV_LINKS}
         className="hidden md:col-start-3 md:row-span-4 md:flex md:px-5 md:pl-1"
       />
       <FooterSection
         title="Follow Us"
-        items={socialItems}
+        items={SOCIAL_LINKS}
         className="hidden border-zinc-800 md:col-start-4 md:row-span-4 md:flex md:border-l md:px-5"
       />
 

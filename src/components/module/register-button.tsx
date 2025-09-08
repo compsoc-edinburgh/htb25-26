@@ -1,17 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import React, { useCallback } from "react";
+import { useCallback } from "react";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import { isBeforeOpenDate, OPEN_DATE_READABLE } from "~/lib/date-gate";
+import { isBeforeOpenDate } from "~/lib/date-gate";
 
 type RegisterButtonProps = {
-  href?: string;
-  onClick?: () => void;
-  label?: string;
-  subtitle?: string;
   className?: string;
+  href?: string;
+  label?: string;
+  onClick?: () => void;
+  subtitle?: string;
 };
 
 export default function RegisterButton({

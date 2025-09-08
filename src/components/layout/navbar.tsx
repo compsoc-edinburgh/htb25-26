@@ -3,8 +3,7 @@
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { Loader2, Menu } from "lucide-react";
-import { useState } from "react";
-import { useEffect, useRef } from "react";
+import { useEffect, useState, MouseEvent } from "react";
 import { gsap } from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { ScrambleTextPlugin } from "gsap/ScrambleTextPlugin";
@@ -27,7 +26,7 @@ if (
   gsap.registerPlugin(ScrollToPlugin, ScrambleTextPlugin);
   (gsap as any)._htbPlugins = true;
 }
-import { isBeforeOpenDate, OPEN_DATE_READABLE } from "~/lib/date-gate";
+import { isBeforeOpenDate } from "~/lib/date-gate";
 
 interface NavLink {
   href: string;
@@ -69,8 +68,8 @@ const NavLinks = ({
     : `${STYLES.navButton.base} ${STYLES.navButton.desktop}`;
 
   // smooth scroll handler using gsap ScrollTo with offset for navbar
-  const handleClick = (
-    e: React.MouseEvent<HTMLAnchorElement>,
+   const handleClick = (
+    e: MouseEvent<HTMLAnchorElement>,
     href: string
   ) => {
     if (!href.startsWith("/#")) return; // external or page route
@@ -261,7 +260,7 @@ const AuthSection = ({
             onClick={gated ? undefined : onSignInClick}
             className="inline-block"
             aria-disabled={gated}
-            title={gated ? `Opens ${OPEN_DATE_READABLE}` : undefined}
+            title={gated ? `CLOSED` : undefined}
           >
             <div
               className={`${STYLES.signInButton} border border-black bg-white transition-colors duration-200 hover:bg-zinc-900 ${gated ? "cursor-not-allowed opacity-60" : ""}`}
@@ -275,7 +274,7 @@ const AuthSection = ({
                 {isSignedIn == undefined ? (
                   <Loader2 className="animate-spin" />
                 ) : gated ? (
-                  `OPENS ${OPEN_DATE_READABLE}`
+                  `CLOSED`
                 ) : (
                   "SIGN IN"
                 )}
@@ -382,7 +381,7 @@ const MobileDrawer = ({
                   }}
                   title={
                     isBeforeOpenDate()
-                      ? `Opens ${OPEN_DATE_READABLE}`
+                      ? `CLOSED`
                       : undefined
                   }
                 >
