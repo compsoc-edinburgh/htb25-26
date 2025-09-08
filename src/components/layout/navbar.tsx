@@ -296,7 +296,7 @@ const AuthSection = ({
             onClick={gated ? undefined : onSignInClick}
             className="inline-block"
             aria-disabled={gated}
-            title={gated ? `CLOSED` : undefined}
+            title={gated ? `Applications Not Open` : undefined}
           >
             <div
               className={`${STYLES.signInButton} border border-black bg-white transition-colors duration-200 hover:bg-zinc-900 ${gated ? "cursor-not-allowed border-none" : ""}`}
@@ -305,23 +305,23 @@ const AuthSection = ({
               onMouseLeave={handleMouseLeave}
             >
               <div
-                className={`absolute inset-0 rounded-t-sm transition-colors duration-200 hover:bg-zinc-900 bg-black`}
+                className={`absolute inset-0 rounded-t-sm bg-black transition-colors duration-200 hover:bg-zinc-900`}
                 style={{ clipPath: rectClipPath }}
               />
               <span
-                className={`authlink-text relative z-10 flex w-[5rem] items-center justify-center ${gated ? "w-fit text-[0.6rem] uppercase text-grey 2xl:text-[0.8rem]" : ""}`}
+                className={`authlink-text relative z-10 flex w-[5rem] items-center justify-center ${gated ? "text-grey w-fit text-[0.6rem] uppercase 2xl:text-[0.8rem]" : ""}`}
                 data-original-label={
                   isSignedIn === undefined
                     ? undefined
                     : gated
-                      ? `OPENS ${OPEN_DATE_READABLE}`
+                      ? `Applications Not Open`
                       : "SIGN IN"
                 }
               >
                 {isSignedIn == undefined ? (
                   <Loader2 className="animate-spin" />
                 ) : gated ? (
-                  `CLOSED`
+                  `Applications Not Open`
                 ) : (
                   "SIGN IN"
                 )}
