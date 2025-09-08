@@ -27,7 +27,7 @@ export default function Page() {
     <main className="h-full w-full pb-24">
       {/* ABOUT */}
       <div id="about" className="scroll-mt-24 md:scroll-mt-28 2xl:scroll-mt-40">
-        <NavbarLayout className="h-screen py-0">
+        <NavbarLayout className="h-screen py-0 relative">
           <div className="relative flex h-full w-full items-center justify-center">
             <div className="flex scale-90 transform flex-col items-center px-4 text-center sm:scale-100">
               <svg
