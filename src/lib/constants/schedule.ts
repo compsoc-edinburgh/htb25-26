@@ -7,7 +7,7 @@ export const hackathonEvents: Event[] = [
     start: "9:00",
     end: "10:00",
     title: "Arrival of participants",
-    location: "@BOAK_LEC_THEATRE",
+    location: "@NUCLEUS_FOYER",
     description: "Check in and be ready for the event",
   },
   {
@@ -16,7 +16,7 @@ export const hackathonEvents: Event[] = [
     start: "10:00",
     end: "11:00",
     title: "Opening Ceremony",
-    location: "@THE_NUCLEUS",
+    location: "@OAK_LECTURE_THEATRE",
     description: "Opening ceremony and welcome speech",
   },
   {
@@ -34,7 +34,7 @@ export const hackathonEvents: Event[] = [
     start: "13:00",
     end: "14:00",
     title: "Lunch",
-    location: "@THE_NUCLEUS",
+    location: "@FIRST_FLOOR",
   },
   {
     id: "workshop",
@@ -42,7 +42,7 @@ export const hackathonEvents: Event[] = [
     start: "14:00",
     end: "16:00",
     title: "Workshop",
-    location: "@THE_NUCLEUS",
+    location: "@TBA",
     description: "Learn new technologies and frameworks",
   },
   {
@@ -51,7 +51,7 @@ export const hackathonEvents: Event[] = [
     start: "19:30",
     end: "20:00",
     title: "Dinner",
-    location: "@THE_NUCLEUS",
+    location: "@FIRST_FLOOR",
   },
   {
     id: "breakfast",
@@ -59,7 +59,7 @@ export const hackathonEvents: Event[] = [
     start: "08:00",
     end: "09:00",
     title: "Breakfast",
-    location: "@THE_NUCLEUS",
+    location: "@FIRST_FLOOR",
   },
   {
     id: "submission",
@@ -76,7 +76,7 @@ export const hackathonEvents: Event[] = [
     start: "12:00",
     end: "13:00",
     title: "Lunch",
-    location: "@CATERING_AREA",
+    location: "@FIRST_FLOOR",
   },
   {
     id: "demo",
@@ -84,7 +84,7 @@ export const hackathonEvents: Event[] = [
     start: "13:00",
     end: "15:00",
     title: "Demo & Judging",
-    location: "@THE_NUCLEUS",
+    location: "@TBA",
   },
   {
     id: "final-results",
@@ -101,7 +101,7 @@ export const hackathonEvents: Event[] = [
     start: "15:30",
     end: "17:00",
     title: "Closing Ceremony",
-    location: "@THE_NUCLEUS",
+    location: "@OAK_LECTURE_THEATRE",
     description: "Closing ceremony and wrap up",
   },
   {

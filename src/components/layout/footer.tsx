@@ -25,29 +25,10 @@ const FooterSection = ({
   </div>
 );
 
-const Footer = () => {
-  const NAV_LINKS = [
-    { href: "/#about", label: "ABOUT" },
-    { href: "/#schedule", label: "SCHEDULE" },
-    { href: "/#team", label: "TEAM" },
-    { href: "/#faq", label: "FAQ" },
-    { href: "/#volunteer", label: "VOLUNTEER" },
-  ];
+import { NAV_LINKS, SOCIAL_LINKS } from "~/lib/constants/navigation";
+import { COPYRIGHT_TEXT } from "~/lib/constants/site";
 
-  const SOCIAL_LINKS = [
-    {
-      label: "GITHUB",
-      href: "https://github.com/compsoc-edinburgh/htb25-26",
-    },
-    {
-      label: "INSTAGRAM",
-      href: "https://www.instagram.com/hacktheburgh",
-    },
-    {
-      label: "LINKEDIN",
-      href: "https://www.linkedin.com/company/hacktheburgh/",
-    },
-  ];
+const Footer = () => {
 
   return (
     <div className="relative z-50 grid w-full gap-4 bg-black p-5 sm:p-6 md:h-96 md:grid-cols-4 md:grid-rows-5">
@@ -77,7 +58,7 @@ const Footer = () => {
         <div className="hidden text-xs text-zinc-300 md:block">
           MADE WITH &lt;3 BY: DANYIL, KAY, EMILY, YUNA, ABIBABIS
         </div>
-        <div className="text-xs text-zinc-300">©CompSoc HTB Team</div>
+        <div className="text-xs text-zinc-300">{COPYRIGHT_TEXT}</div>
       </div>
     </div>
   );

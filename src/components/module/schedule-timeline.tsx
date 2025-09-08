@@ -99,11 +99,11 @@ export default function ScheduleTimeline({
   startHour = 9,
   endHour = 23,
   className = "",
-  pxPerHour = 300, // Increased from 240 to give more space
+  pxPerHour = 400, // Increased from 240 to give more space
   compressAfterMinutes = 60,
   gapCompressFactor = 0.25,
   minEventWidth = 120, // Increased from 80 to 120 for better readability
-  dayRowHeight = 260, // Increased from 220 to 260
+  dayRowHeight = 400, // Increased from 220 to 260
 }: ScheduleTimelineProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
@@ -380,11 +380,11 @@ export default function ScheduleTimeline({
                                   willChange: "color",
                                 }}
                               >
-                                <div className="mb-3 whitespace-nowrap text-xs font-light">
+                                <div className="mb-3 whitespace-nowrap text-sm font-light">
                                   {e.start} – {e.end}
                                 </div>
 
-                                <div className="mb-2 break-words font-whyte text-sm font-bold leading-tight sm:text-base">
+                                <div className="mb-2 break-words font-whyte text-base font-bold leading-tight sm:text-base">
                                   {e.title}
                                 </div>
 

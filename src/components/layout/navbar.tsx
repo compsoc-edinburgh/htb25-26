@@ -27,19 +27,13 @@ if (
   (gsap as any)._htbPlugins = true;
 }
 import { isBeforeOpenDate } from "~/lib/date-gate";
+import { NAV_LINKS, SOCIAL_LINKS } from "~/lib/constants/navigation";
+import { COPYRIGHT_TEXT } from "~/lib/constants/site";
 
 interface NavLink {
   href: string;
   label: string;
 }
-
-const NAV_LINKS: NavLink[] = [
-  { href: "/#about", label: "ABOUT" },
-  { href: "/#schedule", label: "SCHEDULE" },
-  { href: "/#team", label: "TEAM" },
-  { href: "/#faq", label: "FAQ" },
-  { href: "/#volunteer", label: "VOLUNTEER" },
-];
 
 const STYLES = {
   clipPath: "polygon(0 0, 100% 0, 100% 100%, 20px 100%, 0 calc(100% - 20px))",
@@ -382,27 +376,13 @@ const MobileDrawer = ({
             </div>
             <div className="basis-2/3">
               <ul className="-mt-0.5 flex flex-col gap-2 text-[11px] uppercase tracking-wide">
-                <li>
-                  <a
-                    href="https://www.linkedin.com/company/hacktheburgh/"
-                    className="text-white"
-                  >
-                    Linkedin
-                  </a>
-                </li>
-                {/* <li>
-                  <a href="" className="text-white">
-                    DISCORD
-                  </a>
-                </li> */}
-                <li>
-                  <a
-                    href="https://www.instagram.com/hacktheburgh"
-                    className="text-white"
-                  >
-                    INSTAGRAM
-                  </a>
-                </li>
+                {SOCIAL_LINKS.map((item) => (
+                  <li key={item.href}>
+                    <a href={item.href} className="text-white">
+                      {item.label}
+                    </a>
+                  </li>
+                ))}
               </ul>
             </div>
           </section>
@@ -469,9 +449,7 @@ const MobileDrawer = ({
               </a>
               , Abibabis
             </div>
-            <div className="mt-2 text-[10px] text-neutral-600">
-              ©CompSoc HTB Team
-            </div>
+            <div className="mt-2 text-[10px] text-neutral-600">{COPYRIGHT_TEXT}</div>
           </section>
         </div>
       </DrawerContent>

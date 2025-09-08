@@ -5,62 +5,12 @@ import React, { useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrambleTextPlugin } from "gsap/ScrambleTextPlugin";
 import SectionHeader from "../module/section-header";
+import { TEAM_MEMBERS, TeamMember } from "~/lib/constants/team";
 
 // Register GSAP plugins
 gsap.registerPlugin(ScrambleTextPlugin);
 
-interface TeamMember {
-  name: string;
-  role: string;
-  bio: string;
-  image?: string; // remote image
-}
-
-// Unsplash mock images (cropped with parameters for consistent sizing)
-const teamMembers: TeamMember[] = [
-  {
-    name: "Danyil Butov",
-    role: "Tech Lead",
-    bio: "Software developer passionate about user‑centric design.",
-    // image:
-    //   "https://images.unsplash.com/photo-1527980965255-d3b416303d12?auto=format&fit=crop&w=400&q=80",
-  },
-  {
-    name: "Alex Morgan",
-    role: "President",
-    bio: "Guiding the vision and keeping everything on track.",
-  },
-  {
-    name: "Priya Shah",
-    role: "Sponsorship",
-    bio: "Building meaningful relationships.",
-  },
-  {
-    name: "Leo Martínez",
-    role: "Design",
-    bio: "Crafting consistent branding and visual identity.",
-  },
-  {
-    name: "Hannah Lee",
-    role: "Logistics",
-    bio: "Making the weekend run smoothly end‑to‑end.",
-  },
-  {
-    name: "Omar Ali",
-    role: "Workshops",
-    bio: "Curating sessions that inspire creative hacks.",
-  },
-  {
-    name: "Sofia Rossi",
-    role: "Community",
-    bio: "Creating an inclusive, welcoming atmosphere.",
-  },
-  {
-    name: "Ethan Park",
-    role: "Ops Engineer",
-    bio: "Keeping infrastructure stable and fast all weekend.",
-  },
-];
+// Team members are centralized in ~/lib/constants/team
 
 // SVG wrappers so we can style them with absolute content overlays
 const TopShape: React.FC<React.PropsWithChildren> = ({ children }) => (
@@ -347,7 +297,7 @@ export default function Team() {
       />
 
       <div className="mt-10 grid grid-cols-2 justify-center gap-4 px-4 sm:grid-cols-2 sm:gap-8 md:grid-cols-3 md:gap-10 lg:grid-cols-4 lg:gap-12">
-        {teamMembers.map((m) => (
+        {TEAM_MEMBERS.map((m) => (
           <TeamCard key={m.name} member={m} />
         ))}
       </div>
