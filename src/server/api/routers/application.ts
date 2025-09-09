@@ -7,6 +7,7 @@ import {
 } from "~/server/api/trpc";
 
 import { Resend } from "resend";
+import { TRPCError } from "@trpc/server";
 
 export const applicationRouter = createTRPCRouter({
   create: protectedProcedure
@@ -24,16 +25,17 @@ export const applicationRouter = createTRPCRouter({
       });
 
       if (!user) {
-        throw new Error("User not found");
+        throw new TRPCError({ code: "NOT_FOUND", message: "User not found" });
       }
 
       const resend = new Resend(process.env.RESEND_API_KEY);
 
-      await resend.emails.send({
-        from: "applications@hacktheburgh.com",
-        to: user.email,
-        subject: "We received your application",
-        html: `<!DOCTYPE html>
+      void resend.emails
+        .send({
+          from: "applications@hacktheburgh.com",
+          to: user.email,
+          subject: "We received your application",
+          html: `<!DOCTYPE html>
                   <html lang="en">
                   <head>
                       <meta charset="UTF-8">
@@ -140,7 +142,10 @@ export const applicationRouter = createTRPCRouter({
 
                   </html>
           `,
-      });
+        })
+        .catch((err) => {
+          console.error("Failed to send application email:", err);
+        });
       try {
         return ctx.db.application.create({
           data: {
@@ -150,7 +155,10 @@ export const applicationRouter = createTRPCRouter({
         });
       } catch (error) {
         console.error(error);
-        throw new Error("Failed to create application");
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Failed to create application",
+        });
       }
     }),
   getUserApplication: publicProcedure.query(async ({ ctx }) => {
@@ -178,7 +186,7 @@ export const applicationRouter = createTRPCRouter({
   }),
   getApplications: protectedProcedure.query(async ({ ctx }) => {
     if (ctx.auth.sessionClaims.metadata.role !== "admin") {
-      throw new Error("Unauthorized");
+      throw new TRPCError({ code: "FORBIDDEN" });
     }
 
     return ctx.db.application.findMany({

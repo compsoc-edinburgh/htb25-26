@@ -29,11 +29,8 @@ if (
 import { isBeforeOpenDate } from "~/lib/date-gate";
 import { NAV_LINKS, SOCIAL_LINKS } from "~/lib/constants/navigation";
 import { COPYRIGHT_TEXT } from "~/lib/constants/site";
-
-interface NavLink {
-  href: string;
-  label: string;
-}
+import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 const STYLES = {
   clipPath: "polygon(0 0, 100% 0, 100% 100%, 20px 100%, 0 calc(100% - 20px))",
@@ -53,6 +50,9 @@ const NavLinks = ({
   mobile?: boolean;
   onNavigate?: () => void;
 }) => {
+  const router = useRouter();
+  const pathname = usePathname();
+
   const containerClasses = mobile
     ? "flex flex-col items-start gap-2 text-[9px]"
     : "flex w-full items-center justify-center gap-14 text-black";
@@ -63,8 +63,12 @@ const NavLinks = ({
 
   // smooth scroll handler using gsap ScrollTo with offset for navbar
   const handleClick = (e: MouseEvent<HTMLAnchorElement>, href: string) => {
-    if (!href.startsWith("/#")) return; // external or page route
-    e.preventDefault();
+    if (!href.startsWith("/#")) return;
+
+    if (pathname !== "/") {
+      router.push("/");
+      return;
+    }
 
     // play click animation on mobile
     if (mobile) {

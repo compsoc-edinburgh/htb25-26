@@ -7,11 +7,8 @@ import {
   publicProcedure,
 } from "~/server/api/trpc";
 
-const CHALLENGE_ONE_SOLUTION = process.env.CHALLENGE_ANSWER;
-
 export const userRouter = createTRPCRouter({
   get: protectedProcedure.query(async ({ ctx }) => {
-    console.log("in trpc", ctx.auth.userId);
     return ctx.db.user.findUnique({
       where: { id: ctx.auth.userId },
       include: {
@@ -96,17 +93,14 @@ export const userRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const client = await clerkClient();
-
-      // Beware of the naming, only the database fields are snake_case
       if (input.firstName || input.lastName) {
+        const client = await clerkClient();
+
         await client.users.updateUser(ctx.auth.userId, {
           firstName: input.firstName,
           lastName: input.lastName,
         });
       }
-
-      console.log(input.pronouns);
 
       const metadata = {
         country: input.country,
@@ -131,7 +125,7 @@ export const userRouter = createTRPCRouter({
         pizza_choice: input.pizza,
       };
 
-      // Save other information in clerk metadata
+      const client = await clerkClient();
       await client.users.updateUserMetadata(ctx.auth.userId, {
         publicMetadata: metadata,
       });
@@ -145,49 +139,4 @@ export const userRouter = createTRPCRouter({
         },
       });
     }),
-  completeChallenge: protectedProcedure
-    .input(
-      z.object({
-        solution: z.string().trim(),
-      })
-    )
-    .mutation(async ({ ctx, input }) => {
-      const existing = await ctx.db.challengeCompletion.findUnique({
-        where: {
-          userId: ctx.auth.userId,
-        },
-      });
-
-      if (existing) {
-        return {
-          success: true,
-          message: "Challenge already completed",
-        };
-      }
-
-      if (input.solution !== process.env.CHALLENGE_ANSWER) {
-        return {
-          success: false,
-          message: "Invalid solution",
-        };
-      }
-
-      await ctx.db.challengeCompletion.create({
-        data: {
-          userId: ctx.auth.userId,
-        },
-      });
-
-      return {
-        success: true,
-        message: "Challenge completed successfully",
-      };
-    }),
-  getChallengeCompletion: protectedProcedure.query(async ({ ctx }) => {
-    return ctx.db.challengeCompletion.findUnique({
-      where: {
-        userId: ctx.auth.userId,
-      },
-    });
-  }),
 });

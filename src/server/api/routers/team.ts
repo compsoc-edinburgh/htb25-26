@@ -1,15 +1,12 @@
 import { clerkClient } from "@clerk/nextjs/server";
 import { z } from "zod";
 
-import {
-  createTRPCRouter,
-  protectedProcedure,
-  publicProcedure,
-} from "~/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+import { TRPCError } from "@trpc/server";
 
 export const teamRouter = createTRPCRouter({
   getUserTeam: protectedProcedure.query(async ({ ctx }) => {
-    var user = await ctx.db.user.findUnique({
+    const user = await ctx.db.user.findUnique({
       where: {
         id: ctx.auth.userId,
       },
@@ -74,7 +71,7 @@ export const teamRouter = createTRPCRouter({
         });
       } catch (err) {
         console.error(err);
-        throw new Error("ERROR");
+        throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
       }
     }),
   join: protectedProcedure
@@ -91,7 +88,7 @@ export const teamRouter = createTRPCRouter({
       });
 
       if (!team) {
-        throw new Error("NOTFOUND");
+        throw new TRPCError({ code: "NOT_FOUND" });
       }
 
       const client = await clerkClient();
@@ -140,7 +137,7 @@ export const teamRouter = createTRPCRouter({
       });
 
       if (!team) {
-        throw new Error("NOTFOUND");
+        throw new TRPCError({ code: "NOT_FOUND" });
       }
 
       const client = await clerkClient();
@@ -177,7 +174,7 @@ export const teamRouter = createTRPCRouter({
       });
 
       if (!team) {
-        throw new Error("NOTFOUND");
+        throw new TRPCError({ code: "NOT_FOUND" });
       }
 
       await ctx.db.team.update({
