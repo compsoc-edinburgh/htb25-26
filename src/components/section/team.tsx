@@ -205,21 +205,46 @@ const TeamCard: React.FC<{ member: TeamMember }> = ({ member }) => {
       if (!tl && member.link) openLinkIfAny();
     };
 
-    const handleTouchStart = () => {
+    // Touch gesture tracking to avoid accidental opens while scrolling
+    const touchState = { startX: 0, startY: 0, moved: false };
+    const MOVE_THRESHOLD = 10; // px
+
+    const handleTouchStart = (e: TouchEvent) => {
+      const t = e.touches[0];
+      if (!t) return;
+      touchState.startX = t.clientX;
+      touchState.startY = t.clientY;
+      touchState.moved = false;
       clickTimelineRef.current?.play();
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (touchState.moved) return;
+      const t = e.touches[0];
+      if (!t) return;
+      const dx = Math.abs(t.clientX - touchState.startX);
+      const dy = Math.abs(t.clientY - touchState.startY);
+      if (dx > MOVE_THRESHOLD || dy > MOVE_THRESHOLD) {
+        touchState.moved = true;
+      }
     };
 
     const handleTouchEnd = () => {
       const tl = clickTimelineRef.current;
-      if (member.link && tl) {
+      // If the finger moved significantly, treat as scroll; just reverse without opening.
+      const shouldOpen = !touchState.moved;
+      if (shouldOpen && member.link && tl) {
         const cb = () => {
           openLinkIfAny();
           tl.eventCallback("onReverseComplete", null);
         };
         tl.eventCallback("onReverseComplete", cb);
+      } else if (!shouldOpen) {
+        // ensure any previously scheduled callback is cleared
+        tl?.eventCallback("onReverseComplete", null);
       }
       tl?.reverse();
-      if (!tl && member.link) openLinkIfAny();
+      if (shouldOpen && !tl && member.link) openLinkIfAny();
     };
 
     // Use GSAP MatchMedia for responsive behavior
@@ -238,14 +263,16 @@ const TeamCard: React.FC<{ member: TeamMember }> = ({ member }) => {
     // Click/touch animations for all devices
     card.addEventListener("mousedown", handleMouseDown);
     card.addEventListener("mouseup", handleMouseUp);
-    card.addEventListener("touchstart", handleTouchStart);
+    card.addEventListener("touchstart", handleTouchStart, { passive: true });
+    card.addEventListener("touchmove", handleTouchMove, { passive: true });
     card.addEventListener("touchend", handleTouchEnd);
 
     return () => {
       card.removeEventListener("mousedown", handleMouseDown);
       card.removeEventListener("mouseup", handleMouseUp);
-      card.removeEventListener("touchstart", handleTouchStart);
-      card.removeEventListener("touchend", handleTouchEnd);
+      card.removeEventListener("touchstart", handleTouchStart as any);
+      card.removeEventListener("touchmove", handleTouchMove as any);
+      card.removeEventListener("touchend", handleTouchEnd as any);
 
       // Kill timelines and match media
       hoverTimelineRef.current?.kill();
