@@ -35,16 +35,16 @@ const TopShape: React.FC<React.PropsWithChildren> = ({ children }) => (
 );
 
 const BottomShape: React.FC<React.PropsWithChildren> = ({ children }) => (
-  <div className="relative aspect-[177/57] w-full">
+  <div className="relative aspect-[177/64] w-full">
     <svg
-      viewBox="0 0 177 57"
+      viewBox="0 0 177 64"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className="h-full w-full"
       preserveAspectRatio="xMidYMid meet"
     >
       <path
-        d="M1 39.6504V0.5H176V56.5H16.9091L1 39.6504Z"
+        d="M1 45.15V0.5H176V63.5H16.9091L1 45.15Z"
         stroke="#E5E5E5"
         strokeWidth="0.5"
         fill="white"
@@ -70,6 +70,7 @@ const TeamCard: React.FC<{ member: TeamMember }> = ({ member }) => {
   const roleRef = useRef<HTMLSpanElement>(null);
   const bioRef = useRef<HTMLParagraphElement>(null);
   const roleSquareRef = useRef<HTMLDivElement>(null);
+  const [hovering, setHovering] = React.useState(false);
 
   // Timeline refs
   const hoverTimelineRef = useRef<gsap.core.Timeline>();
@@ -171,11 +172,19 @@ const TeamCard: React.FC<{ member: TeamMember }> = ({ member }) => {
 
     // Event handlers
     const handleMouseEnter = () => {
+      setHovering(true);
       hoverTimelineRef.current?.play();
     };
 
     const handleMouseLeave = () => {
+      setHovering(false);
       hoverTimelineRef.current?.reverse();
+    };
+
+    const openLinkIfAny = () => {
+      if (member.link) {
+        window.open(member.link, "_blank", "noopener,noreferrer");
+      }
     };
 
     const handleMouseDown = () => {
@@ -183,7 +192,17 @@ const TeamCard: React.FC<{ member: TeamMember }> = ({ member }) => {
     };
 
     const handleMouseUp = () => {
-      clickTimelineRef.current?.reverse();
+      const tl = clickTimelineRef.current;
+      if (member.link && tl) {
+        // Attach a one-time reverse complete callback
+        const cb = () => {
+          openLinkIfAny();
+          tl.eventCallback("onReverseComplete", null); // cleanup
+        };
+        tl.eventCallback("onReverseComplete", cb);
+      }
+      tl?.reverse();
+      if (!tl && member.link) openLinkIfAny();
     };
 
     const handleTouchStart = () => {
@@ -191,7 +210,16 @@ const TeamCard: React.FC<{ member: TeamMember }> = ({ member }) => {
     };
 
     const handleTouchEnd = () => {
-      clickTimelineRef.current?.reverse();
+      const tl = clickTimelineRef.current;
+      if (member.link && tl) {
+        const cb = () => {
+          openLinkIfAny();
+          tl.eventCallback("onReverseComplete", null);
+        };
+        tl.eventCallback("onReverseComplete", cb);
+      }
+      tl?.reverse();
+      if (!tl && member.link) openLinkIfAny();
     };
 
     // Use GSAP MatchMedia for responsive behavior
@@ -242,7 +270,8 @@ const TeamCard: React.FC<{ member: TeamMember }> = ({ member }) => {
             >
               {member.image ? (
                 <Image
-                  src={member.image}
+                  key={hovering && member.gif ? "gif" : "img"}
+                  src={hovering && member.gif ? member.gif : member.image}
                   alt={member.name}
                   fill
                   className="object-cover"
