@@ -142,9 +142,7 @@ export default function FAQSection() {
                   style={{ height: 0 }}
                 >
                   <div className="pb-6 pl-[2rem] pr-8 pt-0 sm:pl-[17rem] sm:pr-32">
-                    <p className="break-words text-[0.7rem] leading-relaxed text-zinc-900 sm:text-[0.875rem]">
-                      {item.a}
-                    </p>
+                    <FAQAnswer html={item.a} />
                   </div>
                 </div>
               </li>
@@ -153,5 +151,36 @@ export default function FAQSection() {
         </ul>
       </div>
     </div>
+  );
+}
+
+// Helper component to safely render limited HTML in FAQ answers.
+// The source strings are internal constants (not user-generated), so minimal sanitization is acceptable here.
+function FAQAnswer({ html }: { html: string }) {
+  // Placeholder link mapping for tokens like (url://18)
+  const PLACEHOLDER_LINKS: Record<string, string> = {
+    "18": "/documents/HTB-Rules.pdf",
+    "5": "mailto:hello@hacktheburgh.com",
+  };
+
+  let transformed = html.replace(/\(url:\/\/(\d+)\)/g, (_, id: string) => {
+    const href = PLACEHOLDER_LINKS[id];
+    if (!href) return ""; // remove unknown token
+    // Use descriptive label if it's a mailto vs pdf rule doc
+    if (href.startsWith("mailto:")) {
+      return ` <a href="${href}" class="underline" rel="noopener noreferrer">Email Us</a>`;
+    }
+    return ` <a href="${href}" class="underline" target="_blank" rel="noopener noreferrer">(View)</a>`;
+  });
+
+  // Optionally enhance existing anchors by adding underline class if missing
+  transformed = html.replace(/<a (?![^>]*class=)/g, '<a class="underline" ');
+
+  return (
+    <p
+      className="break-words text-[0.7rem] leading-relaxed text-zinc-900 sm:text-[0.875rem] [&_a:hover]:opacity-80 [&_a]:underline"
+      // eslint-disable-next-line react/no-danger
+      dangerouslySetInnerHTML={{ __html: transformed }}
+    />
   );
 }

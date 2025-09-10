@@ -1,23 +1,23 @@
 export const FAQS = [
   {
     q: "How do I ask for help during the Hackathon?",
-    a: "The best place to ask for help is on the HackTheBurgh Discord, which you can access via the discord invite sent to your email address as a participant. Please make a ticket through the #get-help channel and we’ll be with you as soon as possible. If you need help in-person, our volunteers and organizers are wearing HackTheBurgh t-shirts and hoodies to help you spot us! Organizers have a red HackTheBurgh logo on the back of their hoodies; Volunteers have a green version instead. Please don’t hesitate to ask us for help.",
+    a: "The best place to ask for help is on the HackTheBurgh Discord, which you can access via the discord invite sent to your email address as a participant. Please make a ticket through the #get-help channel and we’ll be with you as soon as possible. If you need help in-person, our volunteers and organizers are wearing HackTheBurgh t-shirts and hoodies to help you spot us! Organizers & Volunteers have a white shirt with the HackTheBurgh logo. Please don’t hesitate to ask us for help.",
   },
   {
     q: "What is the HackTheBurgh Code of Conduct?",
-    a: "The HackTheBurgh Code of Conduct can be found here (url://17).",
+    a: 'The HackTheBurgh Code of Conduct can be found  <a href="/documents/HTB-Code-of-Conduct.pdf">here</a>.',
   },
   {
     q: "When do applications close?",
-    a: "Applications will close on the 10th Feb.",
+    a: "Applications will close on 30th September.",
   },
   {
     q: "What are the rules of the hackathon?",
-    a: "Please see the HackTheBurgh Rules (url://18).",
+    a: 'Please see the HackTheBurgh Rules <a href="/documents/HTB-Rules.pdf" target="_blank" rel="noopener noreferrer">here</a>.',
   },
   {
     q: "When will I hear back on my application?",
-    a: "We aim to get back to you on your application by the 17th Feb.",
+    a: "We aim to get back to you on your application by the 17th October.",
   },
   {
     q: "How many people are allowed on a team?",
@@ -49,7 +49,7 @@ export const FAQS = [
   },
   {
     q: "What time does HTB start and end?",
-    a: "HTB runs on the weekend of the 1st-2nd March. Registration starts from 9:00 on the Saturday and our closing ceremony concludes at 17:00 on the Sunday.",
+    a: "HTB runs on the weekend of the 1st-2nd November. Registration starts from 9:00 on the 15th September and our closing ceremony concludes at 17:00 on the Sunday.",
   },
   {
     q: "What about food?",
@@ -61,6 +61,6 @@ export const FAQS = [
   },
   {
     q: "What if I have any other questions?",
-    a: "Contact us at hello@hacktheburgh.com (url://5) or you can ask us questions in the #get-help channel in the discord.",
+    a: 'Contact us at <a href="mailto:team@hacktheburgh.com">team@hacktheburgh.com</a> or you can ask us questions in the #get-help channel in the Discord.',
   },
 ];
