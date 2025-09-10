@@ -19,7 +19,7 @@ export const TEAM_MEMBERS: TeamMember[] = [
     name: "Kacper Szymanski",
     role: "Events Lead",
     bio: "Organising big events and programming embedded systems.",
-    image: "/team/kacper.png",
+    image: "/team/Kacper.png",
     link: "https://www.linkedin.com/in/kacper-szymanski-edi/",
   },
   {
