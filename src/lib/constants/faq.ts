@@ -9,7 +9,7 @@ export const FAQS = [
   },
   {
     q: "When do applications close?",
-    a: "Applications will close on 30th September.",
+    a: "Applications will close on 29th September.",
   },
   {
     q: "What are the rules of the hackathon?",
@@ -17,7 +17,7 @@ export const FAQS = [
   },
   {
     q: "When will I hear back on my application?",
-    a: "We aim to get back to you on your application by the 17th October.",
+    a: "We aim to get back to you on your application by the 6th October.",
   },
   {
     q: "How many people are allowed on a team?",
