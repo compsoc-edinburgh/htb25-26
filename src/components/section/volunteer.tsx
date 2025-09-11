@@ -108,6 +108,13 @@ export default function Volunteer() {
             {/* Volunteer button */}
             <button
               ref={buttonRef}
+              onClick={() => {
+                // Handle volunteer button click
+                window.open(
+                  "https://docs.google.com/forms/d/e/1FAIpQLSeSSBXl6ZMiTV6EVkvdoDlYGsw8K-DOFii-Kd9hQl5qY2PPYA/viewform",
+                  "_blank"
+                );
+              }}
               className="relative h-[40px] w-[190px] cursor-pointer transition-all duration-300 md:h-[49px] md:w-[246px]"
             >
               <svg
