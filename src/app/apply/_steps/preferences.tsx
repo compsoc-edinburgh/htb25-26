@@ -1,4 +1,4 @@
-import { Control, Controller } from "react-hook-form";
+import { Control, Controller, type FieldErrors } from "react-hook-form";
 import { Input } from "~/components/ui/input";
 import { Textarea } from "~/components/ui/textarea";
 import { Button } from "~/components/ui/button";
@@ -9,9 +9,15 @@ interface PreferencesProps {
   control: Control<FormValues>;
   register: any;
   watch: any;
+  errors?: FieldErrors<FormValues>;
 }
 
-export const Preferences = ({ control, register, watch }: PreferencesProps) => {
+export const Preferences = ({
+  control,
+  register,
+  watch,
+  errors,
+}: PreferencesProps) => {
   return (
     <div className="grid gap-6">
       <div className="mb-5 flex max-w-md flex-col gap-2">
@@ -44,6 +50,11 @@ export const Preferences = ({ control, register, watch }: PreferencesProps) => {
             </div>
           )}
         />
+        {errors?.needsReimbursement?.message && (
+          <p className="text-sm text-red-600">
+            {String(errors.needsReimbursement.message)}
+          </p>
+        )}
       </div>
       {watch("needsReimbursement") && (
         <div className="flex max-w-xl flex-col gap-2">
@@ -57,6 +68,11 @@ export const Preferences = ({ control, register, watch }: PreferencesProps) => {
             placeholder="e.g. Edinburgh, Glasgow, etc."
             {...register("travellingFrom")}
           />
+          {errors?.travellingFrom?.message && (
+            <p className="text-sm text-red-600">
+              {String(errors.travellingFrom.message)}
+            </p>
+          )}
         </div>
       )}
       <div className="flex max-w-xl flex-col gap-2">
@@ -70,6 +86,11 @@ export const Preferences = ({ control, register, watch }: PreferencesProps) => {
           placeholder="john.doe@gmail.com"
           {...register("calendarEmail")}
         />
+        {errors?.calendarEmail?.message && (
+          <p className="text-sm text-red-600">
+            {String(errors.calendarEmail.message)}
+          </p>
+        )}
       </div>
     </div>
   );

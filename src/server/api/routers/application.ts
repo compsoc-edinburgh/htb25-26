@@ -28,6 +28,23 @@ export const applicationRouter = createTRPCRouter({
         throw new TRPCError({ code: "NOT_FOUND", message: "User not found" });
       }
 
+      const existingApplication = await ctx.db.application.findFirst({
+        where: { user_id: ctx.auth.userId },
+        include: {
+          team: {
+            include: {
+              members: {
+                select: { first_name: true, last_name: true },
+              },
+            },
+          },
+        },
+      });
+
+      if (existingApplication) {
+        return existingApplication;
+      }
+
       const resend = new Resend(process.env.RESEND_API_KEY);
 
       void resend.emails
@@ -151,6 +168,15 @@ export const applicationRouter = createTRPCRouter({
           data: {
             user_id: ctx.auth.userId,
             team_id: input.team_id,
+          },
+          include: {
+            team: {
+              include: {
+                members: {
+                  select: { first_name: true, last_name: true },
+                },
+              },
+            },
           },
         });
       } catch (error) {

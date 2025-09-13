@@ -103,7 +103,7 @@ import { COPYRIGHT_TEXT } from "~/lib/constants/site";
 const Footer = () => {
   return (
     <div className="relative z-50 grid w-full gap-4 bg-black p-5 sm:p-6 md:h-96 md:grid-cols-4 md:grid-rows-5">
-      <div className="flex items-center border-zinc-800 px-0 md:col-span-2 md:row-span-4 md:border-b-0 md:border-r justify-center">
+      <div className="flex items-center justify-center border-zinc-800 px-0 md:col-span-2 md:row-span-4 md:border-b-0 md:border-r">
         <div className="select-none font-hexaframe font-bold text-white md:ml-5 md:mr-7">
           <svg
             width="647"

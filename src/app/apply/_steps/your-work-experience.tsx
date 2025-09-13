@@ -1,4 +1,4 @@
-import { Control, Controller } from "react-hook-form";
+import { Control, Controller, type FieldErrors } from "react-hook-form";
 import { Input } from "~/components/ui/input";
 import { Textarea } from "~/components/ui/textarea";
 import { Button } from "~/components/ui/button";
@@ -24,11 +24,13 @@ const countOptions = [
 interface YourWorkExperienceProps {
   control: Control<FormValues>;
   register: any;
+  errors?: FieldErrors<FormValues>;
 }
 
 export const YourWorkExperience = ({
   control,
   register,
+  errors,
 }: YourWorkExperienceProps) => {
   return (
     <div className="grid gap-6">
@@ -79,7 +81,7 @@ export const YourWorkExperience = ({
       <div className="flex max-w-xl flex-col gap-2">
         <div className="my-5 flex items-center gap-2">
           <Label className="font-whyte text-xl">
-            Internships/placements completed
+            Internships/placements completed *
           </Label>
         </div>
         <Controller
@@ -100,10 +102,15 @@ export const YourWorkExperience = ({
             </Select>
           )}
         />
+        {errors?.placementsCount?.message && (
+          <p className="text-sm text-red-600">
+            {String(errors.placementsCount.message)}
+          </p>
+        )}
       </div>
       <div className="flex max-w-xl flex-col gap-2">
         <div className="my-5 flex items-center gap-2">
-          <Label className="font-whyte text-xl">Hackathons attended</Label>
+          <Label className="font-whyte text-xl">Hackathons attended *</Label>
         </div>
         <Controller
           control={control}
@@ -123,6 +130,11 @@ export const YourWorkExperience = ({
             </Select>
           )}
         />
+        {errors?.hackathonsCount?.message && (
+          <p className="text-sm text-red-600">
+            {String(errors.hackathonsCount.message)}
+          </p>
+        )}
       </div>
       <div className="grid max-w-xl gap-4">
         <div className="flex flex-col gap-2">

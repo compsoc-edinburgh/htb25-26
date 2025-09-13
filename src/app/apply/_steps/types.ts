@@ -4,7 +4,8 @@ export const FormSchema = z.object({
   firstName: z.string().min(1, "First name is required"),
   lastName: z.string().min(1, "Last name is required"),
   pronouns: z.string().optional(),
-
+  teamId: z.string().optional(),
+  type: z.enum(["individual", "team"]),
   countryAlpha3: z.string().min(1),
   universityName: z.string().min(1),
   universityYear: z.string().min(1),

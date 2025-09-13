@@ -1,4 +1,10 @@
-import { Control, Controller } from "react-hook-form";
+import {
+  Control,
+  Controller,
+  useWatch,
+  type FieldErrors,
+} from "react-hook-form";
+import { useEffect } from "react";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import {
@@ -30,19 +36,33 @@ interface YourUniversityProps {
   control: Control<FormValues>;
   register: any;
   getValues: any;
+  setValue: (name: keyof FormValues, value: any) => void;
+  errors: FieldErrors<FormValues>;
 }
 
 export const YourUniversity = ({
   control,
   register,
   getValues,
+  setValue,
+  errors,
 }: YourUniversityProps) => {
+  const selectedCountryAlpha3 = useWatch({ control, name: "countryAlpha3" });
+  const selectedCountryAlpha2 = countries.all.find(
+    (c: any) => c.alpha3 === selectedCountryAlpha3
+  )?.alpha2;
+
+  useEffect(() => {
+    // Clear university selection whenever the country changes to avoid stale value
+    setValue("universityName", "");
+  }, [selectedCountryAlpha2, setValue]);
+
   return (
     <div className="grid gap-6">
       <div className="flex max-w-xl flex-col gap-2">
         <div className="my-5 flex items-center gap-2">
           <Label className="font-whyte text-xl">
-            Where is your university based?
+            Where is your university based? *
           </Label>
         </div>
         <Controller
@@ -55,32 +75,39 @@ export const YourUniversity = ({
             />
           )}
         />
+        {errors.countryAlpha3?.message && (
+          <p className="text-sm text-red-600">
+            {String(errors.countryAlpha3.message)}
+          </p>
+        )}
       </div>
       <div className="flex max-w-xl flex-col gap-2">
         <div className="my-5 flex items-center gap-2">
-          <Label className="font-whyte text-xl">Your university</Label>
+          <Label className="font-whyte text-xl">Your university *</Label>
         </div>
         <Controller
           control={control}
           name="universityName"
           render={({ field }) => (
             <UniversitySelectlist
+              key={selectedCountryAlpha2 || "none"}
               options={universities.filter(
-                (u) =>
-                  u.alpha_two_code ===
-                  countries.all.find(
-                    (c: any) => c.alpha3 === getValues("countryAlpha3")
-                  )?.alpha2
+                (u) => u.alpha_two_code === selectedCountryAlpha2
               )}
-              defaultValue={field.value}
+              defaultValue={undefined}
               onChange={(u: University) => field.onChange(u.name)}
             />
           )}
         />
+        {errors.universityName?.message && (
+          <p className="text-sm text-red-600">
+            {String(errors.universityName.message)}
+          </p>
+        )}
       </div>
       <div className="flex max-w-xl flex-col gap-2">
         <div className="my-5 flex items-center gap-2">
-          <Label className="font-whyte text-xl">Which year are you in?</Label>
+          <Label className="font-whyte text-xl">Which year are you in? *</Label>
         </div>
         <Controller
           control={control}
@@ -100,16 +127,26 @@ export const YourUniversity = ({
             </Select>
           )}
         />
+        {errors.universityYear?.message && (
+          <p className="text-sm text-red-600">
+            {String(errors.universityYear.message)}
+          </p>
+        )}
       </div>
       <div className="flex max-w-xl flex-col gap-2">
         <div className="my-5 flex items-center gap-2">
-          <Label className="font-whyte text-xl">University email</Label>
+          <Label className="font-whyte text-xl">University email *</Label>
         </div>
         <Input
           type="email"
           placeholder="john.doe@university.ac.uk"
           {...register("universityEmail")}
         />
+        {errors.universityEmail?.message && (
+          <p className="text-sm text-red-600">
+            {String(errors.universityEmail.message)}
+          </p>
+        )}
       </div>
     </div>
   );

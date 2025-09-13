@@ -18,7 +18,9 @@ import {
   YourUniversity,
   YourWorkExperience,
   Preferences,
+  Team,
 } from "./_steps";
+import { useRouter } from "next/navigation";
 
 const AccordionForm = () => {
   const [expandedSections, setExpandedSections] = useState<Set<string>>(
@@ -34,6 +36,8 @@ const AccordionForm = () => {
     useForm<FormValues>({
       resolver: zodResolver(FormSchema),
       defaultValues: {
+        teamId: undefined,
+        type: "individual",
         countryAlpha3: "GBR",
         cvUrl: "",
         portfolioUrl: "",
@@ -51,6 +55,8 @@ const AccordionForm = () => {
   );
 
   const updateUser = api.user.update.useMutation();
+  const createApplication = api.application.create.useMutation();
+  const router = useRouter();
 
   const submitAll = async (values: FormValues) => {
     const selectedCountry = countries.all.find(
@@ -64,27 +70,27 @@ const AccordionForm = () => {
     ].join("\n");
 
     await updateUser.mutateAsync({
-      firstName: values.firstName,
-      lastName: values.lastName,
-      pronouns: values.pronouns,
+      ...values,
       country: selectedCountry?.alpha2,
-      university: values.universityName,
-      universityYear: values.universityYear,
-      universityEmail: values.universityEmail,
       cv: values.cvUrl || undefined,
       portfolioUrl: values.portfolioUrl || undefined,
-      placementsCount: values.placementsCount,
-      hackathonsCount: values.hackathonsCount,
       projectDescription: projectDescription.trim(),
-      needsReimbursement: values.needsReimbursement,
       travellingFrom: values.travellingFrom || undefined,
       calendarEmail: values.calendarEmail || undefined,
     });
+
+    await createApplication.mutateAsync({
+      team_id: values.teamId || undefined,
+      type: values.type || "individual",
+    });
+
+    router.push("/dashboard");
   };
 
   const sections = useMemo<SectionConfig[]>(
     () => [
       { id: "about-yourself", title: "ABOUT YOURSELF", fields: 3 },
+      { id: "team", title: "YOUR TEAM", fields: 2 },
       { id: "your-university", title: "YOUR UNIVERSITY", fields: 4 },
       { id: "your-work-experience", title: "YOUR WORK EXPERIENCE", fields: 5 },
       { id: "preferences", title: "PREFERENCES", fields: 3 },
@@ -92,15 +98,60 @@ const AccordionForm = () => {
     []
   );
 
+  const handleErrorExpand = (errors: Record<string, unknown>) => {
+    const errorKeys = new Set(Object.keys(errors ?? {}));
+    const sectionsWithErrors = new Set<string>(expandedSections);
+    for (const key of errorKeys) {
+      if (key === "firstName" || key === "lastName" || key === "pronouns") {
+        sectionsWithErrors.add("about-yourself");
+      }
+      if (key === "teamId" || key === "type") {
+        sectionsWithErrors.add("team");
+      }
+      if (
+        key === "countryAlpha3" ||
+        key === "universityName" ||
+        key === "universityYear" ||
+        key === "universityEmail"
+      ) {
+        sectionsWithErrors.add("your-university");
+      }
+      if (
+        key === "cvUrl" ||
+        key === "portfolioUrl" ||
+        key === "placementsCount" ||
+        key === "hackathonsCount" ||
+        key === "projectAim" ||
+        key === "projectStack" ||
+        key === "projectLink"
+      ) {
+        sectionsWithErrors.add("your-work-experience");
+      }
+      if (
+        key === "needsReimbursement" ||
+        key === "travellingFrom" ||
+        key === "calendarEmail"
+      ) {
+        sectionsWithErrors.add("preferences");
+      }
+    }
+    setExpandedSections(sectionsWithErrors);
+  };
+
+  console.log(FormSchema.safeParse(form.getValues()).error, form.getValues());
+
   return (
     <form
       className="w-full divide-y divide-zinc-200"
-      onSubmit={form.handleSubmit(submitAll)}
+      onSubmit={form.handleSubmit(submitAll, handleErrorExpand)}
     >
       {sections.map((section) => {
         const isExpanded = expandedSections.has(section.id);
         return (
-          <div key={section.id} className="overflow-hidden bg-white">
+          <div
+            key={section.id}
+            className="scrollbar-hide overflow-hidden bg-white"
+          >
             <button
               type="button"
               onClick={() => toggleSection(section.id)}
@@ -134,6 +185,15 @@ const AccordionForm = () => {
                   <AboutYourself
                     control={form.control}
                     register={form.register}
+                    errors={form.formState.errors}
+                  />
+                )}
+                {section.id === "team" && (
+                  <Team
+                    control={form.control}
+                    register={form.register}
+                    errors={form.formState.errors}
+                    setValue={form.setValue}
                   />
                 )}
                 {section.id === "your-university" && (
@@ -141,16 +201,20 @@ const AccordionForm = () => {
                     control={form.control}
                     register={form.register}
                     getValues={form.getValues}
+                    setValue={form.setValue}
+                    errors={form.formState.errors}
                   />
                 )}
                 {section.id === "your-work-experience" && (
                   <YourWorkExperience
                     control={form.control}
                     register={form.register}
+                    errors={form.formState.errors}
                   />
                 )}
                 {section.id === "preferences" && (
                   <Preferences
+                    errors={form.formState.errors}
                     control={form.control}
                     register={form.register}
                     watch={form.watch}
@@ -166,8 +230,10 @@ const AccordionForm = () => {
         <div className="flex justify-center">
           <Button
             type="submit"
-            className="mb-28 mt-5 h-24 w-full border border-zinc-200 bg-white text-xl uppercase text-black hover:bg-zinc-50 md:h-28 lg:h-32"
-            disabled={updateUser.isPending}
+            className={cn(
+              "mb-28 mt-5 h-24 w-full border border-zinc-200 bg-black text-xl uppercase text-white transition-all duration-300 hover:bg-black hover:text-white md:h-28 lg:h-32",
+              updateUser.isPending && "cursor-not-allowed opacity-50"
+            )}
           >
             {updateUser.isPending ? "Submitting..." : "Submit Application"}{" "}
             <ArrowRight className="h-4 w-4" />
