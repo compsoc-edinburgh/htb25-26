@@ -17,7 +17,6 @@ import { ZodError } from "zod";
 
 import { db } from "~/server/db";
 import { NextRequest } from "next/server";
-import { isBeforeOpenDate, OPEN_DATE_READABLE } from "~/lib/date-gate";
 
 type AuthObject = ReturnType<typeof getAuth>;
 
@@ -121,12 +120,7 @@ const isAuthed = t.middleware(({ next, ctx }) => {
   if (!ctx.auth.userId) {
     throw new TRPCError({ code: "UNAUTHORIZED" });
   }
-  if (isBeforeOpenDate()) {
-    throw new TRPCError({
-      code: "FORBIDDEN",
-      message: `Access opens on ${OPEN_DATE_READABLE}`,
-    });
-  }
+
   return next({
     ctx: {
       auth: ctx.auth,

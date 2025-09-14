@@ -26,7 +26,6 @@ if (
   gsap.registerPlugin(ScrollToPlugin, ScrambleTextPlugin);
   (gsap as any)._htbPlugins = true;
 }
-import { isBeforeOpenDate } from "~/lib/date-gate";
 import { NAV_LINKS, SOCIAL_LINKS } from "~/lib/constants/navigation";
 import { COPYRIGHT_TEXT } from "~/lib/constants/site";
 import { useRouter } from "next/navigation";
@@ -256,22 +255,13 @@ const AuthSection = ({
     }
   };
 
-  const gated = isBeforeOpenDate();
   return (
     <div className="flex items-center gap-1 text-white">
       {!mobile &&
         (isSignedIn ? (
-          <Link
-            href={gated ? "/applications-closed" : "/dashboard"}
-            className="inline-block"
-            aria-disabled={gated}
-            onClick={(e) => {
-              if (gated) e.preventDefault();
-            }}
-            title={gated ? `Closed` : undefined}
-          >
+          <Link href="/dashboard" className="inline-block">
             <div
-              className={`${STYLES.signInButton} border border-black bg-white transition-colors duration-200 hover:bg-zinc-900 ${gated ? "cursor-not-allowed opacity-60" : ""}`}
+              className={`${STYLES.signInButton} border border-black bg-white transition-colors duration-200 hover:bg-zinc-900`}
               style={{ clipPath: STYLES.clipPath }}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
@@ -288,13 +278,11 @@ const AuthSection = ({
         ) : (
           <button
             type="button"
-            onClick={gated ? undefined : onSignInClick}
+            onClick={onSignInClick}
             className="inline-block"
-            aria-disabled={gated}
-            title={gated ? `Applications Not Open` : undefined}
           >
             <div
-              className={`${STYLES.signInButton} border border-black bg-white transition-colors duration-200 hover:bg-zinc-900 ${gated ? "cursor-not-allowed border-none" : ""}`}
+              className={`${STYLES.signInButton} border border-black bg-white transition-colors duration-200 hover:bg-zinc-900`}
               style={{ clipPath: STYLES.clipPath }}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
@@ -304,19 +292,13 @@ const AuthSection = ({
                 style={{ clipPath: rectClipPath }}
               />
               <span
-                className={`authlink-text relative z-10 flex w-[5rem] items-center justify-center ${gated ? "text-grey w-fit text-[0.6rem] uppercase 2xl:text-[0.8rem]" : ""}`}
+                className={`authlink-text relative z-10 flex w-[5rem] items-center justify-center`}
                 data-original-label={
-                  isSignedIn === undefined
-                    ? undefined
-                    : gated
-                      ? `Applications Not Open`
-                      : "SIGN IN"
+                  isSignedIn === undefined ? undefined : "SIGN IN"
                 }
               >
                 {isSignedIn == undefined ? (
                   <Loader2 className="animate-spin" />
-                ) : gated ? (
-                  `Applications Not Open`
                 ) : (
                   "SIGN IN"
                 )}
@@ -398,16 +380,9 @@ const MobileDrawer = ({
             <div className="-mt-0.5 basis-2/3">
               <div className="flex flex-col gap-1 text-[11px] tracking-wide">
                 <a
-                  href={isBeforeOpenDate() ? "/applications-closed" : "/apply"}
-                  className={`text-white ${isBeforeOpenDate() ? "cursor-not-allowed opacity-60" : ""}`}
-                  onClick={(e) => {
-                    if (isBeforeOpenDate()) {
-                      e.preventDefault();
-                    } else {
-                      onOpenChange(false);
-                    }
-                  }}
-                  title={isBeforeOpenDate() ? `CLOSED` : undefined}
+                  href="/apply"
+                  className="text-white"
+                  onClick={() => onOpenChange(false)}
                 >
                   REGISTER
                 </a>

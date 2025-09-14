@@ -10,5 +10,5 @@ export default function ApplicationPage() {
   // if (!application || !user) redirect("/apply");
 
   return <DashboardClient />;
-    // <DashboardClient application={application} user={user} />;
+  // <DashboardClient application={application} user={user} />;
 }
