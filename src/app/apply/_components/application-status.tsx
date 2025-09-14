@@ -1,27 +1,86 @@
 "use client";
 
-import NavbarLayout from "~/components/layout/navbar-layout";
-import { hackathonEvents } from "~/lib/constants/schedule";
-import RegisterButton from "~/components/module/register-button";
-import ScheduleTimeline from "~/components/module/schedule-timeline";
-import Sponsors from "~/components/section/sponsors";
-import FAQSection from "~/components/section/faq";
-import Team from "~/components/section/team";
-import Volunteer from "~/components/section/volunteer";
-import SectionHeader from "~/components/module/section-header";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { Button } from "~/components/ui/button";
 
-export default function Page() {
+type ApplicationStatus = "pending" | "accepted" | "rejected";
+
+interface Application {
+  id: string;
+  status: ApplicationStatus;
+  rejection_reason?: string | null;
+  created_at: Date;
+  user: {
+    first_name?: string | null;
+    last_name?: string | null;
+  };
+}
+
+interface ApplicationStatusProps {
+  application: Application;
+}
+
+export default function ApplicationStatus({
+  application,
+}: ApplicationStatusProps) {
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!application?.id) {
+      router.replace("/apply");
+    }
+  }, [application?.id, router]);
+
+  const getStatusConfig = (status: ApplicationStatus) => {
+    switch (status) {
+      case "pending":
+        return {
+          title: "Application received",
+          messages: [
+            "We've received your application to",
+            "Your application is being reviewed.",
+            "You can keep updating your profile until the deadline.",
+          ],
+        } as const;
+      case "accepted":
+        return {
+          title: "Congratulations!",
+          messages: [
+            "We're excited to welcome you to",
+            "Your application has been accepted.",
+            "Check your email for next steps.",
+          ],
+        } as const;
+      case "rejected":
+        return {
+          title: "Application update",
+          messages: [
+            "Thank you for your interest in",
+            application.rejection_reason ||
+              "Unfortunately, we can't offer you a place this time.",
+            "We encourage you to apply again next year.",
+          ],
+        } as const;
+    }
+  };
+
+  const config = getStatusConfig(application.status);
+  const userName =
+    application.user.first_name && application.user.last_name
+      ? `${application.user.first_name} ${application.user.last_name}`
+      : "there";
+
   return (
-    <main className="h-full w-full pb-24">
-      {/* ABOUT */}
-      <div id="about" className="scroll-mt-24 md:scroll-mt-28 2xl:scroll-mt-40">
-        <NavbarLayout className="relative h-screen py-0">
-          <div className="relative flex h-full w-full items-center justify-center">
-            <div className="flex scale-90 transform flex-col items-center px-4 text-center sm:scale-100">
+    <div className="relative flex min-h-[70vh] items-center justify-center">
+      <div className="mx-auto w-full">
+        <div className="border-y border-gray-200 bg-white p-4 sm:p-8">
+          <div className="mb-6 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-row items-center gap-3">
               <svg
-                className="h-40 w-40 2xl:h-72 2xl:w-72"
-                width="178"
-                height="156"
+                className="h-12 w-12 sm:h-16 sm:w-16"
+                width="64"
+                height="56"
                 viewBox="0 0 178 156"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -35,71 +94,52 @@ export default function Page() {
                   fill="black"
                 />
               </svg>
-              <h1 className="mt-3 font-hexaframe text-4xl font-extrabold sm:text-6xl md:text-7xl 2xl:text-8xl">
-                Hack The Burgh
-              </h1>
-              <p className="mt-6 max-w-3xl px-2 text-center text-sm sm:text-base 2xl:max-w-4xl 2xl:text-2xl">
-                Ready to build something amazing? Hack The Burgh is back for its
-                12th year! Join us in Edinburgh for a weekend of coding and
-                creativity, no matter your experience level.
-              </p>
-              <RegisterButton />
+              <div className="mt-2 flex flex-col sm:mt-0">
+                <span className="pl-0.5 text-xs uppercase tracking-wide text-gray-500">
+                  Application status
+                </span>
+                <h1 className="font-whyte text-xl font-bold text-black sm:text-2xl">
+                  {config.title}
+                </h1>
+              </div>
             </div>
           </div>
-        </NavbarLayout>
-      </div>
 
-      {/* SCHEDULE */}
-      <div
-        id="schedule"
-        className="scroll-mt-24 md:scroll-mt-28 2xl:scroll-mt-40"
-      >
-        <NavbarLayout>
-          <SectionHeader
-            title="Schedule"
-            subtitle="Discover the hackathon will unfold"
-            className="pb-10"
-          />
-          <ScheduleTimeline events={hackathonEvents} />
-          <p className="absolute right-auto mt-2 flex w-fit items-center gap-2 text-center text-[0.6rem] font-thin uppercase md:right-10 2xl:hidden">
-            <span className="inline-block h-1 w-1 bg-black" />
-            <span>Keep scrolling to see the full schedule</span>
-          </p>
-        </NavbarLayout>
-      </div>
+          <div className="space-y-5 text-gray-700 md:space-y-2">
+            <p className="text-sm">
+              {config.messages[0]}{" "}
+              <span className="whitespace-nowrap font-bold text-black">
+                Hack The Burgh 2025
+              </span>
+              {config.messages[0]?.includes("interest in") ? "." : ""}
+            </p>
+            {config.messages.slice(1).map((message, index) => (
+              <p key={index} className="text-sm">
+                {message}
+              </p>
+            ))}
+          </div>
 
-      {/* SPONSORS */}
-      <div
-        id="sponsors"
-        className="scroll-mt-24 md:scroll-mt-28 2xl:scroll-mt-40"
-      >
-        <Sponsors />
-      </div>
+          <div className="mt-24">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div className="text-xs text-gray-400">
+                Application submitted on{" "}
+                {new Date(application.created_at).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </div>
 
-      {/* TEAM */}
-      <div id="team" className="scroll-mt-24 md:scroll-mt-28 2xl:scroll-mt-40">
-        <NavbarLayout>
-          <Team />
-        </NavbarLayout>
+              {application.status === "pending" && (
+                <Button className="h-9 w-full px-4 text-xs sm:w-auto">
+                  Edit application
+                </Button>
+              )}
+            </div>
+          </div>
+        </div>
       </div>
-
-      {/* FAQ */}
-      <div
-        id="faq"
-        className={`mx-auto w-full scroll-mt-24 py-16 md:scroll-mt-28 md:py-24 md:pl-[4.2rem] md:pr-[1.25rem] 2xl:min-w-[1200px] 2xl:max-w-[1400px] 2xl:scroll-mt-40`}
-      >
-        <FAQSection />
-      </div>
-
-      {/* VOLUNTEER */}
-      <div
-        id="volunteer"
-        className="scroll-mt-24 md:scroll-mt-28 2xl:scroll-mt-40"
-      >
-        <NavbarLayout className="flex h-screen items-center">
-          <Volunteer />
-        </NavbarLayout>
-      </div>
-    </main>
+    </div>
   );
 }

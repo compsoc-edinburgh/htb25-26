@@ -208,7 +208,7 @@ export const applicationRouter = createTRPCRouter({
 
     if (!application) return null;
 
-    const user = application.user as any;
+    const user = application.user;
 
     const hasTeam = Boolean(application.team_id);
 
@@ -229,7 +229,10 @@ export const applicationRouter = createTRPCRouter({
       return null;
     }
 
-    return application;
+    return {
+      ...application,
+      status: application.status,
+    };
   }),
   getApplications: protectedProcedure.query(async ({ ctx }) => {
     if (ctx.auth.sessionClaims.metadata.role !== "admin") {

@@ -30,6 +30,7 @@ import { NAV_LINKS, SOCIAL_LINKS } from "~/lib/constants/navigation";
 import { COPYRIGHT_TEXT } from "~/lib/constants/site";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
+import { api } from "~/trpc/react";
 
 const STYLES = {
   clipPath: "polygon(0 0, 100% 0, 100% 100%, 20px 100%, 0 calc(100% - 20px))",
@@ -210,6 +211,7 @@ const NavLinks = ({
 };
 const ActionButton = ({ mobile = false }: { mobile?: boolean }) => {
   const { isSignedIn } = useUser();
+  const application = api.application.getUserApplication.useQuery();
 
   // Define a simple rectangle clip path for the overlay
   const rectClipPath = "polygon(0 0, 100% 0, 100% 100%, 0 100%)";
@@ -249,26 +251,16 @@ const ActionButton = ({ mobile = false }: { mobile?: boolean }) => {
     }
   };
 
-  const buttonText = isSignedIn ? "DASHBOARD" : "APPLY";
-  const href = isSignedIn ? "/dashboard" : "/apply";
-
-  if (mobile) {
-    return (
-      <a
-        href={href}
-        className="text-white"
-        onClick={() => {}} // Will be handled by parent onOpenChange
-      >
-        {buttonText}
-      </a>
-    );
-  }
+  // TODO: Change this to DASHBOARD when the dashboard is ready
+  const buttonText =
+    isSignedIn && application.data ? "APPLICATION STATUS" : "APPLY";
+  const href = "/apply";
 
   return (
-    <div className="flex items-center gap-1 text-white">
-      <Link href={href} className="inline-block">
+    <div className="flex items-center justify-end">
+      <Link href={href}>
         <div
-          className={`${STYLES.signInButton} border border-black bg-white transition-colors duration-200 hover:bg-zinc-900`}
+          className={`${STYLES.signInButton} h-14 w-48 border border-black bg-white transition-colors duration-200 hover:bg-zinc-900 md:w-56`}
           style={{ clipPath: STYLES.clipPath }}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
@@ -277,8 +269,8 @@ const ActionButton = ({ mobile = false }: { mobile?: boolean }) => {
             className="absolute inset-0 rounded-t-sm bg-black transition-colors duration-200 hover:bg-zinc-900"
             style={{ clipPath: rectClipPath }}
           />
-          <span className="authlink-text relative z-10 flex w-[5rem] items-center justify-center">
-            {isSignedIn === undefined ? (
+          <span className="authlink-text relative z-10 flex items-center justify-center text-xs">
+            {isSignedIn === undefined || application.isLoading ? (
               <Loader2 className="animate-spin" />
             ) : (
               buttonText
