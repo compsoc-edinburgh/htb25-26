@@ -17,7 +17,7 @@ import { ZodError } from "zod";
 
 import { db } from "~/server/db";
 import { NextRequest } from "next/server";
-import { isBeforeOpenDate, OPEN_DATE_READABLE } from "~/lib/date-gate";
+import { isBeforeOpenDate } from "~/lib/date-gate";
 
 type AuthObject = ReturnType<typeof getAuth>;
 
@@ -124,7 +124,7 @@ const isAuthed = t.middleware(({ next, ctx }) => {
   if (isBeforeOpenDate()) {
     throw new TRPCError({
       code: "FORBIDDEN",
-      message: `Access opens on ${OPEN_DATE_READABLE}`,
+      message: `Access opens on September 15, 2025`,
     });
   }
   return next({
