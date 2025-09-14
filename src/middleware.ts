@@ -4,11 +4,10 @@ import { NextResponse } from "next/server";
 export default clerkMiddleware(async (auth, req) => {
   const { sessionClaims } = await auth();
   const path = new URL(req.url).pathname;
-  const gatedPaths = ["/apply", "/dashboard", "/api/trpc", "/api/uploadthing"];
 
-  if (gatedPaths.some((p) => path === p || path.startsWith(p + "/"))) {
+  if (path.startsWith("/dashboard/admin")) {
     const isAdmin = sessionClaims?.metadata?.role === "admin";
-    if (!path.startsWith("/dashboard/admin") || !isAdmin) {
+    if (!isAdmin) {
       return NextResponse.redirect(new URL("/applications-closed", req.url));
     }
   }
