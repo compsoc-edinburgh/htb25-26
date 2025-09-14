@@ -192,23 +192,44 @@ export const applicationRouter = createTRPCRouter({
       return null;
     }
 
-    return ctx.db.application.findFirst({
-      where: {
-        user_id: ctx.auth.userId,
-      },
+    const application = await ctx.db.application.findFirst({
+      where: { user_id: ctx.auth.userId },
       include: {
         team: {
           include: {
             members: {
-              select: {
-                first_name: true,
-                last_name: true,
-              },
+              select: { first_name: true, last_name: true },
             },
           },
         },
+        user: true,
       },
     });
+
+    if (!application) return null;
+
+    const user = application.user as any;
+
+    const hasTeam = Boolean(application.team_id);
+
+    const hasUniversityBasics = Boolean(
+      user?.university_name &&
+        user?.university_year &&
+        user?.university_email &&
+        user?.country
+    );
+
+    const hasExperience = Boolean(
+      user?.placements_count && user?.hackathons_count
+    );
+
+    const hasCv = Boolean(user?.cv_url);
+
+    if (!hasTeam || !hasUniversityBasics || !hasExperience || !hasCv) {
+      return null;
+    }
+
+    return application;
   }),
   getApplications: protectedProcedure.query(async ({ ctx }) => {
     if (ctx.auth.sessionClaims.metadata.role !== "admin") {

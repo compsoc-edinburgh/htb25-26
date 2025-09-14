@@ -179,7 +179,6 @@ function FAQAnswer({ html }: { html: string }) {
   return (
     <p
       className="break-words text-[0.7rem] leading-relaxed text-zinc-900 sm:text-[0.875rem] [&_a:hover]:opacity-80 [&_a]:underline"
-      // eslint-disable-next-line react/no-danger
       dangerouslySetInnerHTML={{ __html: transformed }}
     />
   );

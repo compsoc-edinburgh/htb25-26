@@ -1,15 +1,20 @@
-import { Control, type FieldErrors } from "react-hook-form";
+import { type Control, type FieldErrors } from "react-hook-form";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
-import { FormValues } from "./types";
+import { UserFormValues } from "./types";
 
 interface AboutYourselfProps {
-  control: Control<FormValues>;
+  control?: Control<any>;
   register: any;
-  errors: FieldErrors<FormValues>;
+  errors: FieldErrors<UserFormValues>;
+  disabled?: boolean;
 }
 
-export const AboutYourself = ({ register, errors }: AboutYourselfProps) => {
+export const AboutYourself = ({
+  register,
+  errors,
+  disabled,
+}: AboutYourselfProps) => {
   return (
     <div className="grid gap-6">
       <div>
@@ -19,7 +24,11 @@ export const AboutYourself = ({ register, errors }: AboutYourselfProps) => {
         <div className="grid max-w-xl grid-cols-1 gap-4 md:grid-cols-2">
           <div className="flex flex-col gap-2">
             <Label htmlFor="firstName">First name *</Label>
-            <Input id="firstName" {...register("firstName")} />
+            <Input
+              id="firstName"
+              disabled={disabled}
+              {...register("firstName")}
+            />
             {errors?.firstName?.message && (
               <p className="text-sm text-red-600">
                 {String(errors.firstName.message)}
@@ -28,7 +37,11 @@ export const AboutYourself = ({ register, errors }: AboutYourselfProps) => {
           </div>
           <div className="flex flex-col gap-2">
             <Label htmlFor="lastName">Last name *</Label>
-            <Input id="lastName" {...register("lastName")} />
+            <Input
+              id="lastName"
+              disabled={disabled}
+              {...register("lastName")}
+            />
             {errors?.lastName?.message && (
               <p className="text-sm text-red-600">
                 {String(errors.lastName.message)}
@@ -44,6 +57,7 @@ export const AboutYourself = ({ register, errors }: AboutYourselfProps) => {
         <Input
           id="pronouns"
           placeholder="e.g. they/them, she/her, he/him"
+          disabled={disabled}
           {...register("pronouns")}
         />
       </div>

@@ -14,7 +14,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { cn } from "~/lib/utils";
 import { api } from "~/trpc/react";
 import { toast } from "sonner";
-import { FormValues } from "./types";
+import { ApplicationFormValues } from "./types";
 
 const CreateTeamSchema = z.object({
   teamName: z
@@ -34,10 +34,10 @@ type CreateTeamValues = z.infer<typeof CreateTeamSchema>;
 type JoinTeamValues = z.infer<typeof JoinTeamSchema>;
 
 interface TeamProps {
-  control: Control<FormValues>;
+  control: Control<ApplicationFormValues>;
   register: any;
-  errors: FieldErrors<FormValues>;
-  setValue: (name: keyof FormValues, value: any) => void;
+  errors: FieldErrors<ApplicationFormValues>;
+  setValue: (name: keyof ApplicationFormValues, value: any) => void;
 }
 
 export const Team = ({ setValue }: TeamProps) => {

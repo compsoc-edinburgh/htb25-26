@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { Loader2, Menu } from "lucide-react";
-import { useEffect, useState, MouseEvent } from "react";
+import { useState, MouseEvent } from "react";
 import { gsap } from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { ScrambleTextPlugin } from "gsap/ScrambleTextPlugin";
@@ -15,7 +15,6 @@ import {
   DrawerTitle,
 } from "../ui/drawer";
 import { useUser } from "@clerk/nextjs";
-import AuthDrawer from "../module/auth-drawer";
 
 // register gsap plugins once on client
 if (
@@ -26,6 +25,7 @@ if (
   gsap.registerPlugin(ScrollToPlugin, ScrambleTextPlugin);
   (gsap as any)._htbPlugins = true;
 }
+
 import { NAV_LINKS, SOCIAL_LINKS } from "~/lib/constants/navigation";
 import { COPYRIGHT_TEXT } from "~/lib/constants/site";
 import { useRouter } from "next/navigation";
@@ -208,13 +208,7 @@ const NavLinks = ({
     </div>
   );
 };
-const AuthSection = ({
-  mobile = false,
-  onSignInClick,
-}: {
-  mobile?: boolean;
-  onSignInClick: () => void;
-}) => {
+const ActionButton = ({ mobile = false }: { mobile?: boolean }) => {
   const { isSignedIn } = useUser();
 
   // Define a simple rectangle clip path for the overlay
@@ -255,67 +249,51 @@ const AuthSection = ({
     }
   };
 
+  const buttonText = isSignedIn ? "DASHBOARD" : "APPLY";
+  const href = isSignedIn ? "/dashboard" : "/apply";
+
+  if (mobile) {
+    return (
+      <a
+        href={href}
+        className="text-white"
+        onClick={() => {}} // Will be handled by parent onOpenChange
+      >
+        {buttonText}
+      </a>
+    );
+  }
+
   return (
     <div className="flex items-center gap-1 text-white">
-      {!mobile &&
-        (isSignedIn ? (
-          <Link href="/dashboard" className="inline-block">
-            <div
-              className={`${STYLES.signInButton} border border-black bg-white transition-colors duration-200 hover:bg-zinc-900`}
-              style={{ clipPath: STYLES.clipPath }}
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-            >
-              <div
-                className="absolute inset-0 rounded-t-sm bg-black transition-colors duration-200 hover:bg-zinc-900"
-                style={{ clipPath: rectClipPath }}
-              />
-              <span className="authlink-text relative z-10 flex w-[5rem] items-center justify-center">
-                DASHBOARD
-              </span>
-            </div>
-          </Link>
-        ) : (
-          <button
-            type="button"
-            onClick={onSignInClick}
-            className="inline-block"
-          >
-            <div
-              className={`${STYLES.signInButton} border border-black bg-white transition-colors duration-200 hover:bg-zinc-900`}
-              style={{ clipPath: STYLES.clipPath }}
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-            >
-              <div
-                className={`absolute inset-0 rounded-t-sm bg-black transition-colors duration-200 hover:bg-zinc-900`}
-                style={{ clipPath: rectClipPath }}
-              />
-              <span
-                className={`authlink-text relative z-10 flex w-[5rem] items-center justify-center`}
-                data-original-label={
-                  isSignedIn === undefined ? undefined : "SIGN IN"
-                }
-              >
-                {isSignedIn == undefined ? (
-                  <Loader2 className="animate-spin" />
-                ) : (
-                  "SIGN IN"
-                )}
-              </span>
-            </div>
-          </button>
-        ))}
+      <Link href={href} className="inline-block">
+        <div
+          className={`${STYLES.signInButton} border border-black bg-white transition-colors duration-200 hover:bg-zinc-900`}
+          style={{ clipPath: STYLES.clipPath }}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <div
+            className="absolute inset-0 rounded-t-sm bg-black transition-colors duration-200 hover:bg-zinc-900"
+            style={{ clipPath: rectClipPath }}
+          />
+          <span className="authlink-text relative z-10 flex w-[5rem] items-center justify-center">
+            {isSignedIn === undefined ? (
+              <Loader2 className="animate-spin" />
+            ) : (
+              buttonText
+            )}
+          </span>
+        </div>
+      </Link>
     </div>
   );
 };
 
 const MobileDrawer = ({
-  onSignInClick,
   open,
   onOpenChange,
 }: {
-  onSignInClick: () => void;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) => (
@@ -386,7 +364,7 @@ const MobileDrawer = ({
                 >
                   REGISTER
                 </a>
-                <AuthSection mobile onSignInClick={onSignInClick} />
+                <ActionButton mobile />
                 <a
                   href="/volunteer"
                   className="text-white"
@@ -431,47 +409,9 @@ const MobileDrawer = ({
   </div>
 );
 
-type AuthMode = "signin" | "signup" | "forgot" | "reset" | "verify";
-
 export default function Navbar() {
-  const [authOpen, setAuthOpen] = useState(false);
-  const [authMode, setAuthMode] = useState<AuthMode>("signin");
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  useEffect(() => {
-    // Open modal from URL params on landing page
-    try {
-      const url = new URL(window.location.href);
-      const auth = url.searchParams.get("auth") as AuthMode | null;
-      const returnTo = url.searchParams.get("returnTo");
-      if (auth) {
-        if (returnTo) localStorage.setItem("auth:returnTo", returnTo);
-        setAuthMode(auth);
-        setAuthOpen(true);
-        url.searchParams.delete("auth");
-        // keep returnTo stored but clean URL for aesthetics
-        window.history.replaceState(
-          {},
-          "",
-          url.pathname + (url.searchParams.size ? `?${url.searchParams}` : "")
-        );
-      }
-    } catch {}
-
-    const handler = (e: Event) => {
-      const detail = (e as CustomEvent<{ mode?: AuthMode }>).detail;
-      if (detail?.mode) setAuthMode(detail.mode);
-      setAuthOpen(true);
-    };
-    if (typeof window !== "undefined") {
-      window.addEventListener("open-auth", handler as EventListener);
-    }
-    return () => {
-      if (typeof window !== "undefined") {
-        window.removeEventListener("open-auth", handler as EventListener);
-      }
-    };
-  }, []);
   return (
     <div className="pointer-events-none fixed inset-0 z-40 block grid-cols-[auto_1fr_auto] grid-rows-[auto_1fr_auto] md:grid">
       <div
@@ -485,14 +425,7 @@ export default function Navbar() {
 
       <div className="flex h-full w-full flex-col rounded-lg md:border md:border-gray-200">
         <nav className="pointer-events-auto relative flex h-14 w-full items-center justify-between rounded-t-lg border-b border-gray-200 bg-white px-2 md:px-0 md:pl-14">
-          <MobileDrawer
-            open={mobileOpen}
-            onOpenChange={setMobileOpen}
-            onSignInClick={() => {
-              setAuthMode("signin");
-              setAuthOpen(true);
-            }}
-          />
+          <MobileDrawer open={mobileOpen} onOpenChange={setMobileOpen} />
 
           <div className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center gap-4 px-4 lg:block">
             <NavLinks />
@@ -500,12 +433,7 @@ export default function Navbar() {
 
           <div className="flex h-full items-center px-4">
             <div className="hidden lg:flex">
-              <AuthSection
-                onSignInClick={() => {
-                  setAuthMode("signin");
-                  setAuthOpen(true);
-                }}
-              />
+              <ActionButton />
             </div>
           </div>
         </nav>
@@ -519,12 +447,6 @@ export default function Navbar() {
           aria-hidden="true"
         />
       </div>
-
-      <AuthDrawer
-        open={authOpen}
-        onOpenChange={setAuthOpen}
-        initialMode={authMode}
-      />
 
       <div
         className="hidden h-5 w-5 backdrop-blur-sm md:block"

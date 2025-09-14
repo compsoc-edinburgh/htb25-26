@@ -3,13 +3,13 @@ import { Input } from "~/components/ui/input";
 import { Textarea } from "~/components/ui/textarea";
 import { Button } from "~/components/ui/button";
 import { Label } from "~/components/ui/label";
-import { FormValues } from "./types";
+import { ApplicationFormValues } from "./types";
 
 interface PreferencesProps {
-  control: Control<FormValues>;
+  control: Control<ApplicationFormValues>;
   register: any;
   watch: any;
-  errors?: FieldErrors<FormValues>;
+  errors?: FieldErrors<ApplicationFormValues>;
 }
 
 export const Preferences = ({

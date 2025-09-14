@@ -4,9 +4,10 @@ import {
   useWatch,
   type FieldErrors,
 } from "react-hook-form";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
+import { Button } from "~/components/ui/button";
 import {
   Select,
   SelectContent,
@@ -21,7 +22,10 @@ import {
 } from "~/components/ui/university-selectlist";
 import universities from "~/lib/constants/world_universities_and_domains.json";
 import { countries } from "country-data-list";
-import { FormValues } from "./types";
+import { UserFormValues } from "./types";
+import { useSignUp, useSignIn, useClerk, useUser } from "@clerk/nextjs";
+import { api } from "~/trpc/react";
+import { Loader2, CheckCircle2 } from "lucide-react";
 
 const yearOptions = [
   { value: "1", label: "1st Year" },
@@ -33,11 +37,13 @@ const yearOptions = [
 ];
 
 interface YourUniversityProps {
-  control: Control<FormValues>;
+  control: Control<any>;
   register: any;
   getValues: any;
-  setValue: (name: keyof FormValues, value: any) => void;
-  errors: FieldErrors<FormValues>;
+  setValue: (name: keyof UserFormValues, value: any) => void;
+  errors: FieldErrors<UserFormValues>;
+  disabled?: boolean;
+  onSubmitUser?: (values: UserFormValues) => Promise<void> | void;
 }
 
 export const YourUniversity = ({
@@ -46,16 +52,37 @@ export const YourUniversity = ({
   getValues,
   setValue,
   errors,
+  disabled,
+  onSubmitUser,
 }: YourUniversityProps) => {
+  const { isSignedIn } = useUser();
+  const { signUp, isLoaded: isSignUpLoaded } = useSignUp();
+  const { signIn, isLoaded: isSignInLoaded } = useSignIn();
+  const { setActive } = useClerk();
+
+  const userGet = api.user.get.useQuery(undefined, { enabled: false });
+
+  const [otpSent, setOtpSent] = useState(false);
+  const [code, setCode] = useState("");
+  const [isVerifying, setIsVerifying] = useState(false);
+  const [verifyError, setVerifyError] = useState<string | undefined>();
+  const [verified, setVerified] = useState(false);
+  const [authFlow, setAuthFlow] = useState<"signup" | "signin" | null>(null);
+
   const selectedCountryAlpha3 = useWatch({ control, name: "countryAlpha3" });
+  const selectedUniversityName = useWatch({ control, name: "universityName" });
   const selectedCountryAlpha2 = countries.all.find(
     (c: any) => c.alpha3 === selectedCountryAlpha3
   )?.alpha2;
 
   useEffect(() => {
-    // Clear university selection whenever the country changes to avoid stale value
     setValue("universityName", "");
   }, [selectedCountryAlpha2, setValue]);
+
+  useEffect(() => {
+    setValue("universityYear", "");
+    setValue("universityEmail", "");
+  }, [selectedUniversityName, setValue]);
 
   return (
     <div className="grid gap-6">
@@ -96,6 +123,7 @@ export const YourUniversity = ({
               )}
               defaultValue={undefined}
               onChange={(u: University) => field.onChange(u.name)}
+              disabled={!selectedCountryAlpha3 || disabled}
             />
           )}
         />
@@ -113,7 +141,11 @@ export const YourUniversity = ({
           control={control}
           name="universityYear"
           render={({ field }) => (
-            <Select value={field.value} onValueChange={field.onChange}>
+            <Select
+              value={field.value}
+              onValueChange={field.onChange}
+              disabled={!selectedUniversityName || disabled}
+            >
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select your year" />
               </SelectTrigger>
@@ -137,16 +169,150 @@ export const YourUniversity = ({
         <div className="my-5 flex items-center gap-2">
           <Label className="font-whyte text-xl">University email *</Label>
         </div>
-        <Input
-          type="email"
-          placeholder="john.doe@university.ac.uk"
-          {...register("universityEmail")}
-        />
+        <div className="flex gap-2">
+          <Input
+            type="email"
+            placeholder="john.doe@university.ac.uk"
+            disabled={!selectedUniversityName || isSignedIn || disabled}
+            {...register("universityEmail")}
+          />
+          {!isSignedIn && !disabled && (
+            <Button
+              type="button"
+              onClick={async () => {
+                setVerifyError(undefined);
+                const email = getValues("universityEmail");
+                if (!email) {
+                  setVerifyError("Enter your university email first");
+                  return;
+                }
+
+                setIsVerifying(true);
+                try {
+                  if (!isSignUpLoaded || !isSignInLoaded) {
+                    throw new Error("Auth not ready yet, try again");
+                  }
+
+                  try {
+                    await signUp?.create({ emailAddress: email });
+                    await signUp?.prepareEmailAddressVerification({
+                      strategy: "email_code",
+                    });
+                    setAuthFlow("signup");
+                    setOtpSent(true);
+                  } catch (err: any) {
+                    const attempt = await signIn?.create({ identifier: email });
+                    const emailFactor: any =
+                      attempt?.supportedFirstFactors?.find(
+                        (f: any) => f.strategy === "email_code"
+                      );
+                    const emailAddressId = emailFactor?.emailAddressId;
+                    if (!emailAddressId)
+                      throw new Error("Email factor unavailable");
+                    await signIn?.prepareFirstFactor({
+                      strategy: "email_code",
+                      emailAddressId,
+                    });
+                    setAuthFlow("signin");
+                    setOtpSent(true);
+                  }
+                } catch (err: any) {
+                  const message =
+                    err?.errors?.[0]?.message ||
+                    err?.message ||
+                    "Failed to send code";
+                  setVerifyError(message);
+                } finally {
+                  setIsVerifying(false);
+                }
+              }}
+              disabled={!selectedUniversityName || isVerifying}
+              className="whitespace-nowrap"
+            >
+              {isVerifying ? (
+                <span className="flex items-center gap-2">
+                  <Loader2 className="h-4 w-4 animate-spin" /> Sending
+                </span>
+              ) : (
+                "Verify"
+              )}
+            </Button>
+          )}
+        </div>
         {errors.universityEmail?.message && (
           <p className="text-sm text-red-600">
             {String(errors.universityEmail.message)}
           </p>
         )}
+        {!isSignedIn && otpSent && !disabled && (
+          <div className="mt-2 flex items-center gap-2">
+            <Input
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9]*"
+              maxLength={6}
+              placeholder="Enter 6-digit code"
+              value={code}
+              onChange={(e) => setCode(e.target.value)}
+              className="max-w-[200px]"
+            />
+            <Button
+              type="button"
+              onClick={async () => {
+                setVerifyError(undefined);
+                setIsVerifying(true);
+                try {
+                  let result: any;
+                  if (authFlow === "signup") {
+                    result = await signUp?.attemptEmailAddressVerification({
+                      code,
+                    });
+                  } else {
+                    result = await signIn?.attemptFirstFactor({
+                      strategy: "email_code",
+                      code,
+                    });
+                  }
+
+                  if (result?.status === "complete") {
+                    await setActive({ session: result.createdSessionId });
+                    await userGet.refetch();
+                    const v = getValues();
+                    if (onSubmitUser) {
+                      await onSubmitUser(v as UserFormValues);
+                    }
+                    setVerified(true);
+                  } else {
+                    setVerifyError("Invalid code. Please try again.");
+                  }
+                } catch (err: any) {
+                  const message =
+                    err?.errors?.[0]?.message ||
+                    err?.message ||
+                    "Verification failed";
+                  setVerifyError(message);
+                } finally {
+                  setIsVerifying(false);
+                }
+              }}
+              disabled={!code || isVerifying || code.length < 6}
+            >
+              {isVerifying ? (
+                <span className="flex items-center gap-2">
+                  <Loader2 className="h-4 w-4 animate-spin" /> Verifying
+                </span>
+              ) : (
+                "Submit code"
+              )}
+            </Button>
+            {verified && (
+              <span className="flex items-center gap-1 text-green-600">
+                <CheckCircle2 className="h-4 w-4" /> Verified
+              </span>
+            )}
+          </div>
+        )}
+        {verifyError && <p className="text-sm text-red-600">{verifyError}</p>}
       </div>
     </div>
   );

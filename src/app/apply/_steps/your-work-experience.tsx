@@ -11,7 +11,7 @@ import {
   SelectValue,
 } from "~/components/ui/select";
 import { UploadDropzone } from "~/components/module/uploadthing";
-import { FormValues } from "./types";
+import { ApplicationFormValues } from "./types";
 
 const countOptions = [
   { value: "0", label: "0" },
@@ -22,9 +22,9 @@ const countOptions = [
 ];
 
 interface YourWorkExperienceProps {
-  control: Control<FormValues>;
+  control: Control<ApplicationFormValues>;
   register: any;
-  errors?: FieldErrors<FormValues>;
+  errors?: FieldErrors<ApplicationFormValues>;
 }
 
 export const YourWorkExperience = ({
