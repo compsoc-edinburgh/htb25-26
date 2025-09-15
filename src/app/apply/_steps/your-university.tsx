@@ -25,7 +25,7 @@ import {
 } from "~/components/ui/university-selectlist";
 import universities from "~/lib/constants/world_universities_and_domains.json";
 import { countries } from "country-data-list";
-import { UserFormValues } from "./types";
+import { UserFormValues, UserFormSchema } from "./types";
 import { useUser } from "@clerk/nextjs";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
@@ -84,8 +84,15 @@ export const YourUniversity = ({
     setValue("universityEmail", "");
   }, [selectedUniversityName, setValue]);
 
-  // For Get code button - only validate email
-  const emailValid = Boolean(universityEmail && universityEmail.trim() !== "");
+  const emailValid = (() => {
+    if (!universityEmail || universityEmail.trim() === "") return false;
+    try {
+      UserFormSchema.shape.universityEmail.parse(universityEmail);
+      return true;
+    } catch {
+      return false;
+    }
+  })();
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -218,14 +225,19 @@ export const YourUniversity = ({
             <Button
               type="button"
               onClick={async () => {
-                // Only validate email for Get code button
+                // Validate email using schema before sending code
                 if (!universityEmail || universityEmail.trim() === "") {
                   toast.error("Please enter your university email first");
                   return;
                 }
-                const emailDomain = universityEmail.split("@")[1];
-                if (!emailDomain) {
-                  toast.error("Enter a valid email address");
+
+                try {
+                  UserFormSchema.shape.universityEmail.parse(universityEmail);
+                } catch (error: any) {
+                  const errorMessage =
+                    error?.issues?.[0]?.message ||
+                    "Please enter a valid university email address";
+                  toast.error(errorMessage);
                   return;
                 }
 
@@ -234,11 +246,12 @@ export const YourUniversity = ({
                 );
 
                 if (selectedUni && selectedUni.domains) {
+                  const emailDomain = universityEmail.split("@")[1];
                   const domainMatches = selectedUni.domains.some(
                     (domain) =>
-                      emailDomain.toLowerCase() === domain.toLowerCase() ||
+                      emailDomain?.toLowerCase() === domain.toLowerCase() ||
                       emailDomain
-                        .toLowerCase()
+                        ?.toLowerCase()
                         .endsWith("." + domain.toLowerCase())
                   );
 
