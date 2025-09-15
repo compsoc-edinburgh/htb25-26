@@ -147,8 +147,8 @@ export const YourWorkExperience = ({
       <div className="grid max-w-xl gap-4">
         <div className="my-5 flex items-center gap-2">
           <Label className="font-whyte text-xl">
-            Please briefly describe a project you've completed in the following
-            format:
+            Please briefly describe a project you&apos;ve completed in the
+            following format:
           </Label>
         </div>
         <div className="flex flex-col gap-2">
