@@ -99,37 +99,38 @@ export default function ApplicationForm({
       ]
         .join("\n")
         .trim();
-      toast.loading("Submitting your application...");
 
-      const updateUserPromise = updateUser.mutateAsync({
-        cv: values.cvUrl || undefined,
-        portfolioUrl: values.portfolioUrl || undefined,
-        placementsCount: values.placementsCount,
-        hackathonsCount: values.hackathonsCount,
-        projectDescription,
-        needsReimbursement: values.needsReimbursement,
-        travellingFrom:
-          values.needsReimbursement === true
-            ? values.travellingFrom || undefined
-            : undefined,
-        calendarEmail: values.calendarEmail || undefined,
-      });
+      toast.promise(
+        Promise.all([
+          updateUser.mutateAsync({
+            cv: values.cvUrl || undefined,
+            portfolioUrl: values.portfolioUrl || undefined,
+            placementsCount: values.placementsCount,
+            hackathonsCount: values.hackathonsCount,
+            projectDescription,
+            needsReimbursement: values.needsReimbursement,
+            travellingFrom:
+              values.needsReimbursement === true
+                ? values.travellingFrom || undefined
+                : undefined,
+            calendarEmail: values.calendarEmail || undefined,
+          }),
+          createApplication.mutateAsync({
+            team_id: values.teamId || undefined,
+            type: values.type,
+          }),
+        ]),
+        {
+          loading: "Submitting your application...",
+          success: "Application submitted successfully!",
+          error: "Failed to submit application. Please try again.",
+        }
+      );
 
-      const createApplicationPromise = createApplication.mutateAsync({
-        team_id: values.teamId || undefined,
-        type: values.type,
-      });
-
-      await Promise.all([updateUserPromise, createApplicationPromise]);
-      
-
-      toast.dismiss();
-      toast.success("Application submitted successfully!");
       onFormSubmit(values);
     } catch (error) {
       console.error("Failed to submit application:", error);
-      toast.dismiss();
-      toast.error("Failed to submit application. Please try again.");
+      toast.error("An unexpected error occurred. Please try again.");
     }
   };
 
@@ -203,7 +204,11 @@ export default function ApplicationForm({
                 "cursor-not-allowed opacity-50"
             )}
           >
-            {isLoading ? "Submitting..." : "Save Application"}
+            {isLoading
+              ? "Submitting..."
+              : window.location.pathname === "/apply/edit"
+                ? "Save Application"
+                : "Submit Application"}
           </Button>
         </div>
       </div>
