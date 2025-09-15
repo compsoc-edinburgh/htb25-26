@@ -218,7 +218,9 @@ export const applicationRouter = createTRPCRouter({
 
     const user = application.user;
 
-    const hasTeam = Boolean(application.team_id);
+    const hasRequiredPersonalInfo = Boolean(
+      user?.first_name && user?.last_name && user?.pronouns
+    );
 
     const hasUniversityBasics = Boolean(
       user?.university_name &&
@@ -231,9 +233,14 @@ export const applicationRouter = createTRPCRouter({
       user?.placements_count && user?.hackathons_count
     );
 
-    const hasCv = Boolean(user?.cv_url);
+    const hasCvAndPortfolio = Boolean(user?.cv_url && user?.portfolio_url);
 
-    if (!hasTeam || !hasUniversityBasics || !hasExperience || !hasCv) {
+    if (
+      !hasRequiredPersonalInfo ||
+      !hasUniversityBasics ||
+      !hasExperience ||
+      !hasCvAndPortfolio
+    ) {
       return null;
     }
 

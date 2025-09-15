@@ -52,7 +52,7 @@ export const AboutYourself = ({
       </div>
       <div className="flex max-w-xl flex-col gap-2">
         <div className="my-5 flex items-center gap-2">
-          <Label className="font-whyte text-xl">Pronouns</Label>
+          <Label className="font-whyte text-xl">Pronouns *</Label>
         </div>
         <Input
           id="pronouns"
@@ -60,6 +60,11 @@ export const AboutYourself = ({
           disabled={disabled}
           {...register("pronouns")}
         />
+        {errors?.pronouns?.message && (
+          <p className="text-sm text-red-600">
+            {String(errors.pronouns.message)}
+          </p>
+        )}
       </div>
     </div>
   );

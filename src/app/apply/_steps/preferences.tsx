@@ -23,9 +23,13 @@ export const Preferences = ({
       <div className="mb-5 flex max-w-md flex-col gap-2">
         <div className="my-5 flex items-center gap-2">
           <Label className="font-whyte text-xl">
-            Do you need travel reimbursement?
+            Will you need travel reimbursed *
           </Label>
         </div>
+        <p className="text-sm text-gray-600">
+          We offer travel reimbursement for students traveling from outside
+          Edinburgh. Full details will be provided upon acceptance.
+        </p>
         <Controller
           control={control}
           name="needsReimbursement"
@@ -56,16 +60,16 @@ export const Preferences = ({
           </p>
         )}
       </div>
-      {watch("needsReimbursement") && (
+      {watch("needsReimbursement") === true && (
         <div className="flex max-w-xl flex-col gap-2">
           <div className="my-5 flex items-center gap-2">
             <Label className="font-whyte text-xl">
-              Where are you travelling from?
+              Where are you travelling from *
             </Label>
           </div>
           <Textarea
             rows={4}
-            placeholder="e.g. Edinburgh, Glasgow, etc."
+            placeholder="e.g. Edinburgh, Glasgow, Manchester, etc."
             {...register("travellingFrom")}
           />
           {errors?.travellingFrom?.message && (
@@ -78,7 +82,7 @@ export const Preferences = ({
       <div className="flex max-w-xl flex-col gap-2">
         <div className="my-5 flex items-center gap-2">
           <Label className="font-whyte text-xl">
-            Which email should we use?
+            Which email should we use for event communications?
           </Label>
         </div>
         <Input
