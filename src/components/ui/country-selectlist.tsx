@@ -126,6 +126,7 @@ const CountrySelectListComponent = (
                 !!x.alpha2 &&
                 x.alpha2.trim().length > 0
             )
+            .sort((a, b) => a.name.localeCompare(b.name))
             .map((option, key: number) => (
               <SelectItem key={key} value={option.alpha3}>
                 <div className="flex items-center gap-2">
