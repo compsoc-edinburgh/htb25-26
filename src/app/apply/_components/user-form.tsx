@@ -10,7 +10,6 @@ import { api } from "~/trpc/react";
 import { countries } from "country-data-list";
 import {
   useUser,
-  SignInButton,
   SignOutButton,
   useSignUp,
   useSignIn,
@@ -201,12 +200,9 @@ export default function UserForm() {
         <p className="mt-2 font-whyte text-xl font-bold">User</p>
         {!isSignedIn ? (
           <div className="mt-3 flex items-center gap-3">
-            <span className="text-xs text-zinc-600">Already applied?</span>
-            <SignInButton mode="modal" signUpForceRedirectUrl="/apply">
-              <Button type="button" variant="secondary" size="sm">
-                Sign in
-              </Button>
-            </SignInButton>
+            <span className="text-xs text-zinc-600">
+              Enter your details to create an account
+            </span>
           </div>
         ) : (
           <div className="mt-3 flex items-center gap-3">
