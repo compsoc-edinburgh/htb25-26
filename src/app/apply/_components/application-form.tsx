@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useFormPersist } from "use-react-hook-form-persist";
 import { Preferences, Team, YourWorkExperience } from "../_steps";
 import { AccordionSection } from "./accordion";
 import { api } from "~/trpc/react";
@@ -21,27 +20,23 @@ export default function ApplicationForm() {
   const updateUser = api.user.update.useMutation();
   const createApplication = api.application.create.useMutation();
   const router = useRouter();
-
-  const form = useFormPersist(
-    useForm<ApplicationFormValues>({
-      resolver: zodResolver(ApplicationFormSchema),
-      defaultValues: {
-        teamId: undefined,
-        type: "individual",
-        cvUrl: "",
-        portfolioUrl: "",
-        projectAim: "",
-        projectStack: "",
-        projectLink: "",
-        travellingFrom: "",
-        calendarEmail: "",
-        placementsCount: "0",
-        hackathonsCount: "0",
-      },
-      mode: "onChange",
-    }),
-    { key: "apply-application-form" }
-  );
+  const form = useForm({
+    resolver: zodResolver(ApplicationFormSchema),
+    defaultValues: {
+      teamId: undefined,
+      type: "individual" as const,
+      cvUrl: undefined,
+      portfolioUrl: "",
+      projectAim: "",
+      projectStack: "",
+      projectLink: "",
+      travellingFrom: "",
+      calendarEmail: "",
+      placementsCount: "",
+      hackathonsCount: "",
+    },
+    mode: "onChange",
+  });
 
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
   const toggle = (id: string) => {
@@ -51,7 +46,6 @@ export default function ApplicationForm() {
   };
 
   const errors = form.formState.errors as any;
-  const hasTeamErrors = !!errors?.teamId || !!errors?.type;
   const hasWorkErrors =
     !!errors?.cvUrl ||
     !!errors?.portfolioUrl ||
@@ -89,8 +83,10 @@ export default function ApplicationForm() {
       type: values.type || "individual",
     });
 
-    router.push("/dashboard");
+    window.location.reload();
   };
+
+  console.log(form.formState.isValid);
 
   return (
     <form
@@ -108,7 +104,6 @@ export default function ApplicationForm() {
         disabled={!isSignedIn}
         expanded={expanded.has("team")}
         onToggle={toggle}
-        invalid={hasTeamErrors}
       >
         <Team
           control={form.control as any}
@@ -155,11 +150,17 @@ export default function ApplicationForm() {
         <div className="flex justify-center">
           <Button
             type="submit"
-            disabled={!isSignedIn || createApplication.isPending}
+            disabled={
+              !isSignedIn ||
+              createApplication.isPending ||
+              !form.formState.isValid
+            }
             className={cn(
               "mb-28 mt-5 h-24 w-full border border-zinc-200 bg-black text-xl uppercase text-white transition-all duration-300 hover:bg-black hover:text-white md:h-28 lg:h-32",
-              createApplication.isPending && "cursor-not-allowed opacity-50",
-              !isSignedIn && "cursor-not-allowed opacity-50"
+              (createApplication.isPending ||
+                !isSignedIn ||
+                !form.formState.isValid) &&
+                "cursor-not-allowed opacity-50"
             )}
           >
             {createApplication.isPending

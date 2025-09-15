@@ -36,7 +36,7 @@ export const YourWorkExperience = ({
     <div className="grid gap-6">
       <div className="flex max-w-xl flex-col gap-2">
         <div className="my-5 flex items-center gap-2">
-          <Label className="font-whyte text-xl">Your CV</Label>
+          <Label className="font-whyte text-xl">Your CV *</Label>
         </div>
         <Controller
           control={control}
@@ -60,7 +60,7 @@ export const YourWorkExperience = ({
                 </div>
               ) : (
                 <UploadDropzone
-                  className="border-1 rounded-none uppercase border-solid border-zinc-300 bg-zinc-50/30 transition-colors hover:border-zinc-400 hover:bg-zinc-50/50 ut-button:rounded-none ut-button:border ut-button:border-black ut-button:uppercase ut-button:bg-black ut-button:px-6 ut-button:py-3 ut-button:text-xs ut-button:font-medium ut-button:text-white ut-button:transition-all ut-button:hover:bg-zinc-800 ut-button:focus-visible:outline-none ut-button:focus-visible:ring-2 ut-button:focus-visible:ring-black ut-button:focus-visible:ring-offset-2 ut-allowed-content:text-xs ut-allowed-content:text-zinc-500 ut-label:text-sm ut-label:font-normal ut-label:text-zinc-700"
+                  className="border-1 rounded-none border-solid border-zinc-300 bg-zinc-50/30 uppercase transition-colors hover:border-zinc-400 hover:bg-zinc-50/50 ut-button:rounded-none ut-button:border ut-button:border-black ut-button:bg-black ut-button:px-6 ut-button:py-3 ut-button:text-xs ut-button:font-medium ut-button:uppercase ut-button:text-white ut-button:transition-all ut-button:hover:bg-zinc-800 ut-button:focus-visible:outline-none ut-button:focus-visible:ring-2 ut-button:focus-visible:ring-black ut-button:focus-visible:ring-offset-2 ut-allowed-content:text-xs ut-allowed-content:text-zinc-500 ut-label:text-sm ut-label:font-normal ut-label:text-zinc-700"
                   endpoint="pdfUploader"
                   onClientUploadComplete={(res: any) =>
                     field.onChange(res?.[0]?.url)

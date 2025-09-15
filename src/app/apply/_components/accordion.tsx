@@ -50,17 +50,14 @@ export function AccordionSection({
             </h2>
           </div>
         </div>
-        <div className="absolute right-5 top-1/2 h-2 w-4 sm:h-3 -translate-y-1/2 sm:right-9">
+        <div className="absolute right-5 top-1/2 h-2 w-4 -translate-y-1/2 sm:right-9 sm:h-3">
           <svg
             width="14"
             height="13"
             viewBox="0 0 14 13"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            className={cn(
-              "h-full w-full",
-              expanded && "rotate-180"
-            )}
+            className={cn("h-full w-full", expanded && "rotate-180")}
           >
             <path d="M1 1L12.5 1L6.5 11.5L1 1Z" fill="black" stroke="black" />
           </svg>

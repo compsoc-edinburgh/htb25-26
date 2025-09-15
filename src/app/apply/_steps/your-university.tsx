@@ -84,6 +84,13 @@ export const YourUniversity = ({
     setValue("universityEmail", "");
   }, [selectedUniversityName, setValue]);
 
+  const requiredUserValid = Boolean(
+    getValues("countryAlpha3") &&
+      getValues("universityName") &&
+      getValues("universityYear") &&
+      getValues("universityEmail")
+  );
+
   return (
     <div className="grid gap-6">
       <div className="flex max-w-xl flex-col gap-2">
@@ -226,15 +233,19 @@ export const YourUniversity = ({
                   setIsVerifying(false);
                 }
               }}
-              disabled={!selectedUniversityName || isVerifying}
+              disabled={
+                !selectedUniversityName || !requiredUserValid || isVerifying
+              }
               className="whitespace-nowrap"
             >
               {isVerifying ? (
                 <span className="flex items-center gap-2">
                   <Loader2 className="h-4 w-4 animate-spin" /> Sending
                 </span>
-              ) : (
+              ) : requiredUserValid ? (
                 "Verify"
+              ) : (
+                "Complete required fields first"
               )}
             </Button>
           )}

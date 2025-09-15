@@ -13,10 +13,10 @@ export const UserFormSchema = z.object({
 export type UserFormValues = z.infer<typeof UserFormSchema>;
 
 export const ApplicationFormSchema = z.object({
-  teamId: z.string().min(1),
-  type: z.enum(["individual", "team"]),
+  teamId: z.string().min(1).optional(),
+  type: z.enum(["individual", "team"]).default("individual"),
 
-  cvUrl: z.string().url().min(1).or(z.literal("")),
+  cvUrl: z.string().min(1, "CV link is required").url("Must be a valid URL"),
   portfolioUrl: z.string().url().optional().or(z.literal("")),
   placementsCount: z.string().min(1),
   hackathonsCount: z.string().min(1),

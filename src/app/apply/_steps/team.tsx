@@ -185,10 +185,13 @@ export const Team = ({ setValue }: TeamProps) => {
     <div className="grid gap-6">
       <div>
         <div className="my-t-5 flex items-center gap-2">
-          <Label className="font-whyte text-xl">Team</Label>
+          <Label className="font-whyte text-xl">
+            Team <span className="text-xs text-zinc-500">(optional)</span>
+          </Label>
         </div>
         <p className="text-xs text-zinc-500">
-          Apply as part of a team by creating a new one or joining with a code.
+          You can apply as an individual. Creating or joining a team is
+          optional.
         </p>
       </div>
 

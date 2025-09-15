@@ -14,7 +14,7 @@ export const applicationRouter = createTRPCRouter({
     .input(
       z.object({
         team_id: z.string().optional(),
-        type: z.enum(["individual", "team"]),
+        type: z.enum(["individual", "team"]).optional().default("individual"),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -167,7 +167,7 @@ export const applicationRouter = createTRPCRouter({
         return ctx.db.application.create({
           data: {
             user_id: ctx.auth.userId,
-            team_id: input.team_id,
+            team_id: input.team_id || undefined,
           },
           include: {
             team: {
@@ -210,8 +210,6 @@ export const applicationRouter = createTRPCRouter({
 
     const user = application.user;
 
-    const hasTeam = Boolean(application.team_id);
-
     const hasUniversityBasics = Boolean(
       user?.university_name &&
         user?.university_year &&
@@ -225,7 +223,7 @@ export const applicationRouter = createTRPCRouter({
 
     const hasCv = Boolean(user?.cv_url);
 
-    if (!hasTeam || !hasUniversityBasics || !hasExperience || !hasCv) {
+    if (!hasUniversityBasics || !hasExperience || !hasCv) {
       return null;
     }
 
