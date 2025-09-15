@@ -47,7 +47,7 @@ export default function ApplicationForm({
   });
 
   useEffect(() => {
-    if (defaults) {
+    if (defaults && typeof defaults === 'object') {
       form.reset({
         teamId: undefined,
         type: "individual",
@@ -63,7 +63,7 @@ export default function ApplicationForm({
         ...defaults,
       });
     }
-  }, [JSON.stringify(defaults)]);
+  }, [defaults, form]);
 
   const [expanded, setExpanded] = useState<Set<string>>(new Set([]));
   const toggle = (id: string) => {
