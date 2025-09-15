@@ -38,8 +38,8 @@ export default function ManageApplication() {
   const projectLink = projectDescriptionParts[2]?.trim() ?? "";
 
   const defaults = {
-    teamId: application.data.team?.id,
-    type: application.data.team ? ("team" as const) : ("individual" as const),
+    teamId: application.data?.team?.id,
+    type: application.data?.team ? ("team" as const) : ("individual" as const),
     cvUrl: user.data?.cv_url ?? undefined,
     portfolioUrl: user.data?.portfolio_url ?? "",
     projectAim,
@@ -49,7 +49,7 @@ export default function ManageApplication() {
     calendarEmail: user.data?.calendar_email ?? "",
     placementsCount: user.data?.placements_count ?? "0",
     hackathonsCount: user.data?.hackathons_count ?? "0",
-    needsReimbursement: user.data?.needs_reimbursement as boolean | undefined,
+    needsReimbursement: user.data?.needs_reimbursement ?? false,
   } as const;
 
   return (

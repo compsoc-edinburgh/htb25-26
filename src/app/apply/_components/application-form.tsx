@@ -41,13 +41,13 @@ export default function ApplicationForm({
       placementsCount: "0",
       hackathonsCount: "0",
       needsReimbursement: false,
-      ...(defaults ?? {}),
+      ...(defaults && typeof defaults === 'object' ? defaults : {}),
     },
     mode: "all",
   });
 
   useEffect(() => {
-    if (defaults && typeof defaults === 'object') {
+    if (defaults && typeof defaults === 'object' && defaults !== null) {
       form.reset({
         teamId: undefined,
         type: "individual",
