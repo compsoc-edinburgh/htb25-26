@@ -101,8 +101,8 @@ export default function Volunteer() {
 
             {/* Main heading */}
             <h2 className="font-whyte text-2xl font-black leading-tight tracking-tight md:text-3xl lg:text-4xl">
-              COULD BE ANYTHING FROM PHOTOGRAPHY, TO SOCIAL MEDIA, TO ANYTHING
-              RELATED TO HELPING OUT WITH THE EVENT!
+              FROM PHOTOGRAPHY TO SERVING FOOD, THIS IS YOUR CHANCE TO HELP
+              HACKTHEBURGH SHINE
             </h2>
 
             {/* Volunteer button */}

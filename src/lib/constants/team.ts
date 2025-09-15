@@ -11,8 +11,9 @@ export const TEAM_MEMBERS: TeamMember[] = [
   {
     name: "Kameran Russell",
     role: "Director",
-    bio: "I'm a 3rd year Maths student. Here to make HTB fun and engaging for everyone!",
+    bio: "Looking forward to making sure HTB is fun for everyone and runs smoothly",
     image: "/team/kameran.png",
+    gif: "/team/kameran.gif",
     link: "https://www.linkedin.com/in/kameran-russell-238712203/",
   },
   {
