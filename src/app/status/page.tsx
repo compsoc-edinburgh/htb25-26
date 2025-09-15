@@ -23,8 +23,8 @@ export default function Page() {
 
   if (application.isLoading) {
     return (
-      <div className="relative flex min-h-[70vh] items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
+      <div className="flex min-h-[70vh] items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-black" />
       </div>
     );
   }
