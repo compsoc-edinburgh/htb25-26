@@ -156,7 +156,7 @@ export const applicationRouter = createTRPCRouter({
                       <footer>
                           <p>
                               Please don't reply to this email. For questions, contact us at 
-                              <a href="mailto:hello@hacktheburgh.com">hello@hacktheburgh.com</a>
+                              <a href="mailto:team@hacktheburgh.com">team@hacktheburgh.com</a>
                           </p>
                           <p>
                               <a href="https://www.hacktheburgh.com/documents/HTB-Privacy-Policy.pdf" target="_blank">

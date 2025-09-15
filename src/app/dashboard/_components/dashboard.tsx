@@ -51,13 +51,13 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="mt-[4.75rem] flex w-full h-full pb-40">
+    <div className="mt-[4.75rem] flex h-full w-full pb-40">
       <div className="flex h-full w-[10rem] flex-col items-center border-r border-zinc-200 bg-white py-28 pl-10">
         <div className="-rotate-90 transform whitespace-nowrap text-xs font-medium tracking-wider text-gray-500">
-          HELLO@HTB.COM
+          team@hacktheburgh.com
         </div>
       </div>
-      
+
       <div className="flex flex-1 flex-col">
         <div className="flex border-b border-zinc-200">
           <div className="flex-1 p-8">
@@ -76,11 +76,11 @@ export default function Dashboard() {
 
           <div className="flex max-w-[500px] flex-1 flex-col items-stretch justify-start space-y-4">
             <div className="grid w-full grid-cols-2 overflow-hidden">
-              <button 
+              <button
                 onClick={() => setActiveTab("edit-application")}
-                className={`w-full py-10 text-lg border-zinc-200 border-x border-b tracking-wider transition-colors ${
-                  activeTab === "edit-application" 
-                    ? "bg-black text-white" 
+                className={`w-full border-x border-b border-zinc-200 py-10 text-lg tracking-wider transition-colors ${
+                  activeTab === "edit-application"
+                    ? "bg-black text-white"
                     : "text-black hover:bg-gray-50"
                 }`}
               >
@@ -89,20 +89,20 @@ export default function Dashboard() {
               <button
                 disabled
                 onClick={() => setActiveTab("teams-browser")}
-                className={`cursor-not-allowed w-full py-10 text-lg border-b border-zinc-200 tracking-wider transition-colors ${
-                  activeTab === "teams-browser" 
-                    ? "bg-black text-white" 
+                className={`w-full cursor-not-allowed border-b border-zinc-200 py-10 text-lg tracking-wider transition-colors ${
+                  activeTab === "teams-browser"
+                    ? "bg-black text-white"
                     : "text-zinc-400 hover:bg-gray-50 hover:text-black"
                 }`}
               >
                 TEAMS BROWSER
               </button>
-              <button 
+              <button
                 disabled
                 onClick={() => setActiveTab("secret")}
-                className={`cursor-not-allowed w-full py-10 text-lg border-zinc-200 border-x tracking-wider transition-colors ${
-                  activeTab === "secret" 
-                    ? "bg-black text-white" 
+                className={`w-full cursor-not-allowed border-x border-zinc-200 py-10 text-lg tracking-wider transition-colors ${
+                  activeTab === "secret"
+                    ? "bg-black text-white"
                     : "text-black hover:bg-gray-50"
                 }`}
               >
@@ -111,9 +111,9 @@ export default function Dashboard() {
               <button
                 disabled
                 onClick={() => setActiveTab("your-team")}
-                className={`cursor-not-allowed w-full py-10 text-lg tracking-wider transition-colors ${
-                  activeTab === "your-team" 
-                    ? "bg-black text-white" 
+                className={`w-full cursor-not-allowed py-10 text-lg tracking-wider transition-colors ${
+                  activeTab === "your-team"
+                    ? "bg-black text-white"
                     : "text-zinc-400 hover:bg-gray-50 hover:text-black"
                 }`}
               >
@@ -122,12 +122,9 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
-        
-        <div className="w-full">
-          {renderTabContent()}
-        </div>
+
+        <div className="w-full">{renderTabContent()}</div>
       </div>
-    
     </div>
-    )
+  );
 }
