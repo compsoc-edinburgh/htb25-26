@@ -50,6 +50,11 @@ export function AccordionSection({
             </h2>
           </div>
         </div>
+        {disabled && (
+          <div className="absolute bottom-0 right-[15%] mt-5 h-fit bg-black px-2 py-1 text-[0.6rem] text-white">
+            LOCKED
+          </div>
+        )}
         <div className="absolute right-5 top-1/2 h-2 w-4 -translate-y-1/2 sm:right-9 sm:h-3">
           <svg
             width="14"
