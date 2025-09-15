@@ -19,7 +19,7 @@ export default function AccordionForm() {
   }
 
   const handleFormSubmit = async () => {
-    router.replace("/status");
+    router.push("/status");
   };
 
   return (

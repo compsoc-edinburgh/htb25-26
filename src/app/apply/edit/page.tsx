@@ -15,7 +15,7 @@ export default function ManageApplication() {
 
   useEffect(() => {
     if (!application.isLoading && !application.data) {
-      router.replace("/apply");
+      router.push("/apply");
     }
   }, [application.isLoading, application.data, router]);
 
@@ -68,7 +68,7 @@ export default function ManageApplication() {
           <ApplicationForm
             defaults={defaults}
             onFormSubmit={() => {
-              router.replace("/status");
+              router.push("/status");
             }}
           />
         </div>
