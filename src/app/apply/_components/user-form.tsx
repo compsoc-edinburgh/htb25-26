@@ -28,25 +28,22 @@ export default function UserForm() {
   const updateUser = api.user.update.useMutation();
   const userGet = api.user.get.useQuery(undefined, { enabled: false });
 
-  const form = useFormPersist(
-    useForm<UserFormValues>({
-      resolver: zodResolver(UserFormSchema),
-      defaultValues: {
-        firstName: "",
-        lastName: "",
-        pronouns: "",
-        countryAlpha3: "GBR",
-        universityName: "",
-        universityYear: "",
-        universityEmail: "",
-        verificationCode: "",
-        codeSent: false,
-        authFlow: undefined,
-      },
-      mode: "onChange",
-    }),
-    { key: "apply-user-form" }
-  );
+  const form = useForm<UserFormValues>({
+    resolver: zodResolver(UserFormSchema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      pronouns: "",
+      countryAlpha3: "GBR",
+      universityName: "",
+      universityYear: "",
+      universityEmail: "",
+      verificationCode: "",
+      codeSent: false,
+      authFlow: undefined,
+    },
+    mode: "onChange",
+  });
 
   const [expanded, setExpanded] = useState<Set<string>>(
     new Set(["about-yourself"])
