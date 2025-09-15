@@ -52,8 +52,6 @@ interface YourUniversityProps {
 
 export const YourUniversity = ({
   control,
-  register,
-  getValues,
   setValue,
   errors,
   disabled,
@@ -290,6 +288,7 @@ export const YourUniversity = ({
             </Button>
           )}
         </div>
+        <div id="clerk-captcha" />
         {errors.universityEmail?.message && (
           <p className="text-sm text-red-600">
             {String(errors.universityEmail.message)}
