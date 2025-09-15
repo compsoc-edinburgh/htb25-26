@@ -26,9 +26,9 @@ import {
 import universities from "~/lib/constants/world_universities_and_domains.json";
 import { countries } from "country-data-list";
 import { UserFormValues } from "./types";
-import { useSignUp, useSignIn, useClerk, useUser } from "@clerk/nextjs";
-import { api } from "~/trpc/react";
-import { Loader2, CheckCircle2 } from "lucide-react";
+import { useUser } from "@clerk/nextjs";
+import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 
 const yearOptions = [
   { value: "1", label: "1st Year" },
@@ -46,7 +46,8 @@ interface YourUniversityProps {
   setValue: UseFormSetValue<UserFormValues>;
   errors: FieldErrors<UserFormValues>;
   disabled?: boolean;
-  onSubmitUser?: (values: UserFormValues) => Promise<void> | void;
+  sendVerificationCode: () => Promise<boolean>;
+  onSubmit: () => void;
 }
 
 export const YourUniversity = ({
@@ -56,26 +57,19 @@ export const YourUniversity = ({
   setValue,
   errors,
   disabled,
-  onSubmitUser,
+  sendVerificationCode,
+  onSubmit,
 }: YourUniversityProps) => {
   const { user, isSignedIn } = useUser();
-  const { signUp, isLoaded: isSignUpLoaded } = useSignUp();
-  const { signIn, isLoaded: isSignInLoaded } = useSignIn();
-  const { setActive } = useClerk();
 
-  const userGet = api.user.get.useQuery(undefined, { enabled: false });
-
-  const [otpSent, setOtpSent] = useState(false);
-  const [code, setCode] = useState("");
   const [isSendingCode, setIsSendingCode] = useState(false);
-  const [isVerifying, setIsVerifying] = useState(false);
-  const [verifyError, setVerifyError] = useState<string | undefined>();
-  const [verified, setVerified] = useState(false);
-  const [authFlow, setAuthFlow] = useState<"signup" | "signin" | null>(null);
   const [cooldownTimeLeft, setCooldownTimeLeft] = useState(0);
 
   const selectedCountryAlpha3 = useWatch({ control, name: "countryAlpha3" });
   const selectedUniversityName = useWatch({ control, name: "universityName" });
+  const codeSent = useWatch({ control, name: "codeSent" });
+  const verificationCode = useWatch({ control, name: "verificationCode" });
+
   const selectedCountryAlpha2 = countries.all.find(
     (c: any) => c.alpha3 === selectedCountryAlpha3
   )?.alpha2;
@@ -90,7 +84,10 @@ export const YourUniversity = ({
   }, [selectedUniversityName, setValue]);
 
   const requiredUserValid = Boolean(
-    getValues("countryAlpha3") &&
+    getValues("firstName") &&
+      getValues("lastName") &&
+      getValues("pronouns") &&
+      getValues("countryAlpha3") &&
       getValues("universityName") &&
       getValues("universityYear") &&
       getValues("universityEmail")
@@ -212,16 +209,33 @@ export const YourUniversity = ({
             <Button
               type="button"
               onClick={async () => {
-                setVerifyError(undefined);
-                const email = getValues("universityEmail");
-                if (!email) {
-                  setVerifyError("Enter your university email first");
+                // Check if all required fields are filled before sending code
+                const formValues = getValues();
+                const requiredFields = {
+                  "First name": formValues.firstName,
+                  "Last name": formValues.lastName,
+                  Pronouns: formValues.pronouns,
+                  Country: formValues.countryAlpha3,
+                  University: formValues.universityName,
+                  "University year": formValues.universityYear,
+                  "University email": formValues.universityEmail,
+                };
+
+                const missingFields = Object.entries(requiredFields)
+                  .filter(([_, value]) => !value || value.trim() === "")
+                  .map(([key, _]) => key);
+
+                if (missingFields.length > 0) {
+                  toast.error(
+                    `Please fill in all required fields first: ${missingFields.join(", ")}`
+                  );
                   return;
                 }
 
+                const email = formValues.universityEmail;
                 const emailDomain = email.split("@")[1];
                 if (!emailDomain) {
-                  setVerifyError("Enter a valid email address");
+                  toast.error("Enter a valid email address");
                   return;
                 }
 
@@ -239,7 +253,7 @@ export const YourUniversity = ({
                   );
 
                   if (!domainMatches) {
-                    setVerifyError(
+                    toast.error(
                       `Email domain must match your university. Expected: ${selectedUni.domains.join(", ")}`
                     );
                     return;
@@ -247,49 +261,16 @@ export const YourUniversity = ({
                 }
 
                 setIsSendingCode(true);
-                try {
-                  if (!isSignUpLoaded || !isSignInLoaded) {
-                    throw new Error("Auth not ready yet, try again");
-                  }
-
-                  try {
-                    await signUp?.create({ emailAddress: email });
-                    await signUp?.prepareEmailAddressVerification({
-                      strategy: "email_code",
-                    });
-                    setAuthFlow("signup");
-                    setOtpSent(true);
-                  } catch (err: any) {
-                    const attempt = await signIn?.create({ identifier: email });
-                    const emailFactor: any =
-                      attempt?.supportedFirstFactors?.find(
-                        (f: any) => f.strategy === "email_code"
-                      );
-                    const emailAddressId = emailFactor?.emailAddressId;
-                    if (!emailAddressId)
-                      throw new Error("Email factor unavailable");
-                    await signIn?.prepareFirstFactor({
-                      strategy: "email_code",
-                      emailAddressId,
-                    });
-                    setAuthFlow("signin");
-                    setOtpSent(true);
-                  }
+                const success = await sendVerificationCode();
+                if (success) {
                   setCooldownTimeLeft(30);
-                } catch (err: any) {
-                  const message =
-                    err?.errors?.[0]?.message ||
-                    err?.message ||
-                    "Failed to send code";
-                  setVerifyError(message);
-                } finally {
-                  setIsSendingCode(false);
                 }
+                setIsSendingCode(false);
               }}
               disabled={
                 !selectedUniversityName ||
                 !requiredUserValid ||
-                isVerifying ||
+                isSendingCode ||
                 cooldownTimeLeft > 0
               }
               className="whitespace-nowrap"
@@ -311,75 +292,37 @@ export const YourUniversity = ({
             {String(errors.universityEmail.message)}
           </p>
         )}
-        {!isSignedIn && otpSent && !disabled && (
-          <div className="mt-2 flex items-center gap-2">
-            <Input
-              type="text"
-              inputMode="numeric"
-              pattern="[0-9]*"
-              maxLength={6}
-              placeholder="Enter 6-digit code"
-              value={code}
-              onChange={(e) => setCode(e.target.value)}
-              className="max-w-[200px]"
-            />
+        {!isSignedIn && codeSent && !disabled && (
+          <div className="mt-2 space-y-14">
+            <div className="flex items-center gap-2">
+              <Input
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                maxLength={6}
+                placeholder="Enter 6-digit code"
+                {...register("verificationCode")}
+                className="max-w-[200px]"
+              />
+              <p className="text-sm text-gray-600">
+                Enter the 6-digit code sent to your email
+              </p>
+            </div>
             <Button
               type="button"
-              onClick={async () => {
-                setVerifyError(undefined);
-                setIsVerifying(true);
-                try {
-                  let result: any;
-                  if (authFlow === "signup") {
-                    result = await signUp?.attemptEmailAddressVerification({
-                      code,
-                    });
-                  } else {
-                    result = await signIn?.attemptFirstFactor({
-                      strategy: "email_code",
-                      code,
-                    });
-                  }
-
-                  if (result?.status === "complete") {
-                    await setActive({ session: result.createdSessionId });
-                    await userGet.refetch();
-                    const v = getValues();
-                    if (onSubmitUser) {
-                      await onSubmitUser(v as UserFormValues);
-                    }
-                    setVerified(true);
-                  } else {
-                    setVerifyError("Invalid code. Please try again.");
-                  }
-                } catch (err: any) {
-                  const message =
-                    err?.errors?.[0]?.message ||
-                    err?.message ||
-                    "Verification failed";
-                  setVerifyError(message);
-                } finally {
-                  setIsVerifying(false);
-                }
-              }}
-              disabled={!code || isVerifying || code.length < 6}
+              onClick={onSubmit}
+              disabled={!verificationCode || verificationCode.length < 6}
+              className="h-10 px-6 text-sm"
             >
-              {isVerifying ? (
-                <span className="flex items-center gap-2">
-                  <Loader2 className="h-4 w-4 animate-spin" /> Verifying
-                </span>
-              ) : (
-                "Submit code"
-              )}
+              Create Account & Submit
             </Button>
-            {verified && (
-              <span className="flex items-center gap-1 text-green-600">
-                <CheckCircle2 className="h-4 w-4" /> Verified
-              </span>
-            )}
           </div>
         )}
-        {verifyError && <p className="text-sm text-red-600">{verifyError}</p>}
+        {errors.verificationCode?.message && (
+          <p className="text-sm text-red-600">
+            {String(errors.verificationCode.message)}
+          </p>
+        )}
       </div>
     </div>
   );

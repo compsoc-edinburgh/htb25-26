@@ -31,6 +31,9 @@ export const UserFormSchema = z.object({
       /\.edu$|\.ac\.|\.edu\.|university|college/i,
       "Please use your university email address"
     ),
+  verificationCode: z.string().optional(),
+  codeSent: z.boolean(),
+  authFlow: z.enum(["signup", "signin"]).optional(),
 });
 
 export type UserFormValues = z.infer<typeof UserFormSchema>;
