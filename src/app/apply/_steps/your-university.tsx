@@ -97,7 +97,7 @@ export const YourUniversity = ({
           name="countryAlpha3"
           render={({ field }) => (
             <CountrySelectlist
-              defaultValue={field.value}
+              value={field.value}
               onChange={(c: Country) => field.onChange(c.alpha3)}
             />
           )}
@@ -121,7 +121,7 @@ export const YourUniversity = ({
               options={universities.filter(
                 (u) => u.alpha_two_code === selectedCountryAlpha2
               )}
-              defaultValue={undefined}
+              value={field.value}
               onChange={(u: University) => field.onChange(u.name)}
               disabled={!selectedCountryAlpha3 || disabled}
             />
