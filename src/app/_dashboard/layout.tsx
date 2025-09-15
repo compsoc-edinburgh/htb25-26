@@ -1,7 +1,7 @@
 import { auth } from "@clerk/nextjs/server";
+import { Loader2 } from "lucide-react";
 import { PropsWithChildren } from "react";
 import Navbar from "~/components/layout/navbar";
-import RequestAuth from "~/components/layout/request-auth";
 
 export default async function DashboardLayout({
   children,
@@ -10,9 +10,15 @@ export default async function DashboardLayout({
   const isAuthed = !!user.userId;
 
   return (
-    <main className="flex w-full flex-col items-center px-4">
+    <main className="flex w-full flex-col items-center">
       <Navbar />
-      {isAuthed ? children : <RequestAuth mode="signin" />}
+      {isAuthed ? (
+        children
+      ) : (
+        <div className="flex h-full w-full items-center justify-center">
+          <Loader2 className="h-12 w-12 animate-spin" />
+        </div>
+      )}
     </main>
   );
 }

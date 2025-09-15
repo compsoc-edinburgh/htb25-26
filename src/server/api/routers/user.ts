@@ -9,7 +9,7 @@ import {
 
 export const userRouter = createTRPCRouter({
   get: protectedProcedure.query(async ({ ctx }) => {
-    return ctx.db.user.findUnique({
+    const existing = await ctx.db.user.findUnique({
       where: { id: ctx.auth.userId },
       include: {
         team: {
@@ -22,6 +22,20 @@ export const userRouter = createTRPCRouter({
             },
           },
         },
+      },
+    });
+
+    if (existing) return existing;
+
+    const client = await clerkClient();
+    const clerkUser = await client.users.getUser(ctx.auth.userId);
+
+    return ctx.db.user.create({
+      data: {
+        id: clerkUser.id,
+        email: clerkUser.emailAddresses[0]?.emailAddress ?? "",
+        first_name: clerkUser.firstName ?? null,
+        last_name: clerkUser.lastName ?? null,
       },
     });
   }),
@@ -82,6 +96,7 @@ export const userRouter = createTRPCRouter({
         travellingFrom: z.string().optional(),
         portfolioUrl: z.string().optional(),
         calendarEmail: z.string().optional(),
+        teammates: z.string().optional(),
 
         pronouns: z.string().optional(),
         dietaryRestrictions: z.string().optional(),
@@ -115,6 +130,7 @@ export const userRouter = createTRPCRouter({
         needs_reimbursement: input.needsReimbursement,
         travelling_from: input.travellingFrom,
         calendar_email: input.calendarEmail,
+        teammates: input.teammates,
 
         pronouns: input.pronouns,
         dietary_restrictions: input.dietaryRestrictions,

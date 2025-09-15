@@ -86,6 +86,7 @@ export default async function RootLayout({
               },
             }}
           />
+          <div id="clerk-captcha" />
           <TRPCReactProvider>{children}</TRPCReactProvider>
           <Analytics />
         </body>

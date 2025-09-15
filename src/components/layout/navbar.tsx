@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { Loader2, Menu } from "lucide-react";
-import { useEffect, useState, MouseEvent } from "react";
+import { useState, MouseEvent } from "react";
 import { gsap } from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { ScrambleTextPlugin } from "gsap/ScrambleTextPlugin";
@@ -15,7 +15,6 @@ import {
   DrawerTitle,
 } from "../ui/drawer";
 import { useUser } from "@clerk/nextjs";
-import AuthDrawer from "../module/auth-drawer";
 
 // register gsap plugins once on client
 if (
@@ -26,11 +25,12 @@ if (
   gsap.registerPlugin(ScrollToPlugin, ScrambleTextPlugin);
   (gsap as any)._htbPlugins = true;
 }
-import { isBeforeOpenDate } from "~/lib/date-gate";
+
 import { NAV_LINKS, SOCIAL_LINKS } from "~/lib/constants/navigation";
 import { COPYRIGHT_TEXT } from "~/lib/constants/site";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
+import { api } from "~/trpc/react";
 
 const STYLES = {
   clipPath: "polygon(0 0, 100% 0, 100% 100%, 20px 100%, 0 calc(100% - 20px))",
@@ -209,14 +209,9 @@ const NavLinks = ({
     </div>
   );
 };
-const AuthSection = ({
-  mobile = false,
-  onSignInClick,
-}: {
-  mobile?: boolean;
-  onSignInClick: () => void;
-}) => {
+const ActionButton = ({ mobile = false }: { mobile?: boolean }) => {
   const { isSignedIn } = useUser();
+  const application = api.application.getUserApplication.useQuery();
 
   // Define a simple rectangle clip path for the overlay
   const rectClipPath = "polygon(0 0, 100% 0, 100% 100%, 0 100%)";
@@ -256,84 +251,62 @@ const AuthSection = ({
     }
   };
 
-  const gated = isBeforeOpenDate();
+  // TODO: Change this to DASHBOARD when the dashboard is ready
+  const buttonText =
+    isSignedIn && application.data ? "APPLICATION STATUS" : "APPLY";
+  const href = isSignedIn && application.data ? "/status" : "/apply";
+
+  // Mobile version - simple text link
+  if (mobile) {
+    return (
+      <Link
+        href={href}
+        className="text-[11px] tracking-wide text-white"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        <span className="authlink-text">
+          {isSignedIn === undefined || application.isLoading ? (
+            <Loader2 className="h-3 w-3 animate-spin" />
+          ) : (
+            buttonText
+          )}
+        </span>
+      </Link>
+    );
+  }
+
+  // Desktop version - styled button
   return (
-    <div className="flex items-center gap-1 text-white">
-      {!mobile &&
-        (isSignedIn ? (
-          <Link
-            href={gated ? "/applications-closed" : "/dashboard"}
-            className="inline-block"
-            aria-disabled={gated}
-            onClick={(e) => {
-              if (gated) e.preventDefault();
-            }}
-            title={gated ? `Closed` : undefined}
-          >
-            <div
-              className={`${STYLES.signInButton} border border-black bg-white transition-colors duration-200 hover:bg-zinc-900 ${gated ? "cursor-not-allowed opacity-60" : ""}`}
-              style={{ clipPath: STYLES.clipPath }}
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-            >
-              <div
-                className="absolute inset-0 rounded-t-sm bg-black transition-colors duration-200 hover:bg-zinc-900"
-                style={{ clipPath: rectClipPath }}
-              />
-              <span className="authlink-text relative z-10 flex w-[5rem] items-center justify-center">
-                DASHBOARD
-              </span>
-            </div>
-          </Link>
-        ) : (
-          <button
-            type="button"
-            onClick={gated ? undefined : onSignInClick}
-            className="inline-block"
-            aria-disabled={gated}
-            title={gated ? `Applications Not Open` : undefined}
-          >
-            <div
-              className={`${STYLES.signInButton} border border-black bg-white transition-colors duration-200 hover:bg-zinc-900 ${gated ? "cursor-not-allowed border-none" : ""}`}
-              style={{ clipPath: STYLES.clipPath }}
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-            >
-              <div
-                className={`absolute inset-0 rounded-t-sm bg-black transition-colors duration-200 hover:bg-zinc-900`}
-                style={{ clipPath: rectClipPath }}
-              />
-              <span
-                className={`authlink-text relative z-10 flex w-[5rem] items-center justify-center ${gated ? "text-grey w-fit text-[0.6rem] uppercase 2xl:text-[0.8rem]" : ""}`}
-                data-original-label={
-                  isSignedIn === undefined
-                    ? undefined
-                    : gated
-                      ? `Applications Not Open`
-                      : "SIGN IN"
-                }
-              >
-                {isSignedIn == undefined ? (
-                  <Loader2 className="animate-spin" />
-                ) : gated ? (
-                  `Applications Not Open`
-                ) : (
-                  "SIGN IN"
-                )}
-              </span>
-            </div>
-          </button>
-        ))}
+    <div className="flex items-center justify-end">
+      <Link href={href}>
+        <div
+          className={`${STYLES.signInButton} h-14 w-48 bg-white transition-colors duration-200 hover:bg-zinc-900 md:w-56`}
+          style={{ clipPath: STYLES.clipPath }}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <div
+            className="absolute inset-0 rounded-t-sm bg-zinc-900 transition-colors duration-200"
+            style={{ clipPath: rectClipPath }}
+          />
+          <span className="authlink-text relative z-10 flex items-center justify-center text-xs">
+            {isSignedIn === undefined || application.isLoading ? (
+              <Loader2 className="animate-spin" />
+            ) : (
+              buttonText
+            )}
+          </span>
+        </div>
+      </Link>
     </div>
   );
 };
 
 const MobileDrawer = ({
-  onSignInClick,
   open,
   onOpenChange,
 }: {
-  onSignInClick: () => void;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) => (
@@ -398,20 +371,13 @@ const MobileDrawer = ({
             <div className="-mt-0.5 basis-2/3">
               <div className="flex flex-col gap-1 text-[11px] tracking-wide">
                 <a
-                  href={isBeforeOpenDate() ? "/applications-closed" : "/apply"}
-                  className={`text-white ${isBeforeOpenDate() ? "cursor-not-allowed opacity-60" : ""}`}
-                  onClick={(e) => {
-                    if (isBeforeOpenDate()) {
-                      e.preventDefault();
-                    } else {
-                      onOpenChange(false);
-                    }
-                  }}
-                  title={isBeforeOpenDate() ? `CLOSED` : undefined}
+                  href="/apply"
+                  className="text-white"
+                  onClick={() => onOpenChange(false)}
                 >
                   REGISTER
                 </a>
-                <AuthSection mobile onSignInClick={onSignInClick} />
+                <ActionButton mobile />
                 <a
                   href="/volunteer"
                   className="text-white"
@@ -456,47 +422,9 @@ const MobileDrawer = ({
   </div>
 );
 
-type AuthMode = "signin" | "signup" | "forgot" | "reset" | "verify";
-
 export default function Navbar() {
-  const [authOpen, setAuthOpen] = useState(false);
-  const [authMode, setAuthMode] = useState<AuthMode>("signin");
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  useEffect(() => {
-    // Open modal from URL params on landing page
-    try {
-      const url = new URL(window.location.href);
-      const auth = url.searchParams.get("auth") as AuthMode | null;
-      const returnTo = url.searchParams.get("returnTo");
-      if (auth) {
-        if (returnTo) localStorage.setItem("auth:returnTo", returnTo);
-        setAuthMode(auth);
-        setAuthOpen(true);
-        url.searchParams.delete("auth");
-        // keep returnTo stored but clean URL for aesthetics
-        window.history.replaceState(
-          {},
-          "",
-          url.pathname + (url.searchParams.size ? `?${url.searchParams}` : "")
-        );
-      }
-    } catch {}
-
-    const handler = (e: Event) => {
-      const detail = (e as CustomEvent<{ mode?: AuthMode }>).detail;
-      if (detail?.mode) setAuthMode(detail.mode);
-      setAuthOpen(true);
-    };
-    if (typeof window !== "undefined") {
-      window.addEventListener("open-auth", handler as EventListener);
-    }
-    return () => {
-      if (typeof window !== "undefined") {
-        window.removeEventListener("open-auth", handler as EventListener);
-      }
-    };
-  }, []);
   return (
     <div className="pointer-events-none fixed inset-0 z-40 block grid-cols-[auto_1fr_auto] grid-rows-[auto_1fr_auto] md:grid">
       <div
@@ -510,14 +438,7 @@ export default function Navbar() {
 
       <div className="flex h-full w-full flex-col rounded-lg md:border md:border-gray-200">
         <nav className="pointer-events-auto relative flex h-14 w-full items-center justify-between rounded-t-lg border-b border-gray-200 bg-white px-2 md:px-0 md:pl-14">
-          <MobileDrawer
-            open={mobileOpen}
-            onOpenChange={setMobileOpen}
-            onSignInClick={() => {
-              setAuthMode("signin");
-              setAuthOpen(true);
-            }}
-          />
+          <MobileDrawer open={mobileOpen} onOpenChange={setMobileOpen} />
 
           <div className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center gap-4 px-4 lg:block">
             <NavLinks />
@@ -525,12 +446,7 @@ export default function Navbar() {
 
           <div className="flex h-full items-center px-4">
             <div className="hidden lg:flex">
-              <AuthSection
-                onSignInClick={() => {
-                  setAuthMode("signin");
-                  setAuthOpen(true);
-                }}
-              />
+              <ActionButton />
             </div>
           </div>
         </nav>
@@ -544,12 +460,6 @@ export default function Navbar() {
           aria-hidden="true"
         />
       </div>
-
-      <AuthDrawer
-        open={authOpen}
-        onOpenChange={setAuthOpen}
-        initialMode={authMode}
-      />
 
       <div
         className="hidden h-5 w-5 backdrop-blur-sm md:block"

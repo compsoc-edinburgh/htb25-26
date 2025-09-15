@@ -160,7 +160,7 @@ function FAQAnswer({ html }: { html: string }) {
   // Placeholder link mapping for tokens like (url://18)
   const PLACEHOLDER_LINKS: Record<string, string> = {
     "18": "/documents/HTB-Rules.pdf",
-    "5": "mailto:hello@hacktheburgh.com",
+    "5": "mailto:team@hacktheburgh.com",
   };
 
   let transformed = html.replace(/\(url:\/\/(\d+)\)/g, (_, id: string) => {
@@ -179,7 +179,6 @@ function FAQAnswer({ html }: { html: string }) {
   return (
     <p
       className="break-words text-[0.7rem] leading-relaxed text-zinc-900 sm:text-[0.875rem] [&_a:hover]:opacity-80 [&_a]:underline"
-      // eslint-disable-next-line react/no-danger
       dangerouslySetInnerHTML={{ __html: transformed }}
     />
   );

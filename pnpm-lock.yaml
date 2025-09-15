@@ -12,8 +12,8 @@ importers:
         specifier: ^6.9.11
         version: 6.31.8(next@15.5.2(@babel/core@7.28.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@hookform/resolvers':
-        specifier: ^5.2.1
-        version: 5.2.1(react-hook-form@7.62.0(react@18.3.1))
+        specifier: ^5.2.2
+        version: 5.2.2(react-hook-form@7.62.0(react@18.3.1))
       '@prisma/client':
         specifier: ^6.14.0
         version: 6.15.0(prisma@6.15.0(typescript@5.9.2))(typescript@5.9.2)
@@ -101,9 +101,6 @@ importers:
       gsap:
         specifier: ^3.13.0
         version: 3.13.0
-      hjyup-flags:
-        specifier: ^1.2.0-rc.2
-        version: 1.2.0-rc.2
       input-otp:
         specifier: ^1.4.1
         version: 1.4.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -901,8 +898,8 @@ packages:
   '@floating-ui/utils@0.2.10':
     resolution: {integrity: sha512-aGTxbpbg8/b5JfU1HXSrbH3wXZuLPJcNEcZQFMxLs3oSzgtVu6nFPkbbGGUvBcUjKV2YyB9Wxxabo+HEH9tcRQ==}
 
-  '@hookform/resolvers@5.2.1':
-    resolution: {integrity: sha512-u0+6X58gkjMcxur1wRWokA7XsiiBJ6aK17aPZxhkoYiK5J+HcTx0Vhu9ovXe6H+dVpO6cjrn2FkJTryXEMlryQ==}
+  '@hookform/resolvers@5.2.2':
+    resolution: {integrity: sha512-A/IxlMLShx3KjV/HeTcTfaMxdwy690+L/ZADoeaTltLx+CVuzkeVIPuybK3jrRfw7YZnmdKsVVHAlEPIAEUNlA==}
     peerDependencies:
       react-hook-form: ^7.55.0
 
@@ -3024,10 +3021,6 @@ packages:
   hasown@2.0.2:
     resolution: {integrity: sha512-0hJU9SCPvmMzIBdZFqNPXWa6dqh7WdH0cII9y+CyS8rG3nL48Bclra9HmKhVVUHyPWNH5Y7xDwAB7bfgSjkUMQ==}
     engines: {node: '>= 0.4'}
-
-  hjyup-flags@1.2.0-rc.2:
-    resolution: {integrity: sha512-IG1G+iC5OwLsTW82CtY7uVI0F9E6E80OnpYTNX6L2usmjrkoW4eWUV8bIJHG8g1XWmfyD0mQYYbdZia5e2Rjjw==}
-    engines: {node: '>=14.0.0'}
 
   html-to-text@9.0.5:
     resolution: {integrity: sha512-qY60FjREgVZL03vJU6IfMV4GDjGBIoOyvuFdpBDIX9yTlDw0TjxVBQp+P8NvpdIXNJvfWBTNul7fsAQJq2FNpg==}
@@ -5439,7 +5432,7 @@ snapshots:
 
   '@floating-ui/utils@0.2.10': {}
 
-  '@hookform/resolvers@5.2.1(react-hook-form@7.62.0(react@18.3.1))':
+  '@hookform/resolvers@5.2.2(react-hook-form@7.62.0(react@18.3.1))':
     dependencies:
       '@standard-schema/utils': 0.3.0
       react-hook-form: 7.62.0(react@18.3.1)
@@ -7704,8 +7697,6 @@ snapshots:
   hasown@2.0.2:
     dependencies:
       function-bind: 1.1.2
-
-  hjyup-flags@1.2.0-rc.2: {}
 
   html-to-text@9.0.5:
     dependencies:
