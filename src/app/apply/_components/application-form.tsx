@@ -38,9 +38,8 @@ export default function ApplicationForm({
       projectStack: "",
       projectLink: "",
       travellingFrom: "",
-      calendarEmail: "",
-      placementsCount: "",
-      hackathonsCount: "",
+      placementsCount: "0",
+      hackathonsCount: "0",
       needsReimbursement: false,
       ...(defaults ?? {}),
     },
@@ -58,9 +57,8 @@ export default function ApplicationForm({
         projectStack: "",
         projectLink: "",
         travellingFrom: "",
-        calendarEmail: "",
-        placementsCount: "",
-        hackathonsCount: "",
+        placementsCount: "0",
+        hackathonsCount: "0",
         needsReimbursement: false,
         ...defaults,
       });
@@ -86,9 +84,7 @@ export default function ApplicationForm({
     !!errors?.projectStack ||
     !!errors?.projectLink;
   const hasPreferencesErrors =
-    !!errors?.needsReimbursement ||
-    !!errors?.travellingFrom ||
-    !!errors?.calendarEmail;
+    !!errors?.needsReimbursement || !!errors?.travellingFrom;
 
   const onSubmit = async (values: ApplicationFormValues) => {
     try {
@@ -113,7 +109,6 @@ export default function ApplicationForm({
               values.needsReimbursement === true
                 ? values.travellingFrom || undefined
                 : undefined,
-            calendarEmail: values.calendarEmail || undefined,
           }),
           createApplication.mutateAsync({
             team_id: values.teamId || undefined,

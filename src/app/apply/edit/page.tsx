@@ -31,18 +31,24 @@ export default function ManageApplication() {
     return null;
   }
 
+  const projectDescriptionParts =
+    user.data?.project_description?.split("\n") ?? [];
+  const projectAim = projectDescriptionParts[0]?.trim() ?? "";
+  const projectStack = projectDescriptionParts[1]?.trim() ?? "";
+  const projectLink = projectDescriptionParts[2]?.trim() ?? "";
+
   const defaults = {
     teamId: application.data.team?.id,
     type: application.data.team ? ("team" as const) : ("individual" as const),
     cvUrl: user.data?.cv_url ?? undefined,
     portfolioUrl: user.data?.portfolio_url ?? "",
-    projectAim: (user.data?.project_description as string | undefined) ?? "",
-    projectStack: "",
-    projectLink: "",
+    projectAim,
+    projectStack,
+    projectLink,
     travellingFrom: user.data?.travelling_from ?? "",
     calendarEmail: user.data?.calendar_email ?? "",
-    placementsCount: user.data?.placements_count ?? "",
-    hackathonsCount: user.data?.hackathons_count ?? "",
+    placementsCount: user.data?.placements_count ?? "0",
+    hackathonsCount: user.data?.hackathons_count ?? "0",
     needsReimbursement: user.data?.needs_reimbursement as boolean | undefined,
   } as const;
 

@@ -45,10 +45,13 @@ export const ApplicationFormSchema = z
 
     cvUrl: z
       .string()
-      .min(1, "CV link is required")
-      .url("Please provide a valid URL for your CV")
       .optional()
-      .or(z.literal("")),
+      .refine(
+        (val) => !val || val === "" || z.string().url().safeParse(val).success,
+        {
+          message: "Please provide a valid URL for your CV",
+        }
+      ),
     portfolioUrl: z
       .string()
       .min(1, "Portfolio/LinkedIn link is required")
@@ -74,11 +77,7 @@ export const ApplicationFormSchema = z
       .optional()
       .or(z.literal("")),
 
-    projectLink: z
-      .string()
-      .url("Please provide a valid URL for your project")
-      .optional()
-      .or(z.literal("")),
+    projectLink: z.string().optional(),
 
     needsReimbursement: z.boolean({
       required_error: "Please specify if you need travel reimbursement",
@@ -87,12 +86,6 @@ export const ApplicationFormSchema = z
     travellingFrom: z
       .string()
       .max(100, "Location must be 100 characters or less")
-      .optional()
-      .or(z.literal("")),
-
-    calendarEmail: z
-      .string()
-      .email("Please enter a valid email address")
       .optional()
       .or(z.literal("")),
   })
