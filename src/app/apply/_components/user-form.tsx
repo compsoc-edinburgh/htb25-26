@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useFormPersist } from "use-react-hook-form-persist";
 import { toast } from "sonner";
 import { AboutYourself, YourUniversity } from "../_steps";
 import { AccordionSection } from "./accordion";
@@ -42,12 +41,10 @@ export default function UserForm() {
       codeSent: false,
       authFlow: undefined,
     },
-    mode: "onChange",
+    mode: "all",
   });
 
-  const [expanded, setExpanded] = useState<Set<string>>(
-    new Set(["about-yourself"])
-  );
+  const [expanded, setExpanded] = useState<Set<string>>(new Set([]));
   const toggle = (id: string) => {
     const s = new Set(expanded);
     s.has(id) ? s.delete(id) : s.add(id);

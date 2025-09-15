@@ -1,24 +1,14 @@
 "use client";
 
-import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import UserForm from "./_components/user-form";
 import ApplicationForm from "./_components/application-form";
-import { api } from "~/trpc/react";
 
 export default function AccordionForm() {
   const { isLoaded } = useUser();
   const router = useRouter();
-  const [applicationSubmitted, setApplicationSubmitted] = useState(false);
-
-  const applicationQuery = api.application.getUserApplication.useQuery(
-    undefined,
-    {
-      enabled: applicationSubmitted,
-    }
-  );
 
   if (!isLoaded) {
     return (
@@ -29,10 +19,7 @@ export default function AccordionForm() {
   }
 
   const handleFormSubmit = async () => {
-    setApplicationSubmitted(true);
-    setTimeout(() => {
-      router.refresh();
-    }, 1000);
+    router.replace("/status");
   };
 
   return (

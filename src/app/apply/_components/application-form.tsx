@@ -41,10 +41,10 @@ export default function ApplicationForm({
       calendarEmail: "",
       placementsCount: "",
       hackathonsCount: "",
-      needsReimbursement: undefined,
+      needsReimbursement: false,
       ...(defaults ?? {}),
     },
-    mode: "onChange",
+    mode: "all",
   });
 
   useEffect(() => {
@@ -61,7 +61,7 @@ export default function ApplicationForm({
         calendarEmail: "",
         placementsCount: "",
         hackathonsCount: "",
-        needsReimbursement: undefined,
+        needsReimbursement: false,
         ...defaults,
       });
     }

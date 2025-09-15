@@ -254,7 +254,7 @@ const ActionButton = ({ mobile = false }: { mobile?: boolean }) => {
   // TODO: Change this to DASHBOARD when the dashboard is ready
   const buttonText =
     isSignedIn && application.data ? "APPLICATION STATUS" : "APPLY";
-  const href = "/apply";
+  const href = isSignedIn && application.data ? "/status" : "/apply";
 
   // Mobile version - simple text link
   if (mobile) {

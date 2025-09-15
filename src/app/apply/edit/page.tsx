@@ -68,7 +68,7 @@ export default function ManageApplication() {
           <ApplicationForm
             defaults={defaults}
             onFormSubmit={() => {
-              router.replace("/apply");
+              router.replace("/status");
             }}
           />
         </div>

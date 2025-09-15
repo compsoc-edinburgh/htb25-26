@@ -1,7 +1,7 @@
 "use client";
-
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { api } from "~/trpc/react";
+import { Loader2 } from "lucide-react";
+import { redirect } from "next/navigation";
 import { Button } from "~/components/ui/button";
 import Link from "next/link";
 
@@ -18,20 +18,20 @@ interface Application {
   };
 }
 
-interface ApplicationStatusProps {
-  application: Application;
-}
+export default function Page() {
+  const application = api.application.getUserApplication.useQuery();
 
-export default function ApplicationStatus({
-  application,
-}: ApplicationStatusProps) {
-  const router = useRouter();
+  if (application.isLoading) {
+    return (
+      <div className="relative flex min-h-[70vh] items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
+      </div>
+    );
+  }
 
-  useEffect(() => {
-    if (!application?.id) {
-      router.replace("/apply");
-    }
-  }, [application?.id, router]);
+  if (!application.data) {
+    redirect("/apply");
+  }
 
   const getStatusConfig = (status: ApplicationStatus) => {
     switch (status) {
@@ -58,7 +58,7 @@ export default function ApplicationStatus({
           title: "Application update",
           messages: [
             "Thank you for your interest in",
-            application.rejection_reason ||
+            application.data?.rejection_reason ||
               "Unfortunately, we can't offer you a place this time.",
             "We encourage you to apply again next year.",
           ],
@@ -66,10 +66,10 @@ export default function ApplicationStatus({
     }
   };
 
-  const config = getStatusConfig(application.status);
+  const config = getStatusConfig(application.data?.status);
   const userName =
-    application.user.first_name && application.user.last_name
-      ? `${application.user.first_name} ${application.user.last_name}`
+    application.data?.user.first_name && application.data?.user.last_name
+      ? `${application.data.user.first_name} ${application.data.user.last_name}`
       : "there";
 
   return (
@@ -125,13 +125,16 @@ export default function ApplicationStatus({
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div className="text-xs text-gray-400">
                 Application submitted on{" "}
-                {new Date(application.created_at).toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
+                {new Date(application.data.created_at).toLocaleDateString(
+                  "en-US",
+                  {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  }
+                )}
               </div>
-              {application.status === "pending" && (
+              {application.data?.status === "pending" && (
                 <Button
                   className="h-9 w-full px-4 text-xs sm:w-auto"
                   variant="outline"
