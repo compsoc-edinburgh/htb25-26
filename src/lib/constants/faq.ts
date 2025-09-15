@@ -12,6 +12,10 @@ export const FAQS = [
     a: "Applications will close on 29th September.",
   },
   {
+    q: "Is there a travel reimbursement?",
+    a: "If you are travelling from outside Edinburgh, we may be able to reimburse you based on the distance from your university to Edinburgh. For <100km : up to £20. For 100-300km : up to £40. For >300km : up to £55",
+  },
+  {
     q: "What are the rules of the hackathon?",
     a: 'Please see the HackTheBurgh Rules <a href="/documents/HTB-Rules.pdf" target="_blank" rel="noopener noreferrer">here</a>.',
   },
