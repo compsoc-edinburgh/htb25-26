@@ -7,6 +7,47 @@ import { api } from "~/trpc/react";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
+function parseProjectDescription(raw?: string) {
+  const empty = { aim: "", stack: "", link: "" } as const;
+  if (!raw) return empty;
+
+  const lines = raw
+    .split(/\r?\n/)
+    .map((l) => l.trim())
+    .filter(Boolean);
+
+  if (lines.length >= 3) {
+    return {
+      aim: lines[0] || "",
+      stack: lines[1] || "",
+      link: lines[2] || "",
+    } as const;
+  }
+
+  const urlMatch = raw.match(/https?:\/\/\S+/);
+  const link = urlMatch?.[0] ?? "";
+  const remainder = urlMatch ? raw.replace(urlMatch[0], "").trim() : raw.trim();
+
+  const separators = [" | ", " - ", " — ", " – ", " / "];
+  let aim = remainder;
+  let stack = "";
+  for (const sep of separators) {
+    if (remainder.includes(sep)) {
+      const parts = remainder
+        .split(sep)
+        .map((x) => x.trim())
+        .filter(Boolean);
+      if (parts.length >= 2) {
+        aim = parts[0] || "";
+        stack = parts.slice(1).join(" ").trim();
+      }
+      break;
+    }
+  }
+
+  return { aim, stack, link } as const;
+}
+
 export default function ManageApplication() {
   const { isLoaded } = useUser();
   const router = useRouter();
@@ -31,11 +72,11 @@ export default function ManageApplication() {
     return null;
   }
 
-  const projectDescriptionParts =
-    user.data?.project_description?.split("\n") ?? [];
-  const projectAim = projectDescriptionParts[0]?.trim() ?? "";
-  const projectStack = projectDescriptionParts[1]?.trim() ?? "";
-  const projectLink = projectDescriptionParts[2]?.trim() ?? "";
+  const {
+    aim: projectAim,
+    stack: projectStack,
+    link: projectLink,
+  } = parseProjectDescription(user.data?.project_description ?? "");
 
   const defaults = {
     teamId: application.data?.team?.id,
