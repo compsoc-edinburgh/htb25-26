@@ -40,7 +40,7 @@ interface TeamProps {
   setValue: (name: keyof ApplicationFormValues, value: any) => void;
 }
 
-export const Team = ({ setValue }: TeamProps) => {
+export const Team = ({ setValue, register, errors }: TeamProps) => {
   const getUserTeam = api.team.getUserTeam.useQuery();
   const createTeam = api.team.create.useMutation();
   const joinTeam = api.team.join.useMutation();
@@ -187,7 +187,7 @@ export const Team = ({ setValue }: TeamProps) => {
       <div>
         <div className="my-t-5 flex items-center gap-2">
           <Label className="font-whyte text-xl">
-            Team <span className="text-xs text-zinc-500">(optional)</span>
+            Would you like to be considered as an individual or as a team?
           </Label>
         </div>
         <p className="text-xs text-zinc-500">

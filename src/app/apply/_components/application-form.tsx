@@ -11,8 +11,8 @@ import { cn } from "~/lib/utils";
 import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 import {
-  ApplicationFormSchema,
   type ApplicationFormValues,
+  ApplicationFormSchema,
 } from "../_steps/types";
 
 export default function ApplicationForm() {
@@ -34,6 +34,7 @@ export default function ApplicationForm() {
       calendarEmail: "",
       placementsCount: "",
       hackathonsCount: "",
+      needsReimbursement: undefined,
     },
     mode: "onChange",
   });
@@ -54,6 +55,7 @@ export default function ApplicationForm() {
     !!errors?.projectAim ||
     !!errors?.projectStack ||
     !!errors?.projectLink;
+  const hasTeamErrors = !!errors?.teammates;
   const hasPreferencesErrors =
     !!errors?.needsReimbursement ||
     !!errors?.travellingFrom ||
@@ -92,7 +94,10 @@ export default function ApplicationForm() {
       hackathonsCount: values.hackathonsCount,
       projectDescription: projectDescription.trim(),
       needsReimbursement: values.needsReimbursement,
-      travellingFrom: values.travellingFrom || undefined,
+      travellingFrom:
+        values.needsReimbursement === true
+          ? values.travellingFrom || undefined
+          : undefined,
       calendarEmail: values.calendarEmail || undefined,
     });
 
@@ -123,6 +128,7 @@ export default function ApplicationForm() {
         disabled={!isSignedIn}
         expanded={expanded.has("team")}
         onToggle={toggle}
+        invalid={hasTeamErrors}
       >
         <Team
           control={form.control as any}

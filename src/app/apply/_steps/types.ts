@@ -3,7 +3,7 @@ import { z } from "zod";
 export const UserFormSchema = z.object({
   firstName: z.string().min(1, "First name is required"),
   lastName: z.string().min(1, "Last name is required"),
-  pronouns: z.string().optional(),
+  pronouns: z.string().min(1, "Pronouns are required"),
   countryAlpha3: z.string().min(1),
   universityName: z.string().min(1),
   universityYear: z.string().min(1),
@@ -17,14 +17,17 @@ export const ApplicationFormSchema = z.object({
   type: z.enum(["individual", "team"]).default("individual"),
 
   cvUrl: z.string().min(1, "CV link is required").url("Must be a valid URL"),
-  portfolioUrl: z.string().url().optional().or(z.literal("")),
-  placementsCount: z.string().min(1),
-  hackathonsCount: z.string().min(1),
+  portfolioUrl: z
+    .string()
+    .min(1, "Portfolio/LinkedIn link is required")
+    .url("Must be a valid URL"),
+  placementsCount: z.string().min(1, "Placement count is required"),
+  hackathonsCount: z.string().min(1, "Hackathon count is required"),
   projectAim: z.string().optional().or(z.literal("")),
   projectStack: z.string().optional().or(z.literal("")),
   projectLink: z.string().url().optional().or(z.literal("")),
 
-  needsReimbursement: z.boolean().optional(),
+  needsReimbursement: z.boolean(),
   travellingFrom: z.string().optional().or(z.literal("")),
   calendarEmail: z.string().email().optional().or(z.literal("")),
 });

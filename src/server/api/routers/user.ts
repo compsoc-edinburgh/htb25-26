@@ -96,6 +96,7 @@ export const userRouter = createTRPCRouter({
         travellingFrom: z.string().optional(),
         portfolioUrl: z.string().optional(),
         calendarEmail: z.string().optional(),
+        teammates: z.string().optional(),
 
         pronouns: z.string().optional(),
         dietaryRestrictions: z.string().optional(),
@@ -129,6 +130,7 @@ export const userRouter = createTRPCRouter({
         needs_reimbursement: input.needsReimbursement,
         travelling_from: input.travellingFrom,
         calendar_email: input.calendarEmail,
+        teammates: input.teammates,
 
         pronouns: input.pronouns,
         dietary_restrictions: input.dietaryRestrictions,
