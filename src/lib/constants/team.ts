@@ -45,6 +45,13 @@ export const TEAM_MEMBERS: TeamMember[] = [
     image: "/team/anna.png",
   },
   {
+    name: "Yasir",
+    role: "Tech",
+    bio: "Coder with 15yrs of experience",
+    link: "https://www.linkedin.com/in/jasiridriz/",
+    image: "/team/yasir.png",
+  },
+  {
     name: "Yuna",
     role: "Tech",
     bio: "crashout software developer specialising in AI and frontend shenanigans <3",
