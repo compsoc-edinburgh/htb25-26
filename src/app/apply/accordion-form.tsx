@@ -17,7 +17,11 @@ export default function AccordionForm() {
   return (
     <div className="w-full divide-y divide-zinc-200">
       <UserForm />
-      <ApplicationForm />
+      <ApplicationForm
+        onFormSubmit={() => {
+          window.location.reload();
+        }}
+      />
     </div>
   );
 }

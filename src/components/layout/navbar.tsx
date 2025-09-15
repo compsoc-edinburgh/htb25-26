@@ -14,7 +14,7 @@ import {
   DrawerContent,
   DrawerTitle,
 } from "../ui/drawer";
-import { UserButton, useUser } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 
 // register gsap plugins once on client
 if (
@@ -287,7 +287,7 @@ const ActionButton = ({ mobile = false }: { mobile?: boolean }) => {
           onMouseLeave={handleMouseLeave}
         >
           <div
-            className="absolute inset-0 rounded-t-sm transition-colors duration-200 bg-zinc-900"
+            className="absolute inset-0 rounded-t-sm bg-zinc-900 transition-colors duration-200"
             style={{ clipPath: rectClipPath }}
           />
           <span className="authlink-text relative z-10 flex items-center justify-center text-xs">
@@ -445,11 +445,6 @@ export default function Navbar() {
           </div>
 
           <div className="flex h-full items-center px-4">
-            <UserButton appearance={{
-              variables: {
-                borderRadius: "0px",
-              }
-            }} />
             <div className="hidden lg:flex">
               <ActionButton />
             </div>

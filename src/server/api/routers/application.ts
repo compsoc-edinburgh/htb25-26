@@ -266,13 +266,10 @@ export const applicationRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const user = await ctx.db.user.findFirst({
         where: {
-          OR: [
-            { email: input.email },
-            { university_email: input.email }
-          ]
-        }
+          OR: [{ email: input.email }, { university_email: input.email }],
+        },
       });
-      
+
       return { exists: Boolean(user) };
     }),
 });

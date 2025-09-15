@@ -8,7 +8,9 @@ import ApplicationForm from "../../apply/_components/application-form";
 
 export default function Dashboard() {
   const { isLoaded } = useUser();
-  const [activeTab, setActiveTab] = useState<"edit-application" | "teams-browser" | "secret" | "your-team">("edit-application");
+  const [activeTab, setActiveTab] = useState<
+    "edit-application" | "teams-browser" | "secret" | "your-team"
+  >("edit-application");
 
   if (!isLoaded) {
     return (
@@ -24,7 +26,9 @@ export default function Dashboard() {
         return (
           <div className="w-full divide-y divide-zinc-200">
             <UserForm />
-            <ApplicationForm />
+            <ApplicationForm onFormSubmit={() => {
+              window.location.reload();
+            }} />
           </div>
         );
       case "teams-browser":

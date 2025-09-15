@@ -92,7 +92,7 @@ export const YourUniversity = ({
       getValues("universityYear") &&
       getValues("universityEmail")
   );
-  
+
   useEffect(() => {
     let interval: NodeJS.Timeout;
     if (cooldownTimeLeft > 0) {
@@ -197,7 +197,11 @@ export const YourUniversity = ({
         <div className="flex gap-2">
           <Input
             type="email"
-            placeholder={isSignedIn ? user.primaryEmailAddress : "john.doe@university.ac.uk"}
+            placeholder={
+              isSignedIn
+                ? user.primaryEmailAddress
+                : "john.doe@university.ac.uk"
+            }
             disabled={!selectedUniversityName || isSignedIn || disabled}
             {...register("universityEmail")}
           />
@@ -222,16 +226,19 @@ export const YourUniversity = ({
                 const selectedUni = universities.find(
                   (u) => u.name === selectedUniversityName
                 );
-                
+
                 if (selectedUni && selectedUni.domains) {
-                  const domainMatches = selectedUni.domains.some((domain) => 
-                    emailDomain.toLowerCase() === domain.toLowerCase() ||
-                    emailDomain.toLowerCase().endsWith('.' + domain.toLowerCase())
+                  const domainMatches = selectedUni.domains.some(
+                    (domain) =>
+                      emailDomain.toLowerCase() === domain.toLowerCase() ||
+                      emailDomain
+                        .toLowerCase()
+                        .endsWith("." + domain.toLowerCase())
                   );
-                  
+
                   if (!domainMatches) {
                     setVerifyError(
-                      `Email domain must match your university. Expected: ${selectedUni.domains.join(', ')}`
+                      `Email domain must match your university. Expected: ${selectedUni.domains.join(", ")}`
                     );
                     return;
                   }
@@ -278,7 +285,10 @@ export const YourUniversity = ({
                 }
               }}
               disabled={
-                !selectedUniversityName || !requiredUserValid || isVerifying || cooldownTimeLeft > 0
+                !selectedUniversityName ||
+                !requiredUserValid ||
+                isVerifying ||
+                cooldownTimeLeft > 0
               }
               className="whitespace-nowrap"
             >

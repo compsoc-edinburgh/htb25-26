@@ -33,7 +33,9 @@ export default function UserForm() {
     { key: "apply-user-form" }
   );
 
-  const [expanded, setExpanded] = useState<Set<string>>(new Set(["about-yourself"]));
+  const [expanded, setExpanded] = useState<Set<string>>(
+    new Set(["about-yourself"])
+  );
   const toggle = (id: string) => {
     const s = new Set(expanded);
     s.has(id) ? s.delete(id) : s.add(id);
@@ -46,7 +48,10 @@ export default function UserForm() {
     );
 
     // Update Clerk user name if changed
-    if (user && (user.firstName !== values.firstName || user.lastName !== values.lastName)) {
+    if (
+      user &&
+      (user.firstName !== values.firstName || user.lastName !== values.lastName)
+    ) {
       await user.update({
         firstName: values.firstName,
         lastName: values.lastName,
@@ -63,7 +68,7 @@ export default function UserForm() {
           universityYear: values.universityYear,
           universityEmail: values.universityEmail,
           pronouns: values.pronouns,
-        }
+        },
       });
     }
 

@@ -15,11 +15,18 @@ import {
   ApplicationFormSchema,
 } from "../_steps/types";
 
-export default function ApplicationForm() {
+type ApplicationFormProps = {
+  defaults?: Partial<ApplicationFormValues>;
+  onFormSubmit: (values: ApplicationFormValues) => void;
+};
+
+export default function ApplicationForm({
+  defaults,
+  onFormSubmit,
+}: ApplicationFormProps) {
   const { isSignedIn, user } = useUser();
   const updateUser = api.user.update.useMutation();
   const createApplication = api.application.create.useMutation();
-  const router = useRouter();
   const form = useForm({
     resolver: zodResolver(ApplicationFormSchema),
     defaultValues: {
@@ -35,9 +42,31 @@ export default function ApplicationForm() {
       placementsCount: "",
       hackathonsCount: "",
       needsReimbursement: undefined,
+      ...(defaults ?? {}),
     },
     mode: "onChange",
   });
+
+  useEffect(() => {
+    if (defaults) {
+      form.reset({
+        teamId: undefined,
+        type: "individual" as const,
+        cvUrl: undefined,
+        portfolioUrl: "",
+        projectAim: "",
+        projectStack: "",
+        projectLink: "",
+        travellingFrom: "",
+        calendarEmail: "",
+        placementsCount: "",
+        hackathonsCount: "",
+        needsReimbursement: undefined,
+        ...defaults,
+      } as any);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(defaults)]);
 
   const [expanded, setExpanded] = useState<Set<string>>(new Set([]));
   const toggle = (id: string) => {
@@ -82,7 +111,7 @@ export default function ApplicationForm() {
           needsReimbursement: values.needsReimbursement,
           travellingFrom: values.travellingFrom || undefined,
           calendarEmail: values.calendarEmail || undefined,
-        }
+        },
       });
     }
 
@@ -106,10 +135,8 @@ export default function ApplicationForm() {
       type: values.type || "individual",
     });
 
-    window.location.reload();
+    onFormSubmit(values);
   };
-
-  console.log(form.formState.isValid);
 
   return (
     <form
@@ -188,9 +215,7 @@ export default function ApplicationForm() {
                 "cursor-not-allowed opacity-50"
             )}
           >
-            {createApplication.isPending
-              ? "Submitting..."
-              : "Save Application"}
+            {createApplication.isPending ? "Submitting..." : "Save Application"}
           </Button>
         </div>
       </div>
