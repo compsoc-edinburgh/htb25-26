@@ -55,7 +55,7 @@ export const YourUniversity = ({
   disabled,
   onSubmitUser,
 }: YourUniversityProps) => {
-  const { isSignedIn } = useUser();
+  const { user, isSignedIn } = useUser();
   const { signUp, isLoaded: isSignUpLoaded } = useSignUp();
   const { signIn, isLoaded: isSignInLoaded } = useSignIn();
   const { setActive } = useClerk();
@@ -64,10 +64,12 @@ export const YourUniversity = ({
 
   const [otpSent, setOtpSent] = useState(false);
   const [code, setCode] = useState("");
+  const [isSendingCode, setIsSendingCode] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
   const [verifyError, setVerifyError] = useState<string | undefined>();
   const [verified, setVerified] = useState(false);
   const [authFlow, setAuthFlow] = useState<"signup" | "signin" | null>(null);
+  const [cooldownTimeLeft, setCooldownTimeLeft] = useState(0);
 
   const selectedCountryAlpha3 = useWatch({ control, name: "countryAlpha3" });
   const selectedUniversityName = useWatch({ control, name: "universityName" });
@@ -90,6 +92,22 @@ export const YourUniversity = ({
       getValues("universityYear") &&
       getValues("universityEmail")
   );
+  
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (cooldownTimeLeft > 0) {
+      interval = setInterval(() => {
+        setCooldownTimeLeft((prev) => {
+          if (prev <= 1) {
+            clearInterval(interval);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [cooldownTimeLeft]);
 
   return (
     <div className="grid gap-6">
@@ -179,7 +197,7 @@ export const YourUniversity = ({
         <div className="flex gap-2">
           <Input
             type="email"
-            placeholder="john.doe@university.ac.uk"
+            placeholder={isSignedIn ? user.primaryEmailAddress : "john.doe@university.ac.uk"}
             disabled={!selectedUniversityName || isSignedIn || disabled}
             {...register("universityEmail")}
           />
@@ -194,7 +212,32 @@ export const YourUniversity = ({
                   return;
                 }
 
-                setIsVerifying(true);
+                // Validate uni email
+                const emailDomain = email.split("@")[1];
+                if (!emailDomain) {
+                  setVerifyError("Enter a valid email address");
+                  return;
+                }
+
+                const selectedUni = universities.find(
+                  (u) => u.name === selectedUniversityName
+                );
+                
+                if (selectedUni && selectedUni.domains) {
+                  const domainMatches = selectedUni.domains.some((domain) => 
+                    emailDomain.toLowerCase() === domain.toLowerCase() ||
+                    emailDomain.toLowerCase().endsWith('.' + domain.toLowerCase())
+                  );
+                  
+                  if (!domainMatches) {
+                    setVerifyError(
+                      `Email domain must match your university. Expected: ${selectedUni.domains.join(', ')}`
+                    );
+                    return;
+                  }
+                }
+
+                setIsSendingCode(true);
                 try {
                   if (!isSignUpLoaded || !isSignInLoaded) {
                     throw new Error("Auth not ready yet, try again");
@@ -223,6 +266,7 @@ export const YourUniversity = ({
                     setAuthFlow("signin");
                     setOtpSent(true);
                   }
+                  setCooldownTimeLeft(30);
                 } catch (err: any) {
                   const message =
                     err?.errors?.[0]?.message ||
@@ -230,22 +274,22 @@ export const YourUniversity = ({
                     "Failed to send code";
                   setVerifyError(message);
                 } finally {
-                  setIsVerifying(false);
+                  setIsSendingCode(false);
                 }
               }}
               disabled={
-                !selectedUniversityName || !requiredUserValid || isVerifying
+                !selectedUniversityName || !requiredUserValid || isVerifying || cooldownTimeLeft > 0
               }
               className="whitespace-nowrap"
             >
-              {isVerifying ? (
+              {isSendingCode ? (
                 <span className="flex items-center gap-2">
-                  <Loader2 className="h-4 w-4 animate-spin" /> Sending
+                  <Loader2 className="h-4 w-4 animate-spin" /> Sending code
                 </span>
-              ) : requiredUserValid ? (
-                "Verify"
+              ) : cooldownTimeLeft > 0 ? (
+                `Wait ${cooldownTimeLeft}s`
               ) : (
-                "Complete required fields first"
+                "Get code"
               )}
             </Button>
           )}

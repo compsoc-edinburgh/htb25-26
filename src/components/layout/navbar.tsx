@@ -14,7 +14,7 @@ import {
   DrawerContent,
   DrawerTitle,
 } from "../ui/drawer";
-import { useUser } from "@clerk/nextjs";
+import { UserButton, useUser } from "@clerk/nextjs";
 
 // register gsap plugins once on client
 if (
@@ -281,13 +281,13 @@ const ActionButton = ({ mobile = false }: { mobile?: boolean }) => {
     <div className="flex items-center justify-end">
       <Link href={href}>
         <div
-          className={`${STYLES.signInButton} h-14 w-48 border border-black bg-white transition-colors duration-200 hover:bg-zinc-900 md:w-56`}
+          className={`${STYLES.signInButton} h-14 w-48 bg-white transition-colors duration-200 hover:bg-zinc-900 md:w-56`}
           style={{ clipPath: STYLES.clipPath }}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
           <div
-            className="absolute inset-0 rounded-t-sm bg-black transition-colors duration-200 hover:bg-zinc-900"
+            className="absolute inset-0 rounded-t-sm transition-colors duration-200 bg-zinc-900"
             style={{ clipPath: rectClipPath }}
           />
           <span className="authlink-text relative z-10 flex items-center justify-center text-xs">
@@ -445,6 +445,11 @@ export default function Navbar() {
           </div>
 
           <div className="flex h-full items-center px-4">
+            <UserButton appearance={{
+              variables: {
+                borderRadius: "0px",
+              }
+            }} />
             <div className="hidden lg:flex">
               <ActionButton />
             </div>

@@ -244,4 +244,18 @@ export const applicationRouter = createTRPCRouter({
       },
     });
   }),
+  checkEmailExists: publicProcedure
+    .input(z.object({ email: z.string().email() }))
+    .query(async ({ ctx, input }) => {
+      const user = await ctx.db.user.findFirst({
+        where: {
+          OR: [
+            { email: input.email },
+            { university_email: input.email }
+          ]
+        }
+      });
+      
+      return { exists: Boolean(user) };
+    }),
 });

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Preferences, Team, YourWorkExperience } from "../_steps";
@@ -16,7 +16,7 @@ import {
 } from "../_steps/types";
 
 export default function ApplicationForm() {
-  const { isSignedIn } = useUser();
+  const { isSignedIn, user } = useUser();
   const updateUser = api.user.update.useMutation();
   const createApplication = api.application.create.useMutation();
   const router = useRouter();
@@ -38,7 +38,7 @@ export default function ApplicationForm() {
     mode: "onChange",
   });
 
-  const [expanded, setExpanded] = useState<Set<string>>(new Set());
+  const [expanded, setExpanded] = useState<Set<string>>(new Set([]));
   const toggle = (id: string) => {
     const s = new Set(expanded);
     s.has(id) ? s.delete(id) : s.add(id);
@@ -67,6 +67,24 @@ export default function ApplicationForm() {
       values.projectLink ?? "",
     ].join("\n");
 
+    // Update Clerk metadata for application fields
+    if (user) {
+      await user.update({
+        unsafeMetadata: {
+          ...user.publicMetadata,
+          cv: values.cvUrl || undefined,
+          portfolioUrl: values.portfolioUrl || undefined,
+          placementsCount: values.placementsCount,
+          hackathonsCount: values.hackathonsCount,
+          projectDescription: projectDescription.trim(),
+          needsReimbursement: values.needsReimbursement,
+          travellingFrom: values.travellingFrom || undefined,
+          calendarEmail: values.calendarEmail || undefined,
+        }
+      });
+    }
+
+    // Update our database
     await updateUser.mutateAsync({
       cv: values.cvUrl || undefined,
       portfolioUrl: values.portfolioUrl || undefined,
@@ -90,6 +108,7 @@ export default function ApplicationForm() {
 
   return (
     <form
+      data-form="application"
       onSubmit={form.handleSubmit(onSubmit)}
       className="w-full divide-y divide-zinc-200"
     >
@@ -165,7 +184,7 @@ export default function ApplicationForm() {
           >
             {createApplication.isPending
               ? "Submitting..."
-              : "Submit Application"}
+              : "Save Application"}
           </Button>
         </div>
       </div>

@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "~/components/ui/button";
+import Link from "next/link";
 
 type ApplicationStatus = "pending" | "accepted" | "rejected";
 
@@ -105,7 +106,7 @@ export default function ApplicationStatus({
             </div>
           </div>
 
-          <div className="space-y-5 text-gray-700 md:space-y-2">
+          <div className="space-y-5 mb-5 text-gray-700 md:space-y-2">
             <p className="text-sm">
               {config.messages[0]}{" "}
               <span className="whitespace-nowrap font-bold text-black">
@@ -120,6 +121,14 @@ export default function ApplicationStatus({
             ))}
           </div>
 
+          {application.status === "pending" && (
+            <Button className="h-9 w-full px-4 text-xs sm:w-auto">
+              <Link href={"/dashboard"}>
+                Edit application
+              </Link>
+            </Button>
+          )}
+
           <div className="mt-24">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div className="text-xs text-gray-400">
@@ -130,12 +139,6 @@ export default function ApplicationStatus({
                   day: "numeric",
                 })}
               </div>
-
-              {application.status === "pending" && (
-                <Button className="h-9 w-full px-4 text-xs sm:w-auto">
-                  Edit application
-                </Button>
-              )}
             </div>
           </div>
         </div>

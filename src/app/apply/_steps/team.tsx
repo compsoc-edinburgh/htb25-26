@@ -170,6 +170,7 @@ export const Team = ({ setValue }: TeamProps) => {
         </div>
         <div className="mt-10 flex justify-start">
           <Button
+            type="button"
             variant="destructive"
             onClick={() => handleLeave(team.id, team.name)}
             loading={leaveTeam.isPending}

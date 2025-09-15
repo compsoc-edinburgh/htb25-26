@@ -138,8 +138,11 @@ export const YourWorkExperience = ({
       </div>
       <div className="grid max-w-xl gap-4">
         <div className="flex flex-col gap-2">
-          <div className="my-5 flex items-center gap-2">
-            <Label className="font-whyte text-xl">Project aim</Label>
+          <div className="my-5 flex flex-col gap-2">
+            <Label className="font-whyte text-xl">Briefly describe a project you've worked on</Label>
+            <p className="text-xs">
+              Tell us about something cool you've built! We love hearing about your ideas!
+            </p>
           </div>
           <Textarea rows={2} {...register("projectAim")} />
         </div>

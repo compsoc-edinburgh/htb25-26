@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useFormPersist } from "use-react-hook-form-persist";
@@ -33,7 +33,7 @@ export default function UserForm() {
     { key: "apply-user-form" }
   );
 
-  const [expanded, setExpanded] = useState<Set<string>>(new Set());
+  const [expanded, setExpanded] = useState<Set<string>>(new Set(["about-yourself"]));
   const toggle = (id: string) => {
     const s = new Set(expanded);
     s.has(id) ? s.delete(id) : s.add(id);
@@ -44,6 +44,30 @@ export default function UserForm() {
     const selectedCountry = countries.all.find(
       (c: any) => c.alpha3 === values.countryAlpha3
     );
+
+    // Update Clerk user name if changed
+    if (user && (user.firstName !== values.firstName || user.lastName !== values.lastName)) {
+      await user.update({
+        firstName: values.firstName,
+        lastName: values.lastName,
+      });
+    }
+
+    // Update Clerk metadata for other fields
+    if (user) {
+      await user.update({
+        unsafeMetadata: {
+          ...user.publicMetadata,
+          country: selectedCountry?.alpha2,
+          university: values.universityName,
+          universityYear: values.universityYear,
+          universityEmail: values.universityEmail,
+          pronouns: values.pronouns,
+        }
+      });
+    }
+
+    // Update our database
     await updateUser.mutateAsync({
       firstName: values.firstName,
       lastName: values.lastName,
@@ -67,7 +91,7 @@ export default function UserForm() {
         <p className="mt-2 font-whyte text-xl font-bold">User</p>
         {!isSignedIn ? (
           <div className="mt-3 flex items-center gap-3">
-            <span className="text-xs text-zinc-600">Already verified?</span>
+            <span className="text-xs text-zinc-600">Already applied?</span>
             <SignInButton mode="modal" signUpForceRedirectUrl="/apply">
               <Button type="button" variant="secondary" size="sm">
                 Sign in

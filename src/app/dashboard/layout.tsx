@@ -10,7 +10,7 @@ export default async function DashboardLayout({
   const isAuthed = !!user.userId;
 
   return (
-    <main className="flex w-full flex-col items-center px-1">
+    <main className="flex w-full flex-col items-center">
       <Navbar />
       {isAuthed ? (
         children

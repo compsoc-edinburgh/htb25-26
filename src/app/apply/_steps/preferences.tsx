@@ -75,7 +75,7 @@ export const Preferences = ({
           )}
         </div>
       )}
-      <div className="flex max-w-xl flex-col gap-2">
+      {/* <div className="flex max-w-xl flex-col gap-2">
         <div className="my-5 flex items-center gap-2">
           <Label className="font-whyte text-xl">
             Which email should we use?
@@ -91,7 +91,7 @@ export const Preferences = ({
             {String(errors.calendarEmail.message)}
           </p>
         )}
-      </div>
+      </div> */}
     </div>
   );
 };
