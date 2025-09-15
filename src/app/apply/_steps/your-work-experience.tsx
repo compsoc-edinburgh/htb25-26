@@ -1,4 +1,9 @@
-import { Control, Controller, type FieldErrors } from "react-hook-form";
+import {
+  Control,
+  Controller,
+  type FieldErrors,
+  type UseFormRegister,
+} from "react-hook-form";
 import { Input } from "~/components/ui/input";
 import { Textarea } from "~/components/ui/textarea";
 import { Button } from "~/components/ui/button";
@@ -23,7 +28,7 @@ const countOptions = [
 
 interface YourWorkExperienceProps {
   control: Control<ApplicationFormValues>;
-  register: any;
+  register: UseFormRegister<ApplicationFormValues>;
   errors?: FieldErrors<ApplicationFormValues>;
 }
 

@@ -1,5 +1,10 @@
-import { Control, Controller, type FieldErrors } from "react-hook-form";
-import { Input } from "~/components/ui/input";
+import {
+  Control,
+  Controller,
+  type FieldErrors,
+  type UseFormRegister,
+  type UseFormWatch,
+} from "react-hook-form";
 import { Textarea } from "~/components/ui/textarea";
 import { Button } from "~/components/ui/button";
 import { Label } from "~/components/ui/label";
@@ -7,8 +12,8 @@ import { ApplicationFormValues } from "./types";
 
 interface PreferencesProps {
   control: Control<ApplicationFormValues>;
-  register: any;
-  watch: any;
+  register: UseFormRegister<ApplicationFormValues>;
+  watch: UseFormWatch<ApplicationFormValues>;
   errors?: FieldErrors<ApplicationFormValues>;
 }
 

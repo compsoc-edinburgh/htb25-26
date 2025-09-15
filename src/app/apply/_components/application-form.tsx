@@ -3,12 +3,12 @@
 import { useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { Preferences, Team, YourWorkExperience } from "../_steps";
 import { AccordionSection } from "./accordion";
 import { api } from "~/trpc/react";
 import { Button } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
-import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 import {
   type ApplicationFormValues,
@@ -24,14 +24,14 @@ export default function ApplicationForm({
   defaults,
   onFormSubmit,
 }: ApplicationFormProps) {
-  const { isSignedIn, user } = useUser();
+  const { isSignedIn } = useUser();
   const updateUser = api.user.update.useMutation();
   const createApplication = api.application.create.useMutation();
-  const form = useForm({
+  const form = useForm<ApplicationFormValues>({
     resolver: zodResolver(ApplicationFormSchema),
     defaultValues: {
       teamId: undefined,
-      type: "individual" as const,
+      type: "individual",
       cvUrl: undefined,
       portfolioUrl: "",
       projectAim: "",
@@ -51,7 +51,7 @@ export default function ApplicationForm({
     if (defaults) {
       form.reset({
         teamId: undefined,
-        type: "individual" as const,
+        type: "individual",
         cvUrl: undefined,
         portfolioUrl: "",
         projectAim: "",
@@ -63,9 +63,8 @@ export default function ApplicationForm({
         hackathonsCount: "",
         needsReimbursement: undefined,
         ...defaults,
-      } as any);
+      });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(defaults)]);
 
   const [expanded, setExpanded] = useState<Set<string>>(new Set([]));
@@ -75,7 +74,9 @@ export default function ApplicationForm({
     setExpanded(s);
   };
 
-  const errors = form.formState.errors as any;
+  const errors = form.formState.errors;
+  const isLoading = updateUser.isPending || createApplication.isPending;
+
   const hasWorkErrors =
     !!errors?.cvUrl ||
     !!errors?.portfolioUrl ||
@@ -84,58 +85,53 @@ export default function ApplicationForm({
     !!errors?.projectAim ||
     !!errors?.projectStack ||
     !!errors?.projectLink;
-  const hasTeamErrors = !!errors?.teammates;
   const hasPreferencesErrors =
     !!errors?.needsReimbursement ||
     !!errors?.travellingFrom ||
     !!errors?.calendarEmail;
 
   const onSubmit = async (values: ApplicationFormValues) => {
-    console.log(values);
-    const projectDescription = [
-      values.projectAim?.replace(/\n/g, " ") ?? "",
-      values.projectStack?.replace(/\n/g, " ") ?? "",
-      values.projectLink ?? "",
-    ].join("\n");
+    try {
+      const projectDescription = [
+        values.projectAim?.replace(/\n/g, " ") ?? "",
+        values.projectStack?.replace(/\n/g, " ") ?? "",
+        values.projectLink ?? "",
+      ]
+        .join("\n")
+        .trim();
 
-    // Update Clerk metadata for application fields
-    if (user) {
-      await user.update({
-        unsafeMetadata: {
-          ...user.publicMetadata,
-          cv: values.cvUrl || undefined,
-          portfolioUrl: values.portfolioUrl || undefined,
-          placementsCount: values.placementsCount,
-          hackathonsCount: values.hackathonsCount,
-          projectDescription: projectDescription.trim(),
-          needsReimbursement: values.needsReimbursement,
-          travellingFrom: values.travellingFrom || undefined,
-          calendarEmail: values.calendarEmail || undefined,
-        },
-      });
+      toast.promise(
+        Promise.all([
+          updateUser.mutateAsync({
+            cv: values.cvUrl || undefined,
+            portfolioUrl: values.portfolioUrl || undefined,
+            placementsCount: values.placementsCount,
+            hackathonsCount: values.hackathonsCount,
+            projectDescription,
+            needsReimbursement: values.needsReimbursement,
+            travellingFrom:
+              values.needsReimbursement === true
+                ? values.travellingFrom || undefined
+                : undefined,
+            calendarEmail: values.calendarEmail || undefined,
+          }),
+          createApplication.mutateAsync({
+            team_id: values.teamId || undefined,
+            type: values.type,
+          }),
+        ]),
+        {
+          loading: "Submitting your application...",
+          success: "Application submitted successfully!",
+          error: "Failed to submit application. Please try again.",
+        }
+      );
+
+      onFormSubmit(values);
+    } catch (error) {
+      console.error("Failed to submit application:", error);
+      toast.error("An unexpected error occurred. Please try again.");
     }
-
-    // Update our database
-    await updateUser.mutateAsync({
-      cv: values.cvUrl || undefined,
-      portfolioUrl: values.portfolioUrl || undefined,
-      placementsCount: values.placementsCount,
-      hackathonsCount: values.hackathonsCount,
-      projectDescription: projectDescription.trim(),
-      needsReimbursement: values.needsReimbursement,
-      travellingFrom:
-        values.needsReimbursement === true
-          ? values.travellingFrom || undefined
-          : undefined,
-      calendarEmail: values.calendarEmail || undefined,
-    });
-
-    await createApplication.mutateAsync({
-      team_id: values.teamId || undefined,
-      type: values.type || "individual",
-    });
-
-    onFormSubmit(values);
   };
 
   return (
@@ -152,16 +148,15 @@ export default function ApplicationForm({
         id="team"
         title="YOUR TEAM"
         questionsCount={2}
-        disabled={!isSignedIn}
+        disabled={!isSignedIn || isLoading}
         expanded={expanded.has("team")}
         onToggle={toggle}
-        invalid={hasTeamErrors}
       >
         <Team
-          control={form.control as any}
+          control={form.control}
           register={form.register}
-          errors={form.formState.errors as any}
-          setValue={form.setValue as any}
+          errors={form.formState.errors}
+          setValue={form.setValue}
         />
       </AccordionSection>
 
@@ -169,15 +164,15 @@ export default function ApplicationForm({
         id="your-work-experience"
         title="YOUR WORK EXPERIENCE"
         questionsCount={5}
-        disabled={!isSignedIn}
+        disabled={!isSignedIn || isLoading}
         expanded={expanded.has("your-work-experience")}
         onToggle={toggle}
         invalid={hasWorkErrors}
       >
         <YourWorkExperience
-          control={form.control as any}
+          control={form.control}
           register={form.register}
-          errors={form.formState.errors as any}
+          errors={form.formState.errors}
         />
       </AccordionSection>
 
@@ -185,14 +180,14 @@ export default function ApplicationForm({
         id="preferences"
         title="PREFERENCES"
         questionsCount={3}
-        disabled={!isSignedIn}
+        disabled={!isSignedIn || isLoading}
         expanded={expanded.has("preferences")}
         onToggle={toggle}
         invalid={hasPreferencesErrors}
       >
         <Preferences
-          errors={form.formState.errors as any}
-          control={form.control as any}
+          errors={form.formState.errors}
+          control={form.control}
           register={form.register}
           watch={form.watch}
         />
@@ -202,20 +197,14 @@ export default function ApplicationForm({
         <div className="flex justify-center">
           <Button
             type="submit"
-            disabled={
-              !isSignedIn ||
-              createApplication.isPending ||
-              !form.formState.isValid
-            }
+            disabled={!isSignedIn || isLoading || !form.formState.isValid}
             className={cn(
               "mb-28 mt-5 h-24 w-full border border-zinc-200 bg-black text-xl uppercase text-white transition-all duration-300 hover:bg-black hover:text-white md:h-28 lg:h-32",
-              (createApplication.isPending ||
-                !isSignedIn ||
-                !form.formState.isValid) &&
+              (isLoading || !isSignedIn || !form.formState.isValid) &&
                 "cursor-not-allowed opacity-50"
             )}
           >
-            {createApplication.isPending ? "Submitting..." : "Save Application"}
+            {isLoading ? "Submitting..." : "Save Application"}
           </Button>
         </div>
       </div>

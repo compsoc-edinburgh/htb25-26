@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useFormPersist } from "use-react-hook-form-persist";
+import { toast } from "sonner";
 import { AboutYourself, YourUniversity } from "../_steps";
 import { AccordionSection } from "./accordion";
 import { api } from "~/trpc/react";
@@ -43,49 +44,37 @@ export default function UserForm() {
   };
 
   const onSubmit = async (values: UserFormValues) => {
-    const selectedCountry = countries.all.find(
-      (c: any) => c.alpha3 === values.countryAlpha3
-    );
+    try {
+      const selectedCountry = countries.all.find(
+        (c: any) => c.alpha3 === values.countryAlpha3
+      );
 
-    // Update Clerk user name if changed
-    if (
-      user &&
-      (user.firstName !== values.firstName || user.lastName !== values.lastName)
-    ) {
-      await user.update({
-        firstName: values.firstName,
-        lastName: values.lastName,
-      });
-    }
-
-    // Update Clerk metadata for other fields
-    if (user) {
-      await user.update({
-        unsafeMetadata: {
-          ...user.publicMetadata,
+      await toast.promise(
+        updateUser.mutateAsync({
+          firstName: values.firstName,
+          lastName: values.lastName,
           country: selectedCountry?.alpha2,
           university: values.universityName,
           universityYear: values.universityYear,
           universityEmail: values.universityEmail,
           pronouns: values.pronouns,
-        },
-      });
-    }
+        }),
+        {
+          loading: "Saving your information...",
+          success: "Information saved successfully!",
+          error: "Failed to save information. Please try again.",
+        }
+      );
 
-    // Update our database
-    await updateUser.mutateAsync({
-      firstName: values.firstName,
-      lastName: values.lastName,
-      country: selectedCountry?.alpha2,
-      university: values.universityName,
-      universityYear: values.universityYear,
-      universityEmail: values.universityEmail,
-      pronouns: values.pronouns,
-    });
-    setExpanded(new Set());
+      setExpanded(new Set());
+    } catch (error) {
+      console.error("Failed to update user information:", error);
+      toast.error("An unexpected error occurred. Please try again.");
+    }
   };
 
   const disabled = !!isSignedIn;
+  const isLoading = updateUser.isPending;
 
   return (
     <form
@@ -125,32 +114,31 @@ export default function UserForm() {
         id="about-yourself"
         title="ABOUT YOURSELF"
         questionsCount={3}
-        disabled={disabled}
+        disabled={disabled || isLoading}
         expanded={expanded.has("about-yourself")}
         onToggle={toggle}
       >
         <AboutYourself
-          control={undefined}
           register={form.register}
-          errors={form.formState.errors as any}
-          disabled={disabled}
+          errors={form.formState.errors}
+          disabled={disabled || isLoading}
         />
       </AccordionSection>
       <AccordionSection
         id="your-university"
         title="YOUR UNIVERSITY"
         questionsCount={4}
-        disabled={disabled}
+        disabled={disabled || isLoading}
         expanded={expanded.has("your-university")}
         onToggle={toggle}
       >
         <YourUniversity
-          control={form.control as any}
+          control={form.control}
           register={form.register}
           getValues={form.getValues}
-          setValue={form.setValue as any}
-          errors={form.formState.errors as any}
-          disabled={disabled}
+          setValue={form.setValue}
+          errors={form.formState.errors}
+          disabled={disabled || isLoading}
           onSubmitUser={onSubmit}
         />
       </AccordionSection>

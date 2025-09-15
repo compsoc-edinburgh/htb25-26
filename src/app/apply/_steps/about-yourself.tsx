@@ -1,11 +1,15 @@
-import { type Control, type FieldErrors } from "react-hook-form";
+import {
+  type Control,
+  type FieldErrors,
+  type UseFormRegister,
+} from "react-hook-form";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { UserFormValues } from "./types";
 
 interface AboutYourselfProps {
-  control?: Control<any>;
-  register: any;
+  control?: Control<UserFormValues>;
+  register: UseFormRegister<UserFormValues>;
   errors: FieldErrors<UserFormValues>;
   disabled?: boolean;
 }

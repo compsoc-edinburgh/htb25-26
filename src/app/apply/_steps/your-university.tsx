@@ -3,6 +3,9 @@ import {
   Controller,
   useWatch,
   type FieldErrors,
+  type UseFormRegister,
+  type UseFormGetValues,
+  type UseFormSetValue,
 } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { Input } from "~/components/ui/input";
@@ -37,10 +40,10 @@ const yearOptions = [
 ];
 
 interface YourUniversityProps {
-  control: Control<any>;
-  register: any;
-  getValues: any;
-  setValue: (name: keyof UserFormValues, value: any) => void;
+  control: Control<UserFormValues>;
+  register: UseFormRegister<UserFormValues>;
+  getValues: UseFormGetValues<UserFormValues>;
+  setValue: UseFormSetValue<UserFormValues>;
   errors: FieldErrors<UserFormValues>;
   disabled?: boolean;
   onSubmitUser?: (values: UserFormValues) => Promise<void> | void;
@@ -199,7 +202,7 @@ export const YourUniversity = ({
             type="email"
             placeholder={
               isSignedIn
-                ? user.primaryEmailAddress
+                ? (user?.primaryEmailAddress?.emailAddress ?? undefined)
                 : "john.doe@university.ac.uk"
             }
             disabled={!selectedUniversityName || isSignedIn || disabled}
@@ -216,7 +219,6 @@ export const YourUniversity = ({
                   return;
                 }
 
-                // Validate uni email
                 const emailDomain = email.split("@")[1];
                 if (!emailDomain) {
                   setVerifyError("Enter a valid email address");

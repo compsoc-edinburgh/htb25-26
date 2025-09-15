@@ -1,6 +1,8 @@
 import {
   type Control,
   type FieldErrors,
+  type UseFormRegister,
+  type UseFormSetValue,
   Controller,
   useForm,
 } from "react-hook-form";
@@ -35,9 +37,9 @@ type JoinTeamValues = z.infer<typeof JoinTeamSchema>;
 
 interface TeamProps {
   control: Control<ApplicationFormValues>;
-  register: any;
+  register: UseFormRegister<ApplicationFormValues>;
   errors: FieldErrors<ApplicationFormValues>;
-  setValue: (name: keyof ApplicationFormValues, value: any) => void;
+  setValue: UseFormSetValue<ApplicationFormValues>;
 }
 
 export const Team = ({ setValue, register, errors }: TeamProps) => {

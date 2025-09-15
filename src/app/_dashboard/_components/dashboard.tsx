@@ -26,9 +26,11 @@ export default function Dashboard() {
         return (
           <div className="w-full divide-y divide-zinc-200">
             <UserForm />
-            <ApplicationForm onFormSubmit={() => {
-              window.location.reload();
-            }} />
+            <ApplicationForm
+              onFormSubmit={() => {
+                window.location.reload();
+              }}
+            />
           </div>
         );
       case "teams-browser":
