@@ -60,7 +60,7 @@ export const YourWorkExperience = ({
                 </div>
               ) : (
                 <UploadDropzone
-                  className="ut-button:bg-zinc-900 ut-button:text-white ut-button:transition-colors ut-button:after:bg-zinc-900 ut-button:focus-within:ring-2 ut-button:focus-within:ring-ring hover:ut-button:bg-zinc-900/90 ut-button:focus-visible:outline-none ut-button:focus-visible:ring-2 focus-visible:ut-button:ring-ring ut-button:focus-visible:ring-offset-2 ut-label:hover:text-primary ut-button:ut-uploading:bg-zinc-400/30"
+                  className="border-1 rounded-none uppercase border-solid border-zinc-300 bg-zinc-50/30 transition-colors hover:border-zinc-400 hover:bg-zinc-50/50 ut-button:rounded-none ut-button:border ut-button:border-black ut-button:uppercase ut-button:bg-black ut-button:px-6 ut-button:py-3 ut-button:text-xs ut-button:font-medium ut-button:text-white ut-button:transition-all ut-button:hover:bg-zinc-800 ut-button:focus-visible:outline-none ut-button:focus-visible:ring-2 ut-button:focus-visible:ring-black ut-button:focus-visible:ring-offset-2 ut-allowed-content:text-xs ut-allowed-content:text-zinc-500 ut-label:text-sm ut-label:font-normal ut-label:text-zinc-700"
                   endpoint="pdfUploader"
                   onClientUploadComplete={(res: any) =>
                     field.onChange(res?.[0]?.url)
