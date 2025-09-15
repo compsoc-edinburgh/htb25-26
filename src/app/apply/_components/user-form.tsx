@@ -17,6 +17,7 @@ import {
 } from "@clerk/nextjs";
 import { Button } from "~/components/ui/button";
 import { UserFormSchema, type UserFormValues } from "../_steps/types";
+import SignInDrawer from "~/components/module/sign-in";
 
 export default function UserForm() {
   const { isSignedIn, user } = useUser();
@@ -24,6 +25,7 @@ export default function UserForm() {
   const { signIn, isLoaded: isSignInLoaded } = useSignIn();
   const { setActive } = useClerk();
   const updateUser = api.user.update.useMutation();
+  const [open, setOpen] = useState(false);
   const userGet = api.user.get.useQuery(undefined, { enabled: false });
 
   const form = useForm<UserFormValues>({
@@ -57,7 +59,7 @@ export default function UserForm() {
           (c: any) => c.alpha3 === values.countryAlpha3
         );
 
-        await toast.promise(
+        toast.promise(
           updateUser.mutateAsync({
             firstName: values.firstName,
             lastName: values.lastName,
@@ -89,7 +91,7 @@ export default function UserForm() {
         return;
       }
 
-      await toast.promise(
+      toast.promise(
         (async () => {
           let result: any;
           if (values.authFlow === "signup") {
@@ -192,69 +194,80 @@ export default function UserForm() {
   };
 
   return (
-    <form
-      onSubmit={form.handleSubmit(onSubmit)}
-      className="w-full divide-y divide-zinc-200"
-    >
-      <div className="bg-white p-8 md:p-10 lg:p-12">
-        <p className="mt-2 font-whyte text-xl font-bold">User</p>
-        {!isSignedIn ? (
-          <div className="mt-3 flex items-center gap-3">
-            <span className="text-xs text-zinc-600">
-              Enter your details to create an account
-            </span>
-          </div>
-        ) : (
-          <div className="mt-3 flex items-center gap-3">
-            <span className="text-xs text-zinc-600">
-              Signed in as:{" "}
-              <span className="font-medium underline">
-                {user?.primaryEmailAddress?.emailAddress ||
-                  user?.emailAddresses?.[0]?.emailAddress ||
-                  "Unknown"}
+    <>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="w-full divide-y divide-zinc-200"
+      >
+        <div className="bg-white p-8 md:p-10 lg:p-12">
+          <p className="mt-2 font-whyte text-xl font-bold">User</p>
+          {!isSignedIn ? (
+            <div className="mt-3 flex items-center gap-3">
+              <span className="text-xs text-zinc-600">
+                Already have an account?{" "}
+                <Button
+                  type="button"
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => setOpen(true)}
+                >
+                  Sign in
+                </Button>
               </span>
-            </span>
-            <SignOutButton signOutOptions={{ redirectUrl: "/apply" }}>
-              <Button type="button" variant="secondary" size="sm">
-                Sign out
-              </Button>
-            </SignOutButton>
-          </div>
-        )}
-      </div>
-      <AccordionSection
-        id="about-yourself"
-        title="ABOUT YOURSELF"
-        questionsCount={3}
-        disabled={disabled || isLoading}
-        expanded={expanded.has("about-yourself")}
-        onToggle={toggle}
-      >
-        <AboutYourself
-          control={form.control}
-          errors={form.formState.errors}
+            </div>
+          ) : (
+            <div className="mt-3 flex items-center gap-3">
+              <span className="text-xs text-zinc-600">
+                Signed in as:{" "}
+                <span className="font-medium underline">
+                  {user?.primaryEmailAddress?.emailAddress ||
+                    user?.emailAddresses?.[0]?.emailAddress ||
+                    "Unknown"}
+                </span>
+              </span>
+              <SignOutButton signOutOptions={{ redirectUrl: "/apply" }}>
+                <Button type="button" variant="secondary" size="sm">
+                  Sign out
+                </Button>
+              </SignOutButton>
+            </div>
+          )}
+        </div>
+        <AccordionSection
+          id="about-yourself"
+          title="ABOUT YOURSELF"
+          questionsCount={3}
           disabled={disabled || isLoading}
-        />
-      </AccordionSection>
-      <AccordionSection
-        id="your-university"
-        title="YOUR UNIVERSITY"
-        questionsCount={4}
-        disabled={disabled || isLoading}
-        expanded={expanded.has("your-university")}
-        onToggle={toggle}
-      >
-        <YourUniversity
-          control={form.control}
-          register={form.register}
-          getValues={form.getValues}
-          setValue={form.setValue}
-          errors={form.formState.errors}
+          expanded={expanded.has("about-yourself")}
+          onToggle={toggle}
+        >
+          <AboutYourself
+            control={form.control}
+            errors={form.formState.errors}
+            disabled={disabled || isLoading}
+          />
+        </AccordionSection>
+        <AccordionSection
+          id="your-university"
+          title="YOUR UNIVERSITY"
+          questionsCount={4}
           disabled={disabled || isLoading}
-          sendVerificationCode={sendVerificationCode}
-          onSubmit={() => form.handleSubmit(onSubmit)()}
-        />
-      </AccordionSection>
-    </form>
+          expanded={expanded.has("your-university")}
+          onToggle={toggle}
+        >
+          <YourUniversity
+            control={form.control}
+            register={form.register}
+            getValues={form.getValues}
+            setValue={form.setValue}
+            errors={form.formState.errors}
+            disabled={disabled || isLoading}
+            sendVerificationCode={sendVerificationCode}
+            onSubmit={() => form.handleSubmit(onSubmit)()}
+          />
+        </AccordionSection>
+      </form>
+      <SignInDrawer open={open} onOpenChange={setOpen} />
+    </>
   );
 }
