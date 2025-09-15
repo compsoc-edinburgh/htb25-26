@@ -256,6 +256,27 @@ const ActionButton = ({ mobile = false }: { mobile?: boolean }) => {
     isSignedIn && application.data ? "APPLICATION STATUS" : "APPLY";
   const href = "/apply";
 
+  // Mobile version - simple text link
+  if (mobile) {
+    return (
+      <Link
+        href={href}
+        className="text-[11px] tracking-wide text-white"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        <span className="authlink-text">
+          {isSignedIn === undefined || application.isLoading ? (
+            <Loader2 className="h-3 w-3 animate-spin" />
+          ) : (
+            buttonText
+          )}
+        </span>
+      </Link>
+    );
+  }
+
+  // Desktop version - styled button
   return (
     <div className="flex items-center justify-end">
       <Link href={href}>
