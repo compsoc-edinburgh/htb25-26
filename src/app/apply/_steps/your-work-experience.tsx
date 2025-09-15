@@ -74,14 +74,20 @@ export const YourWorkExperience = ({
       </div>
       <div className="flex max-w-xl flex-col gap-2">
         <div className="my-5 flex items-center gap-2">
-          <Label className="font-whyte text-xl">Portfolio or LinkedIn</Label>
+          <Label className="font-whyte text-xl">Portfolio or LinkedIn *</Label>
         </div>
         <Input placeholder="https://" {...register("portfolioUrl")} />
+        {errors?.portfolioUrl?.message && (
+          <p className="text-sm text-red-600">
+            {String(errors.portfolioUrl.message)}
+          </p>
+        )}
       </div>
       <div className="flex max-w-xl flex-col gap-2">
         <div className="my-5 flex items-center gap-2">
           <Label className="font-whyte text-xl">
-            Internships/placements completed *
+            How many computer science/tech internships/placements have you
+            completed since beginning university *
           </Label>
         </div>
         <Controller
@@ -110,7 +116,9 @@ export const YourWorkExperience = ({
       </div>
       <div className="flex max-w-xl flex-col gap-2">
         <div className="my-5 flex items-center gap-2">
-          <Label className="font-whyte text-xl">Hackathons attended *</Label>
+          <Label className="font-whyte text-xl">
+            How many hackathons have you attended *
+          </Label>
         </div>
         <Controller
           control={control}
@@ -137,23 +145,34 @@ export const YourWorkExperience = ({
         )}
       </div>
       <div className="grid max-w-xl gap-4">
-        <div className="flex flex-col gap-2">
-          <div className="my-5 flex items-center gap-2">
-            <Label className="font-whyte text-xl">Project aim</Label>
-          </div>
-          <Textarea rows={2} {...register("projectAim")} />
+        <div className="my-5 flex items-center gap-2">
+          <Label className="font-whyte text-xl">
+            Please briefly describe a project you've completed in the following
+            format:
+          </Label>
         </div>
         <div className="flex flex-col gap-2">
-          <div className="my-5 flex items-center gap-2">
-            <Label className="font-whyte text-xl">Tech stack</Label>
-          </div>
-          <Textarea rows={2} {...register("projectStack")} />
+          <Label className="font-whyte text-lg">Project aim</Label>
+          <Textarea
+            rows={2}
+            placeholder="Short answer describing the aim of your project"
+            {...register("projectAim")}
+          />
         </div>
         <div className="flex flex-col gap-2">
-          <div className="my-5 flex items-center gap-2">
-            <Label className="font-whyte text-xl">Project link</Label>
-          </div>
-          <Input placeholder="https://" {...register("projectLink")} />
+          <Label className="font-whyte text-lg">Project tech stack</Label>
+          <Textarea
+            rows={2}
+            placeholder="Short answer describing the technologies used"
+            {...register("projectStack")}
+          />
+        </div>
+        <div className="flex flex-col gap-2">
+          <Label className="font-whyte text-lg">Github link</Label>
+          <Input
+            placeholder="https://github.com/..."
+            {...register("projectLink")}
+          />
         </div>
       </div>
     </div>
