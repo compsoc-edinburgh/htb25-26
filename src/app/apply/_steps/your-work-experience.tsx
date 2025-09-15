@@ -1,9 +1,4 @@
-import {
-  Control,
-  Controller,
-  type FieldErrors,
-  type UseFormRegister,
-} from "react-hook-form";
+import { Control, Controller, type FieldErrors } from "react-hook-form";
 import { Input } from "~/components/ui/input";
 import { Textarea } from "~/components/ui/textarea";
 import { Button } from "~/components/ui/button";
@@ -28,13 +23,11 @@ const countOptions = [
 
 interface YourWorkExperienceProps {
   control: Control<ApplicationFormValues>;
-  register: UseFormRegister<ApplicationFormValues>;
   errors?: FieldErrors<ApplicationFormValues>;
 }
 
 export const YourWorkExperience = ({
   control,
-  register,
   errors,
 }: YourWorkExperienceProps) => {
   return (
@@ -81,7 +74,11 @@ export const YourWorkExperience = ({
         <div className="my-5 flex items-center gap-2">
           <Label className="font-whyte text-xl">Portfolio or LinkedIn *</Label>
         </div>
-        <Input placeholder="https://" {...register("portfolioUrl")} />
+        <Controller
+          control={control}
+          name="portfolioUrl"
+          render={({ field }) => <Input placeholder="https://" {...field} />}
+        />
         {errors?.portfolioUrl?.message && (
           <p className="text-sm text-red-600">
             {String(errors.portfolioUrl.message)}
@@ -158,25 +155,40 @@ export const YourWorkExperience = ({
         </div>
         <div className="flex flex-col gap-2">
           <Label className="font-whyte text-lg">Project aim</Label>
-          <Textarea
-            rows={2}
-            placeholder="Short answer describing the aim of your project"
-            {...register("projectAim")}
+          <Controller
+            control={control}
+            name="projectAim"
+            render={({ field }) => (
+              <Textarea
+                rows={2}
+                placeholder="Short answer describing the aim of your project"
+                {...field}
+              />
+            )}
           />
         </div>
         <div className="flex flex-col gap-2">
           <Label className="font-whyte text-lg">Project tech stack</Label>
-          <Textarea
-            rows={2}
-            placeholder="Short answer describing the technologies used"
-            {...register("projectStack")}
+          <Controller
+            control={control}
+            name="projectStack"
+            render={({ field }) => (
+              <Textarea
+                rows={2}
+                placeholder="Short answer describing the technologies used"
+                {...field}
+              />
+            )}
           />
         </div>
         <div className="flex flex-col gap-2">
           <Label className="font-whyte text-lg">Github link</Label>
-          <Input
-            placeholder="https://github.com/..."
-            {...register("projectLink")}
+          <Controller
+            control={control}
+            name="projectLink"
+            render={({ field }) => (
+              <Input placeholder="https://github.com/..." {...field} />
+            )}
           />
         </div>
       </div>

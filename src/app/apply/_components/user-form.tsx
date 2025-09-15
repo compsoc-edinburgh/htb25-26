@@ -235,7 +235,7 @@ export default function UserForm() {
         onToggle={toggle}
       >
         <AboutYourself
-          register={form.register}
+          control={form.control}
           errors={form.formState.errors}
           disabled={disabled || isLoading}
         />

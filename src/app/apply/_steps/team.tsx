@@ -1,7 +1,6 @@
 import {
   type Control,
   type FieldErrors,
-  type UseFormRegister,
   type UseFormSetValue,
   Controller,
   useForm,
@@ -37,12 +36,11 @@ type JoinTeamValues = z.infer<typeof JoinTeamSchema>;
 
 interface TeamProps {
   control: Control<ApplicationFormValues>;
-  register: UseFormRegister<ApplicationFormValues>;
   errors: FieldErrors<ApplicationFormValues>;
   setValue: UseFormSetValue<ApplicationFormValues>;
 }
 
-export const Team = ({ setValue, register, errors }: TeamProps) => {
+export const Team = ({ setValue, errors }: TeamProps) => {
   const getUserTeam = api.team.getUserTeam.useQuery();
   const createTeam = api.team.create.useMutation();
   const joinTeam = api.team.join.useMutation();

@@ -154,7 +154,6 @@ export default function ApplicationForm({
       >
         <Team
           control={form.control}
-          register={form.register}
           errors={form.formState.errors}
           setValue={form.setValue}
         />
@@ -171,7 +170,6 @@ export default function ApplicationForm({
       >
         <YourWorkExperience
           control={form.control}
-          register={form.register}
           errors={form.formState.errors}
         />
       </AccordionSection>
@@ -188,7 +186,6 @@ export default function ApplicationForm({
         <Preferences
           errors={form.formState.errors}
           control={form.control}
-          register={form.register}
           watch={form.watch}
         />
       </AccordionSection>

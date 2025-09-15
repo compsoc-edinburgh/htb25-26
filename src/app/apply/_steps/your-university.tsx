@@ -67,6 +67,7 @@ export const YourUniversity = ({
 
   const selectedCountryAlpha3 = useWatch({ control, name: "countryAlpha3" });
   const selectedUniversityName = useWatch({ control, name: "universityName" });
+  const universityEmail = useWatch({ control, name: "universityEmail" });
   const codeSent = useWatch({ control, name: "codeSent" });
   const verificationCode = useWatch({ control, name: "verificationCode" });
 
@@ -83,15 +84,8 @@ export const YourUniversity = ({
     setValue("universityEmail", "");
   }, [selectedUniversityName, setValue]);
 
-  const requiredUserValid = Boolean(
-    getValues("firstName") &&
-      getValues("lastName") &&
-      getValues("pronouns") &&
-      getValues("countryAlpha3") &&
-      getValues("universityName") &&
-      getValues("universityYear") &&
-      getValues("universityEmail")
-  );
+  // For Get code button - only validate email
+  const emailValid = Boolean(universityEmail && universityEmail.trim() !== "");
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -195,45 +189,41 @@ export const YourUniversity = ({
           <Label className="font-whyte text-xl">University email *</Label>
         </div>
         <div className="flex gap-2">
-          <Input
-            type="email"
-            placeholder={
-              isSignedIn
-                ? (user?.primaryEmailAddress?.emailAddress ?? undefined)
-                : "john.doe@university.ac.uk"
-            }
-            disabled={!selectedUniversityName || isSignedIn || disabled}
-            {...register("universityEmail")}
+          <Controller
+            control={control}
+            name="universityEmail"
+            render={({ field }) => (
+              <Input
+                type="email"
+                placeholder={
+                  isSignedIn
+                    ? (user?.primaryEmailAddress?.emailAddress ?? undefined)
+                    : "john.doe@university.ac.uk"
+                }
+                disabled={!selectedUniversityName || isSignedIn || disabled}
+                {...field}
+                onInput={(e) => {
+                  // Handle autofill detection
+                  field.onChange(e);
+                }}
+                onBlur={(e) => {
+                  // Trigger validation on blur (for autofill)
+                  field.onBlur();
+                  field.onChange(e.target.value);
+                }}
+              />
+            )}
           />
           {!isSignedIn && !disabled && (
             <Button
               type="button"
               onClick={async () => {
-                // Check if all required fields are filled before sending code
-                const formValues = getValues();
-                const requiredFields = {
-                  "First name": formValues.firstName,
-                  "Last name": formValues.lastName,
-                  Pronouns: formValues.pronouns,
-                  Country: formValues.countryAlpha3,
-                  University: formValues.universityName,
-                  "University year": formValues.universityYear,
-                  "University email": formValues.universityEmail,
-                };
-
-                const missingFields = Object.entries(requiredFields)
-                  .filter(([_, value]) => !value || value.trim() === "")
-                  .map(([key, _]) => key);
-
-                if (missingFields.length > 0) {
-                  toast.error(
-                    `Please fill in all required fields first: ${missingFields.join(", ")}`
-                  );
+                // Only validate email for Get code button
+                if (!universityEmail || universityEmail.trim() === "") {
+                  toast.error("Please enter your university email first");
                   return;
                 }
-
-                const email = formValues.universityEmail;
-                const emailDomain = email.split("@")[1];
+                const emailDomain = universityEmail.split("@")[1];
                 if (!emailDomain) {
                   toast.error("Enter a valid email address");
                   return;
@@ -269,7 +259,7 @@ export const YourUniversity = ({
               }}
               disabled={
                 !selectedUniversityName ||
-                !requiredUserValid ||
+                !emailValid ||
                 isSendingCode ||
                 cooldownTimeLeft > 0
               }
@@ -295,14 +285,20 @@ export const YourUniversity = ({
         {!isSignedIn && codeSent && !disabled && (
           <div className="mt-2 space-y-14">
             <div className="flex items-center gap-2">
-              <Input
-                type="text"
-                inputMode="numeric"
-                pattern="[0-9]*"
-                maxLength={6}
-                placeholder="Enter 6-digit code"
-                {...register("verificationCode")}
-                className="max-w-[200px]"
+              <Controller
+                control={control}
+                name="verificationCode"
+                render={({ field }) => (
+                  <Input
+                    type="text"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    maxLength={6}
+                    placeholder="Enter 6-digit code"
+                    {...field}
+                    className="max-w-[200px]"
+                  />
+                )}
               />
               <p className="text-sm text-gray-600">
                 Enter the 6-digit code sent to your email

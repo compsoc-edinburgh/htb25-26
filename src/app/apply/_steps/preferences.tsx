@@ -2,7 +2,6 @@ import {
   Control,
   Controller,
   type FieldErrors,
-  type UseFormRegister,
   type UseFormWatch,
 } from "react-hook-form";
 import { Textarea } from "~/components/ui/textarea";
@@ -12,17 +11,11 @@ import { ApplicationFormValues } from "./types";
 
 interface PreferencesProps {
   control: Control<ApplicationFormValues>;
-  register: UseFormRegister<ApplicationFormValues>;
   watch: UseFormWatch<ApplicationFormValues>;
   errors?: FieldErrors<ApplicationFormValues>;
 }
 
-export const Preferences = ({
-  control,
-  register,
-  watch,
-  errors,
-}: PreferencesProps) => {
+export const Preferences = ({ control, watch, errors }: PreferencesProps) => {
   return (
     <div className="grid gap-6">
       <div className="mb-5 flex max-w-md flex-col gap-2">
@@ -72,10 +65,16 @@ export const Preferences = ({
               Where are you travelling from *
             </Label>
           </div>
-          <Textarea
-            rows={4}
-            placeholder="e.g. Edinburgh, Glasgow, Manchester, etc."
-            {...register("travellingFrom")}
+          <Controller
+            control={control}
+            name="travellingFrom"
+            render={({ field }) => (
+              <Textarea
+                rows={4}
+                placeholder="e.g. Edinburgh, Glasgow, Manchester, etc."
+                {...field}
+              />
+            )}
           />
           {errors?.travellingFrom?.message && (
             <p className="text-sm text-red-600">
@@ -84,23 +83,6 @@ export const Preferences = ({
           )}
         </div>
       )}
-      {/* <div className="flex max-w-xl flex-col gap-2">
-        <div className="my-5 flex items-center gap-2">
-          <Label className="font-whyte text-xl">
-            Which email should we use for event communications?
-          </Label>
-        </div>
-        <Input
-          type="email"
-          placeholder="john.doe@gmail.com"
-          {...register("calendarEmail")}
-        />
-        {errors?.calendarEmail?.message && (
-          <p className="text-sm text-red-600">
-            {String(errors.calendarEmail.message)}
-          </p>
-        )}
-      </div> */}
     </div>
   );
 };

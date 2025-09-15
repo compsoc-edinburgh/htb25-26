@@ -1,21 +1,16 @@
-import {
-  type Control,
-  type FieldErrors,
-  type UseFormRegister,
-} from "react-hook-form";
+import { Controller, type Control, type FieldErrors } from "react-hook-form";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { UserFormValues } from "./types";
 
 interface AboutYourselfProps {
-  control?: Control<UserFormValues>;
-  register: UseFormRegister<UserFormValues>;
+  control: Control<UserFormValues>;
   errors: FieldErrors<UserFormValues>;
   disabled?: boolean;
 }
 
 export const AboutYourself = ({
-  register,
+  control,
   errors,
   disabled,
 }: AboutYourselfProps) => {
@@ -28,10 +23,12 @@ export const AboutYourself = ({
         <div className="grid max-w-xl grid-cols-1 gap-4 md:grid-cols-2">
           <div className="flex flex-col gap-2">
             <Label htmlFor="firstName">First name *</Label>
-            <Input
-              id="firstName"
-              disabled={disabled}
-              {...register("firstName")}
+            <Controller
+              control={control}
+              name="firstName"
+              render={({ field }) => (
+                <Input id="firstName" disabled={disabled} {...field} />
+              )}
             />
             {errors?.firstName?.message && (
               <p className="text-sm text-red-600">
@@ -41,10 +38,12 @@ export const AboutYourself = ({
           </div>
           <div className="flex flex-col gap-2">
             <Label htmlFor="lastName">Last name *</Label>
-            <Input
-              id="lastName"
-              disabled={disabled}
-              {...register("lastName")}
+            <Controller
+              control={control}
+              name="lastName"
+              render={({ field }) => (
+                <Input id="lastName" disabled={disabled} {...field} />
+              )}
             />
             {errors?.lastName?.message && (
               <p className="text-sm text-red-600">
@@ -58,11 +57,17 @@ export const AboutYourself = ({
         <div className="my-5 flex items-center gap-2">
           <Label className="font-whyte text-xl">Pronouns *</Label>
         </div>
-        <Input
-          id="pronouns"
-          placeholder="e.g. they/them, she/her, he/him"
-          disabled={disabled}
-          {...register("pronouns")}
+        <Controller
+          control={control}
+          name="pronouns"
+          render={({ field }) => (
+            <Input
+              id="pronouns"
+              placeholder="e.g. they/them, she/her, he/him"
+              disabled={disabled}
+              {...field}
+            />
+          )}
         />
         {errors?.pronouns?.message && (
           <p className="text-sm text-red-600">
