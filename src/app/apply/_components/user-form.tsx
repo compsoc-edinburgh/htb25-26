@@ -8,12 +8,12 @@ import { AboutYourself, YourUniversity } from "../_steps";
 import { AccordionSection } from "./accordion";
 import { api } from "~/trpc/react";
 import { countries } from "country-data-list";
-import { useUser, SignInButton } from "@clerk/nextjs";
+import { useUser, SignInButton, SignOutButton } from "@clerk/nextjs";
 import { Button } from "~/components/ui/button";
 import { UserFormSchema, type UserFormValues } from "../_steps/types";
 
 export default function UserForm() {
-  const { isSignedIn } = useUser();
+  const { isSignedIn, user } = useUser();
   const updateUser = api.user.update.useMutation();
 
   const form = useFormPersist(
@@ -65,7 +65,7 @@ export default function UserForm() {
     >
       <div className="bg-white p-8 md:p-10 lg:p-12">
         <p className="mt-2 font-whyte text-xl font-bold">User</p>
-        {!isSignedIn && (
+        {!isSignedIn ? (
           <div className="mt-3 flex items-center gap-3">
             <span className="text-xs text-zinc-600">Already verified?</span>
             <SignInButton mode="modal" signUpForceRedirectUrl="/apply">
@@ -73,6 +73,22 @@ export default function UserForm() {
                 Sign in
               </Button>
             </SignInButton>
+          </div>
+        ) : (
+          <div className="mt-3 flex items-center gap-3">
+            <span className="text-xs text-zinc-600">
+              Signed in as:{" "}
+              <span className="font-medium underline">
+                {user?.primaryEmailAddress?.emailAddress ||
+                  user?.emailAddresses?.[0]?.emailAddress ||
+                  "Unknown"}
+              </span>
+            </span>
+            <SignOutButton signOutOptions={{ redirectUrl: "/apply" }}>
+              <Button type="button" variant="secondary" size="sm">
+                Sign out
+              </Button>
+            </SignOutButton>
           </div>
         )}
       </div>
