@@ -65,17 +65,9 @@ export const ApplicationFormSchema = z
       .string()
       .min(0, "Please select the number of hackathons you've attended"),
 
-    projectAim: z
-      .string()
-      .max(500, "Project aim must be 500 characters or less")
-      .optional()
-      .or(z.literal("")),
+    projectAim: z.string().optional().or(z.literal("")),
 
-    projectStack: z
-      .string()
-      .max(200, "Technology stack must be 200 characters or less")
-      .optional()
-      .or(z.literal("")),
+    projectStack: z.string().optional().or(z.literal("")),
 
     projectLink: z.string().optional(),
 
@@ -83,11 +75,7 @@ export const ApplicationFormSchema = z
       required_error: "Please specify if you need travel reimbursement",
     }),
 
-    travellingFrom: z
-      .string()
-      .max(100, "Location must be 100 characters or less")
-      .optional()
-      .or(z.literal("")),
+    travellingFrom: z.string().optional().or(z.literal("")),
   })
   .refine(
     (data) => {
