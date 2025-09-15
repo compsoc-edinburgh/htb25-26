@@ -45,7 +45,7 @@ export const ApplicationFormSchema = z
 
     cvUrl: z
       .string()
-      .optional()
+      .min(1, "CV URL is required")
       .refine(
         (val) => !val || val === "" || z.string().url().safeParse(val).success,
         {
