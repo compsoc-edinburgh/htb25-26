@@ -135,8 +135,14 @@ export default function ApplicationForm({
       onSubmit={form.handleSubmit(onSubmit)}
       className="w-full divide-y divide-zinc-200"
     >
-      <div className="flex items-center bg-white p-8 md:p-10 lg:p-12">
+      <div className="bg-white p-8 md:p-10 lg:p-12">
         <p className="mt-2 font-whyte text-xl font-bold">Application</p>
+        <div className="mt-3 flex items-center gap-3">
+          <span className="text-xs text-zinc-600">
+            You can submit your application now and continue updating it anytime
+            until the deadline.
+          </span>
+        </div>
       </div>
 
       <AccordionSection

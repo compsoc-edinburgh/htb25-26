@@ -201,8 +201,8 @@ export default function UserForm() {
       >
         <div className="bg-white p-8 md:p-10 lg:p-12">
           <p className="mt-2 font-whyte text-xl font-bold">User</p>
-          {!isSignedIn ? (
-            <div className="mt-3 flex items-center gap-3">
+          <div className="mt-3 flex items-center gap-3">
+            {!isSignedIn ? (
               <span className="text-xs text-zinc-600">
                 Already have an account?{" "}
                 <Button
@@ -214,24 +214,24 @@ export default function UserForm() {
                   Sign in
                 </Button>
               </span>
-            </div>
-          ) : (
-            <div className="mt-3 flex items-center gap-3">
-              <span className="text-xs text-zinc-600">
-                Signed in as:{" "}
-                <span className="font-medium underline">
-                  {user?.primaryEmailAddress?.emailAddress ||
-                    user?.emailAddresses?.[0]?.emailAddress ||
-                    "Unknown"}
+            ) : (
+              <>
+                <span className="text-xs text-zinc-600">
+                  Signed in as:{" "}
+                  <span className="font-medium underline">
+                    {user?.primaryEmailAddress?.emailAddress ||
+                      user?.emailAddresses?.[0]?.emailAddress ||
+                      "Unknown"}
+                  </span>
                 </span>
-              </span>
-              <SignOutButton signOutOptions={{ redirectUrl: "/apply" }}>
-                <Button type="button" variant="secondary" size="sm">
-                  Sign out
-                </Button>
-              </SignOutButton>
-            </div>
-          )}
+                <SignOutButton signOutOptions={{ redirectUrl: "/apply" }}>
+                  <Button type="button" variant="secondary" size="sm">
+                    Sign out
+                  </Button>
+                </SignOutButton>
+              </>
+            )}
+          </div>
         </div>
         <AccordionSection
           id="about-yourself"
