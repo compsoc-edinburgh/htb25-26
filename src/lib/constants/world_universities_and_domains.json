@@ -144,6 +144,14 @@
     "state-province": null
   },
   {
+    "name": "BPP University",
+    "domains": ["my.bpp.com", "bpp.com"],
+    "web_pages": ["https://www.bpp.com"],
+    "country": "United Kingdom",
+    "alpha_two_code": "GB",
+    "state-province": null
+  },
+  {
     "name": "Bhagwan Parshuram Institute of Technology",
     "domains": ["bpitindia.edu.in", "bpitindia.in"],
     "web_pages": ["http://bpitindia.ac.in"],
@@ -67075,7 +67083,7 @@
     "domains": ["edgehill.ac.uk"],
     "country": "United Kingdom"
   },
-  
+
   {
     "web_pages": ["http://www.eselondon.ac.uk/"],
     "name": "European School of Economics",
