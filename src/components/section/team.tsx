@@ -333,7 +333,7 @@ const TeamCard: React.FC<{ member: TeamMember }> = ({ member }) => {
             </div>
             <p
               ref={bioRef}
-              className="mt-1 line-clamp-3 pr-3 text-[0.35rem] leading-tight sm:text-[0.6rem] xl:text-[0.7rem]"
+              className="mt-1 line-clamp-3 pr-3 text-[0.35rem] leading-tight sm:text-[0.55rem] xl:text-[0.65rem]"
             >
               {member.bio}
             </p>
