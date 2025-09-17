@@ -275,17 +275,18 @@ const sponsorsData = [
     website: "https://optiver.com",
   },
   {
-    name: "TBA SOON",
+    name: "Bending Spoons",
     tier: "SILVER",
-    overview: "Coming Soon",
+    overview:
+      "An Italian tech company that owns and operates popular digital products—including Evernote, Meetup, Remini and WeTransfer.",
     prizes: [
       { text: "suite pro delta", revealed: false },
       { text: "accessory nova", revealed: false },
       { text: "brand pack plus", revealed: false },
     ],
     number: "04",
-    logo: "/sponsors/image.png",
-    website: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    logo: "/sponsors/bending-spoons.png",
+    website: "https://bendingspoons.com",
   },
 ];
 
