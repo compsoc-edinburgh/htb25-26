@@ -178,7 +178,7 @@ export default function RegisterButton({ className }: RegisterButtonProps) {
         {/* Desktop renders inline; mobile uses portal */}
         {!isMobile && buttonEl}
       </div>
-      {mounted && isMobile
+      {mounted && isMobile 
         ? createPortal(
             <div
               className="absolute inset-x-4 bottom-6 z-10"
@@ -186,6 +186,7 @@ export default function RegisterButton({ className }: RegisterButtonProps) {
             >
               {buttonEl}
             </div>,
+            
             document.body
           )
         : null}

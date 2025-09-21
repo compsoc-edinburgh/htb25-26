@@ -5,6 +5,7 @@ import { Loader2 } from "lucide-react";
 import { useUser } from "@clerk/nextjs";
 import UserForm from "../../apply/_components/user-form";
 import ApplicationForm from "../../apply/_components/application-form";
+import TeamsBrowser from "./teams-browser";
 
 export default function Dashboard() {
   const { isLoaded } = useUser();
@@ -34,11 +35,7 @@ export default function Dashboard() {
           </div>
         );
       case "teams-browser":
-        return (
-          <div className="p-8">
-            <p className="text-xl text-gray-500">Teams Browser</p>
-          </div>
-        );
+        return <TeamsBrowser />;
       case "secret":
         return (
           <div className="p-8">
@@ -75,7 +72,7 @@ export default function Dashboard() {
                 </span>
               </div>
               <h1 className="font-hexaframe text-6xl font-black tracking-tight text-black">
-                YOUR APPLICATION
+              {activeTab === "teams-browser" ? "YOUR DASHBOARD" : "YOUR APPLICATION"}
               </h1>
             </div>
           </div>
@@ -93,9 +90,8 @@ export default function Dashboard() {
                 EDIT APPLICATION
               </button>
               <button
-                disabled
                 onClick={() => setActiveTab("teams-browser")}
-                className={`w-full cursor-not-allowed border-b border-zinc-200 py-10 text-lg tracking-wider transition-colors ${
+                className={`w-full border-b border-zinc-200 py-10 text-lg tracking-wider transition-colors ${
                   activeTab === "teams-browser"
                     ? "bg-black text-white"
                     : "text-zinc-400 hover:bg-gray-50 hover:text-black"
