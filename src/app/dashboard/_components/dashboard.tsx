@@ -6,6 +6,7 @@ import { useUser } from "@clerk/nextjs";
 import UserForm from "../../apply/_components/user-form";
 import ApplicationForm from "../../apply/_components/application-form";
 import TeamsBrowser from "./teams-browser";
+import YourTeam from "./your-team";
 
 export default function Dashboard() {
   const { isLoaded } = useUser();
@@ -43,11 +44,7 @@ export default function Dashboard() {
           </div>
         );
       case "your-team":
-        return (
-          <div className="p-8">
-            <p className="text-xl text-gray-500">Your Team - Coming Soon</p>
-          </div>
-        );
+        return <YourTeam />;
       default:
         return null;
     }
@@ -111,9 +108,8 @@ export default function Dashboard() {
                 *Secret*
               </button>
               <button
-                disabled
                 onClick={() => setActiveTab("your-team")}
-                className={`w-full cursor-not-allowed py-10 text-lg tracking-wider transition-colors ${
+                className={`w-full py-10 text-lg tracking-wider transition-colors ${
                   activeTab === "your-team"
                     ? "bg-black text-white"
                     : "text-zinc-400 hover:bg-gray-50 hover:text-black"
