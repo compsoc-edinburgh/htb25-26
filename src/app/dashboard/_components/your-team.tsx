@@ -69,7 +69,7 @@ export default function YourTeam(){
         label="CONTACT"
         defaultValue="team.unity@example.com"
       />
-      <div className="mt-8 flex space-x-4">
+      <div className="mt-8 ml-4 flex space-x-4">
         <button className="px-4 py-2 bg-black text-white text-xs font-semibold underline rounded hover:bg-zinc-200 hover:text-black transition">
             LEAVE TEAM
         </button>
