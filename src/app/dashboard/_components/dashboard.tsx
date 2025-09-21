@@ -69,7 +69,7 @@ export default function Dashboard() {
                 </span>
               </div>
               <h1 className="font-hexaframe text-6xl font-black tracking-tight text-black">
-              {activeTab === "teams-browser" ? "YOUR DASHBOARD" : "YOUR APPLICATION"}
+              {activeTab === "teams-browser" || activeTab === "your-team" ? "YOUR DASHBOARD" : "YOUR APPLICATION"}
               </h1>
             </div>
           </div>
