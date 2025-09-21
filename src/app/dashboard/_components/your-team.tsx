@@ -39,24 +39,44 @@ export default function YourTeam(){
             );
           }
     
-    return(
-        <div className="flex h-full w-[62.7%] bg-gray-200 p-4 flex-col">
-        <p className="ml-2 mt-2 font-hexaframe font-bold text-4xl text-black">
-          TEAM UNITY
-        </p>
-      
-        <div className="mt-6 ml-4 flex items-center">
-          <div className="mr-2 h-2 w-2 bg-black"></div>
-          <span className="text-xs tracking-wider text-black">
-            TEAM MEMBERS
-          </span>
-        </div>
-        <ul className="ml-6 mt-2 uppercase text-xs font-bold space-y-0">
-            <li className="py-0.5 p-2">Member 1</li>
-            <li className="py-0.5 p-2">Member 2</li>
-            <li className="py-0.5 p-2">Member 3</li>
-            <li className="py-0.5 p-2">Member 4</li>
-        </ul>
+          const members = ["Member 1", "Member 2", "Member 3", "Member 4"];
+          const [selectedMember, setSelectedMember] = useState<string | null>(null);
+        
+          return (
+            <div className="flex h-full w-[62.7%] bg-gray-200 p-4 flex-col relative">
+              <p className="ml-2 mt-2 font-hexaframe font-bold text-4xl text-black">
+                TEAM UNITY
+              </p>
+        
+              {/* TEAM MEMBERS */}
+              <div className="mt-6 ml-4 flex items-center">
+                <div className="mr-2 h-2 w-2 bg-black"></div>
+                <span className="text-xs tracking-wider text-black">TEAM MEMBERS</span>
+              </div>
+        
+              <ul className="ml-6 mt-2 text-xs space-y-1">
+                {members.map((member) => (
+                    <li
+                    key={member}
+                    className="cursor-pointer" 
+                    onClick={() => setSelectedMember(member)}
+                    >
+                    <div className="inline-flex items-center px-2 rounded hover:bg-black hover:text-white transition group">
+                        <span>{member}</span>
+                        <button
+                        className="ml-4 text-xs underline text-white opacity-0 group-hover:opacity-100 transition"
+                        onClick={(e) => {
+                            e.stopPropagation(); 
+                            alert(`Removed ${member}`);
+                        }}
+                        >
+                        REMOVE
+                        </button>
+                    </div>
+                    </li>
+                ))}
+                </ul>
+
         <EditField
         label="ABOUT THE TEAM"
         defaultValue="Example team description blah blah."
