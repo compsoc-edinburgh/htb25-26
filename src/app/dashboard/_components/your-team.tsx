@@ -43,7 +43,7 @@ export default function YourTeam(){
           const [selectedMember, setSelectedMember] = useState<string | null>(null);
         
           return (
-            <div className="flex h-full w-[62.7%] bg-gray-200 p-4 flex-col relative">
+            <div className="flex h-full w-[63%] bg-gray-200 p-4 flex-col relative">
               <p className="ml-2 mt-2 font-hexaframe font-bold text-4xl text-black">
                 TEAM UNITY
               </p>
@@ -54,7 +54,7 @@ export default function YourTeam(){
                 <span className="text-xs tracking-wider text-black">TEAM MEMBERS</span>
               </div>
         
-              <ul className="ml-6 mt-2 text-xs space-y-1">
+              <ul className="ml-6 mt-2 text-xs uppercase space-y-1">
                 {members.map((member) => (
                     <li
                     key={member}
@@ -97,6 +97,37 @@ export default function YourTeam(){
             UPLOAD TEAM PFP
         </button>
         </div>
+        {selectedMember && (
+      <div className="fixed top-[34%] left-[67%] h-[54%] w-[31.5%] bg-black text-white p-6 shadow-lg flex flex-col z-50">
+        <button
+          className="self-end mb-6 text-white underline hover:opacity-70"
+          onClick={() => setSelectedMember(null)}
+        >
+          Close
+        </button>
+        <h2 className="-mt-12 text-3xl uppercase font-hexaframe font-bold">{selectedMember}</h2>
+        <div className="mt-6 ml-4 flex items-center">
+            <div className="mr-2 h-2 w-2 bg-white"></div>
+            <span className="text-xs tracking-wider text-white">UNIVERSITY</span>
+        </div>
+        <div className="ml-8 mt-3 text-xs font-bold uppercase space-y-1">University of Edinburgh</div>
+        <div className="mt-6 ml-4 flex items-center">
+            <div className="mr-2 h-2 w-2 bg-white"></div>
+            <span className="text-xs tracking-wider text-white">YEAR OF UNIVERSITY</span>
+        </div>
+        <div className="ml-8 mt-3 text-xs font-bold uppercase space-y-1">3rd Year</div>
+        <div className="mt-6 ml-4 flex items-center">
+            <div className="mr-2 h-2 w-2 bg-white"></div>
+            <span className="text-xs tracking-wider text-white">BIO</span>
+        </div>
+        <div className="ml-8 mt-3 text-xs font-bold uppercase space-y-1">Hi. Uh. Bio goes here</div>
+        <div className="mt-6 ml-4 flex items-center">
+            <div className="mr-2 h-2 w-2 bg-white"></div>
+            <span className="text-xs tracking-wider text-white">SOCIALS</span>
+        </div>
+        <div className="ml-8 mt-3 text-xs font-bold uppercase space-y-1">DISCORD | INSTA | EMAIL | CLUB PENGUIN</div>
+      </div>
+    )}
       </div>
     );
 }
