@@ -106,16 +106,46 @@ export default function YourTeam(){
           Close
         </button>
         <h2 className="-mt-12 text-3xl uppercase font-hexaframe font-bold">{selectedMember}</h2>
-        <div className="mt-6 ml-4 flex items-center">
-            <div className="mr-2 h-2 w-2 bg-white"></div>
-            <span className="text-xs tracking-wider text-white">UNIVERSITY</span>
+        <div className="mt-6 ml-4 grid grid-cols-2 gap-x-8">
+            <div>
+                <div className="flex items-center">
+                <div className="mr-2 h-2 w-2 bg-white"></div>
+                <span className="text-xs tracking-wider text-white">UNIVERSITY</span>
+                </div>
+                <div className="ml-4 mt-2 text-xs font-bold uppercase">
+                University of Edinburgh
+                </div>
+            </div>
+            <div>
+                <div className="flex items-center">
+                <div className="mr-2 h-2 w-2 bg-white"></div>
+                <span className="text-xs tracking-wider text-white">WORK EXPERIENCE</span>
+                </div>
+                <div className="ml-4 mt-2 text-xs font-bold uppercase">
+                2 Years slay
+                </div>
+            </div>
         </div>
-        <div className="ml-8 mt-3 text-xs font-bold uppercase space-y-1">University of Edinburgh</div>
-        <div className="mt-6 ml-4 flex items-center">
-            <div className="mr-2 h-2 w-2 bg-white"></div>
-            <span className="text-xs tracking-wider text-white">YEAR OF UNIVERSITY</span>
+        <div className="mt-6 ml-4 grid grid-cols-2 gap-x-8">
+            <div>
+                <div className="flex items-center">
+                <div className="mr-2 h-2 w-2 bg-white"></div>
+                <span className="text-xs tracking-wider text-white">YEAR OF UNIVERSITY</span>
+                </div>
+                <div className="ml-4 mt-2 text-xs font-bold uppercase">
+                3rd year
+                </div>
+            </div>
+            <div>
+                <div className="flex items-center">
+                <div className="mr-2 h-2 w-2 bg-white"></div>
+                <span className="text-xs tracking-wider text-white">RESUME/CV</span>
+                </div>
+                <div className="ml-4 mt-2 text-xs font-bold uppercase">
+                Link to CV here
+                </div>
+            </div>
         </div>
-        <div className="ml-8 mt-3 text-xs font-bold uppercase space-y-1">3rd Year</div>
         <div className="mt-6 ml-4 flex items-center">
             <div className="mr-2 h-2 w-2 bg-white"></div>
             <span className="text-xs tracking-wider text-white">BIO</span>
