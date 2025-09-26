@@ -10,7 +10,6 @@ export default function YourTeam(){
         
             return (
               <div className="mt-6 ml-4 flex flex-col w-full">
-                {/* Label + Edit button */}
                 <div className="flex items-center justify-between mb-2 w-full">
                   <div className="flex items-center">
                     <div className="mr-2 h-2 w-2 bg-black"></div>
@@ -43,7 +42,8 @@ export default function YourTeam(){
           const [selectedMember, setSelectedMember] = useState<string | null>(null);
         
           return (
-            <div className="flex h-full w-[63%] bg-gray-200 p-4 flex-col relative">
+            <div className="flex relative w-full h-full">
+            <div className="w-[63%] bg-gray-200 p-4 flex-col relative">
               <p className="ml-2 mt-2 font-hexaframe font-bold text-4xl text-black">
                 TEAM UNITY
               </p>
@@ -97,8 +97,9 @@ export default function YourTeam(){
             UPLOAD TEAM PFP
         </button>
         </div>
+        </div>
         {selectedMember && (
-      <div className="fixed top-[34%] left-[67%] h-[54%] w-[31.5%] bg-black text-white p-6 shadow-lg flex flex-col z-50">
+    <div className="absolute left-[63%] w-[calc(35%+7px)] top-0 bottom-0 bg-black text-white p-8 shadow-lg flex flex-col z-50">
         <button
           className="self-end mb-6 text-white underline hover:opacity-70"
           onClick={() => setSelectedMember(null)}
