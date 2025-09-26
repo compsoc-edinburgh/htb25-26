@@ -47,7 +47,7 @@ export default function ApplicationForm({
   });
 
   useEffect(() => {
-    if (defaults && typeof defaults === "object" && defaults !== null) {
+    if (defaults && typeof defaults === "object") {
       form.reset({
         teamId: undefined,
         type: "individual",
@@ -106,7 +106,7 @@ export default function ApplicationForm({
             projectDescription,
             needsReimbursement: values.needsReimbursement,
             travellingFrom:
-              values.needsReimbursement === true
+              values.needsReimbursement
                 ? values.travellingFrom || undefined
                 : undefined,
           }),
