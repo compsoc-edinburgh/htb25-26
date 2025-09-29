@@ -1,5 +1,4 @@
 import { api } from "~/trpc/server";
-import AccordionForm from "./accordion-form";
 import { redirect } from "next/navigation";
 
 export default async function ApplicationPage() {
@@ -9,5 +8,5 @@ export default async function ApplicationPage() {
     return redirect("/status");
   }
 
-  return <AccordionForm />;
+  return redirect("/applications-closed");
 }

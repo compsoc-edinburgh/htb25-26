@@ -253,8 +253,11 @@ const ActionButton = ({ mobile = false }: { mobile?: boolean }) => {
 
   // TODO: Change this to DASHBOARD when the dashboard is ready
   const buttonText =
-    isSignedIn && application.data ? "APPLICATION STATUS" : "APPLY";
-  const href = isSignedIn && application.data ? "/status" : "/apply";
+    isSignedIn && application.data
+      ? "APPLICATION STATUS"
+      : "APPLICATIONS CLOSED";
+  const href =
+    isSignedIn && application.data ? "/status" : "/applications-closed";
 
   // Mobile version - simple text link
   if (mobile) {
@@ -370,13 +373,6 @@ const MobileDrawer = ({
             </div>
             <div className="-mt-0.5 basis-2/3">
               <div className="flex flex-col gap-1 text-[11px] tracking-wide">
-                <a
-                  href="/apply"
-                  className="text-white"
-                  onClick={() => onOpenChange(false)}
-                >
-                  REGISTER
-                </a>
                 <ActionButton mobile />
                 <a
                   href="/volunteer"

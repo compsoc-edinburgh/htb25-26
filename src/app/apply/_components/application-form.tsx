@@ -105,10 +105,9 @@ export default function ApplicationForm({
             hackathonsCount: values.hackathonsCount,
             projectDescription,
             needsReimbursement: values.needsReimbursement,
-            travellingFrom:
-              values.needsReimbursement
-                ? values.travellingFrom || undefined
-                : undefined,
+            travellingFrom: values.needsReimbursement
+              ? values.travellingFrom || undefined
+              : undefined,
           }),
           createApplication.mutateAsync({
             team_id: values.teamId || undefined,
