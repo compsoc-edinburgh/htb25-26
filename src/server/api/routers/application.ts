@@ -269,6 +269,13 @@ export const applicationRouter = createTRPCRouter({
         user: true,
         team: true,
       },
+      orderBy: [
+        { team_id: "asc" },
+        { team: { name: "asc" } },
+        { user: { last_name: "asc" } },
+        { user: { first_name: "asc" } },
+        { created_at: "asc" },
+      ],
     });
   }),
   checkEmailExists: publicProcedure
