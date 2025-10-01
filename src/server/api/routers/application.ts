@@ -18,6 +18,16 @@ export const applicationRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
+      const applcicationClosed = true;
+
+      if (applcicationClosed) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message:
+            "Applications are currently closed. Please check back later.",
+        });
+      }
+
       const user = await ctx.db.user.findUnique({
         where: {
           id: ctx.auth.userId,
@@ -259,6 +269,13 @@ export const applicationRouter = createTRPCRouter({
         user: true,
         team: true,
       },
+      orderBy: [
+        { team_id: "asc" },
+        { team: { name: "asc" } },
+        { user: { last_name: "asc" } },
+        { user: { first_name: "asc" } },
+        { created_at: "asc" },
+      ],
     });
   }),
   checkEmailExists: publicProcedure

@@ -33,8 +33,11 @@ export const YourWorkExperience = ({
   return (
     <div className="grid gap-6">
       <div className="flex max-w-xl flex-col gap-2">
-        <div className="my-5 flex items-center gap-2">
+        <div className="my-5 items-center">
           <Label className="font-whyte text-xl">Your CV *</Label>
+          <div className="text-xs text-zinc-500">
+            Please ensure your file is smaller than 2 MB.
+          </div>
         </div>
         <Controller
           control={control}

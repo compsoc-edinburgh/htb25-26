@@ -56,7 +56,7 @@ export default function ManageApplication() {
 
   useEffect(() => {
     if (!application.isLoading && !application.data) {
-      router.push("/apply");
+      router.push("/applications-closed");
     }
   }, [application.isLoading, application.data, router]);
 

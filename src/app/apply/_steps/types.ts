@@ -24,9 +24,7 @@ export const UserFormSchema = z.object({
   countryAlpha3: z.string().min(1, "Please select a country"),
   universityName: z.string().min(1, "University name is required"),
   universityYear: z.string().min(1, "Please select your year of study"),
-  universityEmail: z
-    .string()
-    .email("Please enter a valid email address"),
+  universityEmail: z.string().email("Please enter a valid email address"),
   verificationCode: z.string().optional(),
   codeSent: z.boolean(),
   authFlow: z.enum(["signup", "signin"]).optional(),

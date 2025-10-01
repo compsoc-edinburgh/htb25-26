@@ -2,7 +2,6 @@
 
 import NavbarLayout from "~/components/layout/navbar-layout";
 import { hackathonEvents } from "~/lib/constants/schedule";
-import RegisterButton from "~/components/module/register-button";
 import ScheduleTimeline from "~/components/module/schedule-timeline";
 import Sponsors from "~/components/section/sponsors";
 import FAQSection from "~/components/section/faq";
@@ -43,7 +42,6 @@ export default function Page() {
                 12th year! Join us in Edinburgh for a weekend of coding and
                 creativity, no matter your experience level.
               </p>
-              <RegisterButton />
             </div>
           </div>
         </NavbarLayout>
