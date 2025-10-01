@@ -30,7 +30,7 @@ export default function Page() {
   }
 
   if (!application.data) {
-    redirect("/apply");
+    redirect("/applications-closed");
   }
 
   const getStatusConfig = (status: ApplicationStatus) => {

@@ -5,13 +5,16 @@ import { useUser } from "@clerk/nextjs";
 import { Button } from "~/components/ui/button";
 import SignInDrawer from "~/components/module/sign-in";
 import { useRouter } from "next/navigation";
+import { api } from "~/trpc/react";
 
 export default function ApplicationsClosedWithSignIn() {
   const { isSignedIn, isLoaded } = useUser();
+  const application = api.application.getUserApplication.useQuery();
+
   const [signInOpen, setSignInOpen] = useState(false);
   const router = useRouter();
 
-  if (isSignedIn) {
+  if (isSignedIn && application.data) {
     return router.push("/status");
   }
 

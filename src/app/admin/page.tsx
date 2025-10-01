@@ -8,16 +8,15 @@ import { columns } from "./_table/columns";
 export default async function AdminPage() {
   const { sessionClaims } = await auth();
 
-  if (sessionClaims?.metadata.role !== "admin") {
+  if (sessionClaims?.metadata?.role !== "admin") {
     notFound();
   }
 
   const applications = await api.application.getApplications();
 
   return (
-    <div className="mx-auto w-full max-w-screen-md py-20">
-      <h1 className="text-center text-2xl font-bold">Manage applications</h1>
-      <div className="mx-auto my-10">
+    <div className="mx-auto w-full p-20">
+      <div className="mx-auto">
         <DataTable columns={columns} data={applications} />
       </div>
     </div>
