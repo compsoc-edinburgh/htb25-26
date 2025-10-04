@@ -15,7 +15,7 @@ export default async function AdminPage() {
   const applications = await api.application.getApplications();
 
   return (
-    <div className="mx-auto w-full p-20">
+    <div className="mx-auto w-full py-10 px-10">
       <div className="mx-auto">
         <DataTable columns={columns} data={applications} />
       </div>

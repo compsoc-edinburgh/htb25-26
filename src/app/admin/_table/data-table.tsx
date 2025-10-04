@@ -182,7 +182,7 @@ export function DataTable<TValue>({ columns, data }: DataTableProps<TValue>) {
           </DropdownMenu>
         </div>
       </div>
-      <div className="max-h-[calc(100vh-300px)] overflow-auto">
+      <div className="max-h-[75vh] overflow-auto">
         <Table>
           <TableHeader className="sticky top-0 z-10 bg-white">
             {table.getHeaderGroups().map((headerGroup) => (
