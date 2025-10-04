@@ -1,25 +1,15 @@
 "use client";
 import { api } from "~/trpc/react";
 import { Loader2 } from "lucide-react";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { Button } from "~/components/ui/button";
 import Link from "next/link";
 
 type ApplicationStatus = "pending" | "accepted" | "rejected";
 
-interface Application {
-  id: string;
-  status: ApplicationStatus;
-  rejection_reason?: string | null;
-  created_at: Date;
-  user: {
-    first_name?: string | null;
-    last_name?: string | null;
-  };
-}
-
 export default function Page() {
   const application = api.application.getUserApplication.useQuery();
+  const router = useRouter();
 
   if (application.isLoading) {
     return (
@@ -58,8 +48,7 @@ export default function Page() {
           title: "Application update",
           messages: [
             "Thank you for your interest in",
-            application.data?.rejection_reason ||
-              "Unfortunately, we can't offer you a place this time.",
+            "Unfortunately, we can't offer you a place this time.",
             "We encourage you to apply again next year.",
           ],
         } as const;
@@ -67,10 +56,6 @@ export default function Page() {
   };
 
   const config = getStatusConfig(application.data?.status);
-  const userName =
-    application.data?.user.first_name && application.data?.user.last_name
-      ? `${application.data.user.first_name} ${application.data.user.last_name}`
-      : "there";
 
   return (
     <div className="relative flex min-h-[70vh] items-center justify-center">
@@ -140,6 +125,15 @@ export default function Page() {
                   variant="outline"
                 >
                   <Link href={"/apply/edit"}>Edit application</Link>
+                </Button>
+              )}
+              {application.data?.status === "accepted" && (
+                <Button
+                  onClick={() => router.push("/dashboard")}
+                  className="h-9 w-full px-4 text-xs sm:w-auto"
+                  variant="outline"
+                >
+                  View dashboard
                 </Button>
               )}
             </div>

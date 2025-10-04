@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -19,7 +16,6 @@ model User {
   country              String?
   university_name      String?
   university_year      String?
-  university_email     String?
   cv_url               String?
   portfolio_url        String?
   placements_count     String?
@@ -29,7 +25,6 @@ model User {
   travelling_from      String?
   calendar_email       String?
   
-  // Onboarding
   dietary_restrictions String?
   pronouns             String?
 
@@ -45,11 +40,7 @@ model User {
   applications Application[]
 
   created_at DateTime @default(now())
-  created_by String?
   updated_at DateTime @updatedAt
-  updated_by String?
-
-  challengeCompletions ChallengeCompletion[]
 }
 
 model Team {
@@ -58,11 +49,30 @@ model Team {
   code         String        @unique
   members      User[]
   applications Application[]
+  teamSearch   TeamSearch?
 
   created_at DateTime @default(now())
   created_by String?
   updated_at DateTime @updatedAt
-  updated_by String?
+}
+
+enum TeamSearchStatus {
+  discoverable
+  hidden
+}
+
+model TeamSearch {
+  id          String           @id @default(cuid())
+  team_id     String           @unique
+  team        Team             @relation(fields: [team_id], references: [id], onDelete: Cascade)
+  
+  about       String?
+  note        String?
+  contact     String?
+  status      TeamSearchStatus @default(hidden)
+  
+  created_at  DateTime         @default(now())
+  updated_at  DateTime         @updatedAt
 }
 
 enum ApplicationStatus {
@@ -79,26 +89,7 @@ model Application {
   team    Team?   @relation(fields: [team_id], references: [id])
 
   status           ApplicationStatus @default(pending)
-  rejection_reason String?
 
   created_at DateTime @default(now())
-  created_by String?
   updated_at DateTime @updatedAt
-  updated_by String?
-}
-
-model MailingList {
-  id         String   @id @default(cuid())
-  email      String   @unique
-  token      String   @default(uuid()) @unique
-  created_at DateTime @default(now())
-}
-
-model ChallengeCompletion {
-    id        String   @id @default(cuid())
-    userId    String
-    createdAt DateTime @default(now())
-    user      User     @relation(fields: [userId], references: [id])
-
-    @@unique([userId])
 }

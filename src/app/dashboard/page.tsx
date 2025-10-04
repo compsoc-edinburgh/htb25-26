@@ -5,10 +5,18 @@ import { api } from "~/trpc/server";
 
 export default async function ApplicationPage() {
   const user = await auth();
-  if (!user) redirect("/apply");
+  if (!user.userId) {
+    redirect("/apply");
+  }
 
   const application = await api.application.getUserApplication();
-  if (!application) redirect("/apply");
+  if (!application) {
+    redirect("/apply");
+  }
 
-  return <Dashboard />;
+  if (application.status !== "accepted") {
+    redirect("/status");
+  }
+
+  return <Dashboard user={application.user} />;
 }
