@@ -105,11 +105,11 @@ export const columns: ColumnDef<Application>[] = [
     size: 250,
   },
   {
-    accessorKey: "user.university_email",
-    header: "University Email",
+    accessorKey: "user.email",
+    header: "Email",
     cell: ({ row }) => (
       <div className="min-w-[180px] font-mono text-xs">
-        {row.original.user.university_email || "—"}
+        {row.original.user.email || "—"}
       </div>
     ),
     size: 200,
