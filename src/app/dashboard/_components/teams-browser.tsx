@@ -232,7 +232,9 @@ function TeamMembersList({
                 rel="noopener noreferrer"
                 className="mt-2 inline-flex items-center gap-1 text-xs text-white underline hover:no-underline"
               >
-                View Portfolio
+                {member.portfolio_url.includes("linkedin.com")
+                  ? "View LinkedIn"
+                  : "View Portfolio"}
                 <ExternalLink className="h-3 w-3" />
               </a>
             )}
