@@ -7,6 +7,7 @@ import { useState, MouseEvent } from "react";
 import { gsap } from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { ScrambleTextPlugin } from "gsap/ScrambleTextPlugin";
+import SignInDrawer from "~/components/module/sign-in";
 
 import {
   Drawer,
@@ -209,7 +210,13 @@ const NavLinks = ({
     </div>
   );
 };
-const ActionButton = ({ mobile = false }: { mobile?: boolean }) => {
+const ActionButton = ({
+  mobile = false,
+  onOpenSignIn,
+}: {
+  mobile?: boolean;
+  onOpenSignIn?: () => void;
+}) => {
   const { isSignedIn } = useUser();
   const application = api.application.getUserApplication.useQuery();
 
@@ -251,16 +258,62 @@ const ActionButton = ({ mobile = false }: { mobile?: boolean }) => {
     }
   };
 
-  // TODO: Change this to DASHBOARD when the dashboard is ready
-  const buttonText =
-    isSignedIn && application.data
-      ? "APPLICATION STATUS"
-      : "APPLICATIONS CLOSED";
-  const href =
-    isSignedIn && application.data ? "/status" : "/applications-closed";
+  const handleClick = () => {
+    if (!isSignedIn && onOpenSignIn) {
+      onOpenSignIn();
+    }
+  };
+
+  const buttonText = (() => {
+    if (isSignedIn && application.data) {
+      // If application status is pending or rejected, show status text
+      if (
+        application.data.status === "pending" ||
+        application.data.status === "rejected"
+      ) {
+        return "STATUS";
+      }
+      // Otherwise show dashboard
+      return "DASHBOARD";
+    }
+    return "SIGN IN";
+  })();
+  const href = (() => {
+    if (isSignedIn && application.data) {
+      // If application status is pending or rejected, go to status page
+      if (
+        application.data.status === "pending" ||
+        application.data.status === "rejected"
+      ) {
+        return "/status";
+      }
+      // Otherwise go to dashboard
+      return "/dashboard";
+    }
+    return "/applications-closed";
+  })();
 
   // Mobile version - simple text link
   if (mobile) {
+    if (!isSignedIn) {
+      return (
+        <button
+          onClick={handleClick}
+          className="text-left text-[11px] tracking-wide text-white"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <span className="authlink-text uppercase">
+            {isSignedIn === undefined || application.isLoading ? (
+              <Loader2 className="h-3 w-3 animate-spin" />
+            ) : (
+              buttonText
+            )}
+          </span>
+        </button>
+      );
+    }
+
     return (
       <Link
         href={href}
@@ -268,7 +321,7 @@ const ActionButton = ({ mobile = false }: { mobile?: boolean }) => {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        <span className="authlink-text">
+        <span className="authlink-text uppercase">
           {isSignedIn === undefined || application.isLoading ? (
             <Loader2 className="h-3 w-3 animate-spin" />
           ) : (
@@ -280,6 +333,33 @@ const ActionButton = ({ mobile = false }: { mobile?: boolean }) => {
   }
 
   // Desktop version - styled button
+  if (!isSignedIn) {
+    return (
+      <div className="flex items-center justify-end">
+        <button onClick={handleClick}>
+          <div
+            className={`${STYLES.signInButton} h-14 w-48 bg-white transition-colors duration-200 hover:bg-zinc-900 md:w-56`}
+            style={{ clipPath: STYLES.clipPath }}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+            <div
+              className="absolute inset-0 rounded-t-sm bg-zinc-900 transition-colors duration-200"
+              style={{ clipPath: rectClipPath }}
+            />
+            <span className="authlink-text relative z-10 flex items-center justify-center text-xs">
+              {isSignedIn === undefined || application.isLoading ? (
+                <Loader2 className="animate-spin" />
+              ) : (
+                buttonText
+              )}
+            </span>
+          </div>
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="flex items-center justify-end">
       <Link href={href}>
@@ -309,9 +389,11 @@ const ActionButton = ({ mobile = false }: { mobile?: boolean }) => {
 const MobileDrawer = ({
   open,
   onOpenChange,
+  onOpenSignIn,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  onOpenSignIn: () => void;
 }) => (
   <div className="flex h-full items-center px-4">
     <Drawer open={open} onOpenChange={onOpenChange}>
@@ -373,7 +455,7 @@ const MobileDrawer = ({
             </div>
             <div className="-mt-0.5 basis-2/3">
               <div className="flex flex-col gap-1 text-[11px] tracking-wide">
-                <ActionButton mobile />
+                <ActionButton mobile onOpenSignIn={onOpenSignIn} />
                 <a
                   href="/volunteer"
                   className="text-white"
@@ -420,52 +502,64 @@ const MobileDrawer = ({
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [signInDrawerOpen, setSignInDrawerOpen] = useState(false);
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-40 block grid-cols-[auto_1fr_auto] grid-rows-[auto_1fr_auto] md:grid">
-      <div
-        className="col-span-3 hidden h-5 w-full backdrop-blur-sm md:block"
-        aria-hidden="true"
-      />
-      <div
-        className="hidden h-full w-5 backdrop-blur-sm md:block"
-        aria-hidden="true"
-      />
-
-      <div className="flex h-full w-full flex-col rounded-lg md:border md:border-gray-200">
-        <nav className="pointer-events-auto relative flex h-14 w-full items-center justify-between rounded-t-lg border-b border-gray-200 bg-white px-2 md:px-0 md:pl-14">
-          <MobileDrawer open={mobileOpen} onOpenChange={setMobileOpen} />
-
-          <div className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center gap-4 px-4 lg:block">
-            <NavLinks />
-          </div>
-
-          <div className="flex h-full items-center px-4">
-            <div className="hidden lg:flex">
-              <ActionButton />
-            </div>
-          </div>
-        </nav>
-
+    <>
+      <div className="pointer-events-none fixed inset-0 z-40 block grid-cols-[auto_1fr_auto] grid-rows-[auto_1fr_auto] md:grid">
         <div
-          className="hidden h-full w-14 border-r border-gray-200 bg-white md:block"
+          className="col-span-3 hidden h-5 w-full backdrop-blur-sm md:block"
           aria-hidden="true"
         />
         <div
-          className="hidden h-14 w-full rounded-b-lg border-t border-gray-200 bg-white md:block"
+          className="hidden h-full w-5 backdrop-blur-sm md:block"
+          aria-hidden="true"
+        />
+
+        <div className="flex h-full w-full flex-col rounded-lg md:border md:border-gray-200">
+          <nav className="pointer-events-auto relative flex h-14 w-full items-center justify-between rounded-t-lg border-b border-gray-200 bg-white px-2 md:px-0 md:pl-14">
+            <MobileDrawer
+              open={mobileOpen}
+              onOpenChange={setMobileOpen}
+              onOpenSignIn={() => setSignInDrawerOpen(true)}
+            />
+
+            <div className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center gap-4 px-4 lg:block">
+              <NavLinks />
+            </div>
+
+            <div className="flex h-full items-center px-4">
+              <div className="hidden lg:flex">
+                <ActionButton onOpenSignIn={() => setSignInDrawerOpen(true)} />
+              </div>
+            </div>
+          </nav>
+
+          <div
+            className="hidden h-full w-14 border-r border-gray-200 bg-white md:block"
+            aria-hidden="true"
+          />
+          <div
+            className="hidden h-14 w-full rounded-b-lg border-t border-gray-200 bg-white md:block"
+            aria-hidden="true"
+          />
+        </div>
+
+        <div
+          className="hidden h-5 w-5 backdrop-blur-sm md:block"
+          aria-hidden="true"
+        />
+
+        <div
+          className="col-span-3 hidden h-5 w-full backdrop-blur-sm md:block"
           aria-hidden="true"
         />
       </div>
 
-      <div
-        className="hidden h-5 w-5 backdrop-blur-sm md:block"
-        aria-hidden="true"
+      <SignInDrawer
+        open={signInDrawerOpen}
+        onOpenChange={setSignInDrawerOpen}
       />
-
-      <div
-        className="col-span-3 hidden h-5 w-full backdrop-blur-sm md:block"
-        aria-hidden="true"
-      />
-    </div>
+    </>
   );
 }
