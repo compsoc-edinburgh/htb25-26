@@ -14,6 +14,7 @@ import {
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
 import { Badge } from "~/components/ui/badge";
+import ReactMarkdown from "react-markdown";
 
 const MAX_TEAM_SIZE = 6;
 
@@ -246,10 +247,12 @@ function TeamSection({
   title,
   content,
   subtitle,
+  useMarkdown = false,
 }: {
   title: string;
   content: string;
   subtitle?: string;
+  useMarkdown?: boolean;
 }) {
   return (
     <div>
@@ -257,7 +260,32 @@ function TeamSection({
         <div className="mr-2 h-2 w-2 bg-white" />
         <h4 className="text-xs uppercase text-zinc-300">{title}</h4>
       </div>
-      <p className="whitespace-pre-wrap text-sm text-white">{content}</p>
+      {useMarkdown ? (
+        <div className="prose prose-sm prose-invert mt-1 max-w-none text-white">
+          <ReactMarkdown
+            components={{
+              a: ({ node, ...props }) => (
+                <a
+                  {...props}
+                  className="text-blue-400 underline hover:text-blue-300"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                />
+              ),
+              p: ({ node, ...props }) => <p {...props} className="mb-2 text-sm" />,
+              strong: ({ node, ...props }) => <strong {...props} className="font-semibold" />,
+              em: ({ node, ...props }) => <em {...props} className="italic" />,
+              ul: ({ node, ...props }) => <ul {...props} className="list-disc list-inside mb-2" />,
+              ol: ({ node, ...props }) => <ol {...props} className="list-decimal list-inside mb-2" />,
+              li: ({ node, ...props }) => <li {...props} className="mb-1" />,
+            }}
+          >
+            {content}
+          </ReactMarkdown>
+        </div>
+      ) : (
+        <p className="whitespace-pre-wrap text-sm text-white">{content}</p>
+      )}
       {subtitle && <p className="mt-1 text-xs text-zinc-400">{subtitle}</p>}
     </div>
   );
@@ -341,6 +369,7 @@ function TeamCard({
             <TeamSection
               title="About the Team"
               content={team.teamSearch.about}
+              useMarkdown={true}
             />
           )}
           {team.teamSearch?.note && (

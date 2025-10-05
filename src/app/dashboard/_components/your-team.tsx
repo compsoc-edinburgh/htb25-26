@@ -7,6 +7,7 @@ import { Loader2, Copy, Check, Edit2 } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
+import ReactMarkdown from "react-markdown";
 import {
   Dialog,
   DialogContent,
@@ -405,6 +406,13 @@ export default function YourTeam() {
           )}
         </div>
 
+        <div className="rounded-md border border-[#d5d5d5] bg-[#f1f1f1] p-2 px-3">
+          <p className="text-grey-700 text-xs">
+            <span className="font-bold uppercase">Note:</span> Teams need 4-6
+            members to submit projects on the day of the hackathon.
+          </p>
+        </div>
+
         {isEditingTeamInfo && isTeamLead ? (
           <form
             onSubmit={teamSearchForm.handleSubmit(onSubmitTeamSearch)}
@@ -420,10 +428,14 @@ export default function YourTeam() {
               <textarea
                 id="about"
                 {...teamSearchForm.register("about")}
-                rows={3}
+                rows={4}
                 className="w-full rounded border border-zinc-300 p-3 text-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
-                placeholder="Tell others about your team..."
+                placeholder="Introduce your team! Share details about your members' backgrounds, skills, and experience. Include links to portfolios, LinkedIn profiles, or GitHub accounts. Mention what technologies you work with, your team's strengths, and what makes you unique. You can use **markdown** formatting."
               />
+              <p className="text-xs text-zinc-500">
+                Supports markdown formatting. Use **bold**, *italic*,
+                [links](url), and more.
+              </p>
             </div>
 
             <div className="space-y-2">
@@ -436,9 +448,9 @@ export default function YourTeam() {
               <textarea
                 id="note"
                 {...teamSearchForm.register("note")}
-                rows={2}
+                rows={3}
                 className="w-full rounded border border-zinc-300 p-3 text-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
-                placeholder="e.g., Looking for a frontend developer"
+                placeholder="Describe what kind of team members you're seeking. Be specific about skills (e.g., 'React developer', 'UI/UX designer', 'data scientist'), experience level, or particular expertise. Mention if you're looking for specific roles or complementary skills to round out your team."
               />
             </div>
 
@@ -452,7 +464,7 @@ export default function YourTeam() {
               <Input
                 id="contact"
                 {...teamSearchForm.register("contact")}
-                placeholder="Convienient way to contact you"
+                placeholder="Best way to reach you (e.g., Discord: @username, Email: team@example.com, Telegram: @teamlead)"
                 className="text-sm"
               />
             </div>
@@ -526,31 +538,71 @@ export default function YourTeam() {
               <p className="text-xs font-medium uppercase tracking-wider text-zinc-500">
                 About the Team
               </p>
-              <p className="mt-1 whitespace-pre-wrap text-base text-black">
-                {team.teamSearch?.about || (
-                  <span className="text-zinc-400">Not provided</span>
-                )}
-              </p>
+              {team.teamSearch?.about ? (
+                <div className="prose prose-sm mt-1 max-w-none text-black">
+                  <ReactMarkdown
+                    components={{
+                      a: ({ node, ...props }) => (
+                        <a
+                          {...props}
+                          className="text-blue-600 underline hover:text-blue-800"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        />
+                      ),
+                      p: ({ node, ...props }) => (
+                        <p {...props} className="mb-2" />
+                      ),
+                      strong: ({ node, ...props }) => (
+                        <strong {...props} className="font-semibold" />
+                      ),
+                      em: ({ node, ...props }) => (
+                        <em {...props} className="italic" />
+                      ),
+                    }}
+                  >
+                    {team.teamSearch.about}
+                  </ReactMarkdown>
+                </div>
+              ) : (
+                <p className="mt-1 text-base text-zinc-400">
+                  Introduce your team! Share details about your members'
+                  backgrounds, skills, and experience. Include links to
+                  portfolios, LinkedIn profiles, or GitHub accounts.
+                </p>
+              )}
             </div>
+
             <div>
               <p className="text-xs font-medium uppercase tracking-wider text-zinc-500">
                 Looking For
               </p>
-              <p className="mt-1 whitespace-pre-wrap text-base text-black">
-                {team.teamSearch?.note || (
-                  <span className="text-zinc-400">Not provided</span>
-                )}
-              </p>
+              {team.teamSearch?.note ? (
+                <p className="mt-1 whitespace-pre-wrap text-base text-black">
+                  {team.teamSearch.note}
+                </p>
+              ) : (
+                <p className="mt-1 text-base text-zinc-400">
+                  Describe what kind of team members you're seeking. Be specific
+                  about skills, experience level, or particular expertise.
+                </p>
+              )}
             </div>
+
             <div>
               <p className="text-xs font-medium uppercase tracking-wider text-zinc-500">
                 Contact
               </p>
-              <p className="mt-1 text-base text-black">
-                {team.teamSearch?.contact || (
-                  <span className="text-zinc-400">Not provided</span>
-                )}
-              </p>
+              {team.teamSearch?.contact ? (
+                <p className="mt-1 text-base text-black">
+                  {team.teamSearch.contact}
+                </p>
+              ) : (
+                <p className="mt-1 text-base italic text-zinc-400">
+                  Best way to reach you (e.g., Discord: @username, Email:
+                  team@example.com)
+                </p>
+              )}
             </div>
             <div>
               <p className="text-xs font-medium uppercase tracking-wider text-zinc-500">
@@ -559,13 +611,24 @@ export default function YourTeam() {
               <p className="mt-1 text-base capitalize text-black">
                 {team.teamSearch?.status || "hidden"}
               </p>
-              {members.length >= 6 && (
+              <p className="mt-1 text-xs text-zinc-400">
+                {team.teamSearch?.status === "discoverable"
+                  ? "Your team will appear in the Teams Browser for others to find"
+                  : "Your team won't appear in the Teams Browser"}
+              </p>
+            </div>
+
+            {members.length >= 6 && (
+              <div>
+                <p className="text-xs font-medium uppercase tracking-wider text-zinc-500">
+                  Team Status
+                </p>
                 <p className="mt-1 text-xs text-zinc-500">
                   Your team is full (6/6 members). Full teams cannot be set to
                   discoverable.
                 </p>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         )}
       </div>

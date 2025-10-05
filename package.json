@@ -61,6 +61,7 @@
     "react-csv": "^2.2.2",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.62.0",
+    "react-markdown": "^10.1.0",
     "react-use-measure": "^2.1.7",
     "resend": "^4.1.1",
     "server-only": "^0.0.1",
