@@ -8,7 +8,7 @@ export type Application = {
   id: string;
   status: ApplicationStatus;
   user: User;
-  team: Team | null;
+  team: (Team & { members: { first_name: string | null; last_name: string | null; }[] }) | null;
   created_at: Date;
 };
 
@@ -137,12 +137,15 @@ export const columns: ColumnDef<Application>[] = [
     size: 150,
   },
   {
-    accessorKey: "team.code",
-    header: "Team Code",
-    cell: ({ row }) => (
-      <div className="font-mono text-xs">{row.original.team?.code || "—"}</div>
-    ),
-    size: 100,
+    accessorKey: "team.members",
+    header: "Team Size",
+    cell: ({ row }) => {
+      const members = row.original.team?.members;
+      return (
+        <div className="text-center">{members ? members.length : "—"}</div>
+      );
+    },
+    size: 90,
   },
   {
     accessorKey: "user.placements_count",
@@ -170,7 +173,7 @@ export const columns: ColumnDef<Application>[] = [
     cell: ({ row }) => (
       <div className="min-w-[300px] max-w-[400px] py-1 leading-relaxed">
         {row.original.user.project_description ? (
-          <div className="text-sm">{row.original.user.project_description}</div>
+          <div className="text-[10px]">{row.original.user.project_description}</div>
         ) : (
           <span className="italic text-neutral-400">No description</span>
         )}
@@ -197,17 +200,5 @@ export const columns: ColumnDef<Application>[] = [
       </div>
     ),
     size: 150,
-  },
-  {
-    accessorKey: "user.dietary_restrictions",
-    header: "Dietary Requirements",
-    cell: ({ row }) => (
-      <div className="min-w-[150px]">
-        {row.original.user.dietary_restrictions || (
-          <span className="text-neutral-400">None</span>
-        )}
-      </div>
-    ),
-    size: 180,
   },
 ];

@@ -274,19 +274,33 @@ export const applicationRouter = createTRPCRouter({
       throw new TRPCError({ code: "FORBIDDEN" });
     }
 
-    return ctx.db.application.findMany({
+    const applications = await ctx.db.application.findMany({
       include: {
-        user: true,
-        team: true,
+        user: {
+          include: {
+            team: {
+              include: {
+                members: {
+                  select: { first_name: true, last_name: true },
+                },
+              },
+            },
+          },
+        },
       },
       orderBy: [
-        { team_id: "asc" },
-        { team: { name: "asc" } },
+        { user: { team_id: "asc" } },
+        { user: { team: { name: "asc" } } },
         { user: { last_name: "asc" } },
         { user: { first_name: "asc" } },
         { created_at: "asc" },
       ],
     });
+
+    return applications.map((app) => ({
+      ...app,
+      team: app.user.team,
+    }));
   }),
   checkEmailExists: publicProcedure
     .input(z.object({ email: z.string().email() }))
