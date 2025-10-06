@@ -274,11 +274,19 @@ function TeamSection({
                   rel="noopener noreferrer"
                 />
               ),
-              p: ({ node, ...props }) => <p {...props} className="mb-2 text-sm" />,
-              strong: ({ node, ...props }) => <strong {...props} className="font-semibold" />,
+              p: ({ node, ...props }) => (
+                <p {...props} className="mb-2 text-sm" />
+              ),
+              strong: ({ node, ...props }) => (
+                <strong {...props} className="font-semibold" />
+              ),
               em: ({ node, ...props }) => <em {...props} className="italic" />,
-              ul: ({ node, ...props }) => <ul {...props} className="list-disc list-inside mb-2" />,
-              ol: ({ node, ...props }) => <ol {...props} className="list-decimal list-inside mb-2" />,
+              ul: ({ node, ...props }) => (
+                <ul {...props} className="mb-2 list-inside list-disc" />
+              ),
+              ol: ({ node, ...props }) => (
+                <ol {...props} className="mb-2 list-inside list-decimal" />
+              ),
               li: ({ node, ...props }) => <li {...props} className="mb-1" />,
             }}
           >

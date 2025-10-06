@@ -82,7 +82,7 @@ export default function SignInDrawer({
     if (isSignedIn) {
       onOpenChange(false);
     }
-  }, [isSignedIn]);
+  }, [isSignedIn, onOpenChange]);
 
   useEffect(() => {
     if (!open) {

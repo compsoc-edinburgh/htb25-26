@@ -26,11 +26,12 @@ const DashboardComponent = ({
         <div className="flex-1 p-8 md:p-10 lg:p-12">
           <div className="mb-8">
             <div className="mb-2 flex items-center">
-              <span className="text-[0.6rem] flex items-center gap-1.5 font-normal tracking-wider text-black">
-               <span className="h-1.5 w-1.5 bg-black inline-block"></span>  {subtitle}
+              <span className="flex items-center gap-1.5 text-[0.6rem] font-normal tracking-wider text-black">
+                <span className="inline-block h-1.5 w-1.5 bg-black"></span>{" "}
+                {subtitle}
               </span>
             </div>
-            <h1 className="font-whyte pt-2 text-4xl font-black tracking-tight text-black ">
+            <h1 className="pt-2 font-whyte text-4xl font-black tracking-tight text-black">
               {title}
             </h1>
           </div>
@@ -55,7 +56,7 @@ const DashboardTabs = ({
   setActiveTab: (tab: TabKey) => void;
 }) => {
   const router = useRouter();
-  
+
   const tabs: { key: TabKey; label: string; disabled?: boolean }[] = [
     { key: "user", label: "USER" },
     { key: "teams-browser", label: "TEAMS BROWSER" },
@@ -67,7 +68,7 @@ const DashboardTabs = ({
     // Update state first for immediate UI feedback
     setActiveTab(tabKey);
     // Then update URL without causing a full page navigation
-    window.history.replaceState(null, '', `/dashboard?tab=${tabKey}`);
+    window.history.replaceState(null, "", `/dashboard?tab=${tabKey}`);
   };
 
   return (
@@ -78,7 +79,7 @@ const DashboardTabs = ({
           onClick={() => !tab.disabled && handleTabClick(tab.key)}
           disabled={tab.disabled}
           className={cn(
-            "w-full border-b border-zinc-200 py-8 text-sm tracking-wider transition-all duration-200 ease-in-out md:py-10 md:text-base lg:text-sm uppercase",
+            "w-full border-b border-zinc-200 py-8 text-sm uppercase tracking-wider transition-all duration-200 ease-in-out md:py-10 md:text-base lg:text-sm",
             {
               "bg-black text-white": activeTab === tab.key,
               "text-black hover:bg-gray-50 hover:underline":
@@ -97,11 +98,16 @@ const DashboardTabs = ({
 
 export default function Dashboard({ user }: { user: any }) {
   const searchParams = useSearchParams();
-  
+
   // Get initial tab from URL or default to "user"
   const getInitialTab = (): TabKey => {
-    const tabFromUrl = searchParams.get('tab') as TabKey;
-    const validTabs: TabKey[] = ["user", "teams-browser", "secret", "your-team"];
+    const tabFromUrl = searchParams.get("tab") as TabKey;
+    const validTabs: TabKey[] = [
+      "user",
+      "teams-browser",
+      "secret",
+      "your-team",
+    ];
     return validTabs.includes(tabFromUrl) ? tabFromUrl : "user";
   };
 
@@ -109,24 +115,32 @@ export default function Dashboard({ user }: { user: any }) {
 
   // Update tab when URL changes (for browser back/forward)
   useEffect(() => {
-    const tabFromUrl = searchParams.get('tab') as TabKey;
-    const validTabs: TabKey[] = ["user", "teams-browser", "secret", "your-team"];
+    const tabFromUrl = searchParams.get("tab") as TabKey;
+    const validTabs: TabKey[] = [
+      "user",
+      "teams-browser",
+      "secret",
+      "your-team",
+    ];
     if (validTabs.includes(tabFromUrl) && tabFromUrl !== activeTab) {
       setActiveTab(tabFromUrl);
     }
   }, [searchParams, activeTab]);
 
   // Memoize tab configuration to prevent unnecessary re-renders
-  const tabConfig: Record<TabKey, ReactNode> = useMemo(() => ({
-    user: <UserInfo user={user} />,
-    "teams-browser": <TeamsBrowser />,
-    secret: (
-      <div className="p-8 md:p-10 lg:p-12">
-        <p className="text-xl text-gray-500">Secret Section</p>
-      </div>
-    ),
-    "your-team": <YourTeam />,
-  }), [user]);
+  const tabConfig: Record<TabKey, ReactNode> = useMemo(
+    () => ({
+      user: <UserInfo user={user} />,
+      "teams-browser": <TeamsBrowser />,
+      secret: (
+        <div className="p-8 md:p-10 lg:p-12">
+          <p className="text-xl text-gray-500">Secret Section</p>
+        </div>
+      ),
+      "your-team": <YourTeam />,
+    }),
+    [user]
+  );
 
   // Define titles and subtitles for each tab
   const getTabInfo = (tab: TabKey) => {
@@ -134,27 +148,27 @@ export default function Dashboard({ user }: { user: any }) {
       case "user":
         return {
           title: "YOUR PROFILE",
-          subtitle: "PERSONAL INFORMATION"
+          subtitle: "PERSONAL INFORMATION",
         };
       case "teams-browser":
         return {
           title: "TEAMS BROWSER",
-          subtitle: "DISCOVER & CONNECT"
+          subtitle: "DISCOVER & CONNECT",
         };
       case "your-team":
         return {
           title: "YOUR TEAM",
-          subtitle: "TEAM MANAGEMENT"
+          subtitle: "TEAM MANAGEMENT",
         };
       case "secret":
         return {
           title: "HTB WRAPPED",
-          subtitle: "COMING SOON"
+          subtitle: "COMING SOON",
         };
       default:
         return {
           title: "YOUR DASHBOARD",
-          subtitle: "MANAGE YOUR DASHBOARD"
+          subtitle: "MANAGE YOUR DASHBOARD",
         };
     }
   };

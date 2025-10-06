@@ -397,7 +397,7 @@ const SponsorCard = ({
       card.removeEventListener("mouseleave", handleMouseLeave);
       card.removeEventListener("click", handleClick);
     };
-  }, []);
+  }, [cardRef]);
 
   return (
     <div

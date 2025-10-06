@@ -279,7 +279,7 @@ const TeamCard: React.FC<{ member: TeamMember }> = ({ member }) => {
       clickTimelineRef.current?.kill();
       mm.kill();
     };
-  }, [member.name]);
+  }, [member.name, member.link]);
 
   return (
     <div
