@@ -127,7 +127,7 @@ export function DataTable<TValue>({ columns, data }: DataTableProps<TValue>) {
                       className="text-xs capitalize"
                       checked={column.getIsVisible()}
                       onCheckedChange={(value) =>
-                        column.toggleVisibility(!!value)
+                        column.toggleVisibility(value)
                       }
                     >
                       {column.columnDef.header?.toString()}

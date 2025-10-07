@@ -40,7 +40,7 @@ interface TeamProps {
   setValue: UseFormSetValue<ApplicationFormValues>;
 }
 
-export const Team = ({ setValue, errors }: TeamProps) => {
+export const Team = ({ setValue }: TeamProps) => {
   const getUserTeam = api.team.getUserTeam.useQuery();
   const createTeam = api.team.create.useMutation();
   const joinTeam = api.team.join.useMutation();
