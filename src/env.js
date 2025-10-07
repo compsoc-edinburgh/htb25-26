@@ -11,6 +11,7 @@ export const env = createEnv({
     NODE_ENV: z
       .enum(["development", "test", "production"])
       .default("development"),
+    APPLICATION_CYCLE: z.enum(["open", "closed"]).default("closed"),
   },
 
   /**
@@ -19,7 +20,7 @@ export const env = createEnv({
    * `NEXT_PUBLIC_`.
    */
   client: {
-    // NEXT_PUBLIC_CLIENTVAR: z.string(),
+    NEXT_PUBLIC_APPLICATION_CYCLE: z.enum(["open", "closed"]).default("closed"),
   },
 
   /**
@@ -29,7 +30,8 @@ export const env = createEnv({
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,
     NODE_ENV: process.env.NODE_ENV,
-    // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
+    APPLICATION_CYCLE: process.env.APPLICATION_CYCLE,
+    NEXT_PUBLIC_APPLICATION_CYCLE: process.env.NEXT_PUBLIC_APPLICATION_CYCLE,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

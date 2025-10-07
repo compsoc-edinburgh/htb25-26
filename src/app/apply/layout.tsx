@@ -2,14 +2,16 @@ import { redirect } from "next/navigation";
 import { type PropsWithChildren } from "react";
 import Navbar from "~/components/layout/navbar";
 import { api } from "~/trpc/server";
+import { requireAuth } from "~/lib/routes";
 
-export default async function LandingLayout({
+export default async function ApplyLayout({
   children,
 }: Readonly<PropsWithChildren>) {
-  const application = await api.application.getUserApplication();
+  await requireAuth();
 
+  const application = await api.application.getUserApplication();
   if (application) {
-    return redirect("/status");
+    redirect("/status");
   }
 
   return (

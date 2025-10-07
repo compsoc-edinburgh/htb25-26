@@ -1,22 +1,8 @@
-import { auth } from "@clerk/nextjs/server";
-import Dashboard from "./_components/dashboard";
-import { redirect } from "next/navigation";
+import Dashboard from "../../components/module/dashboard/dashboard";
 import { api } from "~/trpc/server";
 
-export default async function ApplicationPage() {
-  const user = await auth();
-  if (!user.userId) {
-    redirect("/apply");
-  }
-
+export default async function DashboardPage() {
   const application = await api.application.getUserApplication();
-  if (!application) {
-    redirect("/apply");
-  }
 
-  if (application.status !== "accepted") {
-    redirect("/status");
-  }
-
-  return <Dashboard user={application.user} />;
+  return <Dashboard user={application!.user} />;
 }

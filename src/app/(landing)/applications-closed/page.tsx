@@ -3,23 +3,17 @@
 import { useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { Button } from "~/components/ui/button";
-import SignInDrawer from "~/components/module/sign-in";
+import SignInDrawer from "~/components/module/sign-in-dialog-form";
 import { useRouter } from "next/navigation";
-import { api } from "~/trpc/react";
 
 export default function ApplicationsClosedWithSignIn() {
   const { isSignedIn, isLoaded } = useUser();
-  const application = api.application.getUserApplication.useQuery();
 
   const [signInOpen, setSignInOpen] = useState(false);
   const router = useRouter();
 
-  if (isSignedIn && application.data) {
-    return router.push("/status");
-  }
-
   const handleSignedIn = () => {
-    window.location.reload();
+    router.push("/dashboard");
   };
 
   if (!isLoaded) {
@@ -44,7 +38,7 @@ export default function ApplicationsClosedWithSignIn() {
               back in 2026.
             </p>
 
-            {!isSignedIn && (
+            {!isSignedIn ? (
               <div className="mt-8">
                 <p className="mb-4 text-sm text-zinc-600">
                   Do you have an account?
@@ -57,7 +51,7 @@ export default function ApplicationsClosedWithSignIn() {
                   Sign in
                 </Button>
               </div>
-            )}
+            ) : null}
           </div>
         </div>
       </main>

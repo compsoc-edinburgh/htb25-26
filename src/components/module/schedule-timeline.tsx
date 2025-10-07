@@ -3,7 +3,7 @@
 import { useMemo, useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Event } from "~/types/schedule";
+import { Event } from "~/lib/constants/schedule";
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);

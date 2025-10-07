@@ -1,7 +1,7 @@
 "use client";
 import { api } from "~/trpc/react";
 import { Loader2 } from "lucide-react";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Button } from "~/components/ui/button";
 import Link from "next/link";
 
@@ -20,7 +20,7 @@ export default function Page() {
   }
 
   if (!application.data) {
-    redirect("/applications-closed");
+    return null;
   }
 
   const getStatusConfig = (status: ApplicationStatus) => {

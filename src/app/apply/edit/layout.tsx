@@ -1,9 +1,9 @@
 import { type PropsWithChildren } from "react";
 import Navbar from "~/components/layout/navbar";
 import { api } from "~/trpc/server";
-import { requireAuth, redirectNoApplication } from "~/lib/routes";
+import { redirectNoApplication, requireAuth } from "~/lib/routes";
 
-export default async function StatusLayout({
+export default async function ApplyLayout({
   children,
 }: Readonly<PropsWithChildren>) {
   await requireAuth();

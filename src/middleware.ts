@@ -1,19 +1,17 @@
 import { clerkMiddleware } from "@clerk/nextjs/server";
-import { NextResponse } from "next/server";
 
-export default clerkMiddleware(async (auth, req) => {
-  const { sessionClaims } = await auth();
-  const path = new URL(req.url).pathname;
-
-  if (path.startsWith("/dashboard/admin")) {
-    const isAdmin = sessionClaims?.metadata?.role === "admin";
-    if (!isAdmin) {
-      return NextResponse.redirect(new URL("/applications-closed", req.url));
-    }
-  }
-
-  return NextResponse.next();
-});
+/**
+ * Middleware configuration for Clerk authentication
+ *
+ * Route protection is handled at the layout level:
+ * - /apply: Protected by apply/layout.tsx (checks APPLICATION_CYCLE and auth)
+ * - /status: Protected by status/layout.tsx (checks auth and application exists)
+ * - /dashboard: Protected by dashboard/layout.tsx (checks auth and accepted status)
+ * - /dashboard/admin: Protected by dashboard/admin/layout.tsx (checks auth and admin role)
+ *
+ * This middleware ensures Clerk session is available across all routes
+ */
+export default clerkMiddleware();
 
 export const config = {
   matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],

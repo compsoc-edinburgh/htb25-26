@@ -3,11 +3,11 @@
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { Loader2, Menu } from "lucide-react";
-import { useState, MouseEvent } from "react";
+import { useState, MouseEvent, useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { ScrambleTextPlugin } from "gsap/ScrambleTextPlugin";
-import SignInDrawer from "~/components/module/sign-in";
+import SignInDrawer from "~/components/module/sign-in-dialog-form";
 
 import {
   Drawer,
@@ -16,6 +16,7 @@ import {
   DrawerTitle,
 } from "../ui/drawer";
 import { useUser } from "@clerk/nextjs";
+import { env } from "~/env";
 
 // register gsap plugins once on client
 if (
@@ -258,37 +259,75 @@ const ActionButton = ({
     }
   };
 
+  const applicationCycle = env.NEXT_PUBLIC_APPLICATION_CYCLE;
+
   const handleClick = () => {
+    // When applications are open and user is not signed in, navigate to apply
+    if (applicationCycle === "open" && !isSignedIn) {
+      window.location.href = "/apply";
+      return;
+    }
+    // Otherwise show sign in drawer for non-signed in users
     if (!isSignedIn && onOpenSignIn) {
       onOpenSignIn();
     }
   };
 
   const buttonText = (() => {
-    if (isSignedIn && application.data) {
-      // If application status is pending or rejected, show status text
-      if (
-        application.data.status === "pending" ||
-        application.data.status === "rejected"
-      ) {
+    // When APPLICATION_CYCLE = "open"
+    if (applicationCycle === "open") {
+      if (!isSignedIn) {
+        return "APPLY";
+      }
+      if (isSignedIn && application.data) {
         return "STATUS";
       }
-      // Otherwise show dashboard
-      return "DASHBOARD";
+      // Logged in but no application
+      return "APPLY";
     }
-    return "SIGN IN";
-  })();
-  const href = (() => {
+
+    // When APPLICATION_CYCLE = "closed"
+    if (!isSignedIn) {
+      return "APPLICATIONS";
+    }
+    if (isSignedIn && !application.data) {
+      // This case won't show a button, will redirect
+      return "APPLICATIONS";
+    }
     if (isSignedIn && application.data) {
-      // If application status is pending or rejected, go to status page
-      if (
-        application.data.status === "pending" ||
-        application.data.status === "rejected"
-      ) {
+      if (application.data.status === "accepted") {
+        return "DASHBOARD";
+      }
+      return "STATUS";
+    }
+    return "APPLICATIONS";
+  })();
+
+  const href = (() => {
+    // When APPLICATION_CYCLE = "open"
+    if (applicationCycle === "open") {
+      if (!isSignedIn) {
+        return "/apply";
+      }
+      if (isSignedIn && application.data) {
         return "/status";
       }
-      // Otherwise go to dashboard
-      return "/dashboard";
+      // Logged in but no application
+      return "/apply";
+    }
+
+    // When APPLICATION_CYCLE = "closed"
+    if (!isSignedIn) {
+      return "/applications-closed";
+    }
+    if (isSignedIn && !application.data) {
+      return "/applications-closed";
+    }
+    if (isSignedIn && application.data) {
+      if (application.data.status === "accepted") {
+        return "/dashboard";
+      }
+      return "/status";
     }
     return "/applications-closed";
   })();
@@ -322,7 +361,7 @@ const ActionButton = ({
         onMouseLeave={handleMouseLeave}
       >
         <span className="authlink-text uppercase">
-          {isSignedIn === undefined || application.isLoading ? (
+          {application.isLoading ? (
             <Loader2 className="h-3 w-3 animate-spin" />
           ) : (
             buttonText
@@ -374,7 +413,7 @@ const ActionButton = ({
             style={{ clipPath: rectClipPath }}
           />
           <span className="authlink-text relative z-10 flex items-center justify-center text-xs">
-            {isSignedIn === undefined || application.isLoading ? (
+            {application.isLoading ? (
               <Loader2 className="animate-spin" />
             ) : (
               buttonText
@@ -503,6 +542,11 @@ const MobileDrawer = ({
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [signInDrawerOpen, setSignInDrawerOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <>
@@ -518,11 +562,24 @@ export default function Navbar() {
 
         <div className="flex h-full w-full flex-col rounded-lg md:border md:border-gray-200">
           <nav className="pointer-events-auto relative flex h-14 w-full items-center justify-between rounded-t-lg border-b border-gray-200 bg-white px-2 md:px-0 md:pl-14">
-            <MobileDrawer
-              open={mobileOpen}
-              onOpenChange={setMobileOpen}
-              onOpenSignIn={() => setSignInDrawerOpen(true)}
-            />
+            {mounted ? (
+              <MobileDrawer
+                open={mobileOpen}
+                onOpenChange={setMobileOpen}
+                onOpenSignIn={() => setSignInDrawerOpen(true)}
+              />
+            ) : (
+              <div className="flex h-full items-center px-4">
+                <button
+                  type="button"
+                  aria-label="Open menu"
+                  className="-ml-1 block cursor-pointer lg:hidden"
+                  disabled
+                >
+                  <Menu className="h-6 w-6 text-black" />
+                </button>
+              </div>
+            )}
 
             <div className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center gap-4 px-4 lg:block">
               <NavLinks />
@@ -556,10 +613,12 @@ export default function Navbar() {
         />
       </div>
 
-      <SignInDrawer
-        open={signInDrawerOpen}
-        onOpenChange={setSignInDrawerOpen}
-      />
+      {mounted && (
+        <SignInDrawer
+          open={signInDrawerOpen}
+          onOpenChange={setSignInDrawerOpen}
+        />
+      )}
     </>
   );
 }

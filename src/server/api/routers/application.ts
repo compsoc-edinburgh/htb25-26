@@ -269,39 +269,6 @@ export const applicationRouter = createTRPCRouter({
       status: application.status,
     };
   }),
-  getApplications: protectedProcedure.query(async ({ ctx }) => {
-    if (ctx.auth.sessionClaims.metadata.role !== "admin") {
-      throw new TRPCError({ code: "FORBIDDEN" });
-    }
-
-    const applications = await ctx.db.application.findMany({
-      include: {
-        user: {
-          include: {
-            team: {
-              include: {
-                members: {
-                  select: { first_name: true, last_name: true },
-                },
-              },
-            },
-          },
-        },
-      },
-      orderBy: [
-        { user: { team_id: "asc" } },
-        { user: { team: { name: "asc" } } },
-        { user: { last_name: "asc" } },
-        { user: { first_name: "asc" } },
-        { created_at: "asc" },
-      ],
-    });
-
-    return applications.map((app) => ({
-      ...app,
-      team: app.user.team,
-    }));
-  }),
   checkEmailExists: publicProcedure
     .input(z.object({ email: z.string().email() }))
     .query(async ({ ctx, input }) => {

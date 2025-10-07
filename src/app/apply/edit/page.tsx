@@ -2,9 +2,8 @@
 
 import { Loader2 } from "lucide-react";
 import { useUser } from "@clerk/nextjs";
-import ApplicationForm from "../_components/application-form";
+import ApplicationForm from "../../../components/module/application/forms/application-form";
 import { api } from "~/trpc/react";
-import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 function parseProjectDescription(raw?: string) {
@@ -53,12 +52,6 @@ export default function ManageApplication() {
   const router = useRouter();
   const application = api.application.getUserApplication.useQuery();
   const user = api.user.get.useQuery();
-
-  useEffect(() => {
-    if (!application.isLoading && !application.data) {
-      router.push("/applications-closed");
-    }
-  }, [application.isLoading, application.data, router]);
 
   if (!isLoaded || application.isLoading || user.isLoading) {
     return (

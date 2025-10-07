@@ -1,4 +1,12 @@
-import { Event } from "~/types/schedule";
+export type Event = {
+  id: string;
+  day: "2025-09-12" | "2025-09-13" | string;
+  start: string;
+  end: string;
+  title: string;
+  location?: string;
+  description?: string;
+};
 
 export const hackathonEvents: Event[] = [
   {
