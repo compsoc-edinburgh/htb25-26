@@ -292,7 +292,7 @@ const ActionButton = ({
     }
     if (isSignedIn && !application.data) {
       // This case won't show a button, will redirect
-      return "APPLICATIONS";
+      return "APPLICATION";
     }
     if (isSignedIn && application.data) {
       if (application.data.status === "accepted") {
