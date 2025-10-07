@@ -288,7 +288,7 @@ const ActionButton = ({
 
     // When APPLICATION_CYCLE = "closed"
     if (!isSignedIn) {
-      return "APPLICATIONS";
+      return "Sign In";
     }
     if (isSignedIn && !application.data) {
       // This case won't show a button, will redirect
@@ -300,7 +300,7 @@ const ActionButton = ({
       }
       return "STATUS";
     }
-    return "APPLICATIONS";
+    return "Sign In";
   })();
 
   const href = (() => {
