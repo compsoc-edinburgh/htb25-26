@@ -8,6 +8,7 @@ import { cn } from "~/lib/utils";
 import { useTabTranslation } from "~/components/module/dashboard/hooks/useTabTranslation";
 import { useTabs } from "~/components/module/dashboard/hooks/useTabs";
 import { HtbWrapped } from "~/components/module/dashboard/sections/htb-wrapped";
+import InfoDialog from "./info-dialog";
 
 const DashboardComponent = ({
   title,
@@ -99,16 +100,19 @@ export default function Dashboard({ user }: { user: any }) {
   const { title, subtitle } = translation(activeTab);
 
   return (
-    <DashboardComponent
-      title={title}
-      subtitle={subtitle}
-      rightPanel={
-        <DashboardTabs activeTab={activeTab} setActiveTab={setActiveTab} />
-      }
-    >
-      <div className="transition-opacity duration-150 ease-in-out">
-        {tabConfig[activeTab]}
-      </div>
-    </DashboardComponent>
+    <>
+      <InfoDialog user={user} />
+      <DashboardComponent
+        title={title}
+        subtitle={subtitle}
+        rightPanel={
+          <DashboardTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+        }
+      >
+        <div className="transition-opacity duration-150 ease-in-out">
+          {tabConfig[activeTab]}
+        </div>
+      </DashboardComponent>
+    </>
   );
 }
