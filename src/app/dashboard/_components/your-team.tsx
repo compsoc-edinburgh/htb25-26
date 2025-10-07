@@ -54,10 +54,10 @@ type JoinTeamFormValues = z.infer<typeof JoinTeamSchema>;
 
 export default function YourTeam() {
   const { user } = useUser();
-  const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
   const [copiedCode, setCopiedCode] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [isEditingTeamInfo, setIsEditingTeamInfo] = useState(false);
+  const [memberToRemove, setMemberToRemove] = useState<TeamMember | null>(null);
 
   const { data: team, isLoading, refetch } = api.team.getUserTeam.useQuery();
   const leaveTeam = api.team.leave.useMutation();
@@ -121,7 +121,6 @@ export default function YourTeam() {
         .mutateAsync({ team_id: team.id, user_id: memberId })
         .then(() => {
           refetch();
-          setSelectedMember(null);
         }),
       {
         loading: "Removing member...",
@@ -353,10 +352,7 @@ export default function YourTeam() {
                 className="group flex items-center justify-between py-2"
               >
                 <div className="flex-1">
-                  <button
-                    onClick={() => setSelectedMember(member)}
-                    className="text-left text-base text-black hover:underline"
-                  >
+                  <div className="text-base text-black">
                     {member.first_name} {member.last_name}
                     {isCurrentUser && " (You)"}
                     {isMemberLead && (
@@ -364,7 +360,7 @@ export default function YourTeam() {
                         Lead
                       </span>
                     )}
-                  </button>
+                  </div>
                   <p className="text-sm text-zinc-500">
                     {member.email || "Email not provided"}
                   </p>
@@ -372,14 +368,7 @@ export default function YourTeam() {
                 {isTeamLead && !isCurrentUser && (
                   <button
                     className="text-xs underline opacity-0 transition group-hover:opacity-100"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      if (
-                        confirm(`Remove ${member.first_name} from the team?`)
-                      ) {
-                        handleRemoveMember(member.id);
-                      }
-                    }}
+                    onClick={() => setMemberToRemove(member)}
                   >
                     Remove
                   </button>
@@ -662,59 +651,41 @@ export default function YourTeam() {
         )}
       </div>
 
-      {/* Member Details Modal */}
       <Dialog
-        open={!!selectedMember}
-        onOpenChange={() => setSelectedMember(null)}
+        open={!!memberToRemove}
+        onOpenChange={() => setMemberToRemove(null)}
       >
-        <DialogContent className="max-w-md">
+        <DialogContent>
           <DialogHeader>
-            <DialogTitle className="font-hexaframe text-2xl uppercase">
-              {selectedMember?.first_name} {selectedMember?.last_name}
-            </DialogTitle>
+            <DialogTitle>Remove Team Member</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to remove {memberToRemove?.first_name}{" "}
+              {memberToRemove?.last_name} from the team? They will need a new
+              team code to rejoin.
+            </DialogDescription>
           </DialogHeader>
-
-          <div className="space-y-4">
-            <div>
-              <div className="mb-1 flex items-center">
-                <div className="mr-2 h-1.5 w-1.5 bg-black"></div>
-                <span className="text-xs font-medium uppercase tracking-wider text-zinc-500">
-                  Email
-                </span>
-              </div>
-              <p className="text-sm">
-                {selectedMember?.email || "Not provided"}
-              </p>
-            </div>
-
-            <div>
-              <div className="mb-1 flex items-center">
-                <div className="mr-2 h-1.5 w-1.5 bg-black"></div>
-                <span className="text-xs font-medium uppercase tracking-wider text-zinc-500">
-                  University
-                </span>
-              </div>
-              <p className="text-sm">
-                {selectedMember?.university_name || "Not provided"}
-              </p>
-            </div>
-
-            <div>
-              <div className="mb-1 flex items-center">
-                <div className="mr-2 h-1.5 w-1.5 bg-black"></div>
-                <span className="text-xs font-medium uppercase tracking-wider text-zinc-500">
-                  Year of Study
-                </span>
-              </div>
-              <p className="text-sm">
-                {selectedMember?.university_year || "Not provided"}
-              </p>
-            </div>
-          </div>
-
           <DialogFooter>
-            <Button onClick={() => setSelectedMember(null)} variant="outline">
-              Close
+            <Button variant="outline" onClick={() => setMemberToRemove(null)}>
+              Cancel
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={() => {
+                if (memberToRemove) {
+                  handleRemoveMember(memberToRemove.id);
+                  setMemberToRemove(null);
+                }
+              }}
+              disabled={removeMember.isPending}
+            >
+              {removeMember.isPending ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Removing...
+                </>
+              ) : (
+                "Remove Member"
+              )}
             </Button>
           </DialogFooter>
         </DialogContent>

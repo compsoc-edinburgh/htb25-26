@@ -232,14 +232,17 @@ export const teamRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const team = await ctx.db.team.findFirst({
+      const team = await ctx.db.team.findUnique({
         where: {
           id: input.team_id,
         },
       });
 
       if (!team) {
-        throw new TRPCError({ code: "NOT_FOUND" });
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Team not found",
+        });
       }
 
       if (team.created_by !== ctx.auth.userId) {
@@ -384,9 +387,6 @@ export const teamRouter = createTRPCRouter({
             id: true,
             first_name: true,
             last_name: true,
-            portfolio_url: true,
-            hackathons_count: true,
-            placements_count: true,
           },
         },
         teamSearch: true as any,

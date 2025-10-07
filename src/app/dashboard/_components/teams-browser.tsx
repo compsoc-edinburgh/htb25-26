@@ -6,14 +6,19 @@ import {
   Loader2,
   ChevronDown,
   ChevronUp,
-  ExternalLink,
   Search,
   Filter,
   X,
 } from "lucide-react";
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
-import { Badge } from "~/components/ui/badge";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "~/components/ui/select";
 import ReactMarkdown from "react-markdown";
 
 const MAX_TEAM_SIZE = 6;
@@ -58,16 +63,9 @@ function TeamsHeader({
         <p className="mt-2 text-xs text-zinc-600">
           Discover teams that are looking for new members.{" "}
         </p>
-        <div className="mt-3 rounded-md border border-[#d5d5d5] bg-[#f1f1f1] p-2 px-3">
-          <p className="text-grey-700 text-xs">
-            <span className="font-bold uppercase">Note:</span> Teams need 4-6
-            members to submit projects on the day of the hackathon.
-          </p>
-        </div>
       </div>
 
-      {/* Search Bar */}
-      <div className="mb-4">
+      <div className="mb-4 pt-5">
         <div className="relative">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
           <Input
@@ -80,7 +78,6 @@ function TeamsHeader({
         </div>
       </div>
 
-      {/* Filter Controls */}
       <div className="flex flex-wrap items-center gap-3">
         <Button
           variant="outline"
@@ -115,45 +112,28 @@ function TeamsHeader({
         )}
       </div>
 
-      {/* Filter Options */}
       {showFilters && (
         <div className="mt-4 space-y-4 rounded-lg border border-zinc-200 bg-zinc-50 p-4">
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            {/* Team Size Filter */}
-            <div>
-              <label className="mb-2 block text-xs font-medium text-zinc-700">
-                Team Size
-              </label>
-              <select
-                value={filters.teamSize}
-                onChange={(e) =>
-                  setFilters({ ...filters, teamSize: e.target.value })
-                }
-                className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500"
-              >
-                <option value="all">All sizes</option>
-                <option value="small">Small (1-2 members)</option>
-                <option value="medium">Medium (3-4 members)</option>
-                <option value="large">Large (5 members)</option>
-              </select>
-            </div>
-
-            {/* Looking for Members Filter */}
-            <div>
-              <label className="mb-2 block text-xs font-medium text-zinc-700">
-                Recruitment Status
-              </label>
-              <select
-                value={filters.lookingForMembers}
-                onChange={(e) =>
-                  setFilters({ ...filters, lookingForMembers: e.target.value })
-                }
-                className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500"
-              >
-                <option value="all">All teams</option>
-                <option value="looking">Looking for members</option>
-              </select>
-            </div>
+          <div>
+            <label className="mb-2 block text-xs font-medium text-zinc-700">
+              Team Size
+            </label>
+            <Select
+              value={filters.teamSize}
+              onValueChange={(value) =>
+                setFilters({ ...filters, teamSize: value })
+              }
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="All sizes" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All sizes</SelectItem>
+                <SelectItem value="small">Small (1-2 members)</SelectItem>
+                <SelectItem value="medium">Medium (3-4 members)</SelectItem>
+                <SelectItem value="large">Large (5 members)</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
         </div>
       )}
@@ -188,9 +168,6 @@ function TeamMembersList({
     id: string;
     first_name: string;
     last_name: string;
-    hackathons_count: number | null;
-    placements_count: number | null;
-    portfolio_url: string | null;
   }[];
 }) {
   return (
@@ -203,41 +180,10 @@ function TeamMembersList({
       </div>
       <div className="space-y-4">
         {members.map((member) => (
-          <div key={member.id} className="bg-zinc-900 p-4">
-            <div className="mb-2 text-base font-medium text-white">
+          <div key={member.id} className="bg-zinc-900 p-2">
+            <div className="pl-3 text-sm font-medium text-white">
               {member.first_name} {member.last_name}
             </div>
-            <div className="flex flex-wrap gap-4 text-xs text-zinc-400">
-              {member.hackathons_count && (
-                <div>
-                  <span className="text-zinc-500">Hackathons: </span>
-                  <span className="text-zinc-300">
-                    {member.hackathons_count}
-                  </span>
-                </div>
-              )}
-              {member.placements_count && (
-                <div>
-                  <span className="text-zinc-500">Placements: </span>
-                  <span className="text-zinc-300">
-                    {member.placements_count}
-                  </span>
-                </div>
-              )}
-            </div>
-            {member.portfolio_url && (
-              <a
-                href={member.portfolio_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-2 inline-flex items-center gap-1 text-xs text-white underline hover:no-underline"
-              >
-                {member.portfolio_url.includes("linkedin.com")
-                  ? "View LinkedIn"
-                  : "View Portfolio"}
-                <ExternalLink className="h-3 w-3" />
-              </a>
-            )}
           </div>
         ))}
       </div>
@@ -408,12 +354,10 @@ export default function TeamsBrowser() {
 
   const { data: teams, isLoading } = api.team.getDiscoverableTeams.useQuery();
 
-  // Filter teams based on search query and filters
   const filteredTeams = useMemo(() => {
     if (!teams) return [];
 
     return teams.filter((team: any) => {
-      // Search filter
       if (searchQuery) {
         const searchLower = searchQuery.toLowerCase();
         const teamName = team.name?.toLowerCase() || "";
@@ -429,7 +373,6 @@ export default function TeamsBrowser() {
         }
       }
 
-      // Team size filter
       if (filters.teamSize !== "all") {
         const memberCount = team.members?.length || 0;
         switch (filters.teamSize) {
@@ -442,14 +385,6 @@ export default function TeamsBrowser() {
           case "large":
             if (memberCount !== 5) return false;
             break;
-        }
-      }
-
-      // Looking for members filter
-      if (filters.lookingForMembers !== "all") {
-        const isLookingForMembers = !!team.teamSearch?.note;
-        if (filters.lookingForMembers === "looking" && !isLookingForMembers) {
-          return false;
         }
       }
 
