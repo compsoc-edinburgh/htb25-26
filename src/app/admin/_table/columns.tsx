@@ -8,7 +8,11 @@ export type Application = {
   id: string;
   status: ApplicationStatus;
   user: User;
-  team: (Team & { members: { first_name: string | null; last_name: string | null; }[] }) | null;
+  team:
+    | (Team & {
+        members: { first_name: string | null; last_name: string | null }[];
+      })
+    | null;
   created_at: Date;
 };
 
@@ -105,6 +109,16 @@ export const columns: ColumnDef<Application>[] = [
     size: 250,
   },
   {
+    accessorKey: "user.email",
+    header: "Email",
+    cell: ({ row }) => (
+      <div className="min-w-[180px] font-mono text-xs">
+        {row.original.user.email || "—"}
+      </div>
+    ),
+    size: 200,
+  },
+  {
     accessorKey: "user.university_year",
     header: "Year",
     cell: ({ row }) => (
@@ -125,17 +139,6 @@ export const columns: ColumnDef<Application>[] = [
       </div>
     ),
     size: 150,
-  },
-  {
-    accessorKey: "team.members",
-    header: "Team Size",
-    cell: ({ row }) => {
-      const members = row.original.team?.members;
-      return (
-        <div className="text-center">{members ? members.length : "—"}</div>
-      );
-    },
-    size: 90,
   },
   {
     accessorKey: "user.placements_count",
@@ -163,7 +166,9 @@ export const columns: ColumnDef<Application>[] = [
     cell: ({ row }) => (
       <div className="min-w-[300px] max-w-[400px] py-1 leading-relaxed">
         {row.original.user.project_description ? (
-          <div className="text-[10px]">{row.original.user.project_description}</div>
+          <div className="text-[10px]">
+            {row.original.user.project_description}
+          </div>
         ) : (
           <span className="italic text-neutral-400">No description</span>
         )}

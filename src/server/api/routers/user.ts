@@ -121,7 +121,6 @@ export const userRouter = createTRPCRouter({
         country: input.country,
         university_name: input.university,
         university_year: input.universityYear,
-        university_email: input.universityEmail,
         cv_url: input.cv,
         portfolio_url: input.portfolioUrl,
         placements_count: input.placementsCount,

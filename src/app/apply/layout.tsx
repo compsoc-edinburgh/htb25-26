@@ -1,9 +1,17 @@
+import { redirect } from "next/navigation";
 import { type PropsWithChildren } from "react";
 import Navbar from "~/components/layout/navbar";
+import { api } from "~/trpc/server";
 
 export default async function LandingLayout({
   children,
 }: Readonly<PropsWithChildren>) {
+  const application = await api.application.getUserApplication();
+
+  if (application) {
+    return redirect("/status");
+  }
+
   return (
     <main className="flex min-h-screen flex-col items-center">
       <Navbar />
