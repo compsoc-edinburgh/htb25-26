@@ -221,7 +221,7 @@ export default function InfoDialog({ user }: InfoDialogProps) {
 
           <div className="space-y-1.5">
             <Label htmlFor="meal1" className="text-xs">
-              First Meal - Tortilla <span className="text-red-600">*</span>
+              First Meal - Burrito bowls <span className="text-red-600">*</span>
             </Label>
             <Controller
               control={control}
@@ -320,7 +320,7 @@ export default function InfoDialog({ user }: InfoDialogProps) {
 
           <div className="space-y-1.5">
             <Label htmlFor="meal3" className="text-xs">
-              Third Meal - Soul Sushi <span className="text-red-600">*</span>
+              Third Meal - Poke-bowls <span className="text-red-600">*</span>
             </Label>
             <Controller
               control={control}
