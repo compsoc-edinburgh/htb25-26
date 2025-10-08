@@ -9,7 +9,6 @@ import { api } from "~/trpc/react";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -33,6 +32,10 @@ const infoSchema = z.object({
     .min(1, "Dietary restrictions are required")
     .trim(),
   shirtSize: z.string().min(1, "T-shirt size is required"),
+  meal1: z.string().min(1, "First meal selection is required"),
+  meal2: z.string().min(1, "Second meal selection is required"),
+  pizza: z.string().min(1, "Pizza selection is required"),
+  meal3: z.string().min(1, "Third meal selection is required"),
   agreedToPolicy: z.boolean().refine((val) => val, {
     message: "You must agree to the policies to continue",
   }),
@@ -44,15 +47,57 @@ interface InfoDialogProps {
   user: {
     dietary_restrictions?: string | null;
     shirt_size?: string | null;
+    food_choice_1?: string | null;
+    food_choice_2?: string | null;
+    pizza_choice?: string | null;
+    food_choice_3?: string | null;
   };
 }
 
 const TSHIRT_SIZES = ["XS", "S", "M", "L", "XL", "XXL"];
 
+const MEAL1_OPTIONS = [
+  { value: "Beef Burrito Bowl", label: "Beef Burrito Bowl" },
+  { value: "Chicken Burrito Bowl", label: "Chicken Burrito Bowl" },
+  { value: "Pork Burrito Bowl", label: "Pork Burrito Bowl" },
+  {
+    value: "Vegan Chilli + Grilled Vegetables",
+    label: "Vegan Chilli + Grilled Vegetables",
+  },
+];
+
+const MEAL2_OPTIONS = [
+  { value: "Lasagna", label: "Lasagna" },
+  { value: "Penne Arrabbiata", label: "Penne Arrabbiata (vg)" },
+  { value: "Tagliatelle al Pollo", label: "Tagliatelle al Pollo (chicken)" },
+];
+
+const PIZZA_OPTIONS = [
+  { value: "Margherita", label: "Margherita" },
+  { value: "Pepperoni", label: "Pepperoni" },
+  { value: "Aubergine (vg)", label: "Aubergine (vg)" },
+  { value: "Wild Mushroom (vg)", label: "Wild Mushroom (vg)" },
+  { value: "Buttermilk Chicken", label: "Buttermilk Chicken" },
+];
+
+const MEAL3_OPTIONS = [
+  { value: "Salmon", label: "Salmon" },
+  { value: "Yellowfin", label: "Yellowfin" },
+  { value: "Prawn", label: "Prawn" },
+  { value: "Tofu (vg)", label: "Tofu (vg)" },
+  { value: "Chicken katsu", label: "Chicken katsu" },
+  { value: "Salmon teriyaki", label: "Salmon teriyaki" },
+];
+
 export default function InfoDialog({ user }: InfoDialogProps) {
   const router = useRouter();
   const [open, setOpen] = useState(
-    !user.dietary_restrictions || !user.shirt_size
+    !user.dietary_restrictions ||
+      !user.shirt_size ||
+      !user.food_choice_1 ||
+      !user.food_choice_2 ||
+      !user.pizza_choice ||
+      !user.food_choice_3
   );
 
   const form = useForm<InfoFormValues>({
@@ -61,6 +106,10 @@ export default function InfoDialog({ user }: InfoDialogProps) {
     defaultValues: {
       dietaryRestrictions: user.dietary_restrictions ?? "",
       shirtSize: user.shirt_size ?? "",
+      meal1: user.food_choice_1 ?? "",
+      meal2: user.food_choice_2 ?? "",
+      pizza: user.pizza_choice ?? "",
+      meal3: user.food_choice_3 ?? "",
       agreedToPolicy: false,
     },
   });
@@ -88,6 +137,10 @@ export default function InfoDialog({ user }: InfoDialogProps) {
     updateUser.mutate({
       dietaryRestrictions: data.dietaryRestrictions,
       shirtSize: data.shirtSize,
+      meal1: data.meal1,
+      meal2: data.meal2,
+      pizza: data.pizza,
+      meal3: data.meal3,
     });
   };
 
@@ -103,47 +156,24 @@ export default function InfoDialog({ user }: InfoDialogProps) {
           <DialogTitle className="text-xl">
             Complete Your Information
           </DialogTitle>
-          <DialogDescription className="text-sm">
-            Before accessing your dashboard, please provide the following
-            required information.
-          </DialogDescription>
         </DialogHeader>
 
-        <div className="rounded-lg border border-red-200 bg-red-50 p-4">
+        <div className="rounded-lg border border-red-200 bg-red-50 p-3">
           <div className="flex items-start gap-3">
-            <div className="flex-shrink-0">
-              <svg
-                className="h-4 w-4 text-red-600"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 9a1 1 0 100-2 1 1 0 000 2z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </div>
             <div className="flex-1">
-              <h3 className="text-xs font-semibold text-red-800">
-                Confirmation Deadline
-              </h3>
-              <p className="mt-1 text-xs text-red-700">
+              <p className="text-xs text-red-700">
                 Please confirm by{" "}
                 <span className="font-semibold">
                   11:59 PM, Sunday 12 October 2025 (UK time)
                 </span>{" "}
-                to secure your spot. If you don't complete this by the deadline,
-                your application will be automatically rejected.
+                to secure your spot.
               </p>
             </div>
           </div>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 py-4">
-          <div className="space-y-2">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 py-2">
+          <div className="space-y-1.5">
             <Label htmlFor="dietary-restrictions" className="text-xs">
               Dietary Restrictions <span className="text-red-600">*</span>
             </Label>
@@ -152,20 +182,15 @@ export default function InfoDialog({ user }: InfoDialogProps) {
               placeholder="Please list any dietary restrictions, allergies, or preferences (e.g., vegetarian, vegan, gluten-free, nut allergy). If none, please write 'None'."
               className={
                 errors.dietaryRestrictions
-                  ? "border-red-500 text-sm"
-                  : "text-sm"
+                  ? "border-red-500 text-xs"
+                  : "text-xs"
               }
               rows={4}
               {...register("dietaryRestrictions")}
             />
-            {errors.dietaryRestrictions && (
-              <p className="text-xs text-red-600">
-                {errors.dietaryRestrictions.message}
-              </p>
-            )}
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-1.5">
             <Label htmlFor="shirt-size" className="text-xs">
               T-Shirt Size <span className="text-red-600">*</span>
             </Label>
@@ -177,7 +202,7 @@ export default function InfoDialog({ user }: InfoDialogProps) {
                   <SelectTrigger
                     id="shirt-size"
                     className={
-                      errors.shirtSize ? "border-red-500 text-sm" : "text-sm"
+                      errors.shirtSize ? "border-red-500 text-xs" : "text-xs"
                     }
                   >
                     <SelectValue placeholder="Select your t-shirt size" />
@@ -192,13 +217,142 @@ export default function InfoDialog({ user }: InfoDialogProps) {
                 </Select>
               )}
             />
-            {errors.shirtSize && (
-              <p className="text-xs text-red-600">{errors.shirtSize.message}</p>
-            )}
           </div>
 
-          <div className="space-y-3 rounded-md border border-zinc-200 bg-zinc-50 p-4">
-            <div className="flex items-center space-x-3">
+          <div className="space-y-1.5">
+            <Label htmlFor="meal1" className="text-xs">
+              First Meal - Tortilla <span className="text-red-600">*</span>
+            </Label>
+            <Controller
+              control={control}
+              name="meal1"
+              render={({ field }) => (
+                <Select value={field.value} onValueChange={field.onChange}>
+                  <SelectTrigger
+                    id="meal1"
+                    className={
+                      errors.meal1 ? "border-red-500 text-xs" : "text-xs"
+                    }
+                  >
+                    <SelectValue placeholder="Select your first meal" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {MEAL1_OPTIONS.map((option) => (
+                      <SelectItem
+                        key={option.value}
+                        value={option.value}
+                        className="text-sm"
+                      >
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
+            />
+          </div>
+
+          <div className="space-y-1.5">
+            <Label htmlFor="meal2" className="text-xs">
+              Second Meal - Pasta <span className="text-red-600">*</span>
+            </Label>
+            <Controller
+              control={control}
+              name="meal2"
+              render={({ field }) => (
+                <Select value={field.value} onValueChange={field.onChange}>
+                  <SelectTrigger
+                    id="meal2"
+                    className={
+                      errors.meal2 ? "border-red-500 text-xs" : "text-xs"
+                    }
+                  >
+                    <SelectValue placeholder="Select your second meal" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {MEAL2_OPTIONS.map((option) => (
+                      <SelectItem
+                        key={option.value}
+                        value={option.value}
+                        className="text-sm"
+                      >
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
+            />
+          </div>
+
+          <div className="space-y-1.5">
+            <Label htmlFor="pizza" className="text-xs">
+              Midnight Pizza <span className="text-red-600">*</span>
+            </Label>
+            <Controller
+              control={control}
+              name="pizza"
+              render={({ field }) => (
+                <Select value={field.value} onValueChange={field.onChange}>
+                  <SelectTrigger
+                    id="pizza"
+                    className={
+                      errors.pizza ? "border-red-500 text-xs" : "text-xs"
+                    }
+                  >
+                    <SelectValue placeholder="Select your pizza" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {PIZZA_OPTIONS.map((option) => (
+                      <SelectItem
+                        key={option.value}
+                        value={option.value}
+                        className="text-sm"
+                      >
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
+            />
+          </div>
+
+          <div className="space-y-1.5">
+            <Label htmlFor="meal3" className="text-xs">
+              Third Meal - Soul Sushi <span className="text-red-600">*</span>
+            </Label>
+            <Controller
+              control={control}
+              name="meal3"
+              render={({ field }) => (
+                <Select value={field.value} onValueChange={field.onChange}>
+                  <SelectTrigger
+                    id="meal3"
+                    className={
+                      errors.meal3 ? "border-red-500 text-xs" : "text-xs"
+                    }
+                  >
+                    <SelectValue placeholder="Select your third meal" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {MEAL3_OPTIONS.map((option) => (
+                      <SelectItem
+                        key={option.value}
+                        value={option.value}
+                        className="text-sm"
+                      >
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
+            />
+          </div>
+
+          <div>
+            <div className="flex items-center space-x-3 pb-5">
               <Controller
                 control={control}
                 name="agreedToPolicy"
@@ -213,7 +367,7 @@ export default function InfoDialog({ user }: InfoDialogProps) {
               />
               <Label
                 htmlFor="policy-agreement"
-                className="cursor-pointer text-xs font-normal leading-tight"
+                className="cursor-pointer text-xs font-normal leading-tight text-zinc-500"
               >
                 I confirm that I will participate in HackTheBurgh and I agree to
                 the{" "}
@@ -243,15 +397,8 @@ export default function InfoDialog({ user }: InfoDialogProps) {
                 >
                   Rules
                 </a>
-                . <span className="text-red-600">*</span>
               </Label>
             </div>
-
-            {errors.agreedToPolicy && (
-              <p className="text-xs text-red-600">
-                {errors.agreedToPolicy.message}
-              </p>
-            )}
           </div>
 
           <DialogFooter>
