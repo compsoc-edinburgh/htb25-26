@@ -14,7 +14,9 @@ export default async function DashboardLayout({
   await requireAuth();
 
   const application = await api.application.getUserApplication();
-  if (!application) {
+  const user = await api.user.get();
+
+  if (!application || !user.dietary_restrictions) {
     redirectNoApplication();
   }
   redirectStatus(application.status);

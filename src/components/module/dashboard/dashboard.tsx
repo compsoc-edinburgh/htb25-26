@@ -101,7 +101,6 @@ export default function Dashboard({ user }: { user: any }) {
 
   return (
     <>
-      <InfoDialog user={user} />
       <DashboardComponent
         title={title}
         subtitle={subtitle}
