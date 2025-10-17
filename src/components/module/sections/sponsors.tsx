@@ -174,6 +174,7 @@ const MobileSponsorCard = ({
               {prizes.map((prize, i) => {
                 const labels = ["1ST PRIZE", "2ND PRIZE", "3RD PRIZE"];
                 const label = labels[i] ?? `${i + 1}TH PRIZE`;
+                if (name==="Huawei" && i===2) return null; // Huawei has no 3rd prize
                 return (
                   <li key={i} className="flex items-center gap-3">
                     <span className="shrink-0">{label}:</span>
@@ -222,7 +223,7 @@ const sponsorsData = [
     prizes: [
       { text: "xra vurg ran jolt max", revealed: false },
       { text: "zor plix meta flux", revealed: false },
-      { text: "quil drax tono suma", revealed: false },
+      { text: "", revealed: false },
     ],
     number: "02",
     logo: "/sponsors/huwaei.svg",
@@ -426,6 +427,7 @@ const SponsorCard = ({
             {prizes.map((prize, i) => {
               const labels = ["1ST PRIZE", "2ND PRIZE", "3RD PRIZE"];
               const label = labels[i] ?? `${i + 1}TH PRIZE`;
+              if (name==="Huawei" && i===2) return null; // Huawei has no 3rd prize
               return (
                 <li key={i} className="flex items-center gap-3">
                   <span className="shrink-0">{label}:</span>
