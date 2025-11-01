@@ -52,6 +52,15 @@ const JoinTeamSchema = z.object({
 
 type JoinTeamFormValues = z.infer<typeof JoinTeamSchema>;
 
+const CreateTeamSchema = z.object({
+  teamName: z
+    .string()
+    .min(1, "Team name is required")
+    .max(50, "Team name must be less than 50 characters"),
+});
+
+type CreateTeamFormValues = z.infer<typeof CreateTeamSchema>;
+
 export default function YourTeam() {
   const { user } = useUser();
   const [copiedCode, setCopiedCode] = useState(false);
@@ -65,6 +74,7 @@ export default function YourTeam() {
   const deleteTeam = api.team.deleteTeam.useMutation();
   const updateTeamSearch = api.team.updateTeamSearch.useMutation();
   const joinTeam = api.team.join.useMutation();
+  const createTeam = api.team.create.useMutation();
 
   const teamSearchForm = useForm<TeamSearchFormValues>({
     resolver: zodResolver(TeamSearchSchema),
@@ -80,6 +90,13 @@ export default function YourTeam() {
     resolver: zodResolver(JoinTeamSchema),
     defaultValues: {
       teamCode: "",
+    },
+  });
+
+  const createTeamForm = useForm<CreateTeamFormValues>({
+    resolver: zodResolver(CreateTeamSchema),
+    defaultValues: {
+      teamName: "",
     },
   });
 
@@ -134,7 +151,7 @@ export default function YourTeam() {
     );
   };
 
-  const onSubmitTeamSearch = async (data: TeamSearchFormValues) => {
+  const handleSearchSubmit = async (data: TeamSearchFormValues) => {
     if (!team) return;
 
     toast.promise(
@@ -155,7 +172,7 @@ export default function YourTeam() {
     );
   };
 
-  const onSubmitJoinTeam = async (data: JoinTeamFormValues) => {
+  const handleJoinTeamSubmit = async (data: JoinTeamFormValues) => {
     toast.promise(
       joinTeam
         .mutateAsync({ team_code: data.teamCode.toUpperCase() })
@@ -167,6 +184,20 @@ export default function YourTeam() {
         loading: "Joining team...",
         success: "Successfully joined team",
         error: "Failed to join team. Check the code and try again.",
+      }
+    );
+  };
+
+  const onSubmitCreateTeam = async (data: CreateTeamFormValues) => {
+    toast.promise(
+      createTeam.mutateAsync({ teamName: data.teamName }).then(() => {
+        refetch();
+        createTeamForm.reset();
+      }),
+      {
+        loading: "Creating team...",
+        success: "Team created successfully",
+        error: "Failed to create team. Please try again.",
       }
     );
   };
@@ -192,7 +223,7 @@ export default function YourTeam() {
       <div className="w-full divide-y divide-zinc-200">
         <div className="bg-white p-8 md:p-10 lg:p-12">
           <h2 className="font-whyte text-2xl font-bold text-black">
-            Join a Team
+            Your Team
           </h2>
           <p className="mt-2 text-sm text-zinc-600">
             Enter a team code to join an existing team, or create your own
@@ -200,9 +231,62 @@ export default function YourTeam() {
         </div>
 
         <div className="bg-white p-8 md:p-10 lg:p-12">
+          <h3 className="text-sm font-medium uppercase tracking-wider text-black">
+            Create a Team
+          </h3>
+          <p className="mt-2 text-sm text-zinc-600">
+            Start your own team and get a code to share with others
+          </p>
           <form
-            onSubmit={joinTeamForm.handleSubmit(onSubmitJoinTeam)}
-            className="max-w-md space-y-4"
+            onSubmit={createTeamForm.handleSubmit(onSubmitCreateTeam)}
+            className="mt-4 max-w-md space-y-4"
+          >
+            <div className="space-y-2">
+              <Label
+                htmlFor="teamName"
+                className="text-xs font-medium uppercase tracking-wider"
+              >
+                Team Name
+              </Label>
+              <Input
+                id="teamName"
+                {...createTeamForm.register("teamName")}
+                placeholder="Enter your team name"
+              />
+              {createTeamForm.formState.errors.teamName && (
+                <p className="text-sm text-red-600">
+                  {createTeamForm.formState.errors.teamName.message}
+                </p>
+              )}
+            </div>
+
+            <Button
+              type="submit"
+              className="w-full bg-black text-white hover:bg-zinc-800"
+              disabled={createTeam.isPending}
+            >
+              {createTeam.isPending ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Creating...
+                </>
+              ) : (
+                "Create Team"
+              )}
+            </Button>
+          </form>
+        </div>
+
+        <div className="bg-white p-8 md:p-10 lg:p-12">
+          <h3 className="text-sm font-medium uppercase tracking-wider text-black">
+            Join an Existing Team
+          </h3>
+          <p className="mt-2 text-sm text-zinc-600">
+            Have a team code? Enter it below to join
+          </p>
+          <form
+            onSubmit={joinTeamForm.handleSubmit(handleJoinTeamSubmit)}
+            className="mt-4 max-w-md space-y-4"
           >
             <div className="space-y-2">
               <Label
@@ -242,8 +326,7 @@ export default function YourTeam() {
           </form>
 
           <p className="mt-6 text-sm text-zinc-600">
-            Don&#39;t have a code? Browse teams in the Teams Browser tab or
-            create your own.
+            Don&#39;t have a code? Browse teams in the Teams Browser tab.
           </p>
         </div>
       </div>
@@ -392,7 +475,7 @@ export default function YourTeam() {
 
         {isEditingTeamInfo && isTeamLead ? (
           <form
-            onSubmit={teamSearchForm.handleSubmit(onSubmitTeamSearch)}
+            onSubmit={teamSearchForm.handleSubmit(handleSearchSubmit)}
             className="space-y-6"
           >
             <div className="space-y-2">

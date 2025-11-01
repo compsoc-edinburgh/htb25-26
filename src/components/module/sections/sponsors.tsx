@@ -174,7 +174,7 @@ const MobileSponsorCard = ({
               {prizes.map((prize, i) => {
                 const labels = ["1ST PRIZE", "2ND PRIZE", "3RD PRIZE"];
                 const label = labels[i] ?? `${i + 1}TH PRIZE`;
-                if (name==="Huawei" && i===2) return null; // Huawei has no 3rd prize
+                if (name === "Huawei" && i === 2) return null; // Huawei has no 3rd prize
                 return (
                   <li key={i} className="flex items-center gap-3">
                     <span className="shrink-0">{label}:</span>
@@ -427,7 +427,7 @@ const SponsorCard = ({
             {prizes.map((prize, i) => {
               const labels = ["1ST PRIZE", "2ND PRIZE", "3RD PRIZE"];
               const label = labels[i] ?? `${i + 1}TH PRIZE`;
-              if (name==="Huawei" && i===2) return null; // Huawei has no 3rd prize
+              if (name === "Huawei" && i === 2) return null; // Huawei has no 3rd prize
               return (
                 <li key={i} className="flex items-center gap-3">
                   <span className="shrink-0">{label}:</span>
