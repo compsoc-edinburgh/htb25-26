@@ -22,7 +22,7 @@ export const Main = () => (
   <div className="relative flex h-full w-full items-center justify-center">
     <div className="flex scale-90 transform flex-col items-center px-4 text-center sm:scale-100">
       <HTBLogo />
-      <h1 className="mt-3 font-hexaframe text-4xl font-extrabold sm:text-6xl md:text-7xl 2xl:text-8xl">
+      <h1 className="mt-3 font-hexaframe text-4xl font-bold sm:text-6xl md:text-7xl 2xl:text-8xl">
         Hack The Burgh
       </h1>
       <p className="mt-6 max-w-3xl px-2 text-center text-sm sm:text-base 2xl:max-w-4xl 2xl:text-2xl">

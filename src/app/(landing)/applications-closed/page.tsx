@@ -29,7 +29,7 @@ export default function ApplicationsClosedWithSignIn() {
       <main className="h-screen w-full">
         <div className="relative flex h-full w-full items-center justify-center">
           <div className="flex scale-90 transform flex-col items-center px-4 text-center sm:scale-100">
-            <h1 className="font-hexaframe text-xl font-extrabold sm:text-4xl md:text-5xl">
+            <h1 className="font-hexaframe text-xl font-bold sm:text-4xl md:text-5xl">
               Applications are Closed
             </h1>
 
